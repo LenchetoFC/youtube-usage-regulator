@@ -1,0 +1,35 @@
+{
+  "name": "RestrictTheTube",
+  "description": "RestrictTheTube is a chrome extension that removes recommendations and the home page.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs",
+    "webRequest",
+    "declarativeNetRequest",
+    "notifications"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "extension_UI": "App.js"
+  },
+  "action": {
+    "default_popup": "./popup/popup.html",
+    "default_icon": "./images/temp_icon.png"
+  },
+  "content_scripts": [
+      {
+        "js": ["./scripts/content.js"],
+        "matches": [
+          "*://*.youtube.com/*"
+        ],
+        "runAt": "document_end"
+      }
+    ]
+}

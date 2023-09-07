@@ -1,0 +1,25 @@
+/* // Author: Lorenzo Ramirez
+   // Date Created: 2023-09-07
+   // Purpose: CSS styles for popup.html file */
+
+#popup-container{
+  width: max-content;
+  background-color: black;
+}
+
+#extension-title{
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(217, 217, 217);
+  margin: 10px;
+}
+
+button{
+  background-color: rgb(217, 217, 217);
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
