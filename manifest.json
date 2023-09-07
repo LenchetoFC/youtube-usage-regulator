@@ -21,7 +21,7 @@
   },
   "action": {
     "default_popup": "./popup/popup.html",
-    "default_icon": "./images/temp_icon.png"
+    "default_icon": "./images/restrictTheTubeLogo.png"
   },
   "content_scripts": [
       {
