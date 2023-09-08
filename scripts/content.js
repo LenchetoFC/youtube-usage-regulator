@@ -15,12 +15,14 @@ setTimeout(function() {
     chrome.storage.sync.get(null, function() {    
       // Removes elements from YouTube pages
       removeElementIfExists("related") //recommended videos
-      removeElementIfExists("logo-icon") //YouTube home button
+      removeElementIfExists("start") //YouTube home button
+      removeElementIfExists("logo-icon") //YouTube home button (alternate 1)
+      removeElementIfExists("logo") //YouTube home button (alternate 2)
       removeElementIfExists("guide-button") //left side hamburger menu
       removeElementIfExists("owner") //channel logo
-      removeElementIfExists("scroll-container") //left side bar, if it automatically shows
-      removeElementIfExists("guide") //left side bar, if it automatically shows
-      removeElementIfExists("items") //left side bar, if it automatically shows
+      removeElementIfExists("scroll-container") //left side bar
+      removeElementIfExists("guide") //left side bar (alternate 1)
+      removeElementIfExists("items") //left side bar (alternate 2)
       removeElementIfExists("center") //search bar
       removeClassElement("ytp-autonav-toggle-button-container"); //autoplay toggle
       removeClassElement("ytp-next-button ytp-button"); //next video button

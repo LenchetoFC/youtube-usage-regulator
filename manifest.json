@@ -1,5 +1,5 @@
 {
-  "name": "RestrictTheTube",
+  "name": "Restrict The Tube - Remove addicting aspects of YouTube",
   "description": "RestrictTheTube is a chrome extension that removes recommendations and the home page.",
   "version": "1.0",
   "manifest_version": 3,
