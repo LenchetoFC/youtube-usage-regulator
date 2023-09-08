@@ -2,6 +2,8 @@
 // Date Created: 2023-09-06
 // Purpose: This script is injected into the YouTube page and removes elements from the page
 
+//TODO: put alternate element names in an array and loop through them
+
 // Runs the extension after 2 seconds
 setTimeout(function() {
   // Runs different functions depending on the URL
@@ -77,4 +79,42 @@ function removeElementIfExists(elementID){
     console.log("Error removing an element by ID: " + error);
   }
   
+}
+
+function toggleVideoWall(buttonState) {
+  if(buttonState) {
+    console.log("video wall is off")
+  }
+}
+
+function toggleAutoplay() {
+
+}
+
+function toggleNextVideo() {
+
+}
+
+function toggleSearchBar() {
+
+}
+
+function toggleLeftSideBar() {
+
+}
+
+function toggleChannelLogo() {
+
+}
+
+function toggleHamburgerMenu() {
+
+}
+
+function toggleYouTubeHomeButton() {
+
+} 
+
+function toggleRecommendedVideos() {
+
 }

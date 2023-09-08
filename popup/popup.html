@@ -8,17 +8,91 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="popup.css" /> 
-    <title>Link CSS to HTML</title>
+    <link rel="stylesheet" type="text/css" href="popup.css" 
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>Restrict The Tube</title>
   </head>
 
-  <body id="popup-container">
-    <h1 id="extension-title">YouTube Distraction Remover</h1>
-    <button id="removeStuff">Manually Remove Everything</button>
-    <script src="popup.js"></script>
-  </body>
-</html>
+  <body>
+    <div id="header">
+      <img id="ext-logo-icon" src="/images/restrictTheTubeLogo.png"/>
+      <h1 id="extension-title">YouTube Distraction Remover</h1>
+      <label class="switch">
+        <input type="checkbox" id="toggle-darkMode">
+        <span class="slider round"></span>
+      </label>
+    </div>
 
-<!-- TODO: add button to make autoplay appear/disappear in case they need to turn it off -->
-<!-- TODO: Fully make the popup UI -->
-<!-- TODO: Add more to the "Blocked for your own good" message (maybe a link to the css file?) -->
+    <div id="ext-explanation">
+      <p id="ext-explanation-text">
+        Show/hide certain areas of YouTube that could lead you down a 3-hour long rabbit hole.
+        <br>
+        <br>
+      </p>
+    </div>
+
+    <div id="ext-options">
+      <div id="element-options">
+
+        <div id="elements-header">
+          <h3>Elements to Remove</h3>
+          <button id="remove-all-elements">All Elements</button>
+        </div>
+
+        <div id="element-toggles"> 
+            <button id="toggle-videoWall" class="element-toggle" style="background-color: rgb(255, 171, 135)" >
+              <img src="/images/videoWall.png" id="button-icon"/>
+            </button>
+            <button id="toggle-recommendedVideos" class="element-toggle" style="background-color: rgb(245, 135, 255)">
+              <img src="/images/recommendations.png" id="button-icon"/>
+            </button>
+            <button id="toggle-searchBar" class="element-toggle" style="background-color: rgb(135, 183, 255)" >
+              <img src="/images/search.png" id="button-icon"/>
+            </button>
+            <button id="toggle-autoplayToggle" class="element-toggle" style="background-color: rgb(135 255 141)" >
+              <img src="/images/autoplay.png" id="button-icon"/>
+            </button>
+
+            <button id="toggle-nextVideoButton" class="element-toggle" style="background-color: rgb(249, 255, 135)" >
+              <img src="/images/nextVideo.png" id="button-icon"/>
+            </button>
+            <button id="toggle-homeButton" class="element-toggle" style="background-color: rgb(255, 135, 149)">
+              <img src="/images/youtube.png" id="button-icon"/>
+            </button>
+            <button id="toggle-channelLogo" class="element-toggle" style="background-color: rgb(255, 135, 135)" >
+              <img src="/images/channel.png" id="button-icon"/>
+            </button>
+            <button id="toggle-leftSideHamburgerMenu" class="element-toggle" style="background-color: rgb(255, 135, 201)" >
+              <img src="/images/hamburgerMenu.png" id="button-icon"/>
+            </button>
+        </div>
+      </div> 
+    </div>
+
+    <div id="footer-info-support">
+      <hr id="breakline">
+      <p id="footer-info-text">You may support me through <a id="footer-support-paypal">paypal</a>, but you don't need to feel obligated. You still get all the features &#128126; </p>
+      <hr id="breakline">
+    </div>
+
+    <div id="footer-info-about">
+      <hr id="breakline">
+      <p id="footer-info-text">Thank you for using my extension! &#128513; </p>
+      <img id="patrick-iloveyou" src="/images/patricklovesyou.gif"></img>
+      <p id="footer-info-text"> Made by Lencheto &#128125;</p>
+      <hr id="breakline">
+    </div>
+    
+    <footer>
+      
+      <a id="footer-support">Support Small Programmers?</a>
+      <a id="footer-about">About</a>
+    </footer>
+
+    <script src="popup.js"></script>
+    
+  </body>
+
+  
+
+</html>
