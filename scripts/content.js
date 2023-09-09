@@ -16,18 +16,19 @@ setTimeout(function() {
   } else if (window.location.href.startsWith('https://www.youtube.com/')) {
     chrome.storage.sync.get(null, function() {    
       // Removes elements from YouTube pages
-      removeElementIfExists("related") //recommended videos
-      removeElementIfExists("start") //YouTube home button
-      removeElementIfExists("logo-icon") //YouTube home button (alternate 1)
-      removeElementIfExists("logo") //YouTube home button (alternate 2)
-      removeElementIfExists("guide-button") //left side hamburger menu
-      removeElementIfExists("owner") //channel logo
-      removeElementIfExists("scroll-container") //left side bar
-      removeElementIfExists("guide") //left side bar (alternate 1)
-      removeElementIfExists("items") //left side bar (alternate 2)
-      removeElementIfExists("center") //search bar
-      removeClassElement("ytp-autonav-toggle-button-container"); //autoplay toggle
-      removeClassElement("ytp-next-button ytp-button"); //next video button
+      hideElement("related") //recommended videos
+      hideElement("start") //YouTube home button
+      hideElement("center") //search bar
+      getComputedStyle(document.getElementById('end').style.minWidth = '0px'); //removes extra space on mastheaad
+      hideElement("logo-icon") //YouTube home button (alternate 1)
+      hideElement("logo") //YouTube home button (alternate 2)
+      hideElement("guide-button") //left side hamburger menu
+      hideElement("owner") //channel logo
+      hideElement("scroll-container") //left side bar
+      hideElement("guide") //left side bar (alternate 1)
+      hideElement("items") //left side bar (alternate 2)
+      hideClassElement("ytp-autonav-toggle-button-container"); //autoplay toggle
+      hideClassElement("ytp-next-button ytp-button"); //next video button
     }) 
 
     // Removes the video wall at the end of the video
@@ -39,7 +40,7 @@ setTimeout(function() {
 
         // Removes the video wall at the end of the video
         if (currentTime === duration) {
-          removeClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
+          hideClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
 
           console.log("video ended");
           clearInterval(intervalID);
@@ -51,70 +52,149 @@ setTimeout(function() {
       }
     }, 1000);
   }
-}, 2000);
+}, 3000);
+
+// Listens for video wall toggle messages from popup.js
+// chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+//   if (request.message === "hideVideoWall") {
+//     hideClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
+//   } else if (request.message === "showVideoWall") {
+//     showElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
+//   }
+// });
+
+//TEST: Listens for messages from popup.js DOES NOT WORK
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if(request.message === "hello") {
+      console.log("hdjsfksbhjk")
+    }
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request.greeting === "hello")
+      sendResponse({farewell: "goodbye"});
+  }
+);
+
+//TEST: Listens for messages from service-worker
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.greeting == "hello") {
+    console.log("Message received from background script");
+  }
+});
+
+// Listens for recommended videos toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideRecommendedVideos") {
+    hideElement("related");
+  } else if (request.message === "showRecommendedVideos") {
+    showElement("related");
+  }
+});
+
+// Listens for search bar toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideSearchBar") {
+    hideElement("center");
+    getComputedStyle(document.getElementById('end').style.minWidth = '0px');
+  } else if (request.message === "showSearchBar") {
+    showElement("center");
+    getComputedStyle(document.getElementById('end').style.minWidth = '225px'); //removes extra space on mastheaad
+  }
+});
+
+// Listens for autoplay toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideAutoplayToggle") {
+    hideClassElement("ytp-autonav-toggle-button-container");
+  } else if (request.message === "showAutoplayToggle") {
+    showClassElement("ytp-autonav-toggle-button-container");
+  }
+});
+
+// Listens for next video button toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideNextVideoButton") {
+    hideClassElement("ytp-next-button ytp-button");
+  } else if (request.message === "showNextVideoButton") {
+    showClassElement("ytp-next-button ytp-button");
+  }
+});
+
+// Listens for left side bar toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideLeftSideBar") {
+    hideElement("guide")
+    hideElement("items")
+    hideElement("scroll-container");
+  } else if (request.message === "showLeftSideBar") {
+    showElement("guide")
+    showElement("items")
+    showElement("scroll-container");
+  }
+});
+
+// Listens for channel logo toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideChannelLogo") {
+    hideElement("owner");
+  } else if (request.message === "showChannelLogo") {
+    showElement("owner");
+  }
+});
+
+// Listens for hamburger menu toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideHamburgerMenu") {
+    hideElement("guide-button");
+  } else if (request.message === "showHamburgerMenu") {
+    showElement("guide-button");
+  }
+});
+
+// Listens for YouTube home button toggle messages from popup.js
+chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "hideYouTubeHomeButton") {
+    hideElement("start");
+    hideElement("logo-icon");
+    hideElement("logo");
+  } else if (request.message === "showYouTubeHomeButton") {
+    showElement("start");
+    showElement("logo-icon");
+    showElement("logo");
+  }
+});
 
 // Removes all elements with the given class name
-function removeClassElement(className){
+function hideClassElement(className){
   try {
+    console.log("removed element with class name: " + className)
     let element = document.getElementsByClassName(className)
     while (element.length > 0) {
       element[0].parentNode.removeChild(element[0]);
     }
   } catch (error) {
-    console.log("Error removing an element by classname: " + error);
+    console.log("Error hiding an element by classname (" + className + "): " + error);
   }
   
 }
-// Removes the element with the given ID
-function removeElementIfExists(elementID){
+
+// Hides the element with the given ID
+function hideElement(elementID){
   try {
-    let element = document.getElementById(elementID);
-    console.log(element);
-    if (element != 'undefined' || element != null) {
-      element.remove();
-    } else {
-      console.log("element does not exist");
-    }
+    getComputedStyle(document.getElementById(elementID).style.display = 'none');
   } catch (error) {
-    console.log("Error removing an element by ID: " + error);
-  }
-  
-}
-
-function toggleVideoWall(buttonState) {
-  if(buttonState) {
-    console.log("video wall is off")
+    console.log("Error showing an element by ID (" + elementID + "): " + error);
   }
 }
 
-function toggleAutoplay() {
+// Shows the element with the given ID
+function showElement(elementID){
+  try {
+    getComputedStyle(document.getElementById(elementID).style.display = 'flexbox');
 
-}
-
-function toggleNextVideo() {
-
-}
-
-function toggleSearchBar() {
-
-}
-
-function toggleLeftSideBar() {
-
-}
-
-function toggleChannelLogo() {
-
-}
-
-function toggleHamburgerMenu() {
-
-}
-
-function toggleYouTubeHomeButton() {
-
-} 
-
-function toggleRecommendedVideos() {
-
+  } catch (error) {
+    console.log("Error showing an element by ID (" + elementID + "): " + error);
+  }
 }

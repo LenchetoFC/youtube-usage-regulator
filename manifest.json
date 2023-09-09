@@ -11,18 +11,18 @@
     "webRequest",
     "declarativeNetRequest",
     "notifications"
-  ],
+    ],
   "host_permissions": [
     "http://*/*",
     "https://*/*"
-  ],
-  "background": {
-    "extension_UI": "App.js"
-  },
+    ],
   "action": {
     "default_popup": "./popup/popup.html",
     "default_icon": "./images/restrictTheTubeLogo.png"
-  },
+    },
+  "background": {
+    "service_worker": "service-worker.js"
+    },
   "content_scripts": [
       {
         "js": ["./scripts/content.js"],

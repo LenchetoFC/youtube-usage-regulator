@@ -40,29 +40,92 @@ removeAllElementsButton.addEventListener("click", async() => {
   });
 });
 
-let buttonStatus;
+
+// (async () => {
+//   const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+//   const response = await chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
+//   // do something with response here, not outside the function
+//   console.log(response);
+// })();
+
+(async () => {
+  const response = await chrome.runtime.sendMessage({greeting: "hello"});
+  // do something with response here, not outside the function
+  console.log(response);
+})();
 
 // To manually remove/restore the video wall
 let videoWallButton = document.getElementById("toggle-videoWall");
-videoWallButton.addEventListener("click", async() => {
-  let buttonColor = videoWallButton.style.backgroundColor;
+videoWallButton.addEventListener("click", (async () => {
+  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+  console.log(tab)
+  const response = await chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
 
-  // Determines button status by button color
-  if (buttonColor === "rgb(255, 171, 135)") {
-    let buttonStatus = true;
-    videoWallButton.style.backgroundColor = "rgb(191, 129, 102)";
-    toggleVideoWall(buttonStatus)
-  } else {
-    let buttonStatus = false;
-    videoWallButton.style.backgroundColor = "rgb(255, 171, 135)";
-  }
+  // let VWbuttonColor = videoWallButton.style.backgroundColor;
 
-  console.log(buttonStatus)
-  // toggleVideoWall(buttonStatus);
-});
+  // // Hides the video wall
+  // if (VWbuttonColor === "rgb(255, 171, 135)") {
+  //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  //     chrome.tabs.sendMessage(tabs[0].id, {message: "hideVideoWall"}, function(response) 
+  //     {});
+  //   });
+  //   videoWallButton.style.backgroundColor = "rgb(191, 129, 102)";
+  //   videoWallButton.style.borderColor = "rgb(0, 0, 0)";
+  //   videoWallButton.style.borderStyle = "solid";
+  // } 
+  // // Shows the video wall
+  // else {
+  //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  //     chrome.tabs.sendMessage(tabs[0].id, {message: "showVideoWall"}, function(response) 
+  //     {});
+  //   });
+  //   videoWallButton.style.backgroundColor = "rgb(255, 171, 135)";
+  //   recommendedVideosButton.style.borderStyle = "none";
+  // }
+
+  console.log(response);
+})
+
+);
+
+  
+
+
+//rgb(135, 183, 255) -> rgb(100 136 189)
+//rgb(135, 255, 141) -> rgb(101 192 106): BC: rgb
+//rgb(249, 255, 135) -> rgb(183 188 100)
+//rgb(255, 135, 149) -> rgb(189 100 114)
+//rgb(255, 135, 135) -> rgb(189 100 100)
+//rgb(255, 135, 201) -> rgb(189 100 150)
+
 
 // To manually remove/restore the recommended videos
-let recommendedVideosButton = document.getElementById("toggle-recommendedVideos");
+// let recommendedVideosButton = document.getElementById("toggle-recommendedVideos");
+// recommendedVideosButton.addEventListener("click", async() => {
+
+//   let RVbuttonColor = recommendedVideosButton.style.backgroundColor;
+
+//   // Hides the recommended videos
+//   if (RVbuttonColor === "rgb(245, 135, 255)") {
+//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//       chrome.tabs.sendMessage(tabs[0].id, {message: "hideRecommendedVideos"}, function(response) 
+//       {});
+//     });
+//     recommendedVideosButton.style.backgroundColor = "rgb(176, 94, 184)";
+//     recommendedVideosButton.style.borderColor = "rgb(0, 0, 0)";
+//     recommendedVideosButton.style.borderStyle = "solid";
+//   } 
+//   // Shows the recommended videos
+//   else {
+//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//       chrome.tabs.sendMessage(tabs[0].id, {message: "showRecommendedVideos"}, function(response) 
+//       {});
+//     });
+//     recommendedVideosButton.style.backgroundColor = "rgb(245, 135, 255)";
+//     recommendedVideosButton.style.borderStyle = "none";
+//   }
+
+// });
 
 // To manually remove/restore the search bar
 let searchBarButton = document.getElementById("toggle-searchBar");
