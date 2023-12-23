@@ -17,7 +17,7 @@
     "https://*/*"
     ],
   "action": {
-    "default_popup": "./popup/popup.html",
+    "default_popup": "./extPopup/popup.html",
     "default_icon": "./images/restrictTheTubeLogo.png"
     },
   "background": {
@@ -27,7 +27,7 @@
       {
         "js": ["./scripts/content.js"],
         "matches": [
-          "*://*.youtube.com/*"
+          "*://www.youtube.com/*"
         ],
         "runAt": "document_end"
       }

@@ -1,0 +1,149 @@
+/* 
+  // Author: Lorenzo Ramirez
+  // Purpose: CSS styles for popup.html file 
+*/
+
+/* * {
+  color:#43494A;
+  font-family: "JetBrains Mono"
+} */
+
+.container{
+  background-color: #DCDCE1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 325px;
+  /* margin-top: -10px; */
+  margin: -10px -7px -10px 0px;
+}
+
+body {
+  background-color: #DCDCE1;
+}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+#logo-name-header{
+  display: flex;
+  align-items: center;
+}
+
+#ext-logo{
+  width: 24px;
+  height: 24px;
+}
+
+#extension-title{
+  font-size: 18px;
+  font-weight: 500;
+  font-style: oblique;
+  margin-left: 5px;
+  width: 100%;
+}
+
+#settings-icon{
+  display: flex;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.settings-svg-icon{
+  width: 28px;
+	height: 28px;
+	background-size: cover;
+	display: inline-block;
+	background-image: url(/images/settings-icon.svg);
+  color:aqua
+}
+
+#info-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.info-box{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 100%;
+  background-color: #43494A;
+  border-radius: 12px;
+  margin: 10px;
+}
+
+.box-content{
+  padding: 10px 15px;
+}
+
+.content-header{
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  color: #DCDCE1;
+}
+
+#breakline{
+  width: 90%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+}
+
+.usage-time{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.content-items{
+  color: #DCDCE1;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.content-header-2{
+  margin: 0px;
+  display: flex;
+  color: #DCDCE1;
+}
+
+ul{
+  padding-left: 10px;
+  list-style-type: disc;
+  color: #DCDCE1;
+}
+
+li{
+  font-size: 12px;
+  font-weight: 500;
+}
+
+footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+}
+
+footer a{
+  color: #637FCC;
+  font-size: 12px;
+  font-weight: bold;
+}

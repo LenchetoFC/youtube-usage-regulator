@@ -4,6 +4,23 @@
 
 //TODO: put alternate element names in an array and loop through them
 
+window.onload = function(){removeContent};
+
+// *********************
+// Function to remove any section of the YouTube webpage
+function removeContent(contentToBeRemoved){
+  // hide element
+  hideElement()
+}
+
+function addCustomBlockedWord(keyword){
+
+}
+
+function deleteCustomBlockedWord(keyword){
+  
+}
+
 // Runs the extension after 2 seconds
 setTimeout(function() {
   // Runs different functions depending on the URL
@@ -32,50 +49,51 @@ setTimeout(function() {
     }) 
 
     // Removes the video wall at the end of the video
+    // let intervalID = setInterval(function() {
+    //   try {
+    //     // Gets the video's current time and duration
+    //     currentTime = document.getElementsByClassName("ytp-time-current")[0].innerHTML;
+    //     duration = document.getElementsByClassName("ytp-time-duration")[0].innerHTML;
+
+    //     // Removes the video wall at the end of the video
+    //     if (currentTime === duration) {
+    //       hideClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
+
+    //       console.log("video ended");
+    //       clearInterval(intervalID);
+    //     } else {
+    //       console.log("video not ended");
+    //     }
+    //   } catch (error) {
+    //     console.log("Error getting the video's current time and duration: " + error)
+    //   }
+    // }, 1000);
+    let videoWallClassName = "html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles";
+    
     let intervalID = setInterval(function() {
       try {
-        // Gets the video's current time and duration
-        currentTime = document.getElementsByClassName("ytp-time-current")[0].innerHTML;
-        duration = document.getElementsByClassName("ytp-time-duration")[0].innerHTML;
-
-        // Removes the video wall at the end of the video
-        if (currentTime === duration) {
-          hideClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
-
-          console.log("video ended");
-          clearInterval(intervalID);
-        } else {
-          console.log("video not ended");
-        }
+        hideClassElement(videoWallClassName);
       } catch (error) {
-        console.log("Error getting the video's current time and duration: " + error)
+        console.log("Video Wall Hasn't Appeared Yet...")
       }
     }, 1000);
   }
 }, 3000);
 
-// Listens for video wall toggle messages from popup.js
-// chrome.runtime.onmessage.addListener(function(request, sender, sendResponse) {
-//   if (request.message === "hideVideoWall") {
-//     hideClassElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
-//   } else if (request.message === "showVideoWall") {
-//     showElement("html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles");
-//   }
-// });
 
 //TEST: Listens for messages from popup.js DOES NOT WORK
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if(request.message === "hello") {
-      console.log("hdjsfksbhjk")
-    }
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting === "hello")
-      sendResponse({farewell: "goodbye"});
-  }
-);
+// chrome.runtime.onMessage.addListener(
+//   function(request, sender, sendResponse) {
+//     if(request.message === "hello") {
+//       console.log("hdjsfksbhjk")
+//     }
+//     console.log(sender.tab ?
+//                 "from a content script:" + sender.tab.url :
+//                 "from the extension");
+//     if (request.greeting === "hello")
+//       sendResponse({farewell: "goodbye"});
+//   }
+// );
 
 //TEST: Listens for messages from service-worker
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

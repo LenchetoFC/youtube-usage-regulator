@@ -2,6 +2,11 @@
 // Date Created: 2023-09-05
 // Purpose: This file is the popup for the extension
 
+// FUNCTION: 
+function lowersSection(about){
+  
+}
+
 // Gets footer elements from popup.html
 let footerSupport = document.getElementById("footer-support");
 let showFooterSupport = document.getElementById("footer-info-support"); 
