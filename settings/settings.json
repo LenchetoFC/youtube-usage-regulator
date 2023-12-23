@@ -1,0 +1,73 @@
+{
+  "removableContent": {
+    "recommendedVideos": false,
+    "homeButton": false,
+    "searchBar": false,
+    "leftSideMenu": false,
+    "autoPlayButton": false,
+    "nextVideoButton": false,
+    "homePage": false,
+    "shortsPage": false,
+    "entireYouTube": false 
+  },
+  "currentDate": "yyyy-mm-dd",
+  "lastLoadedDate": "yyyy-mm-dd",
+  "timer": "00:00:00",
+  "usageOfAllTime": "00:00",
+  "usageToday": "00:00",
+  "usageTimerDisableYT": false,
+  "blockedKeywords": {
+
+  },
+  "scheduleBlockTime": {
+    "sunday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "monday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "tuesday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "wednesday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "thursday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "friday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    },
+    "saturday":
+    {
+      "numOfIntervals": 0,
+      "startTime": "00:00",
+      "endTime": "00:00",
+      "enabled": false
+    }
+  }
+}
