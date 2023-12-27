@@ -3,14 +3,9 @@
   // Purpose: CSS styles for popup.html file 
 */
 
-/* * {
-  color:#43494A;
-  font-family: "JetBrains Mono"
-} */
-
 :root {
   --primary-color: #DCDCE1;
-  --second-color: #43494A;
+  --secondary-color: #43494A;
   --color-to-action-color: #637FCC;
 }
 
@@ -21,7 +16,6 @@
   align-items: center;
   width: 325px;
   margin: -10px;
-  /* margin: -10px -7px -10px 0px; */
 }
 
 body {
@@ -35,21 +29,19 @@ body {
   align-items: center;
   border-width: 1px;
   border-bottom-style: solid;
-  background-color: var(--second-color);
+  background-color: var(--secondary-color);
 }
 
-#logo-name-header{
+#icon-name-container{
   display: flex;
   align-items: center;
 }
-
-#ext-logo{
+#ext-icon{
   width: 24px;
   height: 24px;
   padding-left: 10px;
 }
-
-#extension-title{
+#extension-name{
   font-size: 18px;
   font-weight: 500;
   font-style: oblique;
@@ -62,13 +54,11 @@ body {
   display: flex;
   padding-right: 5px;
 }
-
 .button {
   border: none;
   cursor: pointer;
   background-color: transparent;
 }
-
 .settings-svg-icon{
   width: 28px;
 	height: 28px;
@@ -77,28 +67,25 @@ body {
 	background-image: url(/images/settings-icon.svg);
 }
 
-#info-content{
+#info-container{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
 }
-
 .info-box{
   display: flex;
   flex-direction: column;
   width: 90%;
   height: 100%;
-  background-color: var(--second-color);
+  background-color: var(--secondary-color);
   border-radius: 12px;
   margin: 10px;
 }
-
 .box-content{
   padding: 10px 15px;
 }
-
-.content-header{
+.content-usage{
   margin: 0px;
   display: flex;
   justify-content: center;
@@ -107,37 +94,31 @@ body {
   border-bottom-width: 1.5px;
   border-bottom-color: var(--primary-color);
 }
-
 .content{
   display: flex;
   flex-direction: column;
 }
-
 .usage-time{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 30px;
 }
-
 .content-items{
   color: var(--primary-color);
   font-size: 12px;
   font-weight: 500;
 }
-
-.content-header-2{
+.content-process{
   margin: 0px;
   display: flex;
   color: var(--primary-color);
 }
-
 ul{
   padding-left: 10px;
   list-style-type: disc;
   color: var(--primary-color);
 }
-
 li{
   font-size: 12px;
   font-weight: 500;
@@ -149,9 +130,8 @@ footer{
   justify-content: end;
   width: 100%;
 }
-
 footer a{
-  color: var(--second-color);
+  color: var(--secondary-color);
   font-size: 12px;
   font-weight: bold;
   padding-right: 10px;
