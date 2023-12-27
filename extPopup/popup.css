@@ -20,8 +20,8 @@
   flex-direction: column;
   align-items: center;
   width: 325px;
-  /* margin-top: -10px; */
-  margin: -10px -7px -10px 0px;
+  margin: -10px;
+  /* margin: -10px -7px -10px 0px; */
 }
 
 body {
@@ -33,6 +33,9 @@ body {
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  border-width: 1px;
+  border-bottom-style: solid;
+  background-color: var(--second-color);
 }
 
 #logo-name-header{
@@ -43,6 +46,7 @@ body {
 #ext-logo{
   width: 24px;
   height: 24px;
+  padding-left: 10px;
 }
 
 #extension-title{
@@ -51,10 +55,12 @@ body {
   font-style: oblique;
   margin-left: 5px;
   width: 100%;
+  color: var(--primary-color);
 }
 
 #settings-icon{
   display: flex;
+  padding-right: 5px;
 }
 
 .button {
@@ -97,12 +103,9 @@ body {
   display: flex;
   justify-content: center;
   color: var(--primary-color);
-}
-
-#breakline{
-  width: 90%;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  border-bottom-style: solid;
+  border-bottom-width: 1.5px;
+  border-bottom-color: var(--primary-color);
 }
 
 .content{
@@ -148,7 +151,8 @@ footer{
 }
 
 footer a{
-  color: var(--color-to-action-color);
+  color: var(--second-color);
   font-size: 12px;
   font-weight: bold;
+  padding-right: 10px;
 }
