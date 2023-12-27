@@ -12,13 +12,18 @@
   },
   "currentDate": "yyyy-mm-dd",
   "lastLoadedDate": "yyyy-mm-dd",
+  "installedDate": "yyyy-mm-dd",
   "timer": "00:00:00",
-  "usageOfAllTime": "00:00",
-  "usageToday": "00:00",
+  "usageOfAllTime": "0 Months 0 Days 0 Hrs 0 Mins",
+  "usageToday": "00:00:00",
   "usageTimerDisableYT": false,
-  "blockedKeywords": {
+  "blockedKeywords": [
 
-  },
+  ],
+  "alternateActivities": [
+    "Activity one",
+    "Activity two"
+  ],
   "scheduleBlockTime": {
     "sunday":
     {

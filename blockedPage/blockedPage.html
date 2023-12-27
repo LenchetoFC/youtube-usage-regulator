@@ -1,27 +1,61 @@
-<!-- 
-// Author: Lorenzo Ramirez
-// Purpose: Any restricted page will be changed to this 
--->
+<!-- // Author: Lorenzo Ramirez
+// Purpose: Any restricted page will be changed to this -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>YT Addiction Manager Blocked Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="popup.css" 
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <title>Completely Restricted YouTube Page</title>
+    <link rel="stylesheet" type="text/css" href="blockedPage.css"/>
   </head>
 
-  <body>
-    <div id="header">
-      <img id="ext-logo-icon" src="/images/restrictTheTubeLogo.png"/>
-      <h1 id="headerTitle">Erased Page</h1>
-      <p id="Reasons Why This Extension is Active"></p>
-    </div>
-    <script src="content.js"></script>
-    
-  </body>
+  <body>   
+    <!-- Wavy Background -->
+    <section>
+      <div class="header">
+        <!-- <button class="button"><img class="ext-icon" src="/images/restrictTheTubeLogo.png"/></button> -->
+        <button class="button" id="settings-button"><i class="ext-icon"></i></button>
+      </div>
+      
+      <div class="blocked-reason-container">
+        <h1 class="reason-msg">This webpage is blocked for a reason...</h1>
+        <div class="info-block-container">
+          <div class="info-block">
+            <div class="info-block-header">
+              <h2 class="info-header">YouTube Usage</h2>
+            </div>
+            <h5>TOTAL</h5>
+            <div class="usage-info">
+              <img class="clock-icon" src="/images/schedule-icon.svg"/>
+              <h5 class="usage-data" id="usage-total">00:00:00</h5>
+            </div>
 
+            <h5>TODAY</h5>
+            <div class="usage-info">
+              <img class="clock-icon" src="/images/schedule-icon.svg"/>
+              <h5 class="usage-data" id="usage-today">00:00:00</h5>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <div class="info-block-header">
+              <h2 class="info-header">Alternate Activities For You</h2>
+            </div>
+            <ul id="activity-list">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="waves">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="wave wave4"></div>
+      </div>
+    </section>
+
+    <script src="blockedPage.js"></script>
+
+  </body>
 </html>

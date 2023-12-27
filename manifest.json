@@ -25,7 +25,10 @@
     },
   "content_scripts": [
       {
-        "js": ["./scripts/content.js"],
+        "js": [
+          "./scripts/content.js",
+          "./blockedPage/blockedPage.js"
+        ],
         "matches": [
           "*://www.youtube.com/*"
         ],

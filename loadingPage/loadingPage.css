@@ -24,15 +24,21 @@ section {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  /* background: linear-gradient(var(--primary-color), var(--color-to-action-color)); */
-  background: linear-gradient(var(--color-to-action-color), var(--primary-color));
+  background: linear-gradient(var(--secondary-color), var(--color-to-action-color));
   flex-direction: column;
   justify-content: space-between;
 }
 
 .header{
   width: 100%;
-  height: 5%
+  height: 5%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
 }
 .ext-icon{
   width: 44px;
@@ -50,13 +56,12 @@ section {
 }
 .loading-msg{
   font-size: 30px;
-  width: 30%;
+  width: 13em;
   text-align: center;
 }
 .loading-gif{
   width: 100px;
   height: 100px;
-  background: url(C:\Users\lench\ReactProjects\RestrictiveYouTube\images\loading-icon-200px.gif);
   background-size: cover;
 	display: inline-block;
   animation: bobbing 2s ease-in-out infinite;
@@ -84,7 +89,7 @@ section {
   left: 0;
   width: 100%;
   height: 20vh;
-  background: url(https://i.imgur.com/DLD3N2t.png);
+  background: url(/images/waveBackground.png);
   background-size: 100vw 20vh;
   position: absolute;
 }
