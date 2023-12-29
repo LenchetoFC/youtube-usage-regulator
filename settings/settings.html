@@ -1,98 +1,77 @@
 <!-- // Author: Lorenzo Ramirez
-     // Date Created: 2023-09-05
-     // Purpose: Extension's popup UI -->
+// Purpose: Any restricted page will be changed to this -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>YT Addiction Manager Settings Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="popup.css" 
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <title>Restrict The Tube</title>
+    <link rel="stylesheet" type="text/css" href="settings.css"/>
   </head>
 
-  <body>
-    <div id="header">
-      <img id="ext-logo-icon" src="/images/restrictTheTubeLogo.png"/>
-      <h1 id="extension-title">YouTube Addiction Controller</h1>
-      <label class="switch">
-        <input type="checkbox" id="toggle-darkMode">
-        <span class="slider round"></span>
-      </label>
-    </div>
-
-    <div id="ext-explanation">
-      <p id="ext-explanation-text">
-        Show/hide certain areas of YouTube that could lead you down a 3-hour long rabbit hole.
-        <br>
-        <br>
-      </p>
-    </div>
-
-    <div id="ext-options">
-      <div id="element-options">
-
-        <div id="elements-header">
-          <h3>Elements to Remove</h3>
-          <button id="remove-all-elements">All Elements</button>
+  <body>   
+    <section class="container">
+      <div class="header">
+        <p>Settings</p>
+        <img class="ext-icon" src="/images/restrictTheTubeLogo.png"/>
+      </div>
+      <div>
+        <div class="setting-header">
+          <p>Suppress Addictive Aspects</p>
+          <img class="info-icon" src="/images/info-icon.svg"/>
         </div>
-
-        <div id="element-toggles"> 
-            <button id="toggle-videoWall" class="element-toggle" style="background-color: rgb(255, 171, 135)" >
-              <img src="/images/videoWall.png" id="button-icon"/>
-            </button>
-            <button id="toggle-recommendedVideos" class="element-toggle" style="background-color: rgb(245, 135, 255)">
-              <img src="/images/recommendations.png" id="button-icon"/>
-            </button>
-            <button id="toggle-searchBar" class="element-toggle" style="background-color: rgb(135, 183, 255)" >
-              <img src="/images/search.png" id="button-icon"/>
-            </button>
-            <button id="toggle-autoplayToggle" class="element-toggle" style="background-color: rgb(135 255 141)" >
-              <img src="/images/autoplay.png" id="button-icon"/>
-            </button>
-
-            <button id="toggle-nextVideoButton" class="element-toggle" style="background-color: rgb(249, 255, 135)" >
-              <img src="/images/nextVideo.png" id="button-icon"/>
-            </button>
-            <button id="toggle-homeButton" class="element-toggle" style="background-color: rgb(255, 135, 149)">
-              <img src="/images/youtube.png" id="button-icon"/>
-            </button>
-            <button id="toggle-channelLogo" class="element-toggle" style="background-color: rgb(255, 135, 135)" >
-              <img src="/images/channel.png" id="button-icon"/>
-            </button>
-            <button id="toggle-leftSideHamburgerMenu" class="element-toggle" style="background-color: rgb(255, 135, 201)" >
-              <img src="/images/hamburgerMenu.png" id="button-icon"/>
-            </button>
+        <div class="setting-container">
+          <form action="" method="get" class="suppress-options-form">
+            <input type="checkbox" name="VideoRecommendations" value="videoRec">
+            <label for="videoRec" class="settings-text">Video Recommendations</label><br>
+            <input type="checkbox" name="LeftSideMenu" value="leftSideMenu">
+            <label for="leftSideMenu" class="settings-text">Left Side Menu</label><br>
+            <input type="checkbox" name="Search Bar" value="searchBar">
+            <label for="searchBar" class="settings-text">Search Bar</label><br>
+            <input type="checkbox" name="Home Button" value="homeButton">
+            <label for="homeButton" class="settings-text">Home Button</label><br>
+            <input type="checkbox" name="AutoPlay Button" value="autoPlay">
+            <label for="autoPlay" class="settings-text">AutoPlay Button</label><br>
+            <input type="checkbox" name="Next Video Button" value="nextVideo">
+            <label for="nextVideo" class="settings-text">Next Video Button</label><br>
+            <input type="checkbox" name="Home Page" value="homePage">
+            <label for="homePage" class="settings-text">Home Page</label><br>
+            <input type="checkbox" name="Shorts Page" value="shortsPage">
+            <label for="shortsPage" class="settings-text">Shorts Page</label><br>
+            <input type="checkbox" name="Entire Website" value="entireWebsite">
+            <label for="entireWebsite" class="settings-text">Entire Website</label><br><br>
+            <input type="submit">
+          </form>
         </div>
-      </div> 
-    </div>
+      </div>
 
-    <div id="footer-info-support">
-      <hr id="breakline">
-      <p id="footer-info-text">You may support me through <a id="footer-support-paypal">paypal</a>, but you don't need to feel obligated. You still get all the features &#128126; </p>
-      <hr id="breakline">
-    </div>
+      <div>
+        <div class="setting-header">
+          <p>YouTube Usage</p>
+          <img class="info-icon" src="/images/info-icon.svg"/>
+        </div>
+        <div class="setting-container">
+          <label for="ytTimer">YouTube Timer</label>
+          <input type="time" id="ytTimer" name="timer" min="00:00" max="23:59" required />
+          <input type="checkbox" id="disableYT" name="disableYTButton" value="disableYT">
+          <label for="disableYT" class="settings-text">Disable YouTube when Timer Ends</label>
+        </div>
+      </div>
 
-    <div id="footer-info-about">
-      <hr id="breakline">
-      <p id="footer-info-text">Thank you for using my extension! &#128513; </p>
-      <img id="patrick-iloveyou" src="/images/patricklovesyou.gif"></img>
-      <p id="footer-info-text"> Made by Lencheto &#128125;</p>
-      <hr id="breakline">
-    </div>
-    
-    <footer>
-      
-      <a id="footer-support">Support Small Programmers?</a>
-      <a id="footer-about">About</a>
-    </footer>
+      <div>
+        <div class="setting-header">
+          <p>Schedule</p>
+          <img class="info-icon" src="/images/info-icon.svg"/>
+        </div>
+        <div class="setting-container">
+          <label for="ytTimer">YouTube Timer</label>
+          <input type="time" name="timer" min="00:00" max="23:59" required />
+        </div>
+      </div>
 
-    <script src="popup.js"></script>
-    
+    </section>
+
+    <script src="settings.js"></script>
+
   </body>
-
-  
-
 </html>

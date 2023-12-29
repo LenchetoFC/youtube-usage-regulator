@@ -1,21 +1,21 @@
 {
-  "removableContent": {
-    "recommendedVideos": false,
-    "homeButton": false,
-    "searchBar": false,
-    "leftSideMenu": false,
-    "autoPlayButton": false,
-    "nextVideoButton": false,
-    "homePage": false,
-    "shortsPage": false,
-    "entireYouTube": false 
-  },
+  "removableContent": [
+    {"name": "recommendedVideos", "checked": false},
+    {"name": "homeButton", "checked": false},
+    {"name": "searchBar", "checked": false},
+    {"name": "leftSideMenu", "checked": false},
+    {"name": "autoPlayButton", "checked": false},
+    {"name": "nextVideoButton", "checked": false},
+    {"name": "homePage", "checked": false},
+    {"name": "shortsPage", "checked": false},
+    {"name": "entireYouTube", "checked": false}
+  ],
   "currentDate": "yyyy-mm-dd",
   "lastLoadedDate": "yyyy-mm-dd",
   "installedDate": "yyyy-mm-dd",
-  "timer": "00:00:00",
-  "usageOfAllTime": "0 Months 0 Days 0 Hrs 0 Mins",
-  "usageToday": "00:00:00",
+  "timer": 0,
+  "usageOfAllTime": 0,
+  "usageToday": 0,
   "usageTimerDisableYT": false,
   "blockedKeywords": [
 
@@ -24,55 +24,54 @@
     "Activity one",
     "Activity two"
   ],
-  "scheduleBlockTime": {
-    "sunday":
+  "scheduleBlockTime": [
     {
+      "day": "sunday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "monday":
     {
+      "day": "monday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "tuesday":
     {
+      "day": "tuesday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "wednesday":
     {
+      "day": "wednesday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "thursday":
     {
+      "day": "thursday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "friday":
     {
+      "day": "friday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     },
-    "saturday":
     {
+      "day": "saturday",
       "numOfIntervals": 0,
       "startTime": "00:00",
       "endTime": "00:00",
       "enabled": false
     }
-  }
-}
+  ]}
