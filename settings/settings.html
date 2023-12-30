@@ -10,11 +10,11 @@
   </head>
 
   <body>   
+    <div class="header">
+      <p class="title-page">Settings</p>
+      <img class="ext-icon" src="/images/restrictTheTubeLogo.png" style="padding: .5em;"/>
+    </div>
     <div class="container">
-      <div class="header">
-        <p class="title-page">Settings</p>
-        <img class="ext-icon" src="/images/restrictTheTubeLogo.png"/>
-      </div>
       <!-- Suppress Addictive Aspects -->
       <div class="setting-container">
         <div class="setting-header">
@@ -54,12 +54,15 @@
           <button><img class="icons info-icon" src="/images/info-icon.svg"/></button>
           <!-- <img class="icons info-icon" src="/images/info-icon.svg"/> -->
         </div>
-        <div class="setting-options" style="height: auto; width: 14em; display: flex; flex-direction: column">
+        <div class="setting-options" style="height: auto; width: 18em; display: flex; flex-direction: column">
           <label class="setting-options-title">YouTube Timer</label>
-          <input type="time" id="ytTimer" name="timer" min="00:00" max="23:59" required style="width: 10em"/>
+          <div style="display: flex; height: 2em; align-items: center">
+            <input type="number" id="ytTimer" name="timer" min="0" max="1440" required style="width: 3em"/>
+            <p class="settings-text" style="margin-left: .25em">Minutes</p>
+          </div>
           <div>
             <input type="checkbox" id="disableYT" name="disableYTButton" value="disableYT">
-            <label for="disableYT" style="font-size: 14px">Disable YouTube when Timer Ends</label>
+            <label for="disableYT" style="font-size: 16px">Disable YouTube when Timer Ends</label>
           </div>
         </div>
       </div>
@@ -72,7 +75,7 @@
         </div>
         <div class="setting-options" style="height: auto; width: 14em; display: flex; flex-direction: column">
           <label class="setting-options-title">Schedule YouTube Block</label>
-          <input type="time" name="timer" min="00:00" max="23:59" required style="width: 10em"/>
+          <input type="time" name="timer" min="00:00" max="23:59" required style="width: 6em"/>
         </div>
       </div>
 

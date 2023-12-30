@@ -7,7 +7,7 @@
 }
 
 :root {
-  --primary-color: #DCDCE1;
+  --primary-color: #e8e8e8;
   --secondary-color: #43494A;
   --basic-text-color: #3b3b3b;
   --color-to-action-color: #637FCC;
@@ -22,13 +22,15 @@ html, body {
 .container {
   display: flex;
   /* width: 100%; */
-  /* height: 100vh; */
+  height: 100vh;
   overflow: hidden;
+  /* margin: 1em; */
   flex-direction: column;
-  margin: 1em;
+  background-color: var(--primary-color);
 }
 
 .header{
+  /* margin: 1em; */
   width: 100%;
   height: 5%;
   display: flex;
@@ -41,40 +43,44 @@ html, body {
   display: flex;
   align-items: center;
   color: var(--primary-color);
+  padding-left: 0.5em;
 }
 
 .setting-container{
   padding-top: .75em;
+  /* margin-left: 2em; */
 }
 .setting-header{
   display: flex;
   flex-direction: row;
   position: relative;
   color: var(--primary-color);
-  width: 15em;
+  /* width: 24em; */
+  background: linear-gradient(90deg, var(--secondary-color), var(--color-to-action-color));
+  /* border-radius: 16px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.15em; */
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
 }
 
 .setting-header-title{
   color: var(--primary-color);
   font-weight: 600;
-  text-decoration: underline;
+  font-size: 20px;
   margin: .5em .25em;
 }
 
 .setting-options{
   width: 24em;
   height: 18em;
-  background-color: var(--primary-color);
-  border-radius: 8px;
-  border-style: solid;
-  border-width: 1px;
   padding: 0.5em;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
 }
 .setting-options-title{
   font-weight: bolder;
   padding-bottom: 0.5em;
-  font-size: 22px;
+  font-size: 18px;
+  text-decoration: underline;
 }
 
 .settings-text{
@@ -94,9 +100,21 @@ input[type="submit"]{
   background-color: var(--color-to-action-color);
   border-radius: .25em;
   color: var(--primary-color);
+  font-size: 16px;
+  font-weight: bold;
   border-style: solid;
-  border-width: 1px;
-  width: 4em;
+  border-width: 0.5px;
+  width: 8em;
+  height: 2.5em;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+input[type="number"]{
+  font-size: 18px;
+}
+
+input[type="time"]{
+  font-size: 20px;
 }
 
 button {
