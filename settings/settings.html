@@ -10,17 +10,19 @@
   </head>
 
   <body>   
-    <section class="container">
+    <div class="container">
       <div class="header">
-        <p>Settings</p>
+        <p class="title-page">Settings</p>
         <img class="ext-icon" src="/images/restrictTheTubeLogo.png"/>
       </div>
-      <div>
+      <!-- Suppress Addictive Aspects -->
+      <div class="setting-container">
         <div class="setting-header">
-          <p>Suppress Addictive Aspects</p>
-          <img class="info-icon" src="/images/info-icon.svg"/>
+          <p class="setting-header-title">Suppress Addictive Aspects</p>
+          <img class="icons info-icon" src="/images/info-icon.svg"/>
         </div>
-        <div class="setting-container">
+        <div class="setting-options">
+          <label class="setting-options-title">Select Elements to Hide on YouTube</label>
           <form action="" method="get" class="suppress-options-form">
             <input type="checkbox" name="VideoRecommendations" value="videoRec">
             <label for="videoRec" class="settings-text">Video Recommendations</label><br>
@@ -45,31 +47,36 @@
         </div>
       </div>
 
-      <div>
+      <!-- YouTube Usage -->
+      <div class="setting-container">
         <div class="setting-header">
-          <p>YouTube Usage</p>
-          <img class="info-icon" src="/images/info-icon.svg"/>
+          <p class="setting-header-title">YouTube Usage</p>
+          <button><img class="icons info-icon" src="/images/info-icon.svg"/></button>
+          <!-- <img class="icons info-icon" src="/images/info-icon.svg"/> -->
         </div>
-        <div class="setting-container">
-          <label for="ytTimer">YouTube Timer</label>
-          <input type="time" id="ytTimer" name="timer" min="00:00" max="23:59" required />
-          <input type="checkbox" id="disableYT" name="disableYTButton" value="disableYT">
-          <label for="disableYT" class="settings-text">Disable YouTube when Timer Ends</label>
+        <div class="setting-options" style="height: auto; width: 14em; display: flex; flex-direction: column">
+          <label class="setting-options-title">YouTube Timer</label>
+          <input type="time" id="ytTimer" name="timer" min="00:00" max="23:59" required style="width: 10em"/>
+          <div>
+            <input type="checkbox" id="disableYT" name="disableYTButton" value="disableYT">
+            <label for="disableYT" style="font-size: 14px">Disable YouTube when Timer Ends</label>
+          </div>
         </div>
       </div>
 
-      <div>
+      <!-- Schedule -->
+      <div class="setting-container">
         <div class="setting-header">
-          <p>Schedule</p>
-          <img class="info-icon" src="/images/info-icon.svg"/>
+          <p class="setting-header-title">Schedule</p>
+          <img class="icons info-icon" src="/images/info-icon.svg"/>
         </div>
-        <div class="setting-container">
-          <label for="ytTimer">YouTube Timer</label>
-          <input type="time" name="timer" min="00:00" max="23:59" required />
+        <div class="setting-options" style="height: auto; width: 14em; display: flex; flex-direction: column">
+          <label class="setting-options-title">Schedule YouTube Block</label>
+          <input type="time" name="timer" min="00:00" max="23:59" required style="width: 10em"/>
         </div>
       </div>
 
-    </section>
+    </div>
 
     <script src="settings.js"></script>
 
