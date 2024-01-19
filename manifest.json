@@ -17,17 +17,17 @@
     "https://*/*"
     ],
   "action": {
-    "default_popup": "./extPopup/popup.html",
-    "default_icon": "./images/restrictTheTubeLogo.png"
+    "default_popup": "/html/popup.html",
+    "default_icon": "/images/restrictTheTubeLogo.png"
     },
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "/scripts/service-worker.js"
     },
   "content_scripts": [
       {
         "js": [
-          "./scripts/content.js",
-          "./blockedPage/blockedPage.js"
+          "/scripts/content.js",
+          "/scripts/blockedPage.js"
         ],
         "matches": [
           "*://www.youtube.com/*"
