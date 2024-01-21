@@ -20,6 +20,6 @@ document.getElementById('settings-button').addEventListener("click", openSetting
 
 function openSettings() {
   chrome.tabs.create({
-    url: chrome.runtime.getURL("settings/settings.html")
+    url: chrome.runtime.getURL("/html/settings.html")
   });
 }

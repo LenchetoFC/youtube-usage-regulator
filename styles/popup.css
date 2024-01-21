@@ -25,11 +25,12 @@ body {
 #header{
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 95%;
   align-items: center;
-  border-width: 1px;
+  margin-top: 8px;
+  /* border-width: 1px;
   border-bottom-style: solid;
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color); */
 }
 
 #icon-name-container{
@@ -44,20 +45,22 @@ body {
 #extension-name{
   font-size: 18px;
   font-weight: 500;
-  font-style: oblique;
+  /* font-style: oblique; */
   margin-left: 5px;
   width: 100%;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
 }
 
 #settings-icon{
   display: flex;
-  padding-right: 5px;
+  /* padding-right: 5px; */
 }
 .button {
   border: none;
   cursor: pointer;
   background-color: transparent;
+  display: flex;
+  align-items: center;
 }
 .settings-svg-icon{
   width: 28px;
@@ -65,6 +68,10 @@ body {
 	background-size: cover;
 	display: inline-block;
 	background-image: url(/images/settings-icon.svg);
+}
+
+.settings-svg-icon:hover {
+  animation: spin 5s linear infinite;
 }
 
 #info-container{
@@ -81,15 +88,16 @@ body {
   background-color: var(--secondary-color);
   border-radius: 12px;
   margin: 10px;
+  box-shadow: 1px 1px 5px 0px;
 }
 .box-content{
   padding: 10px 15px;
 }
 .content-usage{
-  margin: 0px;
-  display: flex;
+  /* margin: 0px; */
+  /* display: flex; */
   justify-content: center;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
   border-bottom-style: solid;
   border-bottom-width: 1.5px;
   border-bottom-color: var(--primary-color);
@@ -106,10 +114,10 @@ body {
 }
 .content-items{
   color: var(--primary-color);
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
 }
-.content-process{
+.content-title{
   margin: 0px;
   display: flex;
   color: var(--primary-color);
@@ -118,10 +126,11 @@ ul{
   padding-left: 10px;
   list-style-type: disc;
   color: var(--primary-color);
+  margin-top: 8px;
 }
 li{
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 footer{
@@ -135,4 +144,14 @@ footer a{
   font-size: 12px;
   font-weight: bold;
   padding-right: 10px;
+}
+
+@keyframes spin {
+  0% {
+    rotate: 1deg;
+  }
+
+  100% {
+    rotate: 720deg;
+  }
 }
