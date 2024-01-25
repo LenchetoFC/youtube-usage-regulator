@@ -15,13 +15,18 @@
     <div class="container">
       <!-- Header -->
       <div id="header">
-        <!-- <div id="icon-name-container"> -->
-          <img id="ext-icon" src="/images/restrictTheTubeLogo.png"/>
-          <!-- <h1 id="extension-name">YouTube Addiction Manager</h1> -->
-        <!-- </div> -->
-        
-        <div id="settings-icon">
-          <button class="button" id="settings-button"><i class="settings-svg-icon"></i></button>
+        <img id="ext-icon" src="/images/restrictTheTubeLogo.png"/>
+
+        <div id="header-buttons">
+          <!-- <button class="button">
+            <i class="fa-solid fa-clock default-icon"></i>
+          </button>  -->
+          <button class="button" id="schedule-button"><i class="default-icon schedule-icon"></i></button>
+          <button class="button" id="settings-button"><i class="default-icon settings-icon"></i></button>
+
+          <!-- <button class="button settings-button"> -->
+            <!-- <i class="fa-solid fa-gear default-icon settings-animation"></i> -->
+          <!-- </button> -->
         </div>
       </div>
   
@@ -29,42 +34,51 @@
       <div id="info-container">
         <div class="info-box">
           <div class="box-content">
-            <h3 class="content-title content-usage">YouTube Usage</h3>
+            <h2 class="content-title">YouTube Usage</h2>
             <div class="content">
               <div class="usage-time">
-                <p class="content-items">Today</p>
+                <div style="display: flex; align-items: center;">
+                  <i class="default-icon clock-icon"></i>
+                  <p class="content-items">Today</p>
+                </div>
                 <p class="content-items" id="usageToday"></p>
               </div>
               <div class="usage-time">
-                <p class="content-items">Of All Time</p>
+                <div style="display: flex; align-items: center;">
+                  <i class="default-icon clock-icon"></i>
+                  <p class="content-items">All Time</p>
+                </div>
                 <p class="content-items" id="usageOfAllTime"></p>
-              </div>
-              <div class="usage-time">
-                <p class="content-items">Timer</p>
-                <p class="content-items" id="timer"></p>
               </div>
             </div>
           </div>
         </div> 
   
         <div class="info-box">
+          <div class="box-content num-of-free-videos">
+            <h2 id="free-video-count">3</h2>
+            <h2 class="content-title">Free Videos Remaining</h2>
+          </div>
+        </div> 
+
+        <div class="info-box">
           <div class="box-content">
-            <h3 class="content-title">Remember: it's a process</h3>
+            <h2 class="content-title">YouTube Timer</h2>
             <div class="content">
-              <ul>
-                <li>You make progress every day.</li>
-                <li>The struggle gets easier over time; just hang in there.</li>
-                <li>You <u>will</u> break out of the consumerism hell corporatiosn trapped you in.</li>
-              </ul>
+              <div id="timer-box">
+                <div id="timer-display">
+                  <input type="time" id="timer" name="timer" />
+                  <button class="button" id="play-button"><i class="default-icon play-icon"></i></button>
+                </div>
+                <div id="disable-YT-box">
+                  <input type="checkbox" id="disable-YT" name="disable-YT" />
+                  <label for="disable-YT" id="disable-YT-label">Disable YouTube When Timer Ends</label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        </div> 
       </div>
-      
-      <!-- Footer -->
-      <footer>
-        <a>Made by Lencheto</a>
-      </footer>
     </div>
 
     <script src="/scripts/popup.js"></script>

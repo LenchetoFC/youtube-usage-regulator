@@ -7,6 +7,8 @@ fetch('/settings/settings.json')
   .then(data => {
     console.log(data);
 
+    // reformatUsageTime(data.usageToday, data.usageOfAllTime)
+
     document.getElementById('usageToday').innerHTML = data.usageToday;
     document.getElementById('usageOfAllTime').innerHTML = data.usageOfAllTime;
     document.getElementById('timer').innerHTML = data.timer;
@@ -15,11 +17,29 @@ fetch('/settings/settings.json')
     console.log("Failed to fetch data from the JSON file.", error);
   });
 
-// Opens Settings html page in a newly opened tab
-document.getElementById('settings-button').addEventListener("click", openSettings);
+// function reformatUsageTime(usageToday, usageOfAllTime) {
+//   let hoursToday = Math.floor(usageToday / 60)
+//   let minutesToday = hours % 60
+  
+//   if (minutesToday + ''.length < 2 || minutesAllTime + '') {
+//     minutesToday = '0' + minutesToday;
+//   }
 
-function openSettings() {
+
+
+//   document.getElementById('usageToday').innerHTML = hoursToday + "H:" + minutesToday + "M";
+//   document.getElementById('usageOfAllTime').innerHTML = daysAllTime + "D:" + hoursAllTime + "H:" + minutesAllTime + "M";
+// }
+
+// Opens Settings html page in a newly opened tab
+document.getElementById('settings-button').addEventListener("click", function () {
   chrome.tabs.create({
     url: chrome.runtime.getURL("/html/settings.html")
   });
-}
+});
+
+// function openSettings() {
+//   chrome.tabs.create({
+//     url: chrome.runtime.getURL("/html/settings.html")
+//   });
+// }
