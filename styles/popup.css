@@ -23,6 +23,7 @@ body {
   margin: 50x 10px 15px;
   background-color: var(--body-color);
   font-family: inter;
+  font-family: inter;
 }
 
 #header{
@@ -206,7 +207,6 @@ footer a{
 
   40% {
     rotate: 5deg;
-
   }
 
   50% {
@@ -248,6 +248,11 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 #timer-display {
   display: flex;
+}
+
+@font-face {
+  font-family: "inter";
+  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
 }
 
 @font-face {
