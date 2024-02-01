@@ -20,9 +20,9 @@
 }
 
 body {
-  margin: 10px 10px 15px;
+  margin: 50x 10px 15px;
   background-color: var(--body-color);
-  font-family: serif;
+  font-family: inter;
 }
 
 #header{
@@ -233,7 +233,7 @@ footer a{
 
 input[type="time" i] {
   border: hidden;
-  border-radius: 6px;
+  border-radius: 12px;
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 5px;
@@ -248,4 +248,9 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 #timer-display {
   display: flex;
+}
+
+@font-face {
+  font-family: "inter";
+  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
 }

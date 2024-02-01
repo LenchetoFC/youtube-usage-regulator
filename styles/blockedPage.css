@@ -3,170 +3,207 @@
   // Purpose: CSS styles for blockedPage.html file 
 */
 
-* {
-  font-family: "JetBrains Mono"
-}
-
+/* Root and universal styles */
 :root {
-  --primary-color: #DCDCE1;
-  --secondary-color: #43494A;
-  --color-to-action-color: #637FCC;
+  --primary-color: #dcdce1;
+  --secondary-color: #43494a;
+  --color-to-action-color: #72bdf4;
+  --info-header: #505050;
 }
 
-html, body {
+* {
+  font-family: inter;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
+
+/* Section styles */
 section {
+  background: linear-gradient(
+    var(--secondary-color),
+    var(--color-to-action-color)
+  );
   display: flex;
-  /* position: relative; */
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(var(--secondary-color), var(--color-to-action-color));
   flex-direction: column;
+  height: 100vh;
   justify-content: space-between;
+  overflow: hidden;
+  width: 100%;
 }
 
-.header{
-  width: 100%;
-  height: 5%;
+/* Header styles */
+.header {
   display: flex;
-  flex-direction: row-reverse;
+  height: 5%;
+  width: 100%;
 }
+
+/* Button styles */
 .button {
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  background-color: transparent;
-}
-.ext-icon{
-  padding: 5px;
-  width: 28px;
-  height: 28px;
-  background-size: cover;
-  display: inline-block;
-  background-image: url(/images/restrictTheTubeLogo.png);
 }
 
-.blocked-reason-container{
-  display: flex;
-  flex-direction: column;
+/* Icon styles */
+.ext-icon {
+  background-image: url(/images/restrictTheTubeLogo.png);
+  background-size: cover;
+  display: inline-block;
+  height: 28px;
+  padding: 5px;
+  width: 28px;
+}
+
+/* Container styles */
+.container {
   align-items: center;
   color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
 }
-.reason-msg{
+
+/* Message styles */
+.reason-msg {
   font-size: 30px;
-  width: 50%;
+  font-weight: 600;
   text-align: center;
   text-shadow: 0 0 3px var(--secondary-color);
 }
-.info-block-container{
+
+/* Content styles */
+.content {
+  align-items: flex-start;
   display: flex;
-  flex-direction: row;
+  gap: 5em;
   justify-content: center;
-  align-items: center;
   width: 100%;
-  gap: 5%;
-}
-.info-block{
-  background-color: var(--primary-color);
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--secondary-color);
-  border-radius: 12px;
-  width: 18em;
-  height: 13em;
-  padding: 0px 10px;
-  display: flex;
-  flex-direction: column;
-}
-.info-block-header{
-  background-color: var(--color-to-action-color);
-  margin: -2px -11px;
-  border-radius: 12px 12px 0px 0px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--secondary-color);
-}
-.info-header{
-  margin-left: 14px;
-}
-.usage-info{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-.clock-icon{
-  width: 24px;
-  height: 24px;
-  padding: 5px;
-}
-h5{
-  margin: 10px 0px 0px 0px;
-  color: var(--secondary-color);
-}
-.usage-data{
-  margin: 0px;
-  font-size: 16px;
-  color: var(--secondary-color);
-}
-ul{
-  padding-left: 20px;
-  list-style-type: disc;
-  color: var(--secondary-color);
-}
-li{
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 8px;
 }
 
-.waves{
-  width: 100%;
-  height: 20vh;
-  bottom: 0;
-  left: 0;
+/* Info box styles */
+.blocked-info-box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+  justify-content: center;
 }
+
+/* Header styles */
+.info-header {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* YouTube usage styles */
+.yt-usage-container {
+  display: flex;
+  gap: 2em;
+}
+
+.yt-usage-box {
+  background-color: var(--primary-color);
+  border-radius: 12px;
+  box-shadow: 0 0 3px var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  width: 8em;
+}
+
+/* Header styles */
+.usage-header {
+  align-items: center;
+  color: var(--secondary-color);
+  display: flex;
+}
+.usage-time {
+  color: var(--secondary-color);
+  margin-left: 10px;
+}
+
+/* Icon styles */
+.clock-icon {
+  height: 24px;
+  padding: 5px;
+  width: 24px;
+}
+
+/* Text styles */
+.header-text,
+.time-text {
+  font-weight: 500;
+  margin: 0;
+}
+
+.time-text {
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+  /* margin-right: 10px; */
+}
+
+/* Activity styles */
+.activity {
+  display: none;
+  background-color: var(--primary-color);
+  border-radius: 12px;
+  box-shadow: 0 0 3px var(--secondary-color);
+  padding: 1px 5px;
+  margin-bottom: 7px;
+}
+
+.activity-placeholder {
+  display: none;
+}
+
+/* Wave styles */
+.waves,
 .wave {
   bottom: 0;
+  height: 20vh;
   left: 0;
   width: 100%;
-  height: 20vh;
+}
+
+.wave {
   background: url(/images/waveBackground.png);
   background-size: 100vw 20vh;
   position: absolute;
 }
+
 .wave1 {
   animation: forward-animate 20s linear infinite;
-  z-index: 15;
-  opacity: 0.9;
   animation-delay: 0s;
-  bottom: 0;
+  opacity: 0.9;
+  z-index: 15;
 }
+
 .wave2 {
   animation: backward-animate 15s linear infinite;
-  z-index: 10;
-  opacity: 0.7;
   animation-delay: -5s;
-  bottom: 10px;
+  opacity: 0.7;
+  z-index: 10;
 }
+
 .wave3 {
   animation: forward-animate 10s linear infinite;
-  z-index: 5;
-  opacity: 0.4;
   animation-delay: -2s;
-  bottom: 15px;
+  opacity: 0.4;
+  z-index: 5;
 }
+
 .wave4 {
   animation: backward-animate 5s linear infinite;
-  z-index: 1;
-  opacity: 0.5;
   animation-delay: -5s;
-  bottom: 20px;
+  opacity: 0.5;
+  z-index: 1;
 }
+
 @keyframes forward-animate {
   0% {
     background-position-x: 0;
@@ -175,6 +212,7 @@ li{
     background-position-x: 100vw;
   }
 }
+
 @keyframes backward-animate {
   0% {
     background-position-x: 0;
@@ -182,4 +220,10 @@ li{
   100% {
     background-position-x: -100vw;
   }
+}
+
+/* Font face */
+@font-face {
+  font-family: "inter";
+  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
 }

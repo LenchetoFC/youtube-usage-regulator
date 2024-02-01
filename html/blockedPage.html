@@ -6,6 +6,9 @@
   <head>
     <title>Blocked</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="This page is blocked for a reason...">
+    <meta name="keywords" content="Blocked, YouTube Usage, Alternate Activities">
+    <meta name="author" content="Lorenzo Ramirez">
     <link rel="stylesheet" type="text/css" href="/styles/blockedPage.css"/>
   </head>
 
@@ -14,35 +17,55 @@
     <section>
       <div class="header">
         <!-- <button class="button"><img class="ext-icon" src="/images/restrictTheTubeLogo.png"/></button> -->
-        <button class="button" id="settings-button"><i class="ext-icon"></i></button>
+        <button class="button" id="settings-button" aria-label="Settings"><i class="ext-icon"></i></button>
       </div>
-      
-      <div class="blocked-reason-container">
-        <h1 class="reason-msg">This webpage is blocked for a reason...</h1>
-        <div class="info-block-container">
-          <div class="info-block">
-            <div class="info-block-header">
-              <h2 class="info-header">YouTube Usage</h2>
-            </div>
-            <h5>TOTAL</h5>
-            <div class="usage-info">
-              <img class="clock-icon" src="/images/schedule-icon.svg"/>
-              <h5 class="usage-data" id="usage-total">00:00:00</h5>
-            </div>
 
-            <h5>TODAY</h5>
-            <div class="usage-info">
-              <img class="clock-icon" src="/images/schedule-icon.svg"/>
-              <h5 class="usage-data" id="usage-today">00:00:00</h5>
+      <div class="container">
+        <h1 class="reason-msg">This page is blocked for a reason...</h1>
+
+        <!-- YouTube Usage -->
+        <div class="content">
+          <div class="blocked-info-box">
+            <h2 class="info-header">YouTube Usage</h2>
+            <div class="yt-usage-container">
+              <div class="yt-usage-box">
+                <div class="usage-header">
+                  <img class="clock-icon" src="/images/clock-outline.svg" alt="Outline of clock icon"/>
+                  <h4 class="header-text">All Time</h4>
+                </div>
+                <div class="usage-time" id="usage-all-time">
+                  <p class="time-text">10 Days</p>
+                  <p class="time-text">17 Hours</p>
+                  <p class="time-text">45 Minutes</p>
+                </div>
+              </div>
+  
+              <div class="yt-usage-box">
+                <div class="usage-header">
+                  <img class="clock-icon" src="/images/clock-outline.svg" alt="Outline of clock icon"/>
+                  <h4 class="header-text">Today</h4>
+                </div>
+                <div class="usage-time" id="usage-today">
+                  <p class="time-text">3 Hours</p>
+                  <p class="time-text">26 Minutes</p>
+                  <p class="time-text">53 Seconds</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="info-block">
-            <div class="info-block-header">
-              <h2 class="info-header">Alternate Activities For You</h2>
+  
+          <!-- Alternate Activities  -->
+          <div class="blocked-info-box">
+            <h2 class="info-header">Alternate Activities</h2>
+            <div id="alternate-activity-container">
+              <div class="usage-header activity activity-placeholder" id="activity-placeholder">
+                Add other activities you'd better spend your time at in the Settings.
+              </div>
+              <div class="usage-header activity" id="activity-0"></div>
+              <div class="usage-header activity" id="activity-1"></div>
+              <div class="usage-header activity" id="activity-2"></div>
+              <div class="usage-header activity" id="activity-3"></div>
             </div>
-            <ul id="activity-list">
-            </ul>
           </div>
         </div>
       </div>

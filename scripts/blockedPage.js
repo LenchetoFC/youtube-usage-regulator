@@ -1,30 +1,57 @@
 // Author: Lorenzo Ramirez
 // Purpose: To handle the fetch json data for the blocked page
 
+// Fetch the settings.json file
 fetch('/settings/settings.json')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
+  .then(response => response.json()) // Parse the JSON from the response
+  .then(data => { // Use the parsed JSON data
+    console.log(data); // Log the data for debugging
 
+    // Set the innerHTML of the 'usage-today' and 'usage-all-time' elements to the corresponding data
     document.getElementById('usage-today').innerHTML = data.usageToday;
-    document.getElementById('usage-total').innerHTML = data.usageOfAllTime;
+    document.getElementById('usage-all-time').innerHTML = data.usageOfAllTime;
 
+    // Get the array of alternate activities from the data
     let alternateActivities = data.alternateActivities;
-    let ulElement = document.getElementById('activity-list'); // Replace 'your-ul-id' with the id of your ul element
+    console.log(alternateActivities.length) // Log the length of the array for debugging
 
-    alternateActivities.forEach(activity => {
-      let liElement = document.createElement('li');
-      liElement.textContent = activity;
-      ulElement.appendChild(liElement);
+    // If there are no alternate activities, display the 'activity-placeholder' element
+    if(alternateActivities.length == 0){
+      document.getElementById("activity-placeholder").style.display = "flex";
+    }
+
+    // For each alternate activity...
+    alternateActivities.forEach((activity, index) => {
+      // Get the 'activity-index' element and display it
+      let activityBox = document.getElementById("activity-" + index);
+      document.getElementById("activity-" + index).style.display = "flex";
+
+      // Create an img element for the activity icon
+      let activityIcon = document.createElement('img');
+      activityIcon.className = "clock-icon"; // Set the class name
+      activityIcon.src = "/images/activity-" + index + ".svg"; // Set the source
+      activityIcon.alt = "icon of activity number"  + (index + 1); // Set the alt text
+
+      // Create a p element for the activity text
+      let activityText = document.createElement('p');
+      activityText.className = "header-text"; // Set the class name
+      activityText.textContent = activity; // Set the text content
+
+      console.log(activity); // Log the activity for debugging
+      activityBox.appendChild(activityIcon); // Append the icon to the activity box
+      activityBox.appendChild(activityText); // Append the text to the activity box
     });
   })
   .catch(error => {
+    // Log any errors that occurred during the fetch
     console.log("Failed to fetch data from the JSON file.", error);
   });
 
-// Opens Settings html page in a newly opened tab
+// Add a click event listener to the 'settings-button' element
 document.getElementById('settings-button').addEventListener("click", openSettings);
 
+// Define the openSettings function
 function openSettings() {
+  // Open the settings.html page in a new tab
   window.open('/settings/settings.html', '_blank');
 }
