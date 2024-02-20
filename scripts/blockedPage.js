@@ -8,8 +8,8 @@ fetch('/settings/settings.json')
     console.log(data); // Log the data for debugging
 
     // Set the innerHTML of the 'usage-today' and 'usage-all-time' elements to the corresponding data
-    document.getElementById('usage-today').innerHTML = data.usageToday;
-    document.getElementById('usage-all-time').innerHTML = data.usageOfAllTime;
+    document.getElementById('usage-today-hours').innerHTML = data.usageToday;
+    document.getElementById('usage-alltime-hours').innerHTML = data.usageOfAllTime;
 
     // Get the array of alternate activities from the data
     let alternateActivities = data.alternateActivities;
@@ -55,3 +55,15 @@ function openSettings() {
   // Open the settings.html page in a new tab
   window.open('/settings/settings.html', '_blank');
 }
+
+let timeStart = new Date('2024-02-01T03:24:00');
+let timeCurrent = Date.now();
+
+let timeHour = (timeCurrent - timeStart);
+let timeMinute = (timeCurrent - timeStart) / 6000;
+let timeSecond = (timeCurrent - timeStart) / 1000;
+
+document.getElementById('usage-alltime-hours').innerHTML = timeHour;
+document.getElementById('usage-alltime-minutes').innerHTML = timeMinute;
+document.getElementById('usage-alltime-seconds').innerHTML = timeSecond;
+
