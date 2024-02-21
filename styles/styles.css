@@ -20,9 +20,6 @@ html {
   box-sizing: inherit;
 }
 
-html, body {
-  height: 100%;
-}
 body {
   background: #f6f6f6;
   margin: 0;
@@ -31,38 +28,24 @@ body {
   line-height: 1.4;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   /* font-family: 'Caveat', cursive; */
-  font-family: 'Fredoka', cursive;
+  /* font-family: 'Fredoka', cursive; */
   font-weight: 400;
   margin: 0;
 }
 h1 {
-  font-size: 7rem;
+  font-size: 6rem;
   line-height: 0.85;
 }
 h2 {
-  font-size: 3.6rem;
+  font-size: 3rem;
 }
 h3 {
-  font-size: 2.4rem;
-  font-weight: 600;
+  font-size: 2rem;
 }
 
-/* links */
-a {
-  color: #3c8453;
-}
-a:hover {
-  color: #bcaa96;
-  text-decoration: none;
-}
-footer a {
-  color: #bcaa96;
-}
-footer a:hover {
-  color: #3c8453;
-}
+/* buttons */
 .btn {
   background: #3c8453;
   color: #f6f6f6;
@@ -77,15 +60,15 @@ footer a:hover {
 }
 
 .content-wrapper {
-  margin: 0 auto;
-  padding: 30px;
+  margin: 6.2em 5em;
+  padding: 20px 30px;
   max-width: 900px;
 }
 
 /* Tooltips */
 .tooltip {
   position: relative;
-  display: inline-block;
+  display: flex;
   /* border-bottom: 1px dotted black; */
 }
 .tooltip .tooltip-text {
@@ -113,33 +96,20 @@ footer a:hover {
   visibility: visible;
 }
 
+/* Icons */
+.icon-button-big {
+  width: 64px;
+}
+.icon-button-medium {
+  width: 48px;
+}
+.icon-button-small {
+  width: 32px;
+}
 
 /* POPUP
 -------------------------- */
-.home {
-  background: url(../images/bg-gradient.jpg) no-repeat;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-}
-.home .content-wrapper {
-  flex: 1 0 auto;
-}
-.content-bg {
-  background: rgb(255 255 255 / 0.9);
-  padding: 30px;
-}
-@media screen and (max-width: 650px) {
-  .home .content-wrapper {
-    padding: 10px;
-  }
-  .content-bg {
-    padding: 20px;
-  }
-  .home {
-    background: #bcaa96;
-  }
-}
+
 
 
 /* BLOCKED SCREEN
@@ -149,169 +119,108 @@ footer a:hover {
 
 /* SETTINGS
 -------------------------- */
-.resume header::before {
-  background: url(../images/bg-gradient.jpg) center / cover;
-  /* background-size: cover;
-  background-position: center; */
-  content: "";
-  display: block;
-  height: 200px;
+.settings header {
+  display: flex;
+  position: fixed;
+  background-color: #f6f6f6;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+  height: auto;
+  padding: 20px 10px;
+  block-size: auto;
+  border-bottom: #222 2px solid;
+  gap: 15px;
 }
-.resume-section {
+.settings-section {
   margin-bottom: 50px;
 }
-.resume-section h2 {
+.settings-section h2 {
   border-bottom: 2px dashed #d3d4d6;
+  /* margin-bottom: 5px; */
 }
-.download-link {
+.settings-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+.settings-item h3 {
+  margin: 5px 0;
+  width: 75%;
+}
+.general {
+  display: none;
+}
+.schedule {
+  /* display: none; */
+}
+
+/* Sidebar */
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 5em;
   position: fixed;
-  top: 5px;
-  left: 5px;
-  font-size: 1.5rem;
-}
-@media screen and (max-width: 1200px) {
-  .download-link {
-    position: absolute;
-  }
-}
-@media screen and (max-width: 500px) {
-  .resume header::before {
-    height: 200px;
-  }
-  h1 {
-    font-size: 4.3rem;
-  }
-  h2 {
-    font-size: 3.5rem;
-  }
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  margin-top: 6.2em;
+  border-right: #222 2px solid;
 }
 
 /* Remove Addictive Aspects */
-.project-item {
-  margin: 30px 0;
-}
-.project-item img {
-  width: 300px;
-}
-@media screen and (min-width: 860px) {
-  .project-item {
-    display: flow-root;
-  }
-  .project-item img {
-    float: left;
-    margin-right: 20px;
-  }
-}
-@media screen and (min-width: 650px) and (max-width: 849px) {
-  .project-wrapper {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 20px;
-  }
-  .project-item img {
-    width: 100%;
-  }
-}
-@media screen and (max-width: 650px) {
-  .project-item img {
-    width: 100%;
-    margin-bottom: 10px;
-  }
+.remove-addict-items {
+
 }
 
-/* Alternate Activities
--------------------------- */
-.work-item {
-  margin: 30px 0;
+/* Alternate Activities */
+input[type=text] {
+  border: transparent;
+  background-color: #d5d5d5;
+  border-radius: 10px;
+  /* width: 50%; */
+  padding: 10px;
 }
-.work-details p {
-  margin: 0;
-}
-@media screen and (min-width: 860px) {
-  .work-item {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    column-gap: 20px;
-  }
-  .work-summary p:first-child {
-    margin-top: 0;
-  }
+.activity-input::placeholder{
+  color: black;
 }
 
 /* Reset All Time Usage
 -------------------------- */
-.education-item {
-  margin: 30px 0;
-}
-.education-item p {
-  margin: 0;
-}
+
 
 /* Schedule YouTube Restrictions
 -------------------------- */
-.skill-category {
-  margin: 30px 0;
+.schedule-day {
+  float: left;
+  overflow: hidden;
+  margin: 4px;
+  width: 48px;
+  background-color: #f6f6f6;
+  border: 2px solid #222;
+  border-radius: 50px;
 }
-.skill-details p {
-  margin: 0;
+.schedule-day label span {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
 }
-.skill-list {
-  margin: 2rem 0;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  row-gap: 10px;
+.schedule-day label input {
+  display: none;
+  position: absolute;
 }
-.skill-list li {
-  list-style-type: none;
+.schedule-day label input + span {
+  color: #222;
+  font-weight: 600;
 }
-.skill-logo {
-  width: 64px;
-}
-@media screen and (min-width: 525px) {
-  .skill-list {
-    display: grid;
-    justify-items: center;
-    grid-auto-rows: 100px;
-    grid-template-columns: repeat(4, 1fr);
-    row-gap: 4rem;
-  }
-  .skill-logo {
-    width: 100px;
-  }
-}
-
-/* FOOTER
--------------------------- */
-footer {
-  background: #222;
-  color: #d3d4d6;
-}
-.socials {
-  list-style-type: none;
-  padding: 0;
-}
-.socials li {
-  display: inline-block;
-  margin-left: 10px;
-}
-.socials img {
-  width: 32px;
-}
-.socials img:hover {
-  opacity: 50%;
-}
-
-@media screen and (min-width: 860px) {
-  footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-  }
-}
-@media screen and (max-width: 859px) {
-  footer {
-    text-align: center;
-    padding: 10px;
-  }
+.schedule-day input:checked + span {
+  background-color: #3c8453; 
+  border: none;
+  color: #f6f6f6;
 }

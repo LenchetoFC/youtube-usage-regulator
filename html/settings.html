@@ -17,28 +17,28 @@
   <body class="settings">
     <!-- Heading -->
     <header>
+      <img class="icon-button-big" src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
       <h1>Settings</h1>
-      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
     </header>
 
     <!-- Side Navbar -->
     <nav>
       <a href="#">
-        <img src="/images/icon-settings-general.svg" alt="Gear button to general settings">
+        <img class="icon-button-medium" src="/images/icon-settings.svg" alt="Gear button to general settings">
       </a>
       <a href="#">
-        <img src="/images/icon-settings-schedule.svg" alt="Stopwatch button to schedule settings">
+        <img class="icon-button-medium" src="/images/icon-stopwatch-solid.svg" alt="Stopwatch button to schedule settings">
       </a>
     </nav>
     
-    <main>
+    <main class="content-wrapper">
       <!-- General Settings -->
-      <section>
+      <section class="settings-section general">
         <!-- Remove Addictive Elements -->
-        <section>
-          <h2>Remove Addictive Elements</h2>
+        <section class="settings-item">
           <div class="tooltip">
-            <img src="/images/icon-info-circles.svg" alt="info circle">
+            <h2>Remove Addictive Elements</h2>
+            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
             <span class="tooltip-text tooltip-top">
               Disable your recommended video feed, block the shorts or home
               page, or even disable the search bar. This is to prevent any 
@@ -47,41 +47,42 @@
             </span>
           </div>
           <h3>Checking an option will completely remove it from <u>all</u> YouTube web pages.</h3>
-          <form>
-            <input id="video-rec" name="video-rec" type="checkbox">
+          <form class="remove-addict-items">
+            <input id="video-rec" name="video-rec" type="checkbox" value="video-rec">
             <label for="video-rec">Video Recommendations</label>
-  
-            <input id="left-side-menu" name="left-side-menu" type="checkbox">
+            <br>
+            <input id="left-side-menu" name="left-side-menu" type="checkbox" value="left-side-menu">
             <label for="left-side-menu">Left Side Menu</label>
-  
-            <input id="search-bar" name="search-bar" type="checkbox">
+            <br>
+            <input id="search-bar" name="search-bar" type="checkbox" value="search-bar">
             <label for="search-bar">Search Bar</label>
-  
-            <input id="home-button" name="home-button" type="checkbox">
+            <br>
+            <input id="home-button" name="home-button" type="checkbox" value="home-button">
             <label for="home-button">Home Button</label>
-  
-            <input id="autoplay-button" name="autoplay-button" type="checkbox">
+            <br>
+            <input id="autoplay-button" name="autoplay-button" type="checkbox" value="autoplay-button">
             <label for="autoplay-button">AutoPlay Button</label>
-  
-            <input id="next-video-button" name="next-video-button" type="checkbox">
+            <br>
+            <input id="next-video-button" name="next-video-button" type="checkbox" value="next-video-button">
             <label for="next-video-button">Next Video Button</label>
-  
-            <input id="home-page" name="home-page" type="checkbox">
+            <br>
+            <input id="home-page" name="home-page" type="checkbox" value="home-page">
             <label for="home-page">Home Page</label>
-  
-            <input id="shorts-page" name="shorts-page" type="checkbox">
+            <br>
+            <input id="shorts-page" name="shorts-page" type="checkbox" value="shorts-page">
             <label for="shorts-page">Shorts Page</label>
-  
-            <input id="entire-website" name="entire-website" type="checkbox">
+            <br>
+            <input id="entire-website" name="entire-website" type="checkbox" value="entire-website">
             <label for="entire-website">Entire Website</label>
           </form>
+          
         </section>
   
         <!-- Alternate Activities -->
-        <section>
-          <h2>Alternate Activities</h2>
+        <section class="settings-item">
           <div class="tooltip">
-            <img src="/images/icon-info-circles.svg" alt="info circle">
+            <h2>Alternate Activities</h2>
+            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
             <span class="tooltip-text tooltip-top">
               To remind you what better activities you could be doing.
               they are shown on the blocked webpage and below.
@@ -92,29 +93,30 @@
             you, specifically, could be doing.
           </h3>
           
-          <ul>
+          <ol>
             <li>
               <button>
-                <img src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-small" src="/images/icon-delete.svg" alt="X delete button">
               </button>
               
               Placeholder Activity
             </li>
-          </ul>
+          </ol>
   
-          <input id="alternative-activity-input" name="alternative-activity-input"
-           placeholder="Set alternate activity #/4 (30 chars left)">
+          <input class="activity-input" type="text" size="32" maxlength="30"
+            id="alternative-activity-input" name="alternative-activity-input"
+            placeholder="Set alternate activity #/4">
   
            <button class="btn">
-             <img src="/images/icon-plus.svg" alt="Plus button">
+             <img class="icon-button-small" src="/images/icon-plus.svg" alt="Plus button">
            </button>
         </section>
   
         <!-- Reset All Time Usage -->
-        <section>
-          <h2>Reset All Time Usage</h2>
+        <section class="settings-item">
           <div class="tooltip">
-            <img src="/images/icon-info-circles.svg" alt="info circle">
+            <h2>Reset All Time Usage</h2>
+            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
             <span class="tooltip-text tooltip-top">
               Your time on YouTube is counted when you're focused on the site.
               Along with tracking your usage time, you can set a timer to remind
@@ -126,18 +128,18 @@
             time, but you do you.
           </h3>
           <button class="btn">
-            <img src="/images/icon-trash-can.svg" alt="Trash can delete button">
+            <img class="icon-button-small" src="/images/icon-trash-can.svg" alt="Trash can delete button">
           </button>
           
         </section>
       </section>
 
       <!-- Schedule Settings -->
-      <section>
-        <section>
-          <h2>Schdule YouTube Restrictions</h2>
+      <section class="settings-section schedule">
+        <section class="settings-item">
           <div class="tooltip">
-            <img src="/images/icon-info-circles.svg" alt="info circle">
+            <h2>Schedule YouTube Restrictions</h2>
+            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
             <span class="tooltip-text tooltip-top">
               Choose which days at which intervals of time for the entire
               YouTube site to be inaccessible.
@@ -151,12 +153,12 @@
         </section>
 
         <!-- Your Set Schedules -->
-        <section>
+        <section class="settings-item">
           <h4>Your Set Schedules</h4>
           <section>
             <div>M</div>
-            <button>
-              <img src="/images/icon-delete.svg" alt="X delete button">
+            <button type="button">
+              <img class="icon-button-small" src="/images/icon-delete.svg" alt="X delete button">
             </button>
 
             <p>
@@ -169,30 +171,58 @@
         </section>
 
         <!-- Add New Schedule -->
-        <section>
+        <section class="settings-item">
           <h4>Add New Schedule</h4>
 
           <form>
-            <input id="schedule-mon" name="schedule-mon" type="checkbox">
-            <label for="schedule-mon">M</label>
-        
-            <input id="schedule-tue" name="schedule-tue" type="checkbox">
-            <label for="schedule-tue">Tu</label>
-        
-            <input id="schedule-wed" name="schedule-wed" type="checkbox">
-            <label for="schedule-wed">W</label>
-        
-            <input id="schedule-thu" name="schedule-thu" type="checkbox">
-            <label for="schedule-thu">Th</label>
-        
-            <input id="schedule-fri" name="schedule-fri" type="checkbox">
-            <label for="schedule-fri">F</label>
-        
-            <input id="schedule-sat" name="schedule-sat" type="checkbox">
-            <label for="schedule-sat">Sa</label>
-        
-            <input id="schedule-sun" name="schedule-sun" type="checkbox">
-            <label for="schedule-sun">Su</label>
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-sun" name="schedule-sun" type="checkbox" value="1">
+                <span>Su</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-mon" name="schedule-mon" type="checkbox" value="1">
+                <span>M</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-tue" name="schedule-tue" type="checkbox" value="1">
+                <span>Tu</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-wed" name="schedule-wed" type="checkbox" value="1">
+                <span>W</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-thu" name="schedule-thu" type="checkbox" value="1">
+                <span>Th</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-fri" name="schedule-fri" type="checkbox" value="1">
+                <span>F</span>
+              </label>
+            </div>
+
+            <div class="schedule-day">
+              <label>
+                <input id="schedule-sat" name="schedule-sat" type="checkbox" value="1">
+                <span>Sa</span>
+              </label>
+            </div>
           </form>
 
           <section>
@@ -205,11 +235,11 @@
                 placeholder="End time">
 
               <button class="btn">
-                <img src="/images/icon-trash-can.svg" alt="Trash can delete button">
+                <img class="icon-button-small" src="/images/icon-trash-can.svg" alt="Trash can delete button">
               </button>
             </section>
             <button class="btn">
-              <img src="/images/icon-plus.svg" alt="plus button">
+              <img class="icon-button-small" src="/images/icon-plus.svg" alt="plus button">
             </button>
 
             <br>
