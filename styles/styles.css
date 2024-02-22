@@ -1,13 +1,13 @@
-/* 
-  COLOR PALETTE
-
-  Dark green #3c8453
-  Sandy beige #bcaa96
-  Dark gray #222
-  Light gray #d3d4d6
-  Off-white #f6f6f6
-*/
-
+/* COLOR PALETTE */
+:root {
+  --background: #f6f6f6;
+  --text: #3D3D3D;
+  --secondary-color: #43494A;
+  --tertiary-color: #ff3a3a;
+  --body-color: #FCFCFC;
+  --full-border: #a4a4a4;
+  --input-background: #e4e4e4;
+}
 
 /* GLOBAL STYLES 
 -------------------------- */
@@ -21,12 +21,12 @@ html {
 }
 
 body {
-  background: #f6f6f6;
+  background: var(--background);
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 1.7rem; /* 10px * 1.7rem = 17px */
   line-height: 1.4;
-  color: #3D3D3D;
+  color: var(--text);
 }
 
 h1, h2, h3, h4 {
@@ -52,7 +52,7 @@ h4 {
 }
 
 .content-wrapper {
-  margin: 6.2em 5em;
+  margin: 6.2em 5em 0;
   padding: 20px 30px;
   max-width: 900px;
 }
@@ -64,11 +64,12 @@ button {
   border-radius: 10px;
 }
 button:hover {
-  background-color: #eaeaea;
+  background-color: var(--input-background);
 }
 .btn {
-  background: #3c8453;
-  color: #f6f6f6;
+  background: var(--tertiary-color);
+  color: var(--background);
+  width: 60px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.2rem;
@@ -140,7 +141,7 @@ button:hover {
 .settings header {
   display: flex;
   position: fixed;
-  background-color: #f6f6f6;
+  background-color: var(--background);
   width: 100%;
   top: 0;
   z-index: 1;
@@ -167,7 +168,7 @@ button:hover {
   width: 75%;
 }
 .general {
-  display: none;
+  /* display: none; */
 }
 .schedule {
   /* display: none; */
@@ -190,18 +191,64 @@ nav {
   border-right: #222 2px solid;
 }
 
-/* Remove Addictive Aspects */
-.remove-addict-items {
-
+/* Checkbox Button Appearance */
+.checkbox-form { /* addictive-selection */
+  display: flex;
+  margin: 10px 0;
+}
+.addictive-form {
+  flex-direction: column;
+}
+.checkbox-item { /* addictive-item */
+  float: left;
+  overflow: hidden;
+  margin: 4px;
+  width: 25%;
+  background-color: var(--background);
+  border: 2px solid var(--full-border);
+  border-radius: 50px;
+}
+.checkbox-rectangle {
+  width: 25%;
+}
+.checkbox-square {
+  width: 15%;
+  border-radius: 12px;
+}
+.checkbox-circle {
+  width: 48px;
+}
+.checkbox-item:hover { /* addictive-item:hover */
+  background-color: var(--input-background);
+}
+.checkbox-item label span { /* addictive-item label span */
+  display: block;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox-item label input { /* addictive-item label input */
+  display: none;
+  position: absolute;
+}
+.checkbox-item label input + span { /* addictive-item label input + span */
+  color: var(--text);
+  font-weight: 600;
+}
+.checkbox-item input:checked + span { /* addictive-item input:checked + span */
+  background-color: var(--tertiary-color); 
+  border: none;
+  color: var(--background);
 }
 
 /* Alternate Activities */
-input[type=text] {
+input[type=text], input[type=time] {
   border: transparent;
-  background-color: #d5d5d5;
+  background-color: var(--input-background);
   border-radius: 10px;
   /* width: 50%; */
-  padding: 10px;
+  padding: 5px;
 }
 .activity-input::placeholder{
   color: black;
@@ -213,46 +260,13 @@ input[type=text] {
 
 /* Schedule YouTube Restrictions
 -------------------------- */
-.schedule-day {
-  float: left;
-  overflow: hidden;
-  margin: 4px;
-  width: 48px;
-  background-color: #f6f6f6;
-  border: 2px solid #a4a4a4;
-  border-radius: 50px;
-}
-.schedule-day:hover {
-  background-color: #eaeaea;
-}
-.schedule-day label span {
-  display: block;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-}
-.schedule-day label input {
-  display: none;
-  position: absolute;
-}
-.schedule-day label input + span {
-  color: #222;
-  font-weight: 600;
-}
-.schedule-day input:checked + span {
-  background-color: #3c8453; 
-  border: none;
-  color: #f6f6f6;
-}
-
 .schedule-item {
   display: flex;
   flex-direction: column;
   background-color: #eeeeee;
-  width: 300px;
+  width: 250px;
   padding: 5px;
-  border: #c5c6c7 solid 2px;
+  border: var(--full-border) solid 2px;
   border-radius: 10px;
 }
 .schedule-item-header {
@@ -265,9 +279,9 @@ input[type=text] {
   justify-content: center;
   padding: 5px;
   width: 38px;
-  color: #f6f6f6;
-  background-color: #3c8453;
-  border: 2px solid #a4a4a4;
+  color: var(--background);
+  background-color: var(--tertiary-color);
+  border: 2px solid var(--full-border);
   border-radius: 50px
 }
 .x-button {
@@ -289,4 +303,18 @@ input[type=text] {
   justify-items: center;
   margin: 5px;
 }
-
+.schedule-new {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 10px 0;
+  border-top: 2px solid var(--full-border);
+  border-bottom: 2px solid var(--full-border);
+}
+.schedule-new-time {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
