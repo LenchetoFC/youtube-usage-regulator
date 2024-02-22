@@ -26,6 +26,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 1.7rem; /* 10px * 1.7rem = 17px */
   line-height: 1.4;
+  color: #3D3D3D;
 }
 
 h1, h2, h3, h4 {
@@ -40,12 +41,31 @@ h1 {
 }
 h2 {
   font-size: 3rem;
+  font-weight: 600;
 }
 h3 {
   font-size: 2rem;
 }
+h4 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.content-wrapper {
+  margin: 6.2em 5em;
+  padding: 20px 30px;
+  max-width: 900px;
+}
 
 /* buttons */
+button {
+  display: flex;
+  cursor: pointer;
+  border-radius: 10px;
+}
+button:hover {
+  background-color: #eaeaea;
+}
 .btn {
   background: #3c8453;
   color: #f6f6f6;
@@ -58,11 +78,9 @@ h3 {
   line-height: 1;
   border-radius: 6px;
 }
-
-.content-wrapper {
-  margin: 6.2em 5em;
-  padding: 20px 30px;
-  max-width: 900px;
+.btn-clean {
+  background-color: transparent;
+  border: none;
 }
 
 /* Tooltips */
@@ -201,8 +219,11 @@ input[type=text] {
   margin: 4px;
   width: 48px;
   background-color: #f6f6f6;
-  border: 2px solid #222;
+  border: 2px solid #a4a4a4;
   border-radius: 50px;
+}
+.schedule-day:hover {
+  background-color: #eaeaea;
 }
 .schedule-day label span {
   display: block;
@@ -224,3 +245,48 @@ input[type=text] {
   border: none;
   color: #f6f6f6;
 }
+
+.schedule-item {
+  display: flex;
+  flex-direction: column;
+  background-color: #eeeeee;
+  width: 300px;
+  padding: 5px;
+  border: #c5c6c7 solid 2px;
+  border-radius: 10px;
+}
+.schedule-item-header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 5px;
+}
+.schedule-item-day {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  width: 38px;
+  color: #f6f6f6;
+  background-color: #3c8453;
+  border: 2px solid #a4a4a4;
+  border-radius: 50px
+}
+.x-button {
+  visibility: hidden;
+  margin: -5px;
+  height: 100%;
+}
+.schedule-item:hover .x-button {
+  visibility: visible;
+}
+.schedule-time-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.schedule-time {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  margin: 5px;
+}
+

@@ -155,18 +155,28 @@
         <!-- Your Set Schedules -->
         <section class="settings-item">
           <h4>Your Set Schedules</h4>
-          <section>
-            <div>M</div>
-            <button type="button">
-              <img class="icon-button-small" src="/images/icon-delete.svg" alt="X delete button">
-            </button>
+          <section class="schedule-item">
+            <section class="schedule-item-header">
+              <div style="width:30px;"></div>
+              <div class="schedule-item-day">M</div>
+              <button class="btn-clean x-button">
+                <img class="icon-button-small" src="/images/icon-delete.svg" alt="X delete button">
+              </button>
+            </section>
 
-            <p>
-              8:00 AM to 12:00 PM
-            </p>
-            <p>
-              12:30 PM to 3:00 PM
-            </p>
+            <section class="schedule-time-list">
+              <section class="schedule-time">
+                <div class="schedule-start-time">8:00 AM</div>
+                <div>to</div> 
+                <div class="schedule-end-time">12:00 PM</div>
+              </section>
+
+              <section class="schedule-time">
+                <div class="schedule-start-time">12:30 PM</div>
+                <div>to</div> 
+                <div class="schedule-end-time">3:00 PM</div>
+              </section>
+            </section>
           </section>
         </section>
 
@@ -225,20 +235,20 @@
             </div>
           </form>
 
-          <section>
+          <section class="schedule-new">
             <button class="btn">All Day</button>
-            <section>
+            <section class="schedule-new-time">
               <input id="schedule-start-time" name="schedule-start-time"
                 placeholder="Start time">
                 to
               <input id="schedule-end-time" name="schedule-end-time"
                 placeholder="End time">
 
-              <button class="btn">
+              <button class="btn-clean">
                 <img class="icon-button-small" src="/images/icon-trash-can.svg" alt="Trash can delete button">
               </button>
             </section>
-            <button class="btn">
+            <button class="btn-clean">
               <img class="icon-button-small" src="/images/icon-plus.svg" alt="plus button">
             </button>
 
