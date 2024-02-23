@@ -13,7 +13,7 @@
 -------------------------- */
 html {
   box-sizing: border-box;
-  font-size: 62.5%; /* set default to 10px */
+  font-size: 62.5%; /* sets default to 10px */
 }
 
 *, *:before, *:after {
@@ -52,9 +52,12 @@ h4 {
 }
 
 .content-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin: 6.2em 5em 0;
   padding: 20px 30px;
-  max-width: 900px;
+  /* max-width: 900px; */
 }
 
 /* buttons */
@@ -88,11 +91,10 @@ button:hover {
 .tooltip {
   position: relative;
   display: flex;
-  /* border-bottom: 1px dotted black; */
 }
 .tooltip .tooltip-text {
   visibility: hidden;
-  width: auto;
+  max-width: 300px;
   background-color: #222;
   color: #d3d4d6;
   text-align: center;
@@ -100,16 +102,7 @@ button:hover {
   border-radius: 6px;
   position: absolute;
   z-index: 1;
-}
-.tooltip-bottom {
-  top: 105%;
-  left: 50%;
-  margin-left: -60px;
-}
-.tooltip-top{
   bottom: 100%;
-  left: 50%;
-  margin-left: -100px;
 }
 .tooltip:hover .tooltip-text {
   visibility: visible;
@@ -152,11 +145,11 @@ button:hover {
   gap: 15px;
 }
 .settings-section {
-  margin-bottom: 50px;
+  width: 80%;
+  max-width: 820px;
 }
 .settings-section h2 {
   border-bottom: 2px dashed #d3d4d6;
-  /* margin-bottom: 5px; */
 }
 .settings-item {
   display: flex;
@@ -192,14 +185,17 @@ nav {
 }
 
 /* Checkbox Button Appearance */
-.checkbox-form { /* addictive-selection */
+.checkbox-form {
   display: flex;
   margin: 10px 0;
 }
 .addictive-form {
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
 }
-.checkbox-item { /* addictive-item */
+.checkbox-item {
   float: left;
   overflow: hidden;
   margin: 4px;
@@ -209,7 +205,9 @@ nav {
   border-radius: 50px;
 }
 .checkbox-rectangle {
-  width: 25%;
+  width: 75%;
+  height: 70px;
+  max-width: 200px;
 }
 .checkbox-square {
   width: 15%;
@@ -218,25 +216,28 @@ nav {
 .checkbox-circle {
   width: 48px;
 }
-.checkbox-item:hover { /* addictive-item:hover */
+.checkbox-item:hover {
   background-color: var(--input-background);
 }
-.checkbox-item label span { /* addictive-item label span */
-  display: block;
-  padding: 10px;
+.checkbox-item label span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  height: 100%;
+  padding: 10px;
   cursor: pointer;
   user-select: none;
 }
-.checkbox-item label input { /* addictive-item label input */
+.checkbox-item label input {
   display: none;
   position: absolute;
 }
-.checkbox-item label input + span { /* addictive-item label input + span */
+.checkbox-item label input + span {
   color: var(--text);
   font-weight: 600;
 }
-.checkbox-item input:checked + span { /* addictive-item input:checked + span */
+.checkbox-item input:checked + span {
   background-color: var(--tertiary-color); 
   border: none;
   color: var(--background);
@@ -247,7 +248,6 @@ input[type=text], input[type=time] {
   border: transparent;
   background-color: var(--input-background);
   border-radius: 10px;
-  /* width: 50%; */
   padding: 5px;
 }
 .activity-input::placeholder{
