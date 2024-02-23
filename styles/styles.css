@@ -3,7 +3,7 @@
   --background: #f6f6f6;
   --text: #3D3D3D;
   --secondary-color: #43494A;
-  --tertiary-color: #ff3a3a;
+  --tertiary-color: #b90707;
   --body-color: #FCFCFC;
   --full-border: #a4a4a4;
   --input-background: #e4e4e4;
@@ -12,6 +12,7 @@
 /* GLOBAL STYLES 
 -------------------------- */
 html {
+  height: 100%;
   box-sizing: border-box;
   font-size: 62.5%; /* sets default to 10px */
 }
@@ -56,9 +57,11 @@ h4 {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 6.2em 5em 0;
-  padding: 20px 30px;
+  margin: 6.2em 0;
+  padding: 20px 60px 70px;
   /* max-width: 900px; */
+  width: 100%;
+  height: 100%;
 }
 
 /* buttons */
@@ -66,15 +69,22 @@ button {
   display: flex;
   cursor: pointer;
   border-radius: 10px;
+  transition: 0.3s;
 }
 button:hover {
-  /* border: 2px solid var(--full-border); */
   background-color: var(--input-background);
 }
+.button-icon {
+  transition: 0.1s;
+}
+button:active .button-icon {
+  width: 90%;
+} 
 .btn {
   background: transparent;
   color: var(--background);
   width: 50px;
+  height: 40px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.2rem;
@@ -86,6 +96,19 @@ button:hover {
 }
 .btn-small {
   width: 40px;
+  height: 30px;
+}
+.typical-button {
+  margin: 4px;
+  width: fit-content;
+  background-color: var(--tertiary-color);
+  border: 2px solid var(--full-border);
+  color: var(--background);
+}
+.typical-button:hover {
+  background-color: var(--tertiary-color);
+  opacity: 90%;
+  border: 2px solid transparent;
 }
 
 /* Tooltips */
@@ -95,15 +118,16 @@ button:hover {
 }
 .tooltip .tooltip-text {
   visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
   max-width: 300px;
   background-color: #222;
   color: #d3d4d6;
   text-align: center;
   padding: 5px;
   border-radius: 6px;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
+  transition: 0.3s;
 }
 .tooltip:hover .tooltip-text {
   visibility: visible;
@@ -121,12 +145,300 @@ button:hover {
 }
 .icon-button-extra-small {
   width: 24px;
-  /* padding: 5px; */
+  height: 100%;
 }
+
+
+
+
+/* FOOTER
+-------------------------- */
+footer {
+  display: flex;
+  /* justify-content: flex-end; */
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  background: #222;
+  color: #d3d4d6;
+}
+footer p {
+  padding: 0 10px;
+}
+
+/* @media screen and (min-width: 860px) {
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+}
+@media screen and (max-width: 859px) {
+  footer {
+    text-align: center;
+    padding: 10px;
+  }
+} */
 
 /* POPUP
 -------------------------- */
+/* :root {
+  --primary-color: #DCDCE1;
+  --secondary-color: #43494A;
+  --color-to-action-color: #637FCC;
+  --body-color: #FCFCFC
+}
 
+.container{
+  background-color: var(--body-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: fit-content;
+}
+
+body {
+  margin: 50x 10px 15px;
+  background-color: var(--body-color);
+  font-family: inter;
+  font-family: inter;
+}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+#icon-name-container{
+  display: flex;
+  align-items: center;
+}
+#ext-icon{
+  width: 24px;
+  height: 24px;
+}
+
+#header-buttons{
+  display: flex;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding-right: 1px;
+}
+
+.default-icon {
+  background-size: cover;
+	display: inline-block;
+}
+
+.settings-icon{
+	background-image: url(/images/icon-settings.svg);
+  width: 35px;
+  height: 35px;
+}
+.settings-icon:hover {
+  animation: spin 5s linear infinite;
+}
+
+.schedule-icon {
+	background-image: url(/images/icon-schedule.svg);
+  width: 30px;
+  height: 30px;
+}
+.schedule-icon:hover {
+  animation: ring 200ms cubic-bezier(0.1, -0.6, 0.2, 0) infinite;
+}
+
+.clock-icon {
+  width: 21px;
+  height: 20px;
+	background-image: url(/images/clock-outline.svg);
+  margin-right: 5px;
+}
+
+.play-icon {
+  background-image: url(/images/play-solid.svg);
+  width: 35px;
+  height: 35px;
+
+}
+.play-icon:hover {
+  width: 37px;
+  height: 37px;
+}
+
+#disable-YT-box {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+}
+
+#disable-YT-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+input[type="checkbox" i] {
+  cursor: pointer;
+  accent-color: var(--color-to-action-color);
+}
+
+#info-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  gap: 10px;
+}
+.info-box{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.box-content{
+  margin: 0px 5px;
+}
+.num-of-free-videos{
+  display: flex;
+  align-items: baseline;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+.usage-time{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 25px;
+  border-bottom: 1px solid var(--secondary-color);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.content-items{
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-weight: 600;
+}
+.content-title{
+  margin: 0px 0px 5px 0px;
+  color: var(--secondary-color);
+  font-size: 20px;
+}
+
+#free-video-count{
+  margin: -5px 5px 0px 0px;
+  color: var(--secondary-color);
+  font-size: 40px
+}
+
+footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+}
+footer a{
+  color: var(--secondary-color);
+  font-size: 12px;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+@keyframes spin {
+  0% {
+    rotate: 1deg;
+  }
+
+  100% {
+    rotate: 720deg;
+  }
+}
+
+@keyframes ring {
+  0% {
+    rotate: 1deg;
+    transform: translateY(0px);
+  }
+
+  10% {
+    rotate: 5deg;
+  }
+
+  20% {
+    rotate: 10deg;
+  }
+
+  40% {
+    rotate: 5deg;
+  }
+
+  50% {
+    rotate: 1deg;
+  }
+
+  60% {
+    rotate: -5deg;
+  }
+
+  70% {
+    rotate: -10deg;
+  }
+  
+  80% {
+    rotate: -5deg;
+  }
+
+  100% {
+    rotate: 1deg;
+    transform: translateY(-1px);
+  }
+}
+
+input[type="time" i] {
+  border: hidden;
+  border-radius: 12px;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 5px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator{
+  filter: invert(97%) sepia(11%) saturate(332%) hue-rotate(188deg) brightness(92%) contrast(91%);
+  cursor: pointer;
+}
+
+#timer-display {
+  display: flex;
+}
+
+@font-face {
+  font-family: "inter";
+  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
+}
+
+@font-face {
+  font-family: "inter";
+  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
+} */
 
 
 /* BLOCKED SCREEN
@@ -147,7 +459,7 @@ button:hover {
   height: auto;
   padding: 20px 10px;
   block-size: auto;
-  border-bottom: #222 2px solid;
+  border-bottom: var(--secondary-color) 2px solid;
   gap: 15px;
 }
 .settings-section {
@@ -166,12 +478,6 @@ button:hover {
   margin: 5px 0;
   width: 75%;
 }
-.general {
-  /* display: none; */
-}
-.schedule {
-  /* display: none; */
-}
 
 /* Sidebar */
 nav {
@@ -187,8 +493,28 @@ nav {
   overflow-x: hidden;
   padding-top: 20px;
   margin-top: 6.2em;
-  border-right: #222 2px solid;
+  border-top: var(--secondary-color) 1px solid;
+  border-right: var(--secondary-color) 2px solid;
   background-color: var(--input-background);
+}
+nav > a > img {
+  transition: 0.05s;
+  width: 48px;
+}
+nav > a > img:hover {
+  background-color: #d3d4d6;
+  border: 2px solid var(--full-border);
+  border-radius: 5px;
+}
+nav > a > img:active {
+  background-color: var(--full-border);
+  /* border: 2px solid var(--full-border);
+  border-radius: 5px; */
+}
+.current-page {
+  background-color: #d3d4d6;
+  border: 2px solid var(--full-border);
+  border-radius: 5px;
 }
 
 /* Checkbox Button Appearance */
@@ -210,11 +536,13 @@ nav {
   background-color: var(--background);
   border: 2px solid var(--full-border);
   border-radius: 50px;
+  transition: 0.3s;
 }
 .checkbox-rectangle {
   width: 75%;
   height: 70px;
-  max-width: 200px;
+  width: 180px;
+  transition: 0.3s;
 }
 .checkbox-square {
   width: 15%;
@@ -235,6 +563,7 @@ nav {
   padding: 10px;
   cursor: pointer;
   user-select: none;
+  transition: 0.3s;
 }
 .checkbox-item label input {
   display: none;
@@ -289,6 +618,9 @@ input[type=text], input[type=time] {
   justify-content: space-between;
   padding-top: 5px;
 }
+.schedule-item-header > div {
+  width:30px;
+}
 .schedule-item-day {
   display: flex;
   justify-content: center;
@@ -304,8 +636,9 @@ input[type=text], input[type=time] {
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  margin: -5px;
   height: 100%;
+  margin: -5px;
+  transition: 0.3s;
 }
 .schedule-item:hover .x-button {
   visibility: visible;
@@ -314,7 +647,7 @@ input[type=text], input[type=time] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */ /* To center items - Unsure if it looks good */
+  justify-content: center;
   height: 100%
 }
 .schedule-time {

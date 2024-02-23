@@ -1,4 +1,4 @@
-chrome.action.setBadgeText({text: 'ON'});
+// chrome.action.setBadgeText({text: 'ON'});
 
 // chrome.runtime.onMessage.addListener(
 //   function(request, sender, sendResponse) {

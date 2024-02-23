@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Regulator Settings</title>
+    <title>Regulator Schedule Settings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
@@ -23,142 +23,17 @@
 
     <!-- Side Navbar -->
     <nav>
-      <a href="#">
+      <a href="settings-general.html">
         <img class="icon-button-medium" src="/images/icon-settings.svg" alt="Gear button to general settings">
       </a>
-      <a href="#">
-        <img class="icon-button-medium" src="/images/icon-stopwatch-solid.svg" alt="Stopwatch button to schedule settings">
+      <a href="settings-schedule.html">
+        <img class="icon-button-medium current-page" src="/images/icon-stopwatch-solid.svg" alt="Stopwatch button to schedule settings">
       </a>
     </nav>
     
     <main class="content-wrapper">
-      <!-- General Settings -->
-      <section class="settings-section general">
-        <!-- Remove Addictive Elements -->
-        <section class="settings-item">
-          <div class="tooltip">
-            <h2>Remove Addictive Elements</h2>
-            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
-            <span class="tooltip-text">
-              To disable or remove elements from YouTube to prevent addictive 
-              video-watching habits.
-            </span>
-          </div>
-          <h3>Select YouTube elements to remove them from <u>all</u> YouTube web pages</h3>
-          <form class="checkbox-form addictive-form">
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="video-rec" name="video-rec" type="checkbox" value="1">
-                <span for="video-rec">Video Recommendations</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="left-side-menu" name="left-side-menu" type="checkbox" value="left-side-menu">
-                <span for="left-side-menu">Left Side Menu</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="search-bar" name="search-bar" type="checkbox" value="search-bar">
-                <span for="search-bar">Search Bar</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="home-button" name="home-button" type="checkbox" value="home-button">
-                <span for="home-button">Home Button</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="autoplay-button" name="autoplay-button" type="checkbox" value="autoplay-button">
-                <span for="autoplay-button">AutoPlay Button</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="next-video-button" name="next-video-button" type="checkbox" value="next-video-button">
-                <span for="next-video-button">Next Video Button</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="home-page" name="home-page" type="checkbox" value="home-page">
-                <span for="home-page">Home Page</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="shorts-page" name="shorts-page" type="checkbox" value="shorts-page">
-                <span for="shorts-page">Shorts Page</span>
-              </label>
-            </div>
-            <div class="checkbox-item checkbox-rectangle">
-              <label>
-                <input id="entire-website" name="entire-website" type="checkbox" value="entire-website">
-                <span for="entire-website">Entire Website</span>
-              </label>
-            </div>
-          </form>
-          
-        </section>
-  
-        <!-- Alternate Activities -->
-        <section class="settings-item">
-          <div class="tooltip">
-            <h2>Alternate Activities</h2>
-            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
-            <span class="tooltip-text">
-              To remind you what better activities you could be doing.
-              They are shown on the blocked webpage and below.
-            </span>
-          </div>
-          <h3>
-            Suggest activities that you could be doing instead of wasting time watching 
-            YouTube
-          </h3>
-          
-          <ol>
-            <li>
-              <button class="btn btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
-              </button>
-              
-              Placeholder Activity
-            </li>
-          </ol>
-  
-          <input class="activity-input" type="text" size="32" maxlength="30"
-            id="alternative-activity-input" name="alternative-activity-input"
-            placeholder="Set alternate activity #/4">
-  
-           <button class="btn">
-             <img class="icon-button-small" src="/images/icon-plus.svg" alt="Plus button">
-           </button>
-        </section>
-  
-        <!-- Reset All Time Usage -->
-        <section class="settings-item">
-          <div class="tooltip">
-            <h2>Reset All Time Usage</h2>
-            <img class="icon-button-small" src="/images/icon-info-circles.svg" alt="info circle">
-            <span class="tooltip-text">
-              Your time on YouTube is counted when you're focused on the site.
-            </span>
-          </div>
-          <h3>
-            Reset your total usage time. It is ill-advised, but you do you
-          </h3>
-          <button class="btn">
-            <img class="icon-button-small" src="/images/icon-trash-can.svg" alt="Trash can delete button">
-          </button>
-          
-        </section>
-      </section>
-
       <!-- Schedule Settings -->
-      <section class="settings-section schedule">
+      <section class="settings-section">
         <section class="settings-item">
           <div class="tooltip">
             <h2>Schedule YouTube Restrictions</h2>
@@ -177,10 +52,10 @@
         <section class="settings-item schedule-grid">
           <section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">Su</div>
+              <div></div>
+              <section class="schedule-item-day">Su</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -195,10 +70,10 @@
 
           <section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">M</div>
+              <div></div>
+              <section class="schedule-item-day">M</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -212,10 +87,10 @@
             </section>
           </section><section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">Tu</div>
+              <div></div>
+              <section class="schedule-item-day">Tu</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -244,10 +119,10 @@
             </section>
           </section><section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">W</div>
+              <div></div>
+              <section class="schedule-item-day">W</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -262,10 +137,10 @@
           </section>
           <section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">Th</div>
+              <div></div>
+              <section class="schedule-item-day">Th</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -285,10 +160,10 @@
           </section>
           <section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">F</div>
+              <div></div>
+              <section class="schedule-item-day">F</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -302,10 +177,10 @@
           </section>
           <section class="schedule-item">
             <section class="schedule-item-header">
-              <div style="width:30px;"></div>
-              <div class="schedule-item-day">Sa</div>
+              <div></div>
+              <section class="schedule-item-day">Sa</section>
               <button class="btn x-button btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="X delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="X delete button">
               </button>
             </section>
 
@@ -401,17 +276,22 @@
                 placeholder="End time" type="time">
 
               <button class="btn btn-small">
-                <img class="icon-button-extra-small" src="/images/icon-delete.svg" alt="Trash can delete button">
+                <img class="icon-button-extra-small button-icon" src="/images/icon-delete.svg" alt="Trash can delete button">
               </button>
             </section>
             <button class="btn">
-              <img class="icon-button-small" src="/images/icon-plus.svg" alt="plus button">
+              <img class="icon-button-small button-icon" src="/images/icon-plus.svg" alt="plus button">
             </button>
           </section>
           <br>  
-          <button class="btn" type="submit">Done</button>
+          <button class="btn typical-button" type="submit">Done</button>
         </section>
       </section>
+
+      <!-- //  FOOTER INFO  // -->
+      <footer>
+        <p>© 2024 by Lorenzo Ramirez, Jr.</p>
+      </footer>
     </main>
 
     <script src="/scripts/settings.js"></script>

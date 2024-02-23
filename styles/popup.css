@@ -61,7 +61,7 @@ body {
 }
 
 .settings-icon{
-	background-image: url(/images/settings-icon.svg);
+	background-image: url(/images/icon-settings.svg);
   width: 35px;
   height: 35px;
 }
@@ -70,7 +70,7 @@ body {
 }
 
 .schedule-icon {
-	background-image: url(/images/stopwatch-solid.svg);
+	background-image: url(/images/icon-schedule.svg);
   width: 30px;
   height: 30px;
 }
