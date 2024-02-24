@@ -7,6 +7,7 @@
   --secondary-black: #43494A;
   --body-white: #FCFCFC;
   --call-to-action: #b90707;
+  --call-to-action-2: #067c1a;
 }
 
 /* GLOBAL STYLES 
@@ -144,7 +145,7 @@ button:active {
   height: 40px;
   width: fit-content;
   padding: 12px 24px;
-  background-color: var(--call-to-action);
+  background-color: var(--call-to-action-2);
   border: none;
   color: var(--bg-white);
   text-transform: uppercase;
@@ -190,7 +191,7 @@ button:active {
 }
 
 /* Checkbox Button Appearance */
-.checkbox-form {
+.checkbox-form, .schedule-new {
   display: flex;
   margin: 10px 0;
 
@@ -857,7 +858,6 @@ input[type=text], input[type=time] {
   margin: 5px;
 }
 .schedule-new {
-  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
