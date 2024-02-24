@@ -37,7 +37,7 @@ h1, h2, h3, h4 {
   margin: 0;
 }
 h1 {
-  font-size: 6rem;
+  font-size: 5rem;
   line-height: 0.85;
 }
 h2 {
@@ -46,7 +46,8 @@ h2 {
   margin-right: 10px;
 }
 h3 {
-  font-size: 2rem;
+  font-size: 1.75rem;
+  color: var(--full-border);
 }
 h4 {
   font-size: 2rem;
@@ -72,17 +73,17 @@ button {
   transition: 0.3s;
 }
 button:hover {
-  background-color: #ededed;
+  opacity: 90%;
 }
 .button-icon {
   transition: 0.1s;
 }
 button:active {
-  background-color: #e4e4e4;
+  opacity: 100%;
   
-  & .button-icon {
+  /* & .button-icon {
     width: 85%;
-  }
+  } */
 } 
 .btn {
   background: transparent;
@@ -101,16 +102,23 @@ button:active {
   justify-content: center;
 }
 .typical-button {
+  display: flex;
+  align-items: flex-start;
+  height: 40px;
+  padding: 12px 24px;
   margin: 4px;
+  border-radius: 8px;
   width: fit-content;
   background-color: var(--tertiary-color);
-  border: 2px solid var(--full-border);
-  color: var(--background);
+  color: var(--body-color);
+  font-size: 1.5rem;
+  user-select: none;
 }
 .typical-button:hover {
+  background-color: #940505;
+}
+.typical-button:active {
   background-color: var(--tertiary-color);
-  opacity: 90%;
-  border: 2px solid transparent;
 }
 
 /* Icons */
@@ -118,7 +126,8 @@ button:active {
   width: 64px;
 }
 .icon-button-medium {
-  width: 48px;
+  width: 58px;
+  padding: 6px;
 }
 .icon-button-small {
   width: 32px;
@@ -192,15 +201,14 @@ nav > a > img {
 }
 nav > a > img:hover {
   background-color: #ededed;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 nav > a > img:active {
   background-color: #e4e4e4;
 }
 .current-page {
-  background-color: #f2f2f2;
-  border: 2px solid var(--full-border);
-  border-radius: 15px;
+  background-color: #ededed;
+  border-radius: 10px;
 }
 
 /* Footer */
@@ -327,7 +335,7 @@ body {
   cursor: pointer;
 }
 
-input[type="checkbox" i] {
+input[type="checdkbox" i] {
   cursor: pointer;
   accent-color: var(--color-to-action-color);
 }
@@ -740,7 +748,7 @@ section {
 .checkbox-item {
   float: left;
   overflow: hidden;
-  margin: 4px;
+  margin: 4px 4px 4px 0;
   width: 25%;
   background-color: var(--background);
   border: 2px solid var(--full-border);
@@ -763,8 +771,10 @@ section {
   }
 }
 .checkbox-square {
+  background-color: #00000014;
   width: 100px;
   border-radius: 12px;
+  border: none;
 }
 .checkbox-circle {
   width: 48px;
@@ -796,7 +806,6 @@ section {
 }
 .checkbox-item input:checked + span {
   background-color: var(--tertiary-color); 
-  border: none;
   color: var(--background);
 }
 
@@ -895,14 +904,14 @@ input[type=text], input[type=time] {
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
-  padding: 10px 0;
+  padding: 10px;
   border-top: 2px solid var(--full-border);
   border-bottom: 2px solid var(--full-border);
 }
 .schedule-new-time {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 10px 0;
   gap: 10px;
 }
 input[type="time" i] {
@@ -913,8 +922,22 @@ input[type="time" i] {
   font-size: 20px;
   cursor: pointer;
 }
-
 input[type="time"]::-webkit-calendar-picker-indicator{
   filter: invert(25%) sepia(0%) saturate(30%) hue-rotate(193deg) brightness(93%) contrast(96%);
   cursor: pointer;
+}
+.plus-btn {
+  width: fit-content;
+  padding: 6px;
+  background-color: var(--tertiary-color);
+  color: var(--text);
+
+  & img {
+    width: 24px;
+  }
+  & div {
+    color: var(--background);
+    margin: 0 10px;
+    font-size: 1.5rem;
+  }
 }
