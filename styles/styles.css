@@ -735,6 +735,7 @@ section {
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
   align-items: center;
+  column-gap: 15px;
 }
 .checkbox-item {
   float: left;
@@ -748,20 +749,17 @@ section {
 }
 .checkbox-rectangle {
   height: 70px;
-  width: 180px;
+  width: 100%;
   transition: 0.3s;
 }
-@media screen and (max-width: 680px) and (min-width: 500px) {
+@media screen and (max-width: 875px) and (min-width: 500px) {
   .addictive-form {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 630px) {
   .addictive-form {
     grid-template-columns: repeat(1, 1fr);
-  }
-  .checkbox-rectangle {
-    width: 100%;
   }
 }
 .checkbox-square {
