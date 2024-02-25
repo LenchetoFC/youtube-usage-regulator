@@ -2,12 +2,14 @@
 :root {
   --bg-white: #fff;
   --bg-white-accent: #FAFAFA;
+  --bg-grey: #e1e1e1;
   --text-black: #3D3D3D;
   --text-grey-accent: #a4a4a4;
   --secondary-black: #43494A;
   --body-white: #FCFCFC;
-  --call-to-action: #b90707;
+  --call-to-action: #ad0606;
   --call-to-action-2: #067c1a;
+  --call-to-action-3: #123e9d;
 }
 
 /* GLOBAL STYLES 
@@ -116,15 +118,12 @@ button {
   text-decoration: none;
 
   & .icon-delete {
-    width: 26px;
+    opacity: 70%;
+    width: 28px;
   }
-  & .icon-standalone {    
+  & .icon-in-btn {    
     width: 24px;
     height: 24px;
-  }
-  & .icon-standalone-big {
-    width: 100px;
-    height: 100px;
   }
 }
 button:hover {
@@ -133,6 +132,9 @@ button:hover {
 button:active {
   opacity: 100%;
 } 
+.icon-delete:hover {
+  opacity: 100%;
+}
 .schedule-item-header button {
   background: transparent;
   margin: 5px 0;
@@ -145,6 +147,7 @@ button:active {
   height: 40px;
   width: fit-content;
   padding: 12px 24px;
+  margin-top: 15px;
   background-color: var(--call-to-action-2);
   border: none;
   color: var(--bg-white);
@@ -153,16 +156,19 @@ button:active {
   letter-spacing: 0.1em;
 }
 .side-icon {
-  padding: 6px;
-  background-color: var(--call-to-action);
+  padding: 6px 20px;
+  background-color: var(--call-to-action-3);
   & img {
     width: 24px;
   }
   & div {
-    color: var(--bg-white);
+    color: var(--body-white);
     margin: 0 10px;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
   }
+}
+.delete-btn {
+  background-color: var(--call-to-action);
 }
 
 /* Tooltips */
@@ -785,14 +791,47 @@ section {
 }
 
 /* Alternate Activities */
-input[type=text], input[type=time] {
-  border: transparent;
-  background-color: var(--bg-white-accent);
-  border-radius: 10px;
-  padding: 5px;
+ol {
+  /* margin: 10px 10px; */
+  padding: 0 25px;
+  list-style: none;
 }
+li {
+  margin: 10px 0;
+}
+li .activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  /* padding: 5px 0; */
+  font-size: 1.75rem;
+  transition: 0.75s;
+}
+/* li:hover .activity-item {
+  background-color: var(--text-grey-accent);
+  border: 2px solid var(--bg-grey);
+} */
+
+input[type=text] {
+  width: 400px;
+  padding: 10px;
+  /* margin: 10px; */
+  background-color: var(--bg-grey);
+  border: transparent;
+  border-radius: 8px;
+  color: var(--text-black);
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
 .activity-input::placeholder{
-  color: black;
+  color: #3d3d3d99;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 
 /* Reset All Time Usage
@@ -841,7 +880,7 @@ input[type=text], input[type=time] {
 }
 .schedule-item:hover button {
   visibility: visible;
-  background-color: #ededed;
+  background-color: rgb(239, 239, 239);
 }
 .schedule-time-list {
   display: flex;
@@ -872,9 +911,10 @@ input[type=text], input[type=time] {
   gap: 10px;
 }
 input[type="time" i] {
+  padding: 10px;
+  background: var(--bg-white-accent);
   border: 2px solid var(--text-grey-accent);
   border-radius: 15px;
-  background: var(--bg-white-accent);
   color: var(--text-black);
   font-size: 20px;
   cursor: pointer;

@@ -47,20 +47,20 @@
           <form class="checkbox-form addictive-form">
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="video-rec" name="video-rec" type="checkbox" value="1">
-                <span for="video-rec">Video Recommendations</span>
+                <input id="entire-website" name="entire-website" type="checkbox" value="entire-website">
+                <span for="entire-website">Entire Website</span>
               </label>
             </div>
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="left-side-menu" name="left-side-menu" type="checkbox" value="left-side-menu">
-                <span for="left-side-menu">Left Side Menu</span>
+                <input id="home-page" name="home-page" type="checkbox" value="home-page">
+                <span for="home-page">Home Page</span>
               </label>
             </div>
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="search-bar" name="search-bar" type="checkbox" value="search-bar">
-                <span for="search-bar">Search Bar</span>
+                <input id="yt-shorts" name="yt-shorts" type="checkbox" value="yt-shorts">
+                <span for="yt-shorts">YouTube Shorts</span>
               </label>
             </div>
             <div class="checkbox-item checkbox-rectangle">
@@ -83,20 +83,20 @@
             </div>
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="home-page" name="home-page" type="checkbox" value="home-page">
-                <span for="home-page">Home Page</span>
+                <input id="video-rec" name="video-rec" type="checkbox" value="1">
+                <span for="video-rec">Video Recommendations</span>
               </label>
             </div>
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="shorts-page" name="shorts-page" type="checkbox" value="shorts-page">
-                <span for="shorts-page">Shorts Page</span>
+                <input id="hamburger-menu" name="hamburger-menu" type="checkbox" value="hamburger-menu">
+                <span for="hamburger-menu">Side Hamburger Menu</span>
               </label>
             </div>
             <div class="checkbox-item checkbox-rectangle">
               <label>
-                <input id="entire-website" name="entire-website" type="checkbox" value="entire-website">
-                <span for="entire-website">Entire Website</span>
+                <input id="search-bar" name="search-bar" type="checkbox" value="search-bar">
+                <span for="search-bar">Search Bar</span>
               </label>
             </div>
           </form>
@@ -120,22 +120,29 @@
           
           <ol>
             <li>
-              <button>
-                <img class="icon-delete" src="/images/icon-delete.svg" alt="X delete button">
-              </button>
-              
-              Placeholder Activity
+              <div class="activity-item">
+                Coding your personal projects
+                <button>
+                  <img class="icon-delete" src="/images/icon-delete.svg" alt="X delete button">
+                </button>
+              </div>
+            </li>
+            <li>
+              <div>
+                <input class="activity-input" type="text" size="32" maxlength="30"
+                  id="alternative-activity-input" name="alternative-activity-input"
+                  placeholder="Write alternate activity">
+              </div>
+            </li>
+            <li>
+              <div>
+                <button class="btn-text side-icon">
+                 <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+                 <div>Add Activity</div>
+                </button>
+              </div>
             </li>
           </ol>
-  
-          <input class="activity-input" type="text" size="32" maxlength="30"
-            id="alternative-activity-input" name="alternative-activity-input"
-            placeholder="Set alternate activity #/4">
-  
-           <button class="btn-text side-icon">
-            <img class="icon-standalone" src="/images/icon-plus.svg" alt="plus button">
-            <div>Add New Activity</div>
-          </button>
         </section>
   
         <!-- Reset All Time Usage -->
@@ -150,8 +157,10 @@
           <h3>
             Reset your total usage time. It is ill-advised, but you do you
           </h3>
-          <button >
-            <img class="icon-standalone-big" src="/images/icon-trash-can.svg" alt="Trash can delete button">
+
+          <button class="btn-text side-icon delete-btn">
+            <img class="icon-in-btn" src="/images/icon-trash-can.svg" alt="Trash can delete button">
+            <div>Delete tracked time</div>
           </button>
           
         </section>

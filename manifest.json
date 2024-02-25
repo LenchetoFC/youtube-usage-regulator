@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "description": "YouTube Regulator removes parts of YouTube that feeds content addiction to help the user use YouTube more reasonably",
   "icons": {
-    "48": "/images/icon-logo-ext.png"
+    "16": "/images/icon-logo-ext.png",
+    "32": "/images/icon-logo-ext.png",
+    "48": "/images/icon-logo-ext.png",
+    "128": "/images/icon-logo-ext.png"
   },
   "action": {
     "default_popup": "/html/popup.html",

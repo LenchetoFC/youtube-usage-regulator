@@ -254,32 +254,34 @@
               </label>
             </div>
           </form>
-
-          <section class="schedule-new">
-            <div class="checkbox-item checkbox-square">
-              <label>
-                <input id="schedule-all-day" name="schedule-all-day" type="checkbox" value="1">
-                <span>ALL DAY</span>
-              </label>
-            </div>
-            <section class="schedule-new-time">
-              <input id="schedule-start-time" name="schedule-start-time"
-                placeholder="Start time" type="time">
-                to
-              <input id="schedule-end-time" name="schedule-end-time"
-                placeholder="End time" type="time">
-
-              <button class="btn">
-                <img class="icon-standalone" src="/images/icon-delete.svg" alt="Trash can delete button">
-              </button>
+          <div class="schedule-new-container">
+            <section class="schedule-new">
+              <div class="checkbox-item checkbox-square">
+                <label>
+                  <input id="schedule-all-day" name="schedule-all-day" type="checkbox" value="1">
+                  <span>ALL DAY</span>
+                </label>
+              </div>
+              <div class="schedule-new-time-container">
+                <section class="schedule-new-time">
+                  <input id="schedule-start-time" name="schedule-start-time"
+                    placeholder="Start time" type="time">
+                    to
+                  <input id="schedule-end-time" name="schedule-end-time"
+                    placeholder="End time" type="time">
+    
+                  <button class="btn">
+                    <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+                  </button>
+                </section>
+                <button class="btn-text side-icon">
+                  <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+                  <div>Add Time</div>
+                </button>
+              </div>
             </section>
-            <button class="btn-text side-icon">
-              <img class="icon-standalone" src="/images/icon-plus.svg" alt="plus button">
-              <div>Add Time</div>
-            </button>
-          </section>
-          <br>  
-          <button class="btn-text" type="submit">Done</button>
+            <button class="btn-text" type="submit">Done</button>
+          </div>
         </section>
       </section>
 
