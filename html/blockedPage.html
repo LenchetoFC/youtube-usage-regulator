@@ -1,84 +1,84 @@
-<!-- // Author: Lorenzo Ramirez
-// Purpose: Any restricted page will be changed to this -->
+<!-- 
+  Author: Lorenzo Ramirez
+  Description: Redirection page for when YouTube is trying to be reached
+                when it is currently blocked.
+-->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Blocked</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="This page is blocked for a reason...">
-    <meta name="keywords" content="Blocked, YouTube Usage, Alternate Activities">
-    <meta name="author" content="Lorenzo Ramirez">
-    <link rel="stylesheet" type="text/css" href="/styles/blockedPage.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YT Regulator Blocked Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+          rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
   </head>
 
-  <body>   
-    <!-- Wavy Background -->
-    <section>
-      <div class="header">
-        <!-- <button class="button"><img class="ext-icon" src="/images/restrictTheTubeLogo.png"/></button> -->
-        <button class="button" id="settings-button" aria-label="Settings"><i class="ext-icon"></i></button>
-      </div>
+  <body class="blocked">   
+    <header>
+      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
+    </header>
 
-      <div class="container">
-        <h1 class="reason-msg">This page is blocked for a reason...</h1>
+    <main class="content-wrapper">
+      <h1 id="reason-msg">YouTube is blocked for a reason...</h1>
 
-        <!-- YouTube Usage -->
-        <div class="content">
-          <div class="blocked-info-box">
-            <h2 class="info-header">YouTube Usage</h2>
-            <div class="yt-usage-container">
-              <div class="yt-usage-box">
-                <div class="usage-header">
-                  <img class="clock-icon" src="/images/clock-outline.svg" alt="Outline of clock icon"/>
-                  <h4 class="header-text">All Time</h4>
-                </div>
-                <div class="usage-time" id="usage-all-time">
-                  <p class="time-text"><span id="usage-alltime-hours"></span> Days</p>
-                  <p class="time-text"><span id="usage-alltime-minutes"></span> Hours</p>
-                  <p class="time-text"><span id="usage-alltime-seconds"></span> Minutes</p>
-                </div>
+      <section>
+        <!-- YouTube Usage Stats -->
+        <section class="usage-stats">
+          <h2>YouTube Usage</h2>
+          <!-- All Time Usage Time -->
+          <section>
+            <div class="info-box">
+              <div class="usage-header">
+                <img src="/images/icon-clock-outline.svg" alt="clock icon">
+                <h4>All Time</h4>
               </div>
-  
-              <div class="yt-usage-box">
-                <div class="usage-header">
-                  <img class="clock-icon" src="/images/clock-outline.svg" alt="Outline of clock icon"/>
-                  <h4 class="header-text">Today</h4>
-                </div>
-                <div class="usage-time" id="usage-today">
-                  <p class="time-text"><span id="usage-today-hours"></span> Hours</p>
-                  <p class="time-text"><span id="usage-today-minutes"></span> Minutes</p>
-                  <p class="time-text"><span id="usage-today-seconds"></span> Seconds</p>
-                </div>
+              <div class="usage-time" id="usage-all-time">
+                <p class="time-text"><span id="usage-alltime-hours"></span> Days</p>
+                <p class="time-text"><span id="usage-alltime-minutes"></span> Hours</p>
+                <p class="time-text"><span id="usage-alltime-seconds"></span> Minutes</p>
               </div>
             </div>
-          </div>
-  
-          <!-- Alternate Activities  -->
-          <div class="blocked-info-box">
-            <h2 class="info-header">Alternate Activities</h2>
-            <div id="alternate-activity-container">
-              <div class="usage-header activity activity-placeholder" id="activity-placeholder">
-                Add other activities you'd better spend your time at in the Settings.
-              </div>
-              <div class="usage-header activity" id="activity-0"></div>
-              <div class="usage-header activity" id="activity-1"></div>
-              <div class="usage-header activity" id="activity-2"></div>
-              <div class="usage-header activity" id="activity-3"></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="waves">
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
-        <div class="wave wave4"></div>
-      </div>
-    </section>
+            <!-- Current Day's Usage Time -->
+            <div class="info-box">
+              <div class="usage-header">
+                <img src="/images/icon-clock-outline.svg" alt="clock icon">
+                <h4>Today</h4>
+              </div>
+              <div class="usage-time" id="usage-today">
+                <p class="time-text"><span id="usage-today-hours"></span> Hours</p>
+                <p class="time-text"><span id="usage-today-minutes"></span> Minutes</p>
+                <p class="time-text"><span id="usage-today-seconds"></span> Seconds</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- Displays Alternate Actitivies -->
+        <section class="alt-activities">
+          <h2>Alternative Activities</h2>
+          <section id="alternate-activity-container">
+            <div class="info-box activity activity-placeholder" id="activity-placeholder">
+              Add other activities you'd better spend your time at in the Settings.
+            </div>
+            <div class="info-box activity" id="activity-0"></div>
+            <div class="info-box activity" id="activity-1"></div>
+            <div class="info-box activity" id="activity-2"></div>
+            <div class="info-box activity" id="activity-3"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <!-- //  FOOTER INFO  // -->
+    <footer>
+      <p>© 2024 by Lorenzo Ramirez, Jr.</p>
+    </footer>
 
     <script src="/scripts/blockedPage.js"></script>
-
   </body>
 </html>

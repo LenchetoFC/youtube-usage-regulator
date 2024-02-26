@@ -28,8 +28,8 @@ fetch('/settings/settings.json')
 
       // Create an img element for the activity icon
       let activityIcon = document.createElement('img');
-      activityIcon.className = "clock-icon"; // Set the class name
-      activityIcon.src = "/images/activity-" + index + ".svg"; // Set the source
+      // activityIcon.className = "clock-icon"; // Set the class name
+      activityIcon.src = "/images/icon-activity-" + index + ".svg"; // Set the source
       activityIcon.alt = "icon of activity number"  + (index + 1); // Set the alt text
 
       // Create a p element for the activity text

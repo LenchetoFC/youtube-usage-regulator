@@ -1,3 +1,9 @@
+/* 
+  Author: Lorenzo Ramirez
+  Description: Contains all the stylings for ALL HTML files for
+                YouTube Algorithm Regulator extension.
+*/
+
 /* COLOR PALETTE */
 :root {
   --bg-white: #fff;
@@ -10,6 +16,7 @@
   --call-to-action: #ad0606;
   --call-to-action-2: #067c1a;
   --call-to-action-3: #123e9d;
+  --wave-color: #598dff;
 }
 
 /* GLOBAL STYLES 
@@ -33,7 +40,7 @@ body {
   color: var(--text-black);
 }
 
-h1, h2, h3, h4, p {
+h1, h2, h3, h4 {
   font-family: 'Fredoka', cursive;
   font-weight: 400;
   margin: 0;
@@ -261,6 +268,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 /* Footer */
 footer {
   display: flex;
+  align-items: center;
   width: 100%;
   position: fixed;
   z-index: 1;
@@ -276,13 +284,6 @@ footer p {
 
 /* POPUP
 -------------------------- */
- /* :root {
-  --primary-color: #DCDCE1;
-  --secondary-black: #43494A;
-  --color-to-action-color: #637FCC;
-  --body-white: #FCFCFC
-} */
-
 .html-popup {
   width: 350px;
   height: 400px;
@@ -322,7 +323,7 @@ footer p {
 }
 
 /* YouTube Usage Counters */
-.usage-time {
+.usage-section .usage-time {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -358,266 +359,115 @@ footer p {
  }
 }
 
-/* Popup Header Animations */
-@keyframes spin {
-  0% {
-    rotate: 1deg;
-  }
-
-  100% {
-    rotate: 720deg;
-  }
-}
-
-@keyframes ring {
-  0% {
-    rotate: 1deg;
-    transform: translateY(0px);
-  }
-
-  10% {
-    rotate: 5deg;
-  }
-
-  20% {
-    rotate: 10deg;
-  }
-
-  40% {
-    rotate: 5deg;
-  }
-
-  50% {
-    rotate: 1deg;
-  }
-
-  60% {
-    rotate: -5deg;
-  }
-
-  70% {
-    rotate: -10deg;
-  }
-  
-  80% {
-    rotate: -5deg;
-  }
-
-  100% {
-    rotate: 1deg;
-    transform: translateY(-1px);
-  }
-}
 
 
 /* BLOCKED SCREEN
 -------------------------- */
-/* :root {
-  --primary-color: #dcdce1;
-  --secondary-black: #43494a;
-  --color-to-action-color: #72bdf4;
-  --info-header: #505050;
-}
-
-* {
-  font-family: inter;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-section {
-  background: linear-gradient(
-    var(--secondary-black),
-    var(--color-to-action-color)
-  );
+.blocked {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: space-between;
-  overflow: hidden;
-  width: 100%;
-}
+  height: 100%;
+  background-color: var(--wave-color);
 
-.header {
+  > footer {
+    position: relative;
+    height: 50px;
+  }
+}
+.blocked header {
   display: flex;
-  height: 5%;
+  background-color: var(--bg-white-accent);
   width: 100%;
+  padding: 10px;
+  border-bottom: var(--secondary-black) 2px solid;
+
+  & img {
+    width: 64px;
+  }
 }
 
-.button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.ext-icon {
-  background-image: url(/images/restrictTheTubeLogo.png);
-  background-size: cover;
-  display: inline-block;
-  height: 28px;
-  padding: 5px;
-  width: 28px;
-}
-
-.container {
-  align-items: center;
-  color: var(--primary-color);
+/* Main Content */
+.blocked .content-wrapper {
   display: flex;
   flex-direction: column;
-}
-
-.reason-msg {
-  font-size: 30px;
-  font-weight: 600;
-  text-align: center;
-  text-shadow: 0 0 3px var(--secondary-black);
-}
-
-.content {
-  align-items: flex-start;
-  display: flex;
-  gap: 5em;
-  justify-content: center;
-  width: 100%;
-}
-
-.blocked-info-box {
   align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 5%;
-  justify-content: center;
+  margin-bottom: 200px;
+  gap: 50px;
+
+  > section {
+    display: flex;
+    gap: 25px;
+  };
+
+  & p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 2rem;
+    font-family: 'Fredoka', cursive;
+  }
+  & h1, h2 {
+    text-align: center;
+    color: var(--bg-white-accent);
+  }
 }
 
-.info-header {
-  color: var(--primary-color);
-  font-weight: 500;
+/* Usage Stats */
+.usage-stats {
+  > h2 {
+    text-align: center;
+  }
+  > section {
+    display: flex;
+    margin-top: 25px;
+    gap: 15px;
+  }
+}
+.info-box {
+  width: 150px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-white-accent);
+  box-shadow: 0 2px 4px var(--text-grey-accent);
+
+  & img {
+    width: 32px;
+  }
+  > .usage-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  > .usage-time {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    row-gap: 5px;
+  }
 }
 
-.yt-usage-container {
-  display: flex;
-  gap: 2em;
+/* Alternate Activities */
+.alt-activities {
+  > h2 {
+    text-align: center;
+  }
+  > section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    gap: 15px;
+  }
 }
-
-.yt-usage-box {
-  background-color: var(--primary-color);
-  border-radius: 12px;
-  box-shadow: 0 0 3px var(--secondary-black);
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  width: 8em;
-}
-
-.usage-header {
-  align-items: center;
-  color: var(--secondary-black);
-  display: flex;
-}
-
-.usage-time {
-  color: var(--secondary-black);
-  margin-left: 10px;
-}
-
-.clock-icon {
-  height: 24px;
-  padding: 5px;
-  width: 24px;
-}
-
-.header-text,
-.time-text {
-  font-weight: 500;
-  margin: 0;
-}
-
-.time-text {
-  color: var(--secondary-black);
-  margin-bottom: 5px;
-}
-
 .activity {
   display: none;
-  background-color: var(--primary-color);
-  border-radius: 12px;
-  box-shadow: 0 0 3px var(--secondary-black);
-  padding: 1px 5px;
-  margin-bottom: 7px;
+  width: 100%;
 }
-
 .activity-placeholder {
   display: none;
 }
-
-.waves,
-.wave {
-  bottom: 0;
-  height: 20vh;
-  left: 0;
-  width: 100%;
-}
-
-.wave {
-  background: url(/images/waveBackground.png);
-  background-size: 100vw 20vh;
-  position: absolute;
-}
-
-.wave1 {
-  animation: forward-animate 20s linear infinite;
-  animation-delay: 0s;
-  opacity: 0.9;
-  z-index: 15;
-}
-
-.wave2 {
-  animation: backward-animate 15s linear infinite;
-  animation-delay: -5s;
-  opacity: 0.7;
-  z-index: 10;
-}
-
-.wave3 {
-  animation: forward-animate 10s linear infinite;
-  animation-delay: -2s;
-  opacity: 0.4;
-  z-index: 5;
-}
-
-.wave4 {
-  animation: backward-animate 5s linear infinite;
-  animation-delay: -5s;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-@keyframes forward-animate {
-  0% {
-    background-position-x: 0;
-  }
-  100% {
-    background-position-x: 100vw;
-  }
-}
-
-@keyframes backward-animate {
-  0% {
-    background-position-x: 0;
-  }
-  100% {
-    background-position-x: -100vw;
-  }
-}
-
-@font-face {
-  font-family: "inter";
-  src: url(/styles/Inter/Inter-VariableFont_slnt\,wght.ttf);
-} */
 
 
 
@@ -714,10 +564,6 @@ input[type=text] {
   letter-spacing: 0.1em;
 }
 
-/* Reset All Time Usage
--------------------------- */
-
-
 /* Schedule YouTube Restrictions
 -------------------------- */
 .schedule-grid {
@@ -793,6 +639,7 @@ input[type=text] {
 }
 
 
+
 /* RESPONSIVENESS
 ---------------------- */
 @media screen and (max-width: 630px) {
@@ -833,5 +680,62 @@ input[type=text] {
 @media screen and (max-width: 630px) {
   .addictive-form {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blocked .content-wrapper > section {
+    flex-direction: column;
+  }
+}
+
+/* Animations 
+---------------------- */
+@keyframes spin {
+  0% {
+    rotate: 1deg;
+  }
+
+  100% {
+    rotate: 720deg;
+  }
+}
+@keyframes ring {
+  0% {
+    rotate: 1deg;
+    transform: translateY(0px);
+  }
+
+  10% {
+    rotate: 5deg;
+  }
+
+  20% {
+    rotate: 10deg;
+  }
+
+  40% {
+    rotate: 5deg;
+  }
+
+  50% {
+    rotate: 1deg;
+  }
+
+  60% {
+    rotate: -5deg;
+  }
+
+  70% {
+    rotate: -10deg;
+  }
+  
+  80% {
+    rotate: -5deg;
+  }
+
+  100% {
+    rotate: 1deg;
+    transform: translateY(-1px);
   }
 }
