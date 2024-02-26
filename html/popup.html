@@ -4,84 +4,78 @@
 -->
 
 <!DOCTYPE html>
-<html>
+<html class="html-popup" lang="en">
   <head>
-    <title>YouTube Algorithm Regulator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/styles/popup.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YT Regulator Popup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+          rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
   </head>
 
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <div id="header">
-        <img id="ext-icon" src="/images/icon-logo-ext.png"/>
+  <body class="popup">
+    <!-- Popup Header with logo and settings buttons -->
+    <header>
+      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
 
-        <div id="header-buttons">
-          <!-- <button class="button">
-            <i class="fa-solid fa-clock default-icon"></i>
-          </button>  -->
-          <button class="button" id="schedule-button"><i class="default-icon schedule-icon"></i></button>
-          <button class="button" id="settings-button"><i class="default-icon settings-icon"></i></button>
+      <div id="header-buttons">
+        <a href="settings-schedule.html">
+          <img class="schedule-icon" src="/images/icon-stopwatch-solid.svg" alt="stopwatch schedule button">
+        </a>
 
-          <!-- <button class="button settings-button"> -->
-            <!-- <i class="fa-solid fa-gear default-icon settings-animation"></i> -->
-          <!-- </button> -->
-        </div>
+        <a href="settings-general.html">
+          <img class="gear-icon" src="/images/icon-settings.svg" alt="settings gear button">
+        </a>
       </div>
-  
-      <!-- Content -->
-      <div id="info-container">
-        <div class="info-box">
-          <div class="box-content">
-            <h2 class="content-title">YouTube Usage</h2>
-            <div class="content">
-              <div class="usage-time">
-                <div style="display: flex; align-items: center;">
-                  <i class="default-icon clock-icon"></i>
-                  <p class="content-items">Today</p>
-                </div>
-                <p class="content-items" id="usageToday"></p>
-              </div>
-              <div class="usage-time">
-                <div style="display: flex; align-items: center;">
-                  <i class="default-icon clock-icon"></i>
-                  <p class="content-items">All Time</p>
-                </div>
-                <p class="content-items" id="usageOfAllTime"></p>
-              </div>
-            </div>
-          </div>
-        </div> 
-  
-        <div class="info-box">
-          <div class="box-content num-of-free-videos">
-            <h2 id="free-video-count">3</h2>
-            <h2 class="content-title">Free Videos Remaining</h2>
-          </div>
-        </div> 
+    </header>
 
-        <div class="info-box">
-          <div class="box-content">
-            <h2 class="content-title">YouTube Timer</h2>
-            <div class="content">
-              <div id="timer-box">
-                <div id="timer-display">
-                  <input type="time" id="timer" name="timer" />
-                  <button class="button" id="play-button"><i class="default-icon play-icon"></i></button>
-                </div>
-                <div id="disable-YT-box">
-                  <input type="checkbox" id="disable-YT" name="disable-YT" />
-                  <label for="disable-YT" id="disable-YT-label">Disable YouTube When Timer Ends</label>
-                </div>
-              </div>
+    <main class="content-wrapper">
+      <!-- YouTube Usage -->
+      <section class="popup-section">
+        <h4>YouTube Usage</h4>
+        <section class="usage-section">
+          <!-- Displays the current day's usage time -->
+          <section class="usage-time">
+            <div>
+              <img src="/images/icon-clock.svg" alt="clock icon">
+              <p>Today</p>
             </div>
+            <p id="usageToday"></p>
+          </section>
+
+          <!-- Displays total usage time -->
+          <section class="usage-time">
+            <div>
+              <img src="/images/icon-clock.svg" alt="clock icon">
+              <p>All Time</p>
+            </div>
+            <p id="usageOfAllTime"></p>
+          </section>
+        </section>
+      </section> 
+
+      <!-- Free Video Counter -->
+      <section class="popup-section free-videos">
+        <h1 id="free-video-count">3</h1>
+        <h4>Free Videos Remaining</h4>
+      </section> 
+
+      <!-- Button to Disable YouTube Entirely -->
+      <section class="popup-section">
+        <form class="checkbox-form">
+          <div class="checkbox-item">
+            <label>
+              <input id="popup-disable-YT" name="popup-disable-YT" type="checkbox" value="popup-disable-YT">
+              <span for="popup-disable-YT">Disable YouTube Site</span>
+            </label>
           </div>
-        </div>
-      </div>
-    </div>
+        </form>
+      </section>
+    </main>
 
     <script src="/scripts/popup.js"></script>
-    
   </body>
 </html>
