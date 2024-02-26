@@ -1,31 +1,52 @@
-<!-- // Author: Lorenzo Ramirez
-// Purpose: Any restricted page will be changed to this -->
+<!-- 
+  Author: Lorenzo Ramirez
+  Description: Popup UI to ask if the current YT video will
+                count toward the daily free videos
+-->
 
 <!DOCTYPE html>
-<html>
+<html class="html-popup question" lang="en">
   <head>
-    <title>Regulating YouTube</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/styles/loadingPage.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YT Regulator Popup Free Video Question</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+          rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
   </head>
 
-  <body>   
-    <section>
-      <div class="header">
-        <img class="ext-icon" src="/images/restrictTheTubeLogo.png"/>
+  <body class="popup">
+    <!-- Header with logo -->
+    <header>
+      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
       </div>
-      
-      <div class="loading-msg-container">
-        <h1 class="loading-msg">Regulating the predatory nature of the YouTube algorithm...</h1>
-        <img class="loading-gif" src="/images/loading-icon-200px.svg"></img>
-      </div>
+    </header>
 
-      <div class="waves">
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
-        <div class="wave wave4"></div>
-      </div>
-    </section>
+    <main class="content-wrapper-question">
+      <!-- Free Videos Remaining -->
+      <section class="popup-section free-videos">
+        <h1 id="free-video-count">3</h1>
+        <h4>Free Videos Remaining</h4>
+      </section> 
+
+      <!-- Is The Current Video Counted Question -->
+      <section class="popup-section">
+        <h4>Are you counting this as a free video?</h4>
+      </section>
+
+      <!-- Buttons To Answer Above Question -->
+      <section class="popup-section free-video-question">
+        <button class="btn-text btn-yes">
+          <div>Yes</div>
+        </button>
+        <button class="btn-text btn-no">
+          <div>No</div>
+        </button>
+      </section>
+    </main>
+
+    <script src="/scripts/popup.js"></script>
   </body>
 </html>

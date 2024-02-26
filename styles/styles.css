@@ -9,14 +9,14 @@
   --bg-white: #fff;
   --bg-white-accent: #FAFAFA;
   --bg-grey: #e1e1e1;
+  --bg-light-blue: #63a0cc;
   --text-black: #3D3D3D;
   --text-grey-accent: #a4a4a4;
   --secondary-black: #43494A;
   --body-white: #FCFCFC;
-  --call-to-action: #ad0606;
+  --call-to-action: #d33030;
   --call-to-action-2: #067c1a;
   --call-to-action-3: #123e9d;
-  --wave-color: #598dff;
 }
 
 /* GLOBAL STYLES 
@@ -40,7 +40,7 @@ body {
   color: var(--text-black);
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-family: 'Fredoka', cursive;
   font-weight: 400;
   margin: 0;
@@ -63,6 +63,7 @@ h4 {
   font-size: 2rem;
   font-weight: 600;
 }
+
 
 /* Nav Sidebar */
 nav {
@@ -286,7 +287,7 @@ footer p {
 -------------------------- */
 .html-popup {
   width: 350px;
-  height: 400px;
+  height: 400px; 
 }
 .popup .content-wrapper {
   margin: 0 30px;
@@ -359,6 +360,43 @@ footer p {
  }
 }
 
+/* Free Video Question Popup */
+.question {
+  height: 280px
+}
+.content-wrapper-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+
+
+  > section {
+   margin: 10px 0; 
+  }
+
+  & h4 {
+    text-align: center;
+  }
+}
+.free-video-question {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+  & button {
+    width: 100px;
+    height: 50px;
+  }
+
+  > .btn-yes {
+    background-color: var(--bg-light-blue);
+  }
+  > .btn-no {
+    background-color: var(--call-to-action);
+  }
+}
+
 
 
 /* BLOCKED SCREEN
@@ -368,7 +406,7 @@ footer p {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  background-color: var(--wave-color);
+  background-color: var(--bg-light-blue);
 
   > footer {
     position: relative;
