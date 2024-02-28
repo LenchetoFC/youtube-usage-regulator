@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Regulator: Limit addicting aspects of YouTube",
-  "version": "1.0.0",
+  "version": "0.1",
   "description": "YouTube Regulator removes parts of YouTube that feeds content addiction to help the user use YouTube more reasonably",
   "icons": {
     "16": "/images/icon-logo-ext.png",
