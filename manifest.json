@@ -34,7 +34,8 @@
     {
       "js": [
         "/scripts/content.js",
-        "/scripts/blockedPage.js"
+        "/scripts/blockedPage.js",
+        "/scripts/settings.js"
       ],
       "matches": [
         "*://www.youtube.com/*"

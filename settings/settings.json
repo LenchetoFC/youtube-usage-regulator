@@ -1,77 +1,76 @@
 {
-  "removableContent": [
-    {"name": "recommendedVideos", "checked": false},
-    {"name": "homeButton", "checked": false},
-    {"name": "searchBar", "checked": false},
-    {"name": "leftSideMenu", "checked": false},
-    {"name": "autoPlayButton", "checked": false},
-    {"name": "nextVideoButton", "checked": false},
-    {"name": "homePage", "checked": false},
-    {"name": "shortsPage", "checked": false},
-    {"name": "entireYouTube", "checked": false}
-  ],
   "currentDate": "yyyy-mm-dd",
   "lastLoadedDate": "yyyy-mm-dd",
   "installedDate": "yyyy-mm-dd",
-  "timer": 0,
   "usageOfAllTime": 0,
   "usageToday": 0,
-  "usageTimerDisableYT": false,
-  "blockedKeywords": [
-
+  "freeVideoRemaining": 0,
+  "removableContent": [
+    {"name": "youtubeSite", "enabled": false},
+    {"name": "homePage", "enabled": false},
+    {"name": "shortsPage", "enabled": false},
+    {"name": "homeButton", "enabled": false},
+    {"name": "autoPlayButton", "enabled": false},
+    {"name": "nextVideoButton", "enabled": false},
+    {"name": "recommendedVideos", "enabled": false},
+    {"name": "leftSideMenu", "enabled": false},
+    {"name": "searchBar", "enabled": false}
   ],
   "alternateActivities": [
     "Coding your personal projects",
     "Taking a nice stroll outside"
   ],
-  "scheduleBlockTime": [
+  "setSchedules": [
     {
       "day": "sunday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {
+          "intervalOne": ["00:00", "00:00"]
+        }
+      ]
     },
     {
       "day": "monday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     },
     {
       "day": "tuesday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     },
     {
       "day": "wednesday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     },
     {
       "day": "thursday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     },
     {
       "day": "friday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     },
     {
       "day": "saturday",
-      "numOfIntervals": 0,
-      "startTime": "00:00",
-      "endTime": "00:00",
-      "enabled": false
+      "enabled": false,
+      "intervals": [
+        {}
+      ]
     }
-  ]}
+  ]
+}
