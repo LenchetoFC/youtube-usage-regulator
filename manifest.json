@@ -42,6 +42,6 @@
       ],
       "runAt": "document_end"
     }
-
-  ]
+  ],
+  "web_accessible_resources": ["/html/blocked-page.html"]
 }

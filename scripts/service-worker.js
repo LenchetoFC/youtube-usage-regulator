@@ -1,15 +1,22 @@
 // chrome.action.setBadgeText({text: 'ON'});
 
-// chrome.runtime.onMessage.addListener(
-//   function(request, sender, sendResponse) {
-//     console.log(sender.tab ?
-//                 "from a content script:" + sender.tab.url :
-//                 "from the extension");
-//     if (request.greeting === "hello")
-//       sendResponse({farewell: "goodbye"});
-//   }
-// );
+// Listens for request to get chrome storage
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  // Get data from storage
+  chrome.storage.sync.get([request.key], function(result) {
+    // Send a response back to the content script
+    sendResponse({data: result[request.key]});
+  });
 
-// chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//   chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"});
-// });
+  return true;
+});
+
+// Updates the current web page with HTML file
+// Request from content script 
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.redirect) {
+    chrome.tabs.update(sender.tab.id, {url: chrome.runtime.getURL(request.redirect)});
+    sendResponse({status: "success"});
+  }
+  return true;
+});

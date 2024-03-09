@@ -1,43 +1,47 @@
-// TODO: Save element removal choice to settings file
 // TODO: Creating alternate activities
 // TODO: Deleting alternate activities
 // TODO: Reset all time usage
 // TODO: Creating new schedules
 // TODO: Displays current schedules
 // TODO: Deleting schedules
-// TODO: Show appropriate settings choice on load
-
-//LINK - 
 
 // GETTER
-export const getSettings = (key) => {
-  return localStorage.getItem(key);
+const getSettings = (key, callback) => {
+  chrome.storage.sync.get([key], function(result) {
+    callback(result[key]);
+  });
 }
 
 // SETTER
 const changeSetting = (key, value) => {
   console.log(value);
-  localStorage.setItem(key, value)
-  console.log(`SETTINGS CHANGED: ${key} setting was changed to ${value}`);
-
-  getSettings(key);
+  let save = {};
+  save[key] = value;
+  chrome.storage.sync.set(save, function() {
+    console.log(`SETTINGS CHANGED: ${key} setting was changed to ${value}`);
+    getSettings(key, function(result) {
+      console.log(result);
+    });
+  });
 }
-
 
 // Add event listeners to all form elements for settings edits
 // Checks the buttons that are enabled
 const addictiveForm = document.querySelectorAll("form input");
 addictiveForm.forEach((element) => {
-  if (getSettings(element.name) === "true") {
-    element.checked = true;
-  } else {
-    element.checked = false;
-  }
+  getSettings(element.name, function(result) {
+    if (result === "true") {
+      element.checked = true;
+    } else {
+      element.checked = false;
+    }
 
-  element.addEventListener("click", (event) => {
-    changeSetting(element.name, element.checked);
-  })
+    element.addEventListener("click", (event) => {
+      changeSetting(element.name, element.checked.toString());
+    });
+  });
 });
 
-// Stringify for local storage setter
-// JSON.stringify(object);
+
+// to access storage from console, run this command
+// chrome.storage.local.get(function(result) { console.log(result) });

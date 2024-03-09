@@ -43,7 +43,6 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ## To-Do
 
-- [ ] Revise current version of how YouTube elements are removed
 - [ ] Tracking and display user's usage time
 - [ ] Handle free video tokenization
 - [ ] Creating alternate activities
@@ -52,6 +51,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [ ] Creating new schedules
 - [ ] Displays current schedules
 - [ ] Deleting schedules
+- [x] Revise current version of how YouTube elements are removed
 - [x] Extension Popup UI
 - [x] General Settings UI
 - [x] Schedule Settings UI
