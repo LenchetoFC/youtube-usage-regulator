@@ -45,15 +45,17 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Alternate Activities
 
-- [ ] Create alternate activities
-- [ ] Delete alternate activities
-- [ ] Display alternate activities on blocked page
+- [x] Create activities
+- [x] Delete activities
+- [x] Display activities on settings page
+- [x] Responsive design based on deleting and adding
+- [ ] Display activities on blocked page
 
 ### Time Usage
 
 - [ ] Track and storage user's usage time
 - [ ] Display user's usage time within popup
-- [ ] Reset all time usage
+- [x] Reset all time usage
 
 ### Scheduling
 
