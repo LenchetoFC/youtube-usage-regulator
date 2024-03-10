@@ -1,10 +1,9 @@
-// Author: Lorenzo Ramirez
-// Date Created: 2023-09-06
-// Purpose: This script is injected into the YouTube page and removes elements from the page
-
-// TODO: Tracking and display user's usage time
-// TODO: Handle free video tokenization
-
+/**
+ * Author: Lorenzo Ramirez
+ * Purpose: This script is injected into the YouTube page 
+ *  and removes elements from the page
+ * 
+ */
 
 // Removes all elements with the given class name
 function removeClassElement(className, elementName){
@@ -44,8 +43,8 @@ const retrieveSettings = (settingTitle) => {
 }
 
 // HTML of blockedPage.html takes over current web page
-const updateHTML = () => {
-  chrome.runtime.sendMessage({redirect: "/html/blocked-page.html"}, function(response) {
+const updateHTML = (htmlPage) => {
+  chrome.runtime.sendMessage({redirect: htmlPage}, function(response) {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError.message);
     } else {
@@ -70,25 +69,23 @@ setTimeout(() => {
     if (returnValue === "true") {
       switch (settingTitle.key) {
         case 'youtubeSite':
-          if (window.location.href.startsWith('https://www.youtube.com/results?search_query=') 
-          || window.location.href === 'https://www.youtube.com/' 
-          || window.location.href.startsWith('https://www.youtube.com/shorts/') ) {
+          if (window.location.href.startsWith('https://www.youtube.com/') ) {
             console.log("blocks entire site");
-            updateHTML();
+            updateHTML("/html/blocked-page.html");
           } 
         break;
 
         case 'homePage':
           if (window.location.href === 'https://www.youtube.com/') {
             console.log("blocks home page");
-            updateHTML();
+            updateHTML("/html/blocked-page.html");
           } 
           break;
 
         case 'shortsPage':
           if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
             console.log("blocks shorts page");
-            updateHTML();
+            updateHTML("/html/blocked-page.html");
           } 
           break;
 

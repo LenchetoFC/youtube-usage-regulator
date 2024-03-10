@@ -43,14 +43,31 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ## To-Do
 
-- [ ] Tracking and display user's usage time
-- [ ] Handle free video tokenization
-- [ ] Creating alternate activities
-- [ ] Deleting alternate activities
+### Alternate Activities
+
+- [ ] Create alternate activities
+- [ ] Delete alternate activities
+- [ ] Display alternate activities on blocked page
+
+### Time Usage
+
+- [ ] Track and storage user's usage time
+- [ ] Display user's usage time within popup
 - [ ] Reset all time usage
-- [ ] Creating new schedules
-- [ ] Displays current schedules
-- [ ] Deleting schedules
+
+### Scheduling
+
+- [ ] Create new schedules
+- [ ] Delete schedules
+- [ ] Display current schedules
+
+### Other
+
+- [ ] Handle free video tokenization
+- [ ] Redesign Blocked Page
+
+### Completed
+
 - [x] Revise current version of how YouTube elements are removed
 - [x] Extension Popup UI
 - [x] General Settings UI

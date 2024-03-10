@@ -34,7 +34,6 @@
     {
       "js": [
         "/scripts/content.js",
-        "/scripts/blockedPage.js",
         "/scripts/settings.js"
       ],
       "matches": [
@@ -43,5 +42,10 @@
       "runAt": "document_end"
     }
   ],
-  "web_accessible_resources": ["/html/blocked-page.html"]
+  "web_accessible_resources": [
+    {
+      "resources": ["/html/blocked-page.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

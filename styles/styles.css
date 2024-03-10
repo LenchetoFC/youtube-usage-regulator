@@ -192,18 +192,21 @@ button:active {
   color: var(--bg-white);
   text-transform: uppercase;
   font-size: 1.5rem;
+  /* transition: none; */
   letter-spacing: 0.1em;
 }
 .side-icon {
   padding: 6px 20px;
   background-color: var(--call-to-action-3);
-  & img {
+  &
+  img {
     width: 24px;
   }
-  & div {
+  &
+  div {
     color: var(--body-white);
-    margin: 0 10px;
-    font-size: 1.35rem;
+  margin: 0 10px;
+  font-size: 1.35rem;
   }
 }
 .delete-btn {
@@ -214,6 +217,7 @@ button:active {
 .tooltip {
   display: flex;
   position: relative;
+  width: fit-content;
 }
 .tooltip span {
   visibility: hidden;
@@ -547,6 +551,14 @@ footer p {
 .activity-placeholder {
   display: none;
 }
+#input-container {
+  position: absolute;
+  visibility: hidden;
+}
+#activity-btn > button {
+  transition: none;
+  margin: 0;
+}
 
 /* SETTINGS
 -------------------------- */
@@ -605,8 +617,22 @@ footer p {
 }
 
 /* Alternate Activities */
-ol {
+#activity-section {
+  margin: 5px 0;
   padding: 0 25px;
+  list-style-type: none;
+  >
+  li {
+    padding: 0 0 12px;
+  border-bottom: 2px solid var(--text-grey-accent);
+
+    >
+  div {
+      font-size: 2rem;
+    }
+  }
+}
+ol {
   list-style: none;
 }
 li {
@@ -616,11 +642,15 @@ li .activity-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 400px;
+  /* width: 400px; */
   border: 2px solid transparent;
   border-radius: 8px;
   font-size: 1.75rem;
   transition: 0.75s;
+}
+.activity-input {
+  margin-bottom: 0 !important;
+  border-bottom: none !important;
 }
 
 input[type="text"] {

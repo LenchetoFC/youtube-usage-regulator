@@ -115,40 +115,30 @@
             <h2>Alternate Activities</h2>
             <img src="/images/icon-info-circles.svg" alt="info circle">
             <span>
-              To remind you what better activities you could be doing.
-              They are shown on the blocked webpage and below.
+              These are shown on the blocked webpage.
             </span>
           </div>
           <h3>
             Suggest activities that you could be doing instead of wasting time watching 
             YouTube
           </h3>
-          
-          <ol>
-            <li>
-              <div class="activity-item">
-                Coding your personal projects
-                <button>
-                  <img class="icon-delete" src="/images/icon-delete.svg" alt="X delete button">
-                </button>
-              </div>
-            </li>
-            <li>
-              <div>
-                <input class="activity-input" type="text" size="32" maxlength="30"
-                  id="alternative-activity-input" name="alternative-activity-input"
-                  placeholder="Write alternate activity">
-              </div>
-            </li>
-            <li>
-              <div>
-                <button class="btn-text side-icon">
-                 <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
-                 <div>Add Activity</div>
-                </button>
-              </div>
-            </li>
-          </ol>
+
+          <ul id="activity-section">
+            <!-- Where activities from storage are automatically inputted -->
+          </ul>
+          <div id="input-btn-box">
+            <div id="input-container">
+              <input class="activity-input" type="text" size="32" maxlength="30"
+                id="activity-input" name="activity-input" value=""
+                placeholder="Write alternate activity">
+            </div>
+            <div id="activity-btn">
+              <button class="btn-text side-icon">
+               <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+               <div>Add Activity</div>
+              </button>
+            </div>
+          </div>
         </section>
   
         <!-- Reset All Time Usage -->
