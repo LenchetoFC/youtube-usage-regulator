@@ -8,6 +8,9 @@
 /**
  * @codeblock SETTINGS STORAGE
  */
+
+//TODO: create all settings if they don't already exist
+
 /**
  * Retrieve settings from storage.
  * 
@@ -45,7 +48,7 @@ const setSetting = (key, value) => {
 }
 
 /**
- * Removes a specific setting from storage and logs any error that occurs.
+ * Completely removes a specific setting from storage and logs any error that occurs.
  * 
  * @param {string} key - The key of the setting to remove.
  * 
@@ -53,14 +56,14 @@ const setSetting = (key, value) => {
  * 
  * @example removeSetting('myKey');
  */
-const removeSetting = (key) => {
-  chrome.storage.sync.remove([key], () => {
-    let error = chrome.runtime.lastError;
-    if (error) {
-      console.log(error);
-    }
-  });
-}
+// const removeSetting = (key) => {
+//   chrome.storage.sync.remove([key], () => {
+//     let error = chrome.runtime.lastError;
+//     if (error) {
+//       console.log(error);
+//     }
+//   });
+// }
 
 /**
  * to access storage from console, run this command...
@@ -286,8 +289,11 @@ showButton.observe(document, { childList: true, subtree: true });
 /**
  * TIME USAGE
  */
-
-
+let resetUsageBtn = document.getElementById("reset-usage");
+resetUsageBtn.addEventListener("click", () => {
+  setSetting("all-time-usage", 0);
+  console.log("User's all time usage reset to 0");
+})
 
 /**
  * SCHEDULING
