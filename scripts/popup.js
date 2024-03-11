@@ -9,34 +9,43 @@
  * 
  */
 
-const addictiveForm = document.querySelectorAll("form input");
-// addictiveForm.forEach((element) => {
-//   getSettings(element.name, (result) => {
-//     // Visually displays the status of the setting
-//     if (result === "true") {
-//       element.checked = true;
-//     } else {
-//       element.checked = false;
-//     }
+// All settings to get and display on standard popup
+let settingsToGet = ["youtubeSite", "all-time-usage", "today-usage", "free-video-count"];
 
-//     // Updates settings for whichever button is pushed
-//     element.addEventListener("click", (event) => {
-//       setSetting(element.name, element.checked.toString());
-//     });
-//   });
-// });
+/**
+ * Checks settings for disable youtube setting value
+ * Visually show if setting is enabled or not
+ * Adds event listener to button to change setting's value
+ */
+settingsToGet.forEach((settingName) => {
+  getSettings(settingName, (result) => {
+    switch (settingName) {
+      case ("youtubeSite"):
+        let youTubeSetting = document.querySelectorAll("form input")[0];
 
-let youTubeSetting = addictiveForm[0];
-getSettings(youTubeSetting.id, (result) => {
-  // Visually displays the status of the setting
-  if (result === "true") {
-    youTubeSetting.checked = true;
-  } else {
-    youTubeSetting.checked = false;
-  }
+        // Visually displays the status of the setting
+        if (result === "true") {
+          youTubeSetting.checked = true;
+        } else {
+          youTubeSetting.checked = false;
+        }
+    
+        // Updates settings for whichever button is pushed
+        youTubeSetting.addEventListener("click", (event) => {
+          setSetting(youTubeSetting.name, youTubeSetting.checked.toString());
+        });
 
-  // Updates settings for whichever button is pushed
-  youTubeSetting.addEventListener("click", (event) => {
-    setSetting(youTubeSetting.name, youTubeSetting.checked.toString());
-  });
+      case ("all-time-usage"):
+        let allTimeHTML = document.getElementById(settingName);
+        allTimeHTML.innerHTML = result;
+
+      case ("today-usage"):
+        let todayTimeHTML = document.getElementById(settingName);
+        todayTimeHTML.innerHTML = result;
+
+      case ("free-video-count"):
+        let freeVideoHTML = document.getElementById(settingName);
+        freeVideoHTML.innerHTML = result;
+    }
+  })
 });
