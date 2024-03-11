@@ -11,41 +11,41 @@
 
 //TODO: create all settings if they don't already exist
 
-/**
- * Retrieve settings from storage.
- * 
- * @param {string} key - The key of the setting to retrieve.
- * @param {Function} callback - The function to call with the retrieved value.
- * 
- * @returns {void} This function does not return anything. It calls the callback with the retrieved value.
- * 
- * @example getSettings('myKey', function(value) { console.log(value); });
- */
-const getSettings = (key, callback) => {
-  chrome.storage.sync.get([key], (result) => {
-    callback(result[key]);
-  });
-}
+// /**
+//  * Retrieve settings from storage.
+//  * 
+//  * @param {string} key - The key of the setting to retrieve.
+//  * @param {Function} callback - The function to call with the retrieved value.
+//  * 
+//  * @returns {void} This function does not return anything. It calls the callback with the retrieved value.
+//  * 
+//  * @example getSettings('myKey', function(value) { console.log(value); });
+//  */
+// window.getSettings = (key, callback) => {
+//   chrome.storage.sync.get([key], (result) => {
+//     callback(result[key]);
+//   });
+// }
 
-/**
- * Sets a specific setting in storage and logs the change.
- * 
- * @param {string} key - The key of the setting to set.
- * @param {any} value - The value to set for the given key.
- * 
- * @returns {void} This function does not return anything. It sets a value in storage and logs the change.
- * 
- * @example setSetting('myKey', 'true');
- */
-const setSetting = (key, value) => {
-  let save = {};
-  save[key] = value;
-  chrome.storage.sync.set(save, function() {
-    getSettings(key, (result) => {
-      console.log(`SETTINGS CHANGED: ${key} setting was changed to ${result}`);
-    });
-  });
-}
+// /**
+//  * Sets a specific setting in storage and logs the change.
+//  * 
+//  * @param {string} key - The key of the setting to set.
+//  * @param {any} value - The value to set for the given key.
+//  * 
+//  * @returns {void} This function does not return anything. It sets a value in storage and logs the change.
+//  * 
+//  * @example setSetting('myKey', 'true');
+//  */
+// window.setSetting = (key, value) => {
+//   let save = {};
+//   save[key] = value;
+//   chrome.storage.sync.set(save, function() {
+//     getSettings(key, (result) => {
+//       console.log(`SETTINGS CHANGED: ${key} setting was changed to ${result}`);
+//     });
+//   });
+// }
 
 /**
  * Completely removes a specific setting from storage and logs any error that occurs.
@@ -73,9 +73,27 @@ const setSetting = (key, value) => {
 
 /**
  * CHECKBOX FUNCTIONALITIES
+ * This block of code gets all form checkbox inputs, adds listeners to them, and changes their visuals based on the stored settings.
+ * For each checkbox input, it retrieves the corresponding setting from storage.
+ * If the setting is "true", it checks the checkbox. Otherwise, it unchecks the checkbox.
+ * It also adds a click event listener to each checkbox to update the corresponding setting whenever the checkbox is clicked.
  */
+const addictiveForm = document.querySelectorAll("form input");
+addictiveForm.forEach((element) => {
+  getSettings(element.name, (result) => {
+    // Visually displays the status of the setting
+    if (result === "true") {
+      element.checked = true;
+    } else {
+      element.checked = false;
+    }
 
-
+    // Updates settings for whichever button is pushed
+    element.addEventListener("click", (event) => {
+      setSetting(element.name, element.checked.toString());
+    });
+  });
+});
 
 
 /**
@@ -190,29 +208,6 @@ const removeActivity = (value) => {
     setSetting("activities", result);
   });
 }
-
-/**
- * This block of code gets all form checkbox inputs, adds listeners to them, and changes their visuals based on the stored settings.
- * For each checkbox input, it retrieves the corresponding setting from storage.
- * If the setting is "true", it checks the checkbox. Otherwise, it unchecks the checkbox.
- * It also adds a click event listener to each checkbox to update the corresponding setting whenever the checkbox is clicked.
- */
-const addictiveForm = document.querySelectorAll("form input");
-addictiveForm.forEach((element) => {
-  getSettings(element.name, (result) => {
-    // Visually displays the status of the setting
-    if (result === "true") {
-      element.checked = true;
-    } else {
-      element.checked = false;
-    }
-
-    // Updates settings for whichever button is pushed
-    element.addEventListener("click", (event) => {
-      setSetting(element.name, element.checked.toString());
-    });
-  });
-});
 
 // Adds all activities from storage to HTML
 addActivityHTML();
