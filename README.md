@@ -45,17 +45,11 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Alternate Activities
 
-- [x] Create activities
-- [x] Delete activities
-- [x] Display activities on settings page
-- [x] Responsive design based on deleting and adding
 - [ ] Display activities on blocked page
 
 ### Time Usage
 
 - [ ] Track and storage user's usage time
-- [ ] Display user's usage time within popup
-- [x] Reset all time usage
 
 ### Scheduling
 
@@ -70,6 +64,12 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Completed
 
+- [x] Display user's usage time within popup
+- [x] Reset all time usage
+- [x] Create activities
+- [x] Delete activities
+- [x] Display activities on settings page
+- [x] Responsive design based on deleting and adding
 - [x] Revise current version of how YouTube elements are removed
 - [x] Extension Popup UI
 - [x] General Settings UI
