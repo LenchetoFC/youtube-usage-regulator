@@ -40,7 +40,7 @@ body {
 body,
 p {
   font-family: "Open Sans", sans-serif;
-  font-size: 1.7rem; /* 10px * 1.7rem = 17px */
+  font-size: 1.5rem; /* 10px * 1.7rem = 17px */
   line-height: 1.4;
   color: var(--text-black);
 }
@@ -86,7 +86,7 @@ nav {
   top: 0;
   left: 0;
   padding-top: 15px;
-  margin-top: 6.2em;
+  margin-top: 7em;
   border-top: var(--secondary-black) 1px solid;
   border-right: var(--secondary-black) 2px solid;
   background-color: var(--bg-white-accent);
@@ -97,20 +97,23 @@ nav > a {
   transition: 0.35s;
   text-decoration: none;
 
-  > img {
+  >
+  img {
     z-index: 1;
-    width: 58px;
-    border-radius: 10px;
-    background-color: var(--bg-white-accent);
-
-    padding: 6px;
-    transition: 0.35s;
+  width: 58px;
+  border-radius: 10px;
+  background-color: var(--bg-white-accent);
+  padding: 6px;
+  transition: 0.35s;
   }
-  & p {
+  &
+  p {
     display: none;
-    animation: slide-out 0.2s linear;
-    font-weight: 600;
+  animation: slide-out 0.2s linear;
+  font-weight: 600;
   }
+;
+  align-items: center;
 }
 nav:hover {
   width: 180px;
@@ -198,15 +201,13 @@ button:active {
 .side-icon {
   padding: 6px 20px;
   background-color: var(--call-to-action-3);
-  &
-  img {
+  & img {
     width: 24px;
   }
-  &
-  div {
+  & div {
     color: var(--body-white);
-  margin: 0 10px;
-  font-size: 1.35rem;
+    margin: 0 10px;
+    font-size: 1.35rem;
   }
 }
 .delete-btn {
@@ -252,27 +253,30 @@ button:active {
     width: 25%;
     background-color: var(--bg-white);
     border: 2px solid var(--text-grey-accent);
-    border-radius: 50px;
+    border-radius: 20px;
     transition: 0.3s;
 
-    & label span {
+    &
+    label span {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100%;
-      padding: 10px;
-      cursor: pointer;
-      user-select: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
     }
-    & label input {
+    &
+    label input {
       display: none;
-      position: absolute;
+    position: absolute;
     }
-    & label input + span {
+    &
+    label input + span {
       color: var(--text-black);
-      font-weight: 600;
-      transition: 0.4s;
+    font-weight: 600;
+    transition: 0.4s;
     }
   }
   & .checkbox-circle {
@@ -334,34 +338,41 @@ footer p {
 -------------------------- */
 .html-popup {
   width: 350px;
-  height: 400px;
+  height: 315px;
 }
 .popup .content-wrapper {
-  margin: 0 30px;
-}
-.popup-section {
-  margin: 15px 0 30px;
+  padding: 5px 30px 5px;
+  background-color: var(--bg-white-accent);
+  display: flex;
+  flex-direction: column;
+  height: 310px;
+  justify-content: space-between;
 }
 
 /* Popup Header */
 .popup header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 15px 0;
+  padding: 10px 15px 10px;
   height: auto;
 
-  & a {
+  &
+  a {
     padding: 0;
-  }
-  & img {
-    width: 36px;
-    transition: all 0.5s;
-  }
-  & div {
     display: flex;
   }
+  &
+  img {
+    width: 30px;
+  transition: all 0.5s;
+  }
+  &
+  div {
+    display: flex;
+  }
+;
+  align-items: center;
 }
 .gear-icon:hover {
   animation: spin 3s linear infinite;
@@ -377,7 +388,7 @@ footer p {
   align-items: center;
   margin-top: 15px;
   padding-bottom: 15px;
-  border-bottom: 2px solid var(--secondary-black);
+  border-bottom: 1px solid var(--secondary-black);
 
   & div {
     display: flex;
@@ -405,6 +416,9 @@ footer p {
     height: 50px;
     width: 100%;
   }
+}
+.popup-section:last-of-type {
+  padding-bottom: 0;
 }
 
 /* Free Video Question Popup */
@@ -555,9 +569,12 @@ footer p {
   position: absolute;
   visibility: hidden;
 }
-#activity-btn > button {
-  transition: none;
-  margin: 0;
+#activity-btn {
+  width: fit-content;
+  > button {
+    transition: none;
+    margin: 0;
+  }
 }
 
 /* SETTINGS
@@ -584,7 +601,7 @@ footer p {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 6.2em 0;
+  margin: 8.2em 0;
   padding: 20px 60px 70px;
   width: 100%;
   height: 100%;
@@ -621,13 +638,11 @@ footer p {
   margin: 5px 0;
   padding: 0 25px;
   list-style-type: none;
-  >
-  li {
+  > li {
     padding: 0 0 12px;
-  border-bottom: 2px solid var(--text-grey-accent);
+    border-bottom: 2px solid var(--text-grey-accent);
 
-    >
-  div {
+    > div {
       font-size: 2rem;
     }
   }
@@ -762,7 +777,7 @@ input[type="text"] {
     }
   }
   .settings .content-wrapper {
-    margin: 10em 0;
+    margin: 16.5em 0;
   }
 }
 

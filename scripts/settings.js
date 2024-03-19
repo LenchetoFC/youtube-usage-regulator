@@ -158,16 +158,18 @@ const removeActivity = (value) => {
 // Adds all activities from storage to HTML
 addActivityHTML();
 
-// Event listener to add new activity input box
+// DOM Elements to be modified below
 let inputContainer = document.getElementById("input-container");
 let activityBtn = document.getElementById("activity-btn");
 let inputBtnBox = document.getElementById("input-btn-box");
+let activityInput = document.getElementById("activity-input");
 
 // Button becomes hidden; input becomes visible if clicked
 activityBtn.addEventListener("click", (event) => {
   activityBtn.style.visibility = "hidden"; 
   inputContainer.style.visibility = "visible"
   inputBtnBox.style.height = "40px";
+  activityInput.focus();
 }); 
 
 // Gets initial num of activities and displays add button if not reached max
@@ -181,7 +183,6 @@ getSettings("activities", (result) => {
 
 let activityNum;
 // Adds event listener to new activity input
-let activityInput = document.getElementById("activity-input");
 activityInput.addEventListener("keypress", (event) => {
   // Gets current number of activities
   getSettings("activities", (result) => {
