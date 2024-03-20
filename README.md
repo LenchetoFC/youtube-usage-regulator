@@ -57,6 +57,11 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [ ] Delete schedules
 - [ ] Display current schedules
 
+### Popup
+
+- [ ] Display current day's usage time
+- [ ] Free video count popup
+
 ### Other
 
 - [ ] Handle free video tokenization
@@ -64,7 +69,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Completed
 
-- [x] Display user's usage time within popup
+- [x] Display total usage time
 - [x] Reset all time usage
 - [x] Create activities
 - [x] Delete activities
@@ -98,7 +103,9 @@ Once the extension is functional, there will be an offical release on the store 
 - 0.1 **Initial Release**
   - Finished User Interfaces
 - 0.1.1
-  - Added nav bar expansion design
+  - Added alternate actitivies functionality
+  - Added YouTube restriction functionalities
+  - Added settings & cross-reference functionality
 
 ## Acknowledgments
 

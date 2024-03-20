@@ -33,8 +33,7 @@
   "content_scripts": [
     {
       "js": [
-        "/scripts/content.js",
-        "/scripts/settings.js"
+        "/scripts/content.js"
       ],
       "matches": [
         "*://www.youtube.com/*"

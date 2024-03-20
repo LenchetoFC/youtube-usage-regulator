@@ -33,10 +33,20 @@ function removeElement(elementID, elementName){
 }
 
 // Get all removal settings from storage from background script
-const retrieveSettings = (settingTitle) => {
+const retrieveSettings = (valueToSend) => {
   // Send a message to the background script
   return new Promise ((resolve, reject) => {
-    chrome.runtime.sendMessage(settingTitle, function(response) {
+    chrome.runtime.sendMessage(valueToSend, function(response) {
+      resolve(response.data);
+    });
+  });
+}
+
+// Sets storage settings from background script
+const setSettings = (valueToSend) => {
+  // Send a message to the background script
+  return new Promise ((resolve, reject) => {
+    chrome.runtime.sendMessage(valueToSend, function(response) {
       resolve(response.data);
     });
   });
@@ -55,16 +65,16 @@ const updateHTML = (htmlPage) => {
 
 // A list of names of all settings
 let settingTitles = [
-  {key: 'youtubeSite'}, {key: 'homePage'}, {key: 'shortsPage'}, 
-  {key: 'homeButton'}, {key: 'autoPlayButton'}, {key: 'nextVideoButton'},
-  {key: 'recommendedVideos'}, {key: 'leftSideMenu'}, {key: 'searchBar'}, 
+  'youtubeSite', 'homePage', 'shortsPage', 
+  'homeButton', 'autoPlayButton', 'nextVideoButton',
+  'recommendedVideos', 'leftSideMenu', 'searchBar', 
 ];
 
 
 // Gets values of settings & enables activated settings
 setTimeout(() => {
   settingTitles.forEach(async (settingTitle) => {
-    let returnValue = await retrieveSettings(settingTitle);
+    let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
   
     if (returnValue === "true") {
       switch (settingTitle.key) {
@@ -141,3 +151,32 @@ setTimeout(() => {
     }
   });
 }, 3000);
+
+
+/**
+ * TIME TRACKING
+ */
+
+// Starts tracking time when site is focused
+// Gets current time when tracking starts
+let startTime;
+window.addEventListener("focus", (event) => {
+  const currentTime = new Date();
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+  const seconds = currentTime.getSeconds();
+  console.log(`${hours}:${minutes}:${seconds}`);
+  startTime = new Date();
+});
+
+// Stops tracking and updates time tracking storage values
+// Get current time when tracking ends & compares that with time when tracking started
+window.addEventListener("blur", async (event) => {
+  console.log("tests")
+  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
+  const endTime = new Date();
+  const elapsedTime = Math.floor((endTime - startTime) / 1000);
+  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
+
+  console.log(`Elapsed time: ${elapsedTime} seconds`);
+});
