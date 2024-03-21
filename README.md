@@ -51,24 +51,30 @@ Once the extension is functional, there will be an offical release on the store 
   - Allow yourself at most 3 videos per day to watch
   - YouTube will disable after tokens have been used
 
+## User Interface Designs
+
 ### Popup
 
 Shows the user's current usage times and a button to disable the entire YouTube site.
+<br/>
 ![Screenshot of the extensions main popup; shows the user's current usage times and a button to disable the entire YouTube site](/images/ui-popup.png)
 
 ### General Settings
 
 Shows buttons to toggle YouTube elements, add/remove alternate activities, the user's all time usage, and a button to reset that time.
+<br/>
 ![Screenshot of the extension's general settings UI; shows buttons to disable YouTube elements, set alternate activities, textbox for new activities, and a button to reset all time usage](/images/ui-general-settings.png)
 
 ### Schedule Settings
 
 Shows the user's set schedules and buttons to add a new schedule for the selected days. They can also add and remove schedule times when creating new schedules.
+<br/>
 ![Screenshot of the extension's schedule settings UI; shows user's set schedules and buttons to add a new schedule](/images/ui-schedule-settings.png)
 
 ### Blocked Redirect Page
 
 On top of a gif that is randomly chosen from 12 different "funny fail" gifs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
+<br/>
 ![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
 
 <!-- ### Free Video Popup
