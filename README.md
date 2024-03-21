@@ -116,7 +116,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Installing
 
-There is currently no consumer release on [Chrome Extension Store] (https://chromewebstore.google.com/).
+There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
 Once the extension is functional, there will be an offical release on the store and will be stated here.
 
 ## Author & Sole Developer
