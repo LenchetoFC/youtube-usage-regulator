@@ -226,15 +226,13 @@ const showButton = new MutationObserver((mutationsList, observer) => {
 // Start observing the document with the configured parameters
 showButton.observe(document, { childList: true, subtree: true });
 
-
-
 /**
  * TIME USAGE
  */
 let resetUsageBtn = document.getElementById("reset-usage");
 resetUsageBtn.addEventListener("click", () => {
   setSetting("all-time-usage", 0);
-  console.log("User's all time usage reset to 0");
+  console.log("ALL TIME USAGE RESET TO 0");
 })
 
 /**

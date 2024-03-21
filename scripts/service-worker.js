@@ -1,5 +1,20 @@
 // chrome.action.setBadgeText({text: 'ON'});
 
+/**
+ * Updates settings value
+ * 
+ * @param {string} key - settings name
+ * @param {string} value - settings value
+ * @param {string} callback - callback function to say it's successful and closes promise
+ * 
+ * @returns {void} Returns nothing
+ * 
+ * @example setSettingsBG(key, value, () => {return}))
+ */
+const setSettingBG = (key, value, callback) => {
+  chrome.storage.sync.set({[key]: value}, callback);
+}
+
 // Listens for request to get or set chrome storage
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   // Get value of settings 
@@ -11,11 +26,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     return true;
   } 
-  // Change value of settings 
+  // Updates value of settings 
   else if (request.operation === "set") {
-    let save = {};
-    save[request.key] = request.value;
-    chrome.storage.sync.set(save);
+    setSettingBG(request.key, request.value, function() {
+      // This callback function will be called when setSettingBG completes
+      // Send a response back to the content script
+      sendResponse({data: 'success'});
+    });
+
     return true;
   }
 
@@ -26,4 +44,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     sendResponse({status: "success"});
   }
   return true;
+});
+
+// Checks day to reset today-usage to 0 
+chrome.storage.sync.get(["last-used-date"], function(result) {
+  // Send a response back to the content script
+  let currentDay = new Date().toJSON().split("T")[0];
+  
+  if (result["last-used-date"] != currentDay) {
+    setSettingBG("today-usage", 0);
+    setSettingBG("last-used-date", currentDay);
+    console.log("TODAY USAGE RESET TO 0");
+  }
 });

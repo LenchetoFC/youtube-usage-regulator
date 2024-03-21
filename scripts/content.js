@@ -5,7 +5,16 @@
  * 
  */
 
-// Removes all elements with the given class name
+/**
+ * Updates settings value
+ * 
+ * @param {string} className - className of element to confirm the element to remove
+ * @param {string} elementName - element to remove
+ * 
+ * @returns {void} Returns nothing
+ * 
+ * @example setSettingsBG(key, value, () => {return}))
+ */
 function removeClassElement(className, elementName){
   try {
     let element = document.getElementsByClassName(className)
@@ -20,7 +29,16 @@ function removeClassElement(className, elementName){
   
 }
 
-// Removes the element with the given ID
+/**
+ * Removes the element with the given ID
+ * 
+ * @param {string} elementID - ID of the element to remove
+ * @param {string} elementName - Name of the element to remove
+ * 
+ * @returns {void} Returns nothing
+ * 
+ * @example removeElement('elementID', 'elementName')
+ */
 function removeElement(elementID, elementName){
   try {
     // document.getElementById(elementID).style.display = 'none';
@@ -32,7 +50,15 @@ function removeElement(elementID, elementName){
   }
 }
 
-// Get all removal settings from storage from background script
+/**
+ * Retrieves settings from storage using the background script
+ * 
+ * @param {Object} valueToSend - The value to send to the background script
+ * 
+ * @returns {Promise} A promise that resolves with the retrieved settings
+ * 
+ * @example retrieveSettings({operation: "retrieve", key: 'settingKey'})
+ */
 const retrieveSettings = (valueToSend) => {
   // Send a message to the background script
   return new Promise ((resolve, reject) => {
@@ -42,7 +68,15 @@ const retrieveSettings = (valueToSend) => {
   });
 }
 
-// Sets storage settings from background script
+/**
+ * Sets storage settings using the background script
+ * 
+ * @param {Object} valueToSend - The value to send to the background script
+ * 
+ * @returns {Promise} A promise that resolves when the settings are set
+ * 
+ * @example setSettings({operation: "set", key: 'settingKey', value: 'settingValue'})
+ */
 const setSettings = (valueToSend) => {
   // Send a message to the background script
   return new Promise ((resolve, reject) => {
@@ -52,7 +86,15 @@ const setSettings = (valueToSend) => {
   });
 }
 
-// HTML of blockedPage.html takes over current web page
+/**
+ * Updates the HTML of the current web page with the specified HTML page
+ * 
+ * @param {string} htmlPage - The path to the HTML page to be loaded
+ * 
+ * @returns {void} Returns nothing
+ * 
+ * @example updateHTML('/html/blocked-page.html')
+ */
 const updateHTML = (htmlPage) => {
   chrome.runtime.sendMessage({redirect: htmlPage}, function(response) {
     if (chrome.runtime.lastError) {
@@ -75,9 +117,9 @@ let settingTitles = [
 setTimeout(() => {
   settingTitles.forEach(async (settingTitle) => {
     let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
-  
+
     if (returnValue === "true") {
-      switch (settingTitle.key) {
+      switch (settingTitle) {
         case 'youtubeSite':
           if (window.location.href.startsWith('https://www.youtube.com/') ) {
             console.log("blocks entire site");
@@ -159,24 +201,33 @@ setTimeout(() => {
 
 // Starts tracking time when site is focused
 // Gets current time when tracking starts
-let startTime;
+let startTime = new Date();
 window.addEventListener("focus", (event) => {
-  const currentTime = new Date();
-  const hours = currentTime.getHours();
-  const minutes = currentTime.getMinutes();
-  const seconds = currentTime.getSeconds();
-  console.log(`${hours}:${minutes}:${seconds}`);
   startTime = new Date();
+  console.log(`start time ${startTime}`)
 });
+
+// Gets video's play/pause button to simulate a mouse click on it
+const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
 
 // Stops tracking and updates time tracking storage values
 // Get current time when tracking ends & compares that with time when tracking started
 window.addEventListener("blur", async (event) => {
-  console.log("tests")
-  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
+  // Pause video if it is playing
+  // Effectively keeps accurate tracking for when the user is *watching* YouTube
+  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
+    playButton.click();
+  }
+
+  // Calculates elapsed time
   const endTime = new Date();
   const elapsedTime = Math.floor((endTime - startTime) / 1000);
-  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
 
-  console.log(`Elapsed time: ${elapsedTime} seconds`);
+  // Gets current values of both time usages
+  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
+  const todayUsage = await retrieveSettings({operation: "retrieve", key: 'today-usage'});
+
+  // Updates both time usages when window is blurred
+  await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
+  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
 });

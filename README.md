@@ -47,10 +47,6 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 - [ ] Display activities on blocked page
 
-### Time Usage
-
-- [ ] Track and storage user's usage time
-
 ### Scheduling
 
 - [ ] Create new schedules
@@ -59,7 +55,6 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Popup
 
-- [ ] Display current day's usage time
 - [ ] Free video count popup
 
 ### Other
@@ -69,6 +64,8 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Completed
 
+- [x] Display current day's usage time
+- [x] Track and storage user's usage time
 - [x] Display total usage time
 - [x] Reset all time usage
 - [x] Create activities
