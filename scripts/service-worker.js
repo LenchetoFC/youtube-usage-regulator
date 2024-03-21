@@ -1,5 +1,10 @@
 // chrome.action.setBadgeText({text: 'ON'});
 
+
+/**
+ * SECTION - STORAGE RELATED
+ */
+
 /**
  * Updates settings value
  * 
@@ -14,6 +19,25 @@
 const setSettingBG = (key, value, callback) => {
   chrome.storage.sync.set({[key]: value}, callback);
 }
+
+// Checks day to reset today-usage to 0 
+chrome.storage.sync.get(["last-used-date"], function(result) {
+  // Send a response back to the content script
+  let currentDay = new Date().toJSON().split("T")[0];
+  
+  if (result["last-used-date"] != currentDay) {
+    setSettingBG("today-usage", 0);
+    setSettingBG("last-used-date", currentDay);
+    console.log("TODAY USAGE RESET TO 0");
+  }
+});
+
+/**!SECTION */
+
+
+/**
+ * SECTION - MESSEGE LISTENERS
+ */
 
 // Listens for request to get or set chrome storage
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -46,14 +70,4 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   return true;
 });
 
-// Checks day to reset today-usage to 0 
-chrome.storage.sync.get(["last-used-date"], function(result) {
-  // Send a response back to the content script
-  let currentDay = new Date().toJSON().split("T")[0];
-  
-  if (result["last-used-date"] != currentDay) {
-    setSettingBG("today-usage", 0);
-    setSettingBG("last-used-date", currentDay);
-    console.log("TODAY USAGE RESET TO 0");
-  }
-});
+/**!SECTION */

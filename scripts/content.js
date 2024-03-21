@@ -5,6 +5,37 @@
  * 
  */
 
+/** 
+  * SECTION - STORAGE RELATED
+  * 
+  */
+
+/**
+ * Sets storage settings using the background script
+ * 
+ * @param {Object} valueToSend - The value to send to the background script
+ * 
+ * @returns {Promise} A promise that resolves when the settings are set
+ * 
+ * @example setSettings({operation: "set", key: 'settingKey', value: 'settingValue'})
+ */
+const setSettings = (valueToSend) => {
+  // Send a message to the background script
+  return new Promise ((resolve, reject) => {
+    chrome.runtime.sendMessage(valueToSend, function(response) {
+      resolve(response.data);
+    });
+  });
+}
+
+/**!SECTION */
+
+
+/** 
+  * SECTION - REMOVAL OF ELEMENTS FUNCTIONS 
+  * 
+  */
+
 /**
  * Updates settings value
  * 
@@ -68,23 +99,13 @@ const retrieveSettings = (valueToSend) => {
   });
 }
 
-/**
- * Sets storage settings using the background script
+/**!SECTION */
+
+
+/** 
+ * SECTION - MISC FUNCTIONS
  * 
- * @param {Object} valueToSend - The value to send to the background script
- * 
- * @returns {Promise} A promise that resolves when the settings are set
- * 
- * @example setSettings({operation: "set", key: 'settingKey', value: 'settingValue'})
  */
-const setSettings = (valueToSend) => {
-  // Send a message to the background script
-  return new Promise ((resolve, reject) => {
-    chrome.runtime.sendMessage(valueToSend, function(response) {
-      resolve(response.data);
-    });
-  });
-}
 
 /**
  * Updates the HTML of the current web page with the specified HTML page
@@ -104,6 +125,14 @@ const updateHTML = (htmlPage) => {
     }
   });
 }
+
+/**!SECTION */
+
+
+/**
+ * SECTION - REMOVAL OF ELEMENTS
+ * 
+ */
 
 // A list of names of all settings
 let settingTitles = [
@@ -194,9 +223,12 @@ setTimeout(() => {
   });
 }, 3000);
 
+/**!SECTION */
+
 
 /**
- * TIME TRACKING
+ * SECTION - TIME TRACKING
+ * 
  */
 
 // Starts tracking time when site is focused
@@ -231,3 +263,5 @@ window.addEventListener("blur", async (event) => {
   await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
   await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
 });
+
+/**!SECTION */

@@ -9,13 +9,15 @@
  * 
  */
 
+/**
+ * SECTION - STORAGE RELATED
+ * 
+ */
 // All settings to get and display on standard popup
 let settingsToGet = ["youtubeSite", "all-time-usage", "today-usage", "free-video-count"];
 
 /**
- * Checks settings for disable youtube setting value
- * Visually show if setting is enabled or not
- * Adds event listener to button to change setting's value
+ * Gets settings and appropriately changes UI
  */
 settingsToGet.forEach((settingName) => {
   getSettings(settingName, (result) => {
@@ -55,6 +57,14 @@ settingsToGet.forEach((settingName) => {
   })
 });
 
+//!SECTION
+
+
+/**
+ * SECTION - TIME USAGE RELATED
+ * 
+ */
+
 /**
  * Converts time usage into an accurate time statement
  * 
@@ -84,3 +94,5 @@ const convertTimeToText = (timeUsage) => {
     }
   }
 }
+
+//!SECTION

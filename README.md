@@ -43,9 +43,10 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ## To-Do
 
-### Alternate Activities
+### Blocked Page
 
 - [ ] Display activities on blocked page
+- [ ] Redesign Blocked Page
 
 ### Scheduling
 
@@ -53,14 +54,26 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [ ] Delete schedules
 - [ ] Display current schedules
 
-### Popup
+### Time Tracking
+
+- [ ] Display all time usage value on settings page
+- [ ] Add number input for when YouTube is disabled
+- [ ] Checkbox to enable YouTube disable from time usage
+
+### Free Video Tokens
 
 - [ ] Free video count popup
-
-### Other
-
 - [ ] Handle free video tokenization
-- [ ] Redesign Blocked Page
+
+### Publishing Extension
+
+- [ ] Publish to Chrome Web Store
+- [ ] Update Repo Example Photos
+- [ ] Record Demo Video
+
+### OTHER
+
+- [ ] Create default settings on first extension use
 
 ### Completed
 
@@ -99,10 +112,14 @@ Once the extension is functional, there will be an offical release on the store 
 
 - 0.1 **Initial Release**
   - Finished User Interfaces
-- 0.1.1
+- 0.2
   - Added alternate actitivies functionality
+- 0.3
   - Added YouTube restriction functionalities
+- 0.4
   - Added settings & cross-reference functionality
+- 0.5
+  - Added time tracking functionality
 
 ## Acknowledgments
 

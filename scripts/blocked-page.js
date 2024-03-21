@@ -1,0 +1,7 @@
+/**
+ * SECTION - DISPLAYING ALTERNATE ACTIVITIES
+ * 
+ */
+
+
+/**!SECTION */

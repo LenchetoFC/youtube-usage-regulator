@@ -1,3 +1,8 @@
+
+/**
+ * SECTION - STORAGE RELATED
+ */
+
 /**
  * Retrieve settings from storage.
  * 
@@ -33,3 +38,5 @@ window.setSetting = (key, value) => {
     });
   });
 }
+
+/**!SECTION */

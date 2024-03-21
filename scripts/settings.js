@@ -6,19 +6,13 @@
  */
 
 /**
- * @codeblock SETTINGS STORAGE
- */
-
-//TODO: create all settings if they don't already exist
-
-/**
  * to access storage from console, run this command...
  * chrome.storage.sync.get((result) => { console.log(result) });
  */
 
 
 /**
- * CHECKBOX FUNCTIONALITIES
+ * SECTION - CHECKBOX FUNCTIONALITIES
  * This block of code gets all form checkbox inputs, adds listeners to them, and changes their visuals based on the stored settings.
  * For each checkbox input, it retrieves the corresponding setting from storage.
  * If the setting is "true", it checks the checkbox. Otherwise, it unchecks the checkbox.
@@ -41,9 +35,12 @@ addictiveForm.forEach((element) => {
   });
 });
 
+/**!SECTION */
+
 
 /**
- * ALTERNATE ACTIVITIES
+ * SECTION - ALTERNATE ACTIVITIES
+ * 
  */
 // Adds event listener to delete buttons of actitivites
 // Create a new observer
@@ -226,8 +223,12 @@ const showButton = new MutationObserver((mutationsList, observer) => {
 // Start observing the document with the configured parameters
 showButton.observe(document, { childList: true, subtree: true });
 
+/**!SECTION */
+
+
 /**
- * TIME USAGE
+ * SECTION - TIME USAGE
+ * 
  */
 let resetUsageBtn = document.getElementById("reset-usage");
 resetUsageBtn.addEventListener("click", () => {
@@ -235,6 +236,25 @@ resetUsageBtn.addEventListener("click", () => {
   console.log("ALL TIME USAGE RESET TO 0");
 })
 
+/**!SECTION */
+
+
 /**
- * SCHEDULING
+ * SECTION - SCHEDULING
+ * 
  */
+
+// Combines overlapping schedules
+// Remove specific schedule days from storage
+// Retrieve schedules from storage
+//  Add existing schedules to HTML on load
+// Add schedules to storage
+//  Hide/Appear time selection when at least 1 day is selected
+//  Hide time selection and "add time" button if "all day" btn is selected
+//  Delete specific time selections
+//  Check for if the beginning time is bigger than end time
+//  Add new schedule day to schedule list
+//  Add schedule times to existing days
+//  Restrict adding new schedule times to "all day" schedules
+
+/**!SECTION */
