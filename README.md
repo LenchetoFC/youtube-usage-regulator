@@ -2,6 +2,18 @@
 
 This chrome browser extension aims to help people who feel like they use too much YouTube but can't seem to break the habit with some level of restrictions.
 
+## Getting Started
+
+### User Requirements
+
+- Any Chrome-based browser (Chrome, brave, etc.)
+- Browser Permissions
+
+### Installing
+
+There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
+Once the extension is functional, there will be an offical release on the store and will be stated here.
+
 ## Description
 
 This extension goes beyond blocking the entire site (since user's still may need it for academic purposes) by giving the user options to remove specific elements from YouTube. The user can customize how their YouTube is displayed and how less it can keep the users on the site.
@@ -107,19 +119,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [x] Free Video Popup UI
 - [x] Blocked Page UI
 
-## Getting Started
-
-### User Requirements
-
-- Any Chrome-based browser (Chrome, brave, etc.)
-- Browser Permissions
-
-### Installing
-
-There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
-Once the extension is functional, there will be an offical release on the store and will be stated here.
-
-## Author & Sole Developer
+## Sole Author & Developer
 
 **Lorenzo Ramirez** | [Email](mailto:lorenzoramirez122@gmail.com) | [Personal Website](https://lorenzoramirezjr.com)
 

@@ -226,7 +226,7 @@ setTimeout(() => {
 /**!SECTION */
 
 
-/**
+/**f
  * SECTION - TIME TRACKING
  * 
  */
@@ -239,8 +239,6 @@ window.addEventListener("focus", (event) => {
   console.log(`start time ${startTime}`)
 });
 
-// Gets video's play/pause button to simulate a mouse click on it
-const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
 
 // Stops tracking and updates time tracking storage values
 // Get current time when tracking ends & compares that with time when tracking started
@@ -256,6 +254,9 @@ window.addEventListener("blur", async (event) => {
   // Updates both time usages when window is blurred
   await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
   await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
+  
+  // Gets video's play/pause button to simulate a mouse click on it
+  const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
 
   // Pause video if it is playing
   // Effectively keeps accurate tracking for when the user is *watching* YouTube
