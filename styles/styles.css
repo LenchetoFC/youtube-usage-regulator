@@ -19,8 +19,9 @@
   --call-to-action-3: #123e9d;
 }
 
-/* GLOBAL STYLES 
--------------------------- */
+/* 
+ * SECTION - GLOBAL STYLES
+ */
 html {
   height: 100%;
   box-sizing: border-box;
@@ -97,22 +98,19 @@ nav > a {
   transition: 0.35s;
   text-decoration: none;
 
-  >
-  img {
+  > img {
     z-index: 1;
-  width: 58px;
-  border-radius: 10px;
-  background-color: var(--bg-white-accent);
-  padding: 6px;
-  transition: 0.35s;
+    width: 58px;
+    border-radius: 10px;
+    background-color: var(--bg-white-accent);
+    padding: 6px;
+    transition: 0.35s;
   }
-  &
-  p {
+  & p {
     display: none;
-  animation: slide-out 0.2s linear;
-  font-weight: 600;
+    animation: slide-out 0.2s linear;
+    font-weight: 600;
   }
-;
   align-items: center;
 }
 nav:hover {
@@ -256,27 +254,24 @@ button:active {
     border-radius: 20px;
     transition: 0.3s;
 
-    &
-    label span {
+    & label span {
       display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    padding: 10px;
-    cursor: pointer;
-    user-select: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      padding: 10px;
+      cursor: pointer;
+      user-select: none;
     }
-    &
-    label input {
+    & label input {
       display: none;
-    position: absolute;
+      position: absolute;
     }
-    &
-    label input + span {
+    & label input + span {
       color: var(--text-black);
-    font-weight: 600;
-    transition: 0.4s;
+      font-weight: 600;
+      transition: 0.4s;
     }
   }
   & .checkbox-circle {
@@ -334,18 +329,21 @@ footer p {
   color: var(--bg-white);
 }
 
-/* POPUP
--------------------------- */
+/* !SECTION */
+
+/* 
+ * SECTION - POPUP
+ */
 .html-popup {
   width: 350px;
-  height: 315px;
+  height: 225px;
 }
 .popup .content-wrapper {
   padding: 5px 30px 5px;
   background-color: var(--bg-white-accent);
   display: flex;
   flex-direction: column;
-  height: 310px;
+  height: 230px;
   justify-content: space-between;
 }
 
@@ -357,21 +355,17 @@ footer p {
   padding: 10px 15px 10px;
   height: auto;
 
-  &
-  a {
+  & a {
     padding: 0;
     display: flex;
   }
-  &
-  img {
+  & img {
     width: 30px;
-  transition: all 0.5s;
+    transition: all 0.5s;
   }
-  &
-  div {
+  & div {
     display: flex;
   }
-;
   align-items: center;
 }
 .gear-icon:hover {
@@ -382,7 +376,7 @@ footer p {
 }
 
 /* YouTube Usage Counters */
-.usage-section .usage-time {
+.usage-section-popup .usage-time {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -457,8 +451,11 @@ footer p {
   }
 }
 
-/* BLOCKED SCREEN
--------------------------- */
+/* !SECTION */
+
+/* 
+ * SECTION - BLOCKED SCREEN
+ */
 .blocked {
   display: flex;
   flex-direction: column;
@@ -577,8 +574,11 @@ footer p {
   }
 }
 
-/* SETTINGS
--------------------------- */
+/* !SECTION */
+
+/* 
+ * SECTION - SETTINGS
+ */
 .settings header {
   display: flex;
   align-items: center;
@@ -644,6 +644,7 @@ footer p {
 
     > div {
       font-size: 2rem;
+      font-style: italic;
     }
   }
 }
@@ -668,7 +669,8 @@ li .activity-item {
   border-bottom: none !important;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
   width: 400px;
   padding: 10px;
   background-color: var(--bg-grey);
@@ -686,8 +688,44 @@ input[type="text"] {
   letter-spacing: 0.1em;
 }
 
-/* Schedule YouTube Restrictions
--------------------------- */
+/* Reset All Time Usage  */
+.usage-section {
+  display: flex;
+  align-items: center;
+  margin: 2px;
+  border-bottom: 2px solid var(--text-grey-accent);
+  margin: 0px 25px 10px;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+/* .usage-section:last-of-type {
+  justify-content: flex-start;
+} */
+
+#reset-usage {
+  padding: 10px;
+  margin: 0;
+}
+
+.usage-text {
+  border: 1px solid transparent;
+  width: fit-content;
+  color: var(--secondary-black);
+  font-size: 20px;
+  font-style: italic;
+}
+
+/* input[type="number"] {
+  width: 75px;
+  margin: 0 10px;
+} */
+
+/* !SECTION */
+
+/* 
+ * SECTION - SCHEDULE YOUTUBE RESTRICTION
+ */
 .schedule-grid {
   display: grid;
   justify-items: center;
@@ -759,8 +797,11 @@ input[type="text"] {
   gap: 10px;
 }
 
-/* RESPONSIVENESS
----------------------- */
+/* !SECTION */
+
+/* 
+ * SECTION - RESPONSIVENESS
+ */
 @media screen and (max-width: 630px) {
   nav {
     justify-content: center;
@@ -812,8 +853,11 @@ input[type="text"] {
   }
 }
 
-/* Animations 
----------------------- */
+/* !SECTION */
+
+/* 
+ * SECTION - ANIMATIONS
+ */
 @keyframes spin {
   0% {
     rotate: 1deg;
@@ -870,3 +914,5 @@ input[type="text"] {
     transform: translateX(0px);
   }
 }
+
+/* !SECTION */

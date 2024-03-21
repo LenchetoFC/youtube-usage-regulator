@@ -230,9 +230,21 @@ showButton.observe(document, { childList: true, subtree: true });
  * SECTION - TIME USAGE
  * 
  */
+// Displays current time usage count in HTML
+let allTimeCount = document.getElementById("all-time-count");
+getSettings("all-time-usage", (result) => {
+  allTimeCount.innerHTML = convertTimeToText(result);
+});
+
+// Resets all time usage to 0 and updates the displayed count
 let resetUsageBtn = document.getElementById("reset-usage");
 resetUsageBtn.addEventListener("click", () => {
   setSetting("all-time-usage", 0);
+
+  getSettings("all-time-usage", (result) => {
+    allTimeCount.innerHTML = convertTimeToText(result);
+  });
+  
   console.log("ALL TIME USAGE RESET TO 0");
 })
 

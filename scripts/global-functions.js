@@ -40,3 +40,38 @@ window.setSetting = (key, value) => {
 }
 
 /**!SECTION */
+
+
+/**
+ * SECTION - TIME USAGE RELATED
+ *  
+ */
+/**
+ * Converts time usage into an accurate time statement
+ * 
+ * @param {int} timeUsage - the value of the time usage storage value
+ * 
+ * @returns {string} Returns time usage in a statement that is accurate to the amount of time given
+ * Time statements are dynamic meaning depending on the amount of time, they will include 
+ *  time measurements (mins, hours, etc.) when needed  
+ * 
+ * @example let usageStatement = convertTimeToText(timeUsage);
+ */
+window.convertTimeToText = (timeUsage) => {
+  // if time usage is below a minute
+  if (timeUsage < 60) {
+    return `${timeUsage} seconds`;
+  } else if (timeUsage >= 60) { // if time usage is above a minute
+    let min = Math.floor(timeUsage / 60);
+    let sec = Math.floor(timeUsage - min * 60);
+
+    // if time usage is between a minute and an hour
+    if (timeUsage < 3600) {
+      return `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
+    } else if (timeUsage >= 3600) { // if time usage is above an hour
+      let hours = Math.floor(timeUsage / 3600);
+      let remainingMinutes = Math.floor((timeUsage - (hours * 3600)) / 60);
+      return `${hours} Hr${hours !== 1 ? 's' : ''} ${remainingMinutes} ${remainingMinutes === 1 ? 'Min' : 'Mins'} ${sec} ${sec === 1 ? 'Sec' : 'Secs'}`;
+    }
+  }
+}

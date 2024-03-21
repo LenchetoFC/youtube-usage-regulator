@@ -20,17 +20,26 @@ const setSettingBG = (key, value, callback) => {
   chrome.storage.sync.set({[key]: value}, callback);
 }
 
-// Checks day to reset today-usage to 0 
+// Checks day to reset today-usage to 0 & free video count to 3
 chrome.storage.sync.get(["last-used-date"], function(result) {
-  // Send a response back to the content script
   let currentDay = new Date().toJSON().split("T")[0];
   
   if (result["last-used-date"] != currentDay) {
+    // Resets today-usage
     setSettingBG("today-usage", 0);
     setSettingBG("last-used-date", currentDay);
     console.log("TODAY USAGE RESET TO 0");
+
+    // // Resets free video count
+    // chrome.storage.sync.get(["free-video-count"], function(result) {
+    //   if (result["free-video-count"] != 3) {
+    //     setSettingBG("free-video", 3);
+    //     console.log("FREE VIDEO COUNT RESET TO 3");
+    //   }
+    // });
   }
 });
+
 
 /**!SECTION */
 

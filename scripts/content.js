@@ -244,24 +244,24 @@ const playButton = document.getElementsByClassName("ytp-play-button ytp-button")
 
 // Stops tracking and updates time tracking storage values
 // Get current time when tracking ends & compares that with time when tracking started
-window.addEventListener("blur", async (event) => {
+window.addEventListener("blur", async (event) => {  
+  // Calculates elapsed time
+  const endTime = new Date();
+  const elapsedTime = Math.floor((endTime - startTime) / 1000);
+  
+  // Gets current values of both time usages
+  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
+  const todayUsage = await retrieveSettings({operation: "retrieve", key: 'today-usage'});
+  
+  // Updates both time usages when window is blurred
+  await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
+  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
+
   // Pause video if it is playing
   // Effectively keeps accurate tracking for when the user is *watching* YouTube
   if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
     playButton.click();
   }
-
-  // Calculates elapsed time
-  const endTime = new Date();
-  const elapsedTime = Math.floor((endTime - startTime) / 1000);
-
-  // Gets current values of both time usages
-  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
-  const todayUsage = await retrieveSettings({operation: "retrieve", key: 'today-usage'});
-
-  // Updates both time usages when window is blurred
-  await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
-  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
 });
 
 /**!SECTION */

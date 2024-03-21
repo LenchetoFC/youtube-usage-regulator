@@ -12,14 +12,30 @@ This extension goes beyond blocking the entire site (since user's still may need
   - Entirety of YouTube
   - Home page
   - Shorts page
-- Removes Buttons:
-  - Home button
-  - Video autoplay button
-  - Next video button
-- Removes Whole Sections of the Page:
+- Removes Parts of YouTube Site:
   - Video recommendations
   - Side hamburger menu
   - Search bar
+  - Home button
+  - Video autoplay button
+  - Next video button
+  - and more!
+- Alternate Activities:
+  - Write alternate activities to remind you what better things you can be doing
+- Schedules:
+  - Add days and times that YouTube will be completely restricted
+
+#### Future Features
+
+- Timer to Disable YouTube
+- Dark Mode
+- Watch Modes:
+  - Only shows videos according to watch mode
+  - Options include: educational, recreational, and all-inclusive (default)
+  - Uses video tags to determine if video respects current watch mode
+- Free Videos:
+  - Allow yourself at most 3 videos per day to watch
+  - YouTube will disable after tokens have been used
 
 ### Popup
 
@@ -37,9 +53,9 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
 
-### Free Video Popup
+<!-- ### Free Video Popup
 
-![Screenshot of a popup to tell the extension that the user is going to spend a free video token on the video they're current watching](/images/ui-free-videos-popup.png)
+![Screenshot of a popup to tell the extension that the user is going to spend a free video token on the video they're current watching](/images/ui-free-videos-popup.png) -->
 
 ## To-Do
 
@@ -54,16 +70,11 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [ ] Delete schedules
 - [ ] Display current schedules
 
-### Time Tracking
-
-- [ ] Display all time usage value on settings page
-- [ ] Add number input for when YouTube is disabled
-- [ ] Checkbox to enable YouTube disable from time usage
-
-### Free Video Tokens
+<!-- ### Free Video Tokens
 
 - [ ] Free video count popup
 - [ ] Handle free video tokenization
+ -->
 
 ### Publishing Extension
 
@@ -74,9 +85,11 @@ This extension goes beyond blocking the entire site (since user's still may need
 ### OTHER
 
 - [ ] Create default settings on first extension use
+<!-- - [ ] Add dark mode to all pages -->
 
 ### Completed
 
+- [x] Display all time usage value on settings page
 - [x] Display current day's usage time
 - [x] Track and storage user's usage time
 - [x] Display total usage time
