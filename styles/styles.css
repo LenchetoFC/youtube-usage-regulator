@@ -321,7 +321,7 @@ footer {
   position: fixed;
   z-index: 1;
   bottom: 0;
-  background: #222;
+  background: #222222e7;
   color: #d3d4d6;
 }
 footer p {
@@ -461,7 +461,9 @@ footer p {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  background-color: var(--bg-light-blue);
+  background-color: var(--bg-white-accent);
+  background-repeat: no-repeat;
+  background-size: cover;
 
   > footer {
     position: relative;
@@ -470,13 +472,22 @@ footer p {
 }
 .blocked header {
   display: flex;
-  background-color: var(--bg-white-accent);
+  background-color: #222222e7;
   width: 100%;
   padding: 10px;
-  border-bottom: var(--secondary-black) 2px solid;
+  justify-content: space-between;
+  align-items: center;
 
   & img {
-    width: 64px;
+    width: 52px;
+  }
+
+  & h2 {
+    color: var(--bg-white-accent);
+  }
+
+  & div:last-of-type {
+    width: 52px;
   }
 }
 
@@ -484,13 +495,23 @@ footer p {
 .blocked .content-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 200px;
   gap: 50px;
+  margin: 0 50px;
+
+  & h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  & h3 {
+    font-weight: 700;
+    font-size: 24px;
+  }
 
   > section {
     display: flex;
-    gap: 25px;
+    gap: 50px;
+    flex-direction: column;
   }
 
   & p {
@@ -499,12 +520,10 @@ footer p {
     justify-content: space-between;
     margin: 0;
     font-size: 2rem;
-    font-family: "Fredoka", cursive;
   }
   & h1,
-  h2 {
-    text-align: center;
-    color: var(--bg-white-accent);
+  h3 {
+    color: var(--bg-white);
   }
 }
 
@@ -517,15 +536,18 @@ footer p {
     display: flex;
     margin-top: 25px;
     gap: 15px;
+    flex-direction: row;
   }
 }
 .info-box {
-  width: 150px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  background-color: var(--bg-white-accent);
-  box-shadow: 0 2px 4px var(--text-grey-accent);
+  width: 250px;
+}
 
+.info-box {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: #ffffffd6;
+  box-shadow: 0 2px 4px #00000087;
   & img {
     width: 32px;
   }
@@ -536,10 +558,10 @@ footer p {
     margin-bottom: 10px;
   }
   > .usage-time {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    row-gap: 5px;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: italic;
   }
 }
 
@@ -556,11 +578,11 @@ footer p {
   }
 }
 .activity {
-  display: none;
-  width: 100%;
-}
-.activity-placeholder {
-  display: none;
+  width: 700px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 #input-container {
   position: absolute;

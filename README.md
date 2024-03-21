@@ -59,10 +59,10 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ## To-Do
 
-### Blocked Page
+### YouTube Restrictions
 
-- [ ] Display activities on blocked page
-- [ ] Redesign Blocked Page
+- [ ] Check settings every time the window is focused
+  - [ ] Update removal functions to include the settings value and hide/show based on value
 
 ### Scheduling
 
@@ -70,25 +70,27 @@ This extension goes beyond blocking the entire site (since user's still may need
 - [ ] Delete schedules
 - [ ] Display current schedules
 
-<!-- ### Free Video Tokens
-
-- [ ] Free video count popup
-- [ ] Handle free video tokenization
- -->
-
 ### Publishing Extension
 
 - [ ] Publish to Chrome Web Store
 - [ ] Update Repo Example Photos
 - [ ] Record Demo Video
 
-### OTHER
+### Storage
 
 - [ ] Create default settings on first extension use
-<!-- - [ ] Add dark mode to all pages -->
+
+<!-- ### Free Video Tokens
+
+- [ ] Free video count popup
+- [ ] Handle free video tokenization
+      -->
 
 ### Completed
 
+- [x] Display alt activities
+- [x] Display usage times
+- [x] Redesign Blocked Page
 - [x] Display all time usage value on settings page
 - [x] Display current day's usage time
 - [x] Track and storage user's usage time
@@ -133,6 +135,8 @@ Once the extension is functional, there will be an offical release on the store 
   - Added settings & cross-reference functionality
 - 0.5
   - Added time tracking functionality
+- 0.6
+  - Updated blocked page functionality & UI
 
 ## Acknowledgments
 
