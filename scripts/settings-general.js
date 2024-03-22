@@ -1,7 +1,7 @@
 /**
  * @LenchetoFC 
  * @description This controls the settings pages and accurately
- *  displays current settings and user information
+ *  displays current settings and user information for the general settings
  * 
  */
 
@@ -22,15 +22,16 @@ const addictiveForm = document.querySelectorAll("form input");
 addictiveForm.forEach((element) => {
   getSettings(element.name, (result) => {
     // Visually displays the status of the setting
-    if (result === "true") {
+    if (result === true) {
       element.checked = true;
     } else {
       element.checked = false;
+      setSetting(element.name, false);
     }
 
     // Updates settings for whichever button is pushed
     element.addEventListener("click", (event) => {
-      setSetting(element.name, element.checked.toString());
+      setSetting(element.name, element.checked);
     });
   });
 });
@@ -247,26 +248,5 @@ resetUsageBtn.addEventListener("click", () => {
   
   console.log("ALL TIME USAGE RESET TO 0");
 })
-
-/**!SECTION */
-
-
-/**
- * SECTION - SCHEDULING
- * 
- */
-
-// Combines overlapping schedules
-// Remove specific schedule days from storage
-// Retrieve schedules from storage
-//  Add existing schedules to HTML on load
-// Add schedules to storage
-//  Hide/Appear time selection when at least 1 day is selected
-//  Hide time selection and "add time" button if "all day" btn is selected
-//  Delete specific time selections
-//  Check for if the beginning time is bigger than end time
-//  Add new schedule day to schedule list
-//  Add schedule times to existing days
-//  Restrict adding new schedule times to "all day" schedules
 
 /**!SECTION */

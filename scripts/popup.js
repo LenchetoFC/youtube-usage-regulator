@@ -14,7 +14,7 @@
  * 
  */
 // All settings to get and display on standard popup
-let settingsToGet = ["youtubeSite", "all-time-usage", "today-usage", "free-video-count"];
+let settingsToGet = ["youtubeSite", "all-time-usage", "today-usage"];
 
 /**
  * Gets settings and appropriately changes UI
@@ -50,10 +50,11 @@ settingsToGet.forEach((settingName) => {
       // Updates current day's usage value in popup
       let todayTimeHTML = document.getElementById(settingName);
       todayTimeHTML.innerHTML = usageTime;
-    } else if (settingName === "free-video-count") {
-      let freeVideoHTML = document.getElementById(settingName);
-      freeVideoHTML.innerHTML = result;
     }
+    // else if (settingName === "free-video-count") {
+    //   let freeVideoHTML = document.getElementById(settingName);
+    //   freeVideoHTML.innerHTML = result;
+    // }
   })
 });
 

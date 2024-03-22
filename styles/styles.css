@@ -176,10 +176,10 @@ button:active {
   opacity: 100%;
 }
 .schedule-item-header button {
-  background: transparent;
+  /* background: transparent; */
   margin: 5px 0;
   border: 2px solid transparent;
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 .btn-text {
   align-items: center;
@@ -196,6 +196,9 @@ button:active {
   /* transition: none; */
   letter-spacing: 0.1em;
 }
+.btn-text:disabled {
+  background-color: #067c1a90;
+}
 .side-icon {
   padding: 6px 20px;
   background-color: var(--call-to-action-3);
@@ -207,6 +210,7 @@ button:active {
     margin: 0 10px;
     font-size: 1.35rem;
   }
+  display: flex;
 }
 .delete-btn {
   background-color: var(--call-to-action);
@@ -497,44 +501,38 @@ footer p {
   flex-direction: column;
   gap: 50px;
   margin: 0 50px;
-
-  &
-  h1 {
-    text-transform: uppercase;
-  font-weight: 700;
-  }
-
-  &
-  h3 {
-    font-weight: 700;
-  font-size: 24px;
-  }
-
-  >
-  section {
-    display: flex;
-  gap: 50px;
-  flex-direction: column;
-  }
-
-  &
-  p {
-    display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0;
-  font-size: 2rem;
-  }
-  &
-  h1,
-  h3 {
-    color: var(--bg-white);
-  }
-;
   width: fit-content;
   background-color: #000000b0;
   padding: 25px;
   border-radius: 32px;
+
+  & h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  & h3 {
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  > section {
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+  }
+
+  & p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 2rem;
+  }
+  & h1,
+  h3 {
+    color: var(--bg-white);
+  }
 }
 
 /* Usage Stats */
@@ -633,8 +631,8 @@ footer p {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 8.2em 0;
-  padding: 20px 60px 70px;
+  margin: 6.9em 0;
+  padding: 20px 60px 50px;
   width: 100%;
   height: 100%;
 }
@@ -827,6 +825,10 @@ input[type="number"] {
   align-items: center;
   padding: 10px 0;
   gap: 10px;
+}
+#schedule-new-container {
+  display: none;
+  flex-direction: column;
 }
 
 /* !SECTION */

@@ -83,6 +83,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 - [ ] Check settings every time the window is focused
   - [ ] Update removal functions to include the settings value and hide/show based on value
+- [ ] Improve restriction functionality
 
 ### Scheduling
 
@@ -108,6 +109,8 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ### Completed
 
+- [x] Separate general and schedule settings javascript into two files
+- [x] Add new schedule form functionality
 - [x] Display alt activities
 - [x] Display usage times
 - [x] Redesign Blocked Page
