@@ -498,33 +498,43 @@ footer p {
   gap: 50px;
   margin: 0 50px;
 
-  & h1 {
+  &
+  h1 {
     text-transform: uppercase;
+  font-weight: 700;
+  }
+
+  &
+  h3 {
     font-weight: 700;
+  font-size: 24px;
   }
 
-  & h3 {
-    font-weight: 700;
-    font-size: 24px;
-  }
-
-  > section {
+  >
+  section {
     display: flex;
-    gap: 50px;
-    flex-direction: column;
+  gap: 50px;
+  flex-direction: column;
   }
 
-  & p {
+  &
+  p {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-    font-size: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  font-size: 2rem;
   }
-  & h1,
+  &
+  h1,
   h3 {
     color: var(--bg-white);
   }
+;
+  width: fit-content;
+  background-color: #000000b0;
+  padding: 25px;
+  border-radius: 32px;
 }
 
 /* Usage Stats */
