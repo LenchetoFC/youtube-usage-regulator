@@ -176,7 +176,7 @@ button:active {
   opacity: 100%;
 }
 .schedule-item-header button {
-  /* background: transparent; */
+  background: transparent;
   margin: 5px 0;
   border: 2px solid transparent;
   /* visibility: hidden; */
