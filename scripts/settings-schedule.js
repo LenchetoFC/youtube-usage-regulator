@@ -28,7 +28,8 @@ const scheduleDayForm = document.querySelectorAll("form input");
 scheduleDayForm.forEach((element) => {
   getSettings(element.name, (result) => {
     // Ensures the schedule days are set to default
-    setSetting(element.name, false);
+    console.log(result)
+    // setSetting(element.name, [false, []]);
 
     // Updates settings for whichever button is pushed
     element.addEventListener("click", (event) => {
@@ -163,8 +164,7 @@ submitSchedule.addEventListener("click", () => {
     let startTimeValue = element.children[0].value;
     let endTimeValue = element.children[1].value;
     if (startTimeValue != "" && endTimeValue != "") {
-      selectedTimes.push(startTimeValue);
-      selectedTimes.push(endTimeValue);
+      selectedTimes.push([startTimeValue, endTimeValue]);
     }
   });
   
@@ -173,12 +173,17 @@ submitSchedule.addEventListener("click", () => {
   if (times.length === 0 && allDayChecked) selectedTimes.push(allDayChecked)
   else if(times.length === 0 && !allDayChecked) alert("Select schedule times or \"All Day\" before clicking \"Done\"");
   
+  //  Add new schedule day to schedule list
+  selectedDays.forEach((day) => {
+    console.log(day)
+    console.log(selectedTimes)
+    // setSetting(day, [false, selectedTimes]);
+  })
   console.log(selectedDays);
   console.log(selectedTimes);
 
 })
 
-//  Add new schedule day to schedule list
 //  Add schedule times to existing days
 //  Restrict adding new schedule times to "all day" schedules
 

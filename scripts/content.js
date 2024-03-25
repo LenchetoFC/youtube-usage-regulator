@@ -136,9 +136,9 @@ const updateHTML = (htmlPage) => {
 
 // A list of names of all settings
 let settingTitles = [
-  'youtubeSite', 'homePage', 'shortsPage', 
-  'homeButton', 'autoPlayButton', 'nextVideoButton',
-  'recommendedVideos', 'leftSideMenu', 'searchBar', 
+  'youtube-site', 'home-page', 'shorts-page', 
+  'home-button', 'autoplay-button', 'next-vid-btn',
+  'recommended-vids', 'left-side-menu', 'search-bar', 
 ];
 
 
@@ -149,42 +149,42 @@ setTimeout(() => {
 
     if (returnValue === "true") {
       switch (settingTitle) {
-        case 'youtubeSite':
+        case settingTitles[0]:
           if (window.location.href.startsWith('https://www.youtube.com/') ) {
             console.log("blocks entire site");
             updateHTML("/html/blocked-page.html");
           } 
         break;
 
-        case 'homePage':
+        case settingTitles[1]:
           if (window.location.href === 'https://www.youtube.com/') {
             console.log("blocks home page");
             updateHTML("/html/blocked-page.html");
           } 
           break;
 
-        case 'shortsPage':
+        case settingTitles[2]:
           if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
             console.log("blocks shorts page");
             updateHTML("/html/blocked-page.html");
           } 
           break;
 
-        case 'homeButton':
+        case settingTitles[3]:
           removeElement("start", 'homeButton');
           removeElement("logo-icon", 'homeButton') //YouTube home button (alternate 1)
           removeElement("logo", 'homeButton') //YouTube home button (alternate 2)
           break;
     
-        case 'autoPlayButton':
+        case settingTitles[4]:
           removeClassElement("ytp-autonav-toggle-button-container", 'autoPlayButton'); //autoplay toggle
           break;
           
-        case 'nextVideoButton':
+        case settingTitles[5]:
           removeClassElement("ytp-next-button ytp-button", 'nextVideoButton'); //next video button
           break;
     
-        case 'recommendedVideos':
+        case settingTitles[6]:
           removeElement("related", 'recommendedVideos');
           removeElement("contents", 'recommended videos on home page');
           
@@ -204,7 +204,7 @@ setTimeout(() => {
           // }, 1000);
           break;
           
-        case 'leftSideMenu':
+        case settingTitles[7]:
           removeElement("scroll-container", 'left side bar') //left side bar
           removeElement("guide", 'leftSideMenu alt 1') //left side bar (alternate 1)
           removeElement("items", 'leftSideMenu alt 2') //left side bar (alternate 2)
@@ -212,7 +212,7 @@ setTimeout(() => {
           removeElement("header", 'header') //header
           break;
 
-        case 'searchBar':
+        case settingTitles[8]:
           removeElement("center", 'searchBar');
 
           document.getElementById('container').style.justifyContent = "flex-end";

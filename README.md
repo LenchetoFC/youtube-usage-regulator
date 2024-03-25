@@ -97,10 +97,6 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - [ ] Update Repo Example Photos
 - [ ] Record Demo Video
 
-### Storage
-
-- [ ] Create default settings on first extension use
-
 <!-- ### Free Video Tokens
 
 - [ ] Free video count popup
@@ -109,6 +105,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ### Completed
 
+- [x] Create default settings on first extension use
 - [x] Separate general and schedule settings javascript into two files
 - [x] Add new schedule form functionality
 - [x] Display alt activities

@@ -26,7 +26,6 @@ addictiveForm.forEach((element) => {
       element.checked = true;
     } else {
       element.checked = false;
-      setSetting(element.name, false);
     }
 
     // Updates settings for whichever button is pushed
@@ -124,12 +123,8 @@ const addActivityHTML = () => {
 const addActivity = (activity) => {
   getSettings("activities", (result) => {
     // Saves new activity to exisiting storage 
-    if(result != undefined){
-      result.unshift(activity);
-      setSetting("activities", result);
-    } else { // initiates array if one doesn't exist
-      setSetting("activities", [activity]);
-    }
+    result.unshift(activity);
+    setSetting("activities", result);
   });
 }
 
