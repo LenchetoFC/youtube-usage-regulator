@@ -16,6 +16,17 @@
 //  Add existing schedules to HTML on load
 // Add schedules to storage
 
+// Hides time selection after adding new time
+const hideTimeSelection = (scheduleDays) => {
+  scheduleDays.forEach(element => {
+    element.checked = false;
+    addTimeBtn.style.display = "flex";
+    newScheduleSelection.style.display = "none"
+    allDayBtn.checked = false;
+    scheduleNewTimeContainer.innerHTML = "";
+  })
+} 
+
 //  Hide/Appear time selection when at least 1 day is selected
 let newScheduleSelection = document.getElementById("schedule-new-container");
 let allDayBtn = document.getElementById("schedule-all-day");
@@ -25,40 +36,22 @@ let submitSchedule = document.getElementById("submit-schedule");
 
 const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 const scheduleDayForm = document.querySelectorAll("form input");
+
+// Add event listener to scheduleDayForm checkboxes
 scheduleDayForm.forEach((element) => {
-  getSettings(element.name, (result) => {
-    // Ensures the schedule days are set to default
-    console.log(result)
-    // setSetting(element.name, [false, []]);
-
-    // Updates settings for whichever button is pushed
-    element.addEventListener("click", (event) => {
-      setSetting(element.name, element.checked);
-
-      let checkedList = [];
-
-      // Checks checked value for all days
-      // Determines if the time selection section is displayed
-      scheduleDays.forEach(element => {
-        getSettings(`schedule-${element}`, (result) => {
-          checkedList.push(result);
-          
-          // Check if all values have been pushed
-          if (checkedList.length === scheduleDays.length) {
-            
-            if (checkedList.includes(true)) {
-              newScheduleSelection.style.display = "flex"
-              
-            } else {
-              addTimeBtn.style.display = "flex";
-              newScheduleSelection.style.display = "none"
-              allDayBtn.checked = false;
-              scheduleNewTimeContainer.innerHTML = "";
-            }
-          }
-        });
-      });
-    });
+  element.addEventListener("change", () => {
+    // Check if any checkbox is checked
+    const isAnyChecked = Array.from(scheduleDayForm).some((checkbox) => checkbox.checked);
+    
+    // Hides/shows time selections if at least one checkbox is checked
+    if (isAnyChecked) {
+      newScheduleSelection.style.display = "flex"
+    } else {
+      addTimeBtn.style.display = "flex";
+      newScheduleSelection.style.display = "none"
+      allDayBtn.checked = false;
+      scheduleNewTimeContainer.innerHTML = "";
+    }
   });
 });
 
@@ -149,7 +142,8 @@ submitSchedule.addEventListener("click", () => {
   // Gets selected schedule days
   let selectedDays = [];
   let scheduleDays = document.querySelectorAll(".checkbox-circle label input");
-  // Filters out
+  
+    // Filters out
   let filteredDays = Array.from(scheduleDays, (day) => ({[day.name]: day.checked})).filter(day => day[Object.keys(day)[0]]);
 
   // Gets rid of true boolean values and only keeps selected days
@@ -165,22 +159,45 @@ submitSchedule.addEventListener("click", () => {
     let endTimeValue = element.children[1].value;
     if (startTimeValue != "" && endTimeValue != "") {
       selectedTimes.push([startTimeValue, endTimeValue]);
-    }
+    } else selectedTimes = "";
   });
   
-  // Gets boolean value of "all day" button
-  let allDayChecked = allDayBtn.checked;
-  if (times.length === 0 && allDayChecked) selectedTimes.push(allDayChecked)
-  else if(times.length === 0 && !allDayChecked) alert("Select schedule times or \"All Day\" before clicking \"Done\"");
   
-  //  Add new schedule day to schedule list
+  /**
+   * SECTION - ADDING SCHEDULES TO STORAGE 
+   * 
+  */
+ //  Add new schedule day to schedule list
   selectedDays.forEach((day) => {
-    console.log(day)
-    console.log(selectedTimes)
-    // setSetting(day, [false, selectedTimes]);
+    getSettings(day, (currentTimes) => {
+      // Gets boolean value of "all day" button
+      let allDayChecked = allDayBtn.checked;
+      if((times.length === 0 && !allDayChecked) || selectedTimes === "") alert("Select schedule times or \"All Day\" before clicking \"Done\"");
+      else {
+        // Runs this code if "all day" or times have been selected 
+        if (currentTimes[0] == true) {
+          alert(`To add new times to that day, delete the day's current schedule and try again.`);
+        }
+        else if (currentTimes[0] == false && times.length === 0) { // If all day button is selected
+          // Replaces currently stored times with true value for "all day" schedule to schedule day
+          setSetting(day, [allDayChecked]);
+          hideTimeSelection(scheduleDays);
+        } 
+        else { // if any times have been selected
+          // Pushes each time selection to currentTime array  
+          selectedTimes.forEach((time) => {
+            currentTimes.push(time);
+          })
+
+          // Stores new and current times to schedule day
+          setSetting(day, currentTimes);
+          hideTimeSelection(scheduleDays);
+
+        }
+      }
+    })
   })
-  console.log(selectedDays);
-  console.log(selectedTimes);
+  /** !SECTION */
 
 })
 
@@ -188,3 +205,5 @@ submitSchedule.addEventListener("click", () => {
 //  Restrict adding new schedule times to "all day" schedules
 
 /**!SECTION */
+
+// TODO: Adding new schedule results in nested arrays when we want everything to be within one array
