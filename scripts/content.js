@@ -188,7 +188,7 @@ const checksSchedule = () => {
         // Iterates through each schedule interval
         timesSelection.forEach((time) => {
           // Adds true value to blockYoutube array if current time is between interval
-          if (currentTime > time[0] && currentTime < time[1]) {
+          if (currentTime >= time[0] && currentTime <= time[1]) {
             blockYouTube.push(true);
           }
   
