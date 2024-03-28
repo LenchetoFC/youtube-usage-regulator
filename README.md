@@ -85,12 +85,6 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
   - [ ] Update removal functions to include the settings value and hide/show based on value
 - [ ] Improve restriction functionality
 
-### Scheduling
-
-- [ ] Create new schedules
-- [ ] Delete schedules
-- [ ] Display current schedules
-
 ### Publishing Extension
 
 - [ ] Publish to Chrome Web Store
@@ -105,6 +99,9 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ### Completed
 
+- [x] Create new schedules
+- [x] Delete schedules
+- [x] Display current schedules
 - [x] Create default settings on first extension use
 - [x] Separate general and schedule settings javascript into two files
 - [x] Add new schedule form functionality
@@ -145,6 +142,8 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
   - Added time tracking functionality
 - 0.6
   - Updated blocked page functionality & UI
+- 0.7
+  - Added full scheduling functionality
 
 ## Acknowledgments
 
