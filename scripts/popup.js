@@ -14,15 +14,14 @@
  * 
  */
 // All settings to get and display on standard popup
-let settingsToGet = ["youtubeSite", "all-time-usage", "today-usage"];
+let settingsToGet = ["youtube-site", "all-time-usage", "today-usage"];
 
 /**
  * Gets settings and appropriately changes UI
  */
 settingsToGet.forEach((settingName) => {
   getSettings(settingName, (result) => {
-    console.log(settingName);
-    if (settingName === "youtubeSite") {
+    if (settingName === "youtube-site") {
       let youTubeSetting = document.querySelectorAll("form input")[0];
 
       // Visually displays the status of the setting

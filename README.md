@@ -97,6 +97,12 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - [ ] Handle free video tokenization
       -->
 
+### Scheduling
+
+- [ ] Allow schedules to block site
+- [ ] Combine crossed times
+- [ ] Sort times properly
+
 ### Completed
 
 - [x] Create new schedules
@@ -143,7 +149,9 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - 0.6
   - Updated blocked page functionality & UI
 - 0.7
-  - Added full scheduling functionality
+  - Added scheduling functionality
+- 0.7.1
+  - Restriction fixes
 
 ## Acknowledgments
 

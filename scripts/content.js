@@ -141,35 +141,42 @@ let settingTitles = [
   'recommended-vids', 'left-side-menu', 'search-bar', 
 ];
 
+//TODO - Add schedules to block 
+// Get all current day's schedule times & put them in a single-level array
+// Get current time
+// If current time is within any intervals, turn on "youtube-site" restriction setting
+// If not, turn it off 
+
 
 // Gets values of settings & enables activated settings
 setTimeout(() => {
-  settingTitles.forEach(async (settingTitle) => {
+  settingTitles.forEach(async (settingTitle, index) => {
     let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
 
-    if (returnValue === "true") {
+    // If settings value is set to true, it restricts that element
+    if (returnValue === true) {
       switch (settingTitle) {
         case settingTitles[0]:
           if (window.location.href.startsWith('https://www.youtube.com/') ) {
             console.log("blocks entire site");
             updateHTML("/html/blocked-page.html");
           } 
-        break;
-
+          break;
+          
         case settingTitles[1]:
           if (window.location.href === 'https://www.youtube.com/') {
             console.log("blocks home page");
             updateHTML("/html/blocked-page.html");
           } 
           break;
-
+          
         case settingTitles[2]:
           if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
             console.log("blocks shorts page");
             updateHTML("/html/blocked-page.html");
           } 
           break;
-
+          
         case settingTitles[3]:
           removeElement("start", 'homeButton');
           removeElement("logo-icon", 'homeButton') //YouTube home button (alternate 1)
@@ -226,17 +233,24 @@ setTimeout(() => {
 /**!SECTION */
 
 
-/**f
+/**
  * SECTION - TIME TRACKING
  * 
  */
 
-// Starts tracking time when site is focused
-// Gets current time when tracking starts
+/**
+ * Starts tracking time when site is focused
+ * Gets current time when tracking starts
+ */
+
+// Starts timer immediately, even if not focused at first
 let startTime = new Date();
+console.log(`start time immediately ${startTime}`);
+
+// Starts timer when YouTube site is focused
 window.addEventListener("focus", (event) => {
   startTime = new Date();
-  console.log(`start time ${startTime}`)
+  console.log(`start time on focus ${startTime}`);
 });
 
 
@@ -246,6 +260,7 @@ window.addEventListener("blur", async (event) => {
   // Calculates elapsed time
   const endTime = new Date();
   const elapsedTime = Math.floor((endTime - startTime) / 1000);
+  console.log(`elapsed time on blur ${elapsedTime}`);
   
   // Gets current values of both time usages
   const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});

@@ -47,14 +47,14 @@ chrome.runtime.onInstalled.addListener(() => {
   const settings = ["addictive-settings", "activities", "youtube-site", "home-page", 
                     "shorts-page", "home-button", "autoplay-button", "next-vid-btn",
                     "recommended-vids", "left-side-menu", "search-bar", "all-time-usage",
-                    "today-time-usage", "schedule-sun", "schedule-mon", "schedule-tue",
+                    "today-usage", "schedule-sun", "schedule-mon", "schedule-tue",
                     "schedule-wed", "schedule-thu", "schedule-fri", "schedule-sat"
                   ];
   
   settings.forEach((setting) => {
     if (setting == "activities") setSettingBG(setting, []);
     else if (setting.includes("schedule-")) setSettingBG(setting, [false]);
-    else if (setting.includes("time-usage")) setSettingBG(setting, 0);
+    else if (setting.includes("-usage")) setSettingBG(setting, 0);
     else if (setting.includes("last-used-date")) setSettingBG(setting, "");
     else setSettingBG(setting, false);
   })
