@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Regulator: Limit addicting aspects of YouTube",
-  "version": "0.7.1",
-  "description": "YouTube Regulator removes parts of YouTube that feeds content addiction to help the user use YouTube more reasonably",
+  "name": "Restrict The Tube: Limit addicting aspects of YouTube",
+  "version": "0.7.2",
+  "description": "Restrict The Tube helps you take back control of your YouTube watch habits.",
   "icons": {
     "16": "/images/icon-logo-ext.png",
     "32": "/images/icon-logo-ext.png",

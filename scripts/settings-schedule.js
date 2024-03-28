@@ -257,9 +257,10 @@ addTimeBtn.addEventListener("mouseup", (event) => {
     }
   });
 
+  //FIXME - It gets stuck in an alert loop when the start time is last to be changed
   // Checks if start time is later than end time
   endTime.addEventListener("blur", () => {
-    if (startTime.value && endTime.value && startTime.value > endTime.value) {
+    if (startTime.value > endTime.value) {
       // Alerts user of their error
       startTime.style.borderColor = "red";
       endTime.style.borderColor = "red";

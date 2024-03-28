@@ -79,6 +79,12 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ## To-Do
 
+<!-- ### Free Video Tokens
+
+- [ ] Free video count popup
+- [ ] Handle free video tokenization
+      -->
+
 ### YouTube Restrictions
 
 - [ ] Check settings every time the window is focused
@@ -91,20 +97,13 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - [ ] Update Repo Example Photos
 - [ ] Record Demo Video
 
-<!-- ### Free Video Tokens
-
-- [ ] Free video count popup
-- [ ] Handle free video tokenization
-      -->
-
 ### Scheduling
 
-- [ ] Allow schedules to block site
 - [ ] Combine crossed times
-- [ ] Sort times properly
 
 ### Completed
 
+- [x] Allow schedules to block site
 - [x] Create new schedules
 - [x] Delete schedules
 - [x] Display current schedules
@@ -149,9 +148,11 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - 0.6
   - Updated blocked page functionality & UI
 - 0.7
-  - Added scheduling functionality
+  - Added scheduling storing functionality
 - 0.7.1
   - Restriction fixes
+- 0.7.2
+  - Added scheduling block functionality
 
 ## Acknowledgments
 
