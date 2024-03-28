@@ -25,7 +25,7 @@ settingsToGet.forEach((settingName) => {
       let youTubeSetting = document.querySelectorAll("form input")[0];
 
       // Visually displays the status of the setting
-      if (result === "true") {
+      if (result === true) {
         youTubeSetting.checked = true;
       } else {
         youTubeSetting.checked = false;

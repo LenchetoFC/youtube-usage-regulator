@@ -48,7 +48,8 @@ chrome.runtime.onInstalled.addListener(() => {
                     "shorts-page", "home-button", "autoplay-button", "next-vid-btn",
                     "recommended-vids", "left-side-menu", "search-bar", "all-time-usage",
                     "today-usage", "schedule-sun", "schedule-mon", "schedule-tue",
-                    "schedule-wed", "schedule-thu", "schedule-fri", "schedule-sat"
+                    "schedule-wed", "schedule-thu", "schedule-fri", "schedule-sat",
+                    "scheduleOn"
                   ];
   
   settings.forEach((setting) => {

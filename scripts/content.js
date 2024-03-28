@@ -200,12 +200,12 @@ const checksSchedule = () => {
     //  & sets youtube-site restriction setting to true
     if (blockYouTube.includes(true)) {
       console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
-      await setSettings({operation: "set", key: 'youtube-site', value: true});
+      await setSettings({operation: "set", key: 'scheduleOn', value: true});
       updateHTML("/html/blocked-page.html");
       return;
     } else { 
       // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
-      await setSettings({operation: "set", key: 'youtube-site', value: false});
+      await setSettings({operation: "set", key: 'scheduleOn', value: false});
       console.log("NOT WITHIN SCHEDULE TIMES");
     }
   })
