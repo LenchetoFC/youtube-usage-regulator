@@ -101,8 +101,13 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 - [ ] Combine crossed times
 
+### Testing
+
+- [ ] Test in all most popular browsers
+
 ### Completed
 
+- [x] Sorts schedule times before storing
 - [x] Allow schedules to block site
 - [x] Create new schedules
 - [x] Delete schedules

@@ -257,7 +257,6 @@ addTimeBtn.addEventListener("mouseup", (event) => {
     }
   });
 
-  //FIXME - It gets stuck in an alert loop when the start time is last to be changed
   // Checks if start time is later than end time
   endTime.addEventListener("blur", () => {
     if (startTime.value > endTime.value) {
@@ -345,7 +344,7 @@ submitSchedule.addEventListener("click", () => {
       else {
         // Runs this code if "all day" or times have been selected 
         if (currentTimes[0] == true) {
-          alert(`To add new times to that day, delete the day's current schedule and try again.`);
+          alert(`To add new times to ${day[9].toUpperCase()}${day.slice(10)}., delete the day's current schedule and try again.`);
         }
         else if (currentTimes[0] == false && times.length === 0) { // If all day button is selected
           // Replaces currently stored times with true value for "all day" schedule to schedule day
@@ -358,11 +357,22 @@ submitSchedule.addEventListener("click", () => {
             insertSchedule();
           }
         } 
-        else { // if any times have been selected
+        // if any times have been selected
+        else {
           // Pushes each time selection to currentTime array  
           selectedTimes.forEach((time) => {
             currentTimes.push(time);
           })
+
+          // Sorts the currentTimes array by the first element of each nested array
+          currentTimes.sort((a, b) => {
+            if (typeof a === 'boolean' || typeof b === 'boolean') {
+              return 0;
+            }
+            return a[0].localeCompare(b[0]);
+          });
+
+          console.log(currentTimes)
 
           // Stores new and current times to schedule day
           setSetting(day, currentTimes);
@@ -372,6 +382,7 @@ submitSchedule.addEventListener("click", () => {
             scheduleGrid.innerHTML = "";
             hideTimeSelection(scheduleDays);
             insertSchedule();
+            timeSelectionAmt = 0;
           }
         }
       }
