@@ -10,13 +10,163 @@
  * 
 */
 
-// Combines overlapping schedules
-// Remove specific schedule days from storage
-// Retrieve schedules from storage
-//  Add existing schedules to HTML on load
-// Add schedules to storage
+// Used to iterate through schedule days a few times throughout script 
+const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-// Hides time selection after adding new time
+/**
+ * SECTION - INSERTS SCHEDULES INTO DOM
+ * 
+ */
+
+/**
+ * Converts military time in string type into the 12 hour format in string type
+ * 
+ * @param {string} startTime - the beginning of the schedule time
+ * @param {string} endTime - the end of the schedule time
+ * 
+ * @returns {array} Returns an array of both times in 12-Hour format
+ * 
+ * @example convertMilToTwelveHour("12:42", "18:00");
+ */
+const convertMilToTwelveHour = (startTime, endTime) => {
+  // Convert start time to AM/PM format
+  let startHour = parseInt(startTime.slice(0, 2));
+  let startMinutes = startTime.slice(3);
+  let startPeriod = startHour >= 12 ? "PM" : "AM";
+  if (startHour > 12) {
+    startHour -= 12;
+  }
+  startTime = `${startHour}:${startMinutes} ${startPeriod}`;
+  
+  // Convert end time to AM/PM format
+  let endHour = parseInt(endTime.slice(0, 2));
+  let endMinutes = endTime.slice(3);
+  let endPeriod = endHour >= 12 ? "PM" : "AM";
+  if (endHour > 12) {
+    endHour -= 12;
+  }
+  endTime = `${endHour}:${endMinutes} ${endPeriod}`;
+
+  // Returns an array of both times in 12-Hour format
+  return [startTime, endTime];
+}
+
+/**
+ * Adds schedules to the schedule grid in DOM. 
+ * 
+ * @returns {void} This function does not return anything. It adds schedules to the schedule grid.
+ * 
+ * @example insertSchedule();
+ */
+const insertSchedule = () => {
+  let scheduleGrid = document.getElementById("schedules");  
+  let header = document.getElementById("schedule-title");
+
+  // Checks each day for schedules and displays any that exist on page
+  scheduleDays.forEach((day) => {
+    let dayCapitalize =  day[0].toUpperCase() + day.slice(1);
+  
+    // Gets the stored schedules (if any) from schedule days settings
+    getSettings(`schedule-${day}`, (schedule) => {
+      // Immediately skips day if there are no schedules
+      if (schedule.length === 1 && schedule[0] === false) return;
+
+      let scheduleItem = document.createElement("section");
+      scheduleItem.className = "schedule-item";
+      scheduleItem.id = `schedule-${day}`;
+      let scheduleItemHeader = document.createElement("section");
+      scheduleItemHeader.className = "schedule-item-header";
+      scheduleItemHeader.innerHTML = `
+        <section class="schedule-item-day">${dayCapitalize}</section>
+        <button>
+          <img class="icon-delete" src="/images/icon-delete.svg" alt="X delete button">
+        </button>
+      `;
+
+      // Actions for when time selection delete button is pressed
+      let deleteBtn = scheduleItemHeader.querySelector(".icon-delete");
+      deleteBtn.addEventListener(("click"), () => {
+        // Deletes time selection line the delete button is associated to
+        scheduleItem.remove();
+        setSetting(`schedule-${day}`, [false]);
+
+        // Eliminates extra space if there are no active schedules
+        if (scheduleGrid.childNodes.length === 0) {
+          scheduleGrid.style.display = "none";
+          header.style.display = "none";
+        };
+
+        return;
+      });
+  
+      scheduleItem.append(scheduleItemHeader);
+      
+      let scheduleTimeList = document.createElement("section");
+      scheduleTimeList.className = "schedule-time-list";
+  
+      if (schedule[0] === true) {
+        let scheduleTime = document.createElement("section");
+        scheduleTime.className = "schedule-time";
+        scheduleTime.innerHTML = `
+          <div class="schedule-start-time"></div>
+          <div>All Day</div> 
+          <div class="schedule-end-time"></div>
+        `;
+  
+        scheduleTimeList.append(scheduleTime);
+        scheduleItem.append(scheduleTimeList);
+      } else if (schedule[0] === false && schedule.length > 1) {
+        schedule.slice(1).forEach((time) => {
+          // Converts military time to 12-hour clock
+          let convertedTime = convertMilToTwelveHour(time[0], time[1]);
+  
+          let scheduleTime = document.createElement("section");
+          scheduleTime.className = "schedule-time";
+          scheduleTime.innerHTML = `
+            <div class="schedule-start-time">${convertedTime[0]}</div>
+            <div>to</div> 
+            <div class="schedule-end-time">${convertedTime[1]}</div>
+          `;
+          scheduleTimeList.append(scheduleTime);
+        })
+  
+        scheduleItem.append(scheduleTimeList);
+      }
+
+      // Adds header and schedule items to grid if there is at least one schedule
+      if (schedule[0] === true || schedule.length > 1) {
+        scheduleGrid.append(scheduleItem);
+
+        // Displays schedule grid and header
+        scheduleGrid.style.display = "grid";
+        header.style.display = "flex";
+      }
+    })
+    
+  })
+}
+
+// Displays all schedules
+insertSchedule();
+
+/** !SECTION */
+
+
+/**
+ * SECTION - MISC SCHEDULING CODE
+ * 
+ */
+
+/**
+ * Essentially resets the time selection by to default by hiding 
+ *  the time selectors and unchecking all day checkboxes
+ * 
+ * @param {array} scheduleDays - an array of the checkboxes to uncheck
+ * 
+ * @returns {array} Returns an array of both times in 12-Hour format
+ * 
+ * @example hideTimeSelection(["schedule-mon", "schedule-fri"]);
+ */
 const hideTimeSelection = (scheduleDays) => {
   scheduleDays.forEach(element => {
     element.checked = false;
@@ -27,14 +177,13 @@ const hideTimeSelection = (scheduleDays) => {
   })
 } 
 
-//  Hide/Appear time selection when at least 1 day is selected
+//  Gets important elements from DOM
 let newScheduleSelection = document.getElementById("schedule-new-container");
 let allDayBtn = document.getElementById("schedule-all-day");
 let addTimeBtn = document.getElementById("add-time-btn");
 let scheduleNewTimeContainer = document.getElementById("time-container");
 let submitSchedule = document.getElementById("submit-schedule");
 
-const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 const scheduleDayForm = document.querySelectorAll("form input");
 
 // Add event listener to scheduleDayForm checkboxes
@@ -55,7 +204,13 @@ scheduleDayForm.forEach((element) => {
   });
 });
 
-// Add new time selection line when "add time" btn is pressed
+/** !SECTION */
+
+
+/**
+ * SECTION - Add new time selection line when "add time" btn is pressed
+ * 
+ */
 let timeSelectionAmt = 0;
 addTimeBtn.addEventListener("mouseup", (event) => {
   timeSelectionAmt++;
@@ -122,7 +277,13 @@ addTimeBtn.addEventListener("mouseup", (event) => {
   }
 })
 
-//  Actions for when "all day" button is selected
+/** !SECTION */
+
+
+/**
+ * SECTION - Actions for when "all day" button is selected
+ * 
+ */
 allDayBtn.addEventListener("click", () => {
   let currentDisplay = addTimeBtn.style.display;
 
@@ -130,14 +291,20 @@ allDayBtn.addEventListener("click", () => {
   //  when "all day" button is checked 
   if (currentDisplay === "none" && timeSelectionAmt < 5) {
     addTimeBtn.style.display = "flex";
-  } else { 
+  } else {
     addTimeBtn.style.display = "none";
     scheduleNewTimeContainer.innerHTML = "";
     timeSelectionAmt = 0;
   }
 })
 
-// Actions for when user is submitting schedule times
+/** !SECTION */
+
+
+/**
+ * SECTION - Actions for when user is submitting schedule times 
+ * 
+ */
 submitSchedule.addEventListener("click", () => {
   // Gets selected schedule days
   let selectedDays = [];
@@ -151,7 +318,7 @@ submitSchedule.addEventListener("click", () => {
     selectedDays.push(Object.keys(element)[0]);
   });
 
-  // Gets selected time values
+  // Gets selected time values and pushes them to an array
   let selectedTimes = [];
   let times = document.querySelectorAll(".schedule-new-time");
   times.forEach(element => {
@@ -168,7 +335,8 @@ submitSchedule.addEventListener("click", () => {
    * 
   */
  //  Add new schedule day to schedule list
-  selectedDays.forEach((day) => {
+  let scheduleGrid = document.getElementById("schedules");  
+  selectedDays.forEach((day, index) => {
     getSettings(day, (currentTimes) => {
       // Gets boolean value of "all day" button
       let allDayChecked = allDayBtn.checked;
@@ -181,7 +349,13 @@ submitSchedule.addEventListener("click", () => {
         else if (currentTimes[0] == false && times.length === 0) { // If all day button is selected
           // Replaces currently stored times with true value for "all day" schedule to schedule day
           setSetting(day, [allDayChecked]);
-          hideTimeSelection(scheduleDays);
+
+          // Only displays schedules and hides selection after the last schedule day has been handled
+          if (index === (selectedDays.length - 1)) {
+            scheduleGrid.innerHTML = "";
+            hideTimeSelection(scheduleDays);
+            insertSchedule();
+          }
         } 
         else { // if any times have been selected
           // Pushes each time selection to currentTime array  
@@ -191,8 +365,13 @@ submitSchedule.addEventListener("click", () => {
 
           // Stores new and current times to schedule day
           setSetting(day, currentTimes);
-          hideTimeSelection(scheduleDays);
 
+          // Only displays schedules and hides selection after the last schedule day has been handled
+          if (index === (selectedDays.length - 1)) {
+            scheduleGrid.innerHTML = "";
+            hideTimeSelection(scheduleDays);
+            insertSchedule();
+          }
         }
       }
     })
@@ -201,9 +380,7 @@ submitSchedule.addEventListener("click", () => {
 
 })
 
-//  Add schedule times to existing days
-//  Restrict adding new schedule times to "all day" schedules
+/** !SECTION */
+
 
 /**!SECTION */
-
-// TODO: Adding new schedule results in nested arrays when we want everything to be within one array
