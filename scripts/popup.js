@@ -22,10 +22,10 @@ let settingsToGet = ["youtube-site", "all-time-usage", "today-usage"];
 settingsToGet.forEach((settingName) => {
   getSettings(settingName, (result) => {
     if (settingName === "youtube-site") {
-      let youTubeSetting = document.querySelectorAll("form input")[0];
+      let youTubeSetting = document.querySelector("#youtube-site");
 
       // Visually displays the status of the setting
-      if (result === true) {
+      if (result) {
         youTubeSetting.checked = true;
       } else {
         youTubeSetting.checked = false;
@@ -33,7 +33,7 @@ settingsToGet.forEach((settingName) => {
 
       // Updates settings for whichever button is pushed
       youTubeSetting.addEventListener("click", (event) => {
-        setSetting(youTubeSetting.name, youTubeSetting.checked.toString());
+        setSetting(youTubeSetting.name, youTubeSetting.checked);
       });
     } else if (settingName === "all-time-usage") {
       // Converts seconds from all time usage storage value into accurate time statement

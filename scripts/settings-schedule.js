@@ -104,7 +104,7 @@ const insertSchedule = () => {
       let scheduleTimeList = document.createElement("section");
       scheduleTimeList.className = "schedule-time-list";
   
-      if (schedule[0] === true) {
+      if (schedule[0]) {
         let scheduleTime = document.createElement("section");
         scheduleTime.className = "schedule-time";
         scheduleTime.innerHTML = `
@@ -134,7 +134,7 @@ const insertSchedule = () => {
       }
 
       // Adds header and schedule items to grid if there is at least one schedule
-      if (schedule[0] === true || schedule.length > 1) {
+      if (schedule[0] || schedule.length > 1) {
         scheduleGrid.append(scheduleItem);
 
         // Displays schedule grid and header

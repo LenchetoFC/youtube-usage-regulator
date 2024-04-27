@@ -15,14 +15,14 @@
  * SECTION - CHECKBOX FUNCTIONALITIES
  * This block of code gets all form checkbox inputs, adds listeners to them, and changes their visuals based on the stored settings.
  * For each checkbox input, it retrieves the corresponding setting from storage.
- * If the setting is "true", it checks the checkbox. Otherwise, it unchecks the checkbox.
+ * If the setting is true, it checks the checkbox. Otherwise, it unchecks the checkbox.
  * It also adds a click event listener to each checkbox to update the corresponding setting whenever the checkbox is clicked.
  */
 const addictiveForm = document.querySelectorAll("form input");
 addictiveForm.forEach((element) => {
   getSettings(element.name, (result) => {
     // Visually displays the status of the setting
-    if (result === true) {
+    if (result) {
       element.checked = true;
     } else {
       element.checked = false;
@@ -236,11 +236,7 @@ getSettings("all-time-usage", (result) => {
 let resetUsageBtn = document.getElementById("reset-usage");
 resetUsageBtn.addEventListener("click", () => {
   setSetting("all-time-usage", 0);
-
-  getSettings("all-time-usage", (result) => {
-    allTimeCount.innerHTML = convertTimeToText(result);
-  });
-  
+  allTimeCount.innerHTML = 0;
   console.log("ALL TIME USAGE RESET TO 0");
 })
 

@@ -230,12 +230,12 @@ let settingTitles = [
 ];
 
 // Gets values of settings & enables activated settings
-setTimeout(() => {
+window.onload = () => {
   settingTitles.forEach(async (settingTitle) => {
     let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
-
+  
     // If settings value is set to true, it restricts that element
-    if (returnValue === true) {
+    if (returnValue) {
       switch (settingTitle) {
         // YouTube Site
         case settingTitles[0]:
@@ -285,7 +285,7 @@ setTimeout(() => {
           
           removeElement("owner", 'recommendedVideos') //channel logo
           document.getElementById("owner").style.position = 'absolute';
-
+  
           
           // Removes recommended video wall after video ends
           // let videoWallClassName = "html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles";
@@ -307,18 +307,18 @@ setTimeout(() => {
           removeElement("guide-button", 'leftSideMenu') //left side hamburger menu
           removeElement("header", 'header') //header
           break;
-
+  
         // Search Bar
         case settingTitles[8]:
           removeElement("center", 'searchBar');
-
+  
           document.getElementById('container').style.justifyContent = "flex-end";
     
           break;
       }
     }
   });
-}, 3000);
+};
 
 /**!SECTION */
 
