@@ -73,7 +73,6 @@ const removeDOMContent = (elementID, elementName) => {
     const contentItems = document.querySelectorAll(elementID);
     contentItems.forEach((item) => {
       item.style.display = "none";
-      console.log(item.style.display);
     })
     console.log(`removed ${elementName}`);
   } catch (error) {
@@ -214,6 +213,15 @@ let settingTitles = [
 // Gets values of settings & enables activated settings
 //window.onload = () => {
 //};
+
+
+// Removes ability to refresh recommendations every time the window is resized.
+// That tag is reset when the window is resized, so this is the workaround
+window.addEventListener("resize", () => {
+  setTimeout(() => {
+    removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
+  }, 1000);
+});
 
 setTimeout(() => {
   settingTitles.forEach(async (settingTitle) => {

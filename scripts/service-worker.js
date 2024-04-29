@@ -37,7 +37,7 @@ chrome.storage.sync.get(["last-used-date"], function(result) {
   }
 
   // Sets default settings for all data
-  if (result["youtube-site"] == null || result["last-used-date"] == undefined) {
+  if (result["last-used-date"] == undefined) {
     console.log("ON INSTALL: DEFAULT SETTINGS CREATED");
     
     const settings = ["addictive-settings", "activities", "youtube-site", "home-page", 
@@ -67,6 +67,12 @@ chrome.storage.sync.get(["last-used-date"], function(result) {
 
 /**!SECTION */
 
+
+// chrome.storage.onChanged.addListener((event) => {
+//   for (let [key, { oldValue, newValue }] of Object.entries(event)) {
+//     console.log(`SETTING "${key}" CHANGE FROM ${oldValue} TO ${newValue}`)
+//   }
+// })
 
 /**
  * SECTION - MESSEGE LISTENERS

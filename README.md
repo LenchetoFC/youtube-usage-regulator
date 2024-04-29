@@ -28,7 +28,6 @@ Once the extension is functional, there will be an offical release on the store 
   - Shorts page
 - Removes Parts of YouTube Site:
   - Video recommendations
-  - Side hamburger menu
   - Search bar
   - Home button
   - Video autoplay button
@@ -38,6 +37,7 @@ Once the extension is functional, there will be an offical release on the store 
   - Write alternate activities to remind you what better things you can be doing
 - Schedules:
   - Add days and times that YouTube will be completely restricted
+- Limit the ability to endlessly recommend videos
 
 ### Future Features
 
