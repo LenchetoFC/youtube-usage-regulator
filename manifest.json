@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Restrict The Tube: Limit addicting aspects of YouTube",
-  "version": "0.7.2",
+  "version": "0.8",
   "description": "Restrict The Tube helps you take back control of your YouTube watch habits.",
   "icons": {
     "16": "/images/icon-logo-ext.png",

@@ -5,8 +5,12 @@
  * 
  */
 
+/**TODO: 
+ * 1. Time tracking resets at wrong times
+*/
+
 /** 
-  * SECTION - STORAGE RELATED
+  * SECTION - STORAGE RELATED 
   * 
   */
 
@@ -28,59 +32,6 @@ const setSettings = (valueToSend) => {
   });
 }
 
-/**!SECTION */
-
-
-/** 
-  * SECTION - REMOVAL OF ELEMENTS FUNCTIONS 
-  * 
-  */
-
-/**
- * Updates settings value
- * 
- * @param {string} className - className of element to confirm the element to remove
- * @param {string} elementName - element to remove
- * 
- * @returns {void} Returns nothing
- * 
- * @example setSettingsBG(key, value, () => {return}))
- */
-function removeClassElement(className, elementName){
-  try {
-    let element = document.getElementsByClassName(className)
-    console.log(element);
-    while (element.length > 0) {
-      element[0].parentNode.removeChild(element[0]);
-      console.log(`removed ${elementName}`);
-    }
-  } catch (error) {
-    console.log("Error hiding an element by classname (" + className + "): " + error);
-  }
-  
-}
-
-/**
- * Removes the element with the given ID
- * 
- * @param {string} elementID - ID of the element to remove
- * @param {string} elementName - Name of the element to remove
- * 
- * @returns {void} Returns nothing
- * 
- * @example removeElement('elementID', 'elementName')
- */
-function removeElement(elementID, elementName){
-  try {
-    // document.getElementById(elementID).style.display = 'none';
-    document.getElementById(elementID).style.visibility = 'hidden';
-    // document.getElementById(elementID).style.position = 'absolute';
-    console.log(`removed ${elementName}`);
-  } catch (error) {
-    console.log("Error showing an element by ID (" + elementID + "): " + error);
-  }
-}
-
 /**
  * Retrieves settings from storage using the background script
  * 
@@ -97,6 +48,37 @@ const retrieveSettings = (valueToSend) => {
       resolve(response.data);
     });
   });
+}
+
+/**!SECTION */
+
+
+/** 
+  * SECTION - REMOVAL OF ELEMENTS FUNCTIONS 
+  * 
+  */
+
+/**
+ * Removes the element with the given ID
+ * 
+ * @param {string} elementID - ID of the element to remove
+ * @param {string} elementName - Name of the element to remove
+ * 
+ * @returns {void} Returns nothing
+ * 
+ * @example removeDOMContent('elementID', 'elementName')
+ */
+const removeDOMContent = (elementID, elementName) => {
+  try {
+    const contentItems = document.querySelectorAll(elementID);
+    contentItems.forEach((item) => {
+      item.style.display = "none";
+      console.log(item.style.display);
+    })
+    console.log(`removed ${elementName}`);
+  } catch (error) {
+    console.log(`Error removing ${elementName}: ${error}`);
+  }
 }
 
 /**!SECTION */
@@ -230,7 +212,10 @@ let settingTitles = [
 ];
 
 // Gets values of settings & enables activated settings
-window.onload = () => {
+//window.onload = () => {
+//};
+
+setTimeout(() => {
   settingTitles.forEach(async (settingTitle) => {
     let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
   
@@ -239,7 +224,7 @@ window.onload = () => {
       switch (settingTitle) {
         // YouTube Site
         case settingTitles[0]:
-          if (window.location.href.startsWith('https://www.youtube.com/') ) {
+          if (window.location.href.startsWith('https://www.youtube.com') ) {
             console.log("blocks entire site");
             updateHTML("/html/blocked-page.html");
           } 
@@ -247,47 +232,72 @@ window.onload = () => {
         
         // Home Page
         case settingTitles[1]:
-          if (window.location.href === 'https://www.youtube.com/') {
+          if (window.location.href === 'https://www.youtube.com') {
             console.log("blocks home page");
             updateHTML("/html/blocked-page.html");
           } 
+  
+          // Home button in side nav bar
+          document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
+          
+          // Home button in top bar
+          removeDOMContent('ytd-topbar-logo-renderer', 'Home button in top bar');
+  
           break;
           
         // Shorts Page
         case settingTitles[2]:
-          if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
+          if (window.location.href.startsWith('https://www.youtube.com/shorts')) { // Shorts page
             console.log("blocks shorts page");
             updateHTML("/html/blocked-page.html");
           } 
+          else if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
+            removeDOMContent("ytd-reel-shelf-renderer", "Shorts");
+            document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
+          } 
+          else if (window.location.href.startsWith('https://www.youtube.com')) { // Home page
+            removeDOMContent("ytd-rich-section-renderer", "Shorts");
+            document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[1].style.display = 'none';
+          }
           break;
         
         // Home Button
         case settingTitles[3]:
-          removeElement("start", 'homeButton');
-          removeElement("logo-icon", 'homeButton') //YouTube home button (alternate 1)
-          removeElement("logo", 'homeButton') //YouTube home button (alternate 2)
+          removeDOMContent("ytd-topbar-logo-renderer", "Home Button");
+  
+          if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
+            document.querySelectorAll('ytd-guide-entry-renderer')[0].style.display = 'none';
+          } 
+          else if (window.location.href.startsWith('https://www.youtube.com')) {
+            document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[0].style.display = 'none';
+          }
+  
           break;
     
         // Autoplay Button
         case settingTitles[4]:
-          removeClassElement("ytp-autonav-toggle-button-container", 'autoPlayButton'); //autoplay toggle
+          try {
+            document.querySelector('.ytp-autonav-toggle-button').ariaChecked = 'false';
+            document.querySelector('.ytp-autonav-toggle-button-container').parentNode.style.display = 'none';
+          } catch (error) {
+            console.log(`Error removing autoplay button: ${error}`);
+          }
           break;
           
         // Next Video Button
         case settingTitles[5]:
-          removeClassElement("ytp-next-button ytp-button", 'nextVideoButton'); //next video button
+          removeDOMContent('.ytp-next-button', 'Next Video Button');
           break;
     
+        //TODO: doesn't remove all videos
         // Recommended Videos
         case settingTitles[6]:
-          removeElement("related", 'recommendedVideos');
-          removeElement("contents", 'recommended videos on home page');
-          
-          removeElement("owner", 'recommendedVideos') //channel logo
-          document.getElementById("owner").style.position = 'absolute';
-  
-          
-          // Removes recommended video wall after video ends
+          removeDOMContent('#header', 'filters on search & home pages');
+          removeDOMContent('yt-related-chip-cloud-renderer', 'filters video playback pages');
+          removeDOMContent('ytd-compact-video-renderer', 'Recommendations on video playback pages');
+          removeDOMContent('ytd-rich-grid-row', 'Recommendations on home pages');
+
+          // TODO: Removes recommended video wall after video ends
           // let videoWallClassName = "html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles";
           // let intervalID = setInterval(function() {
           //   try {
@@ -301,25 +311,18 @@ window.onload = () => {
          
         // Left Side Bar
         case settingTitles[7]:
-          removeElement("scroll-container", 'left side bar') //left side bar
-          removeElement("guide", 'leftSideMenu alt 1') //left side bar (alternate 1)
-          removeElement("items", 'leftSideMenu alt 2') //left side bar (alternate 2)
-          removeElement("guide-button", 'leftSideMenu') //left side hamburger menu
-          removeElement("header", 'header') //header
+          removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
           break;
   
         // Search Bar
         case settingTitles[8]:
-          removeElement("center", 'searchBar');
-  
-          document.getElementById('container').style.justifyContent = "flex-end";
-    
+          removeDOMContent('ytd-masthead #container #center', 'Search Bar');
           break;
       }
     }
   });
-};
-
+  
+}, 2000);
 /**!SECTION */
 
 

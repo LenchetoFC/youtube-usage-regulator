@@ -89,7 +89,6 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 - [ ] Check settings every time the window is focused
   - [ ] Update removal functions to include the settings value and hide/show based on value
-- [ ] Improve restriction functionality
 
 ### Publishing Extension
 
@@ -107,6 +106,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ### Completed
 
+- [x] Improve restriction functionality
 - [x] Sorts schedule times before storing
 - [x] Allow schedules to block site
 - [x] Create new schedules
@@ -158,6 +158,8 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
   - Restriction fixes
 - 0.7.2
   - Added scheduling block functionality
+- 0.8
+  - Overhauled content removal system
 
 ## Acknowledgments
 
