@@ -79,16 +79,16 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 ## To-Do
 
-<!-- ### Free Video Tokens
+### Known Bugs
 
-- [ ] Free video count popup
-- [ ] Handle free video tokenization
-      -->
+- [ ] Sometimes the comments are removed
+- [ ] Sometimes the time check while adding a new time repeatedly alerts user and user must refresh page
 
 ### YouTube Restrictions
 
 - [ ] Check settings every time the window is focused
   - [ ] Update removal functions to include the settings value and hide/show based on value
+- [ ] Remove recommendation wall after video ends
 
 ### Publishing Extension
 
@@ -99,6 +99,9 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 ### Scheduling
 
 - [ ] Combine crossed times
+- [ ] Options for what restrictions to turn on when schedule is active
+- [ ] Ability to remove individual times instead of entire day
+- [ ] Use time usage to determine if youtube is disabled
 
 ### Testing
 

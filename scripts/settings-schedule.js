@@ -396,3 +396,22 @@ submitSchedule.addEventListener("click", () => {
 
 
 /**!SECTION */
+
+// Shows or hides the settings tooltips
+document.querySelectorAll(".tooltip").forEach((element) => {
+  let infoBtn = element.children[1];
+  let tooltip = element.children[2];
+  
+  infoBtn.addEventListener("mousedown", (event) => {
+    event.stopPropagation();
+    tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible";
+  });
+
+  tooltip.addEventListener("mousedown", (event) => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener("mousedown", () => {
+    tooltip.style.visibility = "hidden";
+  });
+});

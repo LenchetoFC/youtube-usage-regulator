@@ -283,6 +283,7 @@ setTimeout(() => {
           break;
     
         // Autoplay Button
+        //TODO: Remove feature - unable to disable autoplay
         case settingTitles[4]:
           try {
             document.querySelector('.ytp-autonav-toggle-button').ariaChecked = 'false';

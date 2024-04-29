@@ -237,9 +237,7 @@ button:active {
 }
 .tooltip img {
   width: 40px;
-}
-.tooltip:hover span {
-  visibility: visible;
+  cursor: pointer;
 }
 
 /* Checkbox Button Appearance */
