@@ -41,7 +41,7 @@ body {
 body,
 p {
   font-family: "Open Sans", sans-serif;
-  font-size: 1.5rem; /* 10px * 1.7rem = 17px */
+  font-size: 1.2rem; /* 10px * 1.7rem = 17px */
   line-height: 1.4;
   color: var(--text-black);
 }
@@ -56,20 +56,21 @@ h5 {
   color: var(--text-black);
 }
 h1 {
-  font-size: 5rem;
+  font-size: 3.5rem;
   line-height: 0.85;
 }
 h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 600;
   margin-right: 10px;
+  height: 100%;
 }
 h3 {
-  font-size: 1.75rem;
+  font-size: 1.4rem;
   color: var(--text-grey-accent);
 }
 h4 {
-  font-size: 2rem;
+  font-size: 1.65rem;
   font-weight: 600;
 }
 
@@ -87,9 +88,9 @@ nav {
   top: 0;
   left: 0;
   padding-top: 15px;
-  margin-top: 7em;
-  border-top: var(--secondary-black) 1px solid;
-  border-right: var(--secondary-black) 2px solid;
+  margin-top: 8.2rem;
+  border-top: var(--secondary-black) 1.75px solid;
+  border-right: var(--secondary-black) 1.75px solid;
   background-color: var(--bg-white-accent);
   transition: 0.25s;
 }
@@ -100,7 +101,7 @@ nav > a {
 
   > img {
     z-index: 1;
-    width: 58px;
+    width: 48px;
     border-radius: 10px;
     background-color: var(--bg-white-accent);
     padding: 6px;
@@ -125,9 +126,13 @@ nav:hover {
     display: flex;
     padding-left: 5px;
   }
+  .current-page {
+    background-color: #ededed;
+    /* animation: slide-out 0.2s linear; */
+  }
 }
 nav:not(:hover) {
-  width: 80px;
+  width: 70px;
   transition: 0.25s;
 }
 nav > a:hover {
@@ -138,7 +143,7 @@ nav > a:hover {
   }
 }
 .current-page {
-  background-color: #ededed;
+  /* background-color: #ededed; */
   border-radius: 10px;
   transition: 0.25s;
   > img {
@@ -159,7 +164,7 @@ button {
 
   & .icon-delete {
     opacity: 70%;
-    width: 28px;
+    width: 24px;
   }
   & .icon-in-btn {
     width: 24px;
@@ -184,7 +189,7 @@ button:active {
 .btn-text {
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 30px;
   width: fit-content;
   padding: 12px 24px;
   margin-top: 15px;
@@ -192,7 +197,7 @@ button:active {
   border: none;
   color: var(--bg-white);
   text-transform: uppercase;
-  font-size: 1.5rem;
+  font-size: 1rem;
   /* transition: none; */
   letter-spacing: 0.1em;
 }
@@ -200,15 +205,15 @@ button:active {
   background-color: #067c1a90;
 }
 .side-icon {
-  padding: 6px 20px;
+  padding: 3px 15px;
   background-color: var(--call-to-action-3);
   & img {
-    width: 24px;
+    width: 20px;
   }
   & div {
     color: var(--body-white);
     margin: 0 10px;
-    font-size: 1.35rem;
+    font-size: 1.2rem;
   }
   display: flex;
 }
@@ -236,7 +241,7 @@ button:active {
   transition: 0.3s;
 }
 .tooltip img {
-  width: 40px;
+  width: 30px;
   cursor: pointer;
 }
 
@@ -252,8 +257,8 @@ button:active {
     margin: 4px 4px 4px 0;
     width: 25%;
     background-color: var(--bg-white);
-    border: 2px solid var(--text-grey-accent);
-    border-radius: 20px;
+    border: 1.25px solid var(--text-grey-accent);
+    border-radius: 17px;
     transition: 0.3s;
 
     & label span {
@@ -277,10 +282,10 @@ button:active {
     }
   }
   & .checkbox-circle {
-    width: 48px;
+    height: 34px;
   }
   & .checkbox-rectangle {
-    height: 70px;
+    height: 60px;
     width: 100%;
   }
   & .checkbox-square {
@@ -303,10 +308,10 @@ button:active {
 input[type="time" i] {
   padding: 10px;
   background: var(--bg-white-accent);
-  border: 2px solid var(--text-grey-accent);
-  border-radius: 15px;
+  border: 1.25px solid var(--text-grey-accent);
+  border-radius: 14px;
   color: var(--text-black);
-  font-size: 20px;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -323,11 +328,12 @@ footer {
   position: fixed;
   z-index: 1;
   bottom: 0;
-  background: #222222e7;
+  background: #222222;
   color: #d3d4d6;
 }
 footer p {
   padding: 0 10px;
+  margin: 10px 0;
   color: var(--bg-white);
 }
 
@@ -616,13 +622,13 @@ footer p {
   top: 0;
   z-index: 1;
   height: auto;
-  padding: 20px 10px;
+  padding: 15px 8px;
   block-size: auto;
-  border-bottom: var(--secondary-black) 2px solid;
+  border-bottom: var(--secondary-black) 1.75px solid;
   gap: 15px;
 
   & img {
-    width: 64px;
+    width: 52px;
   }
 }
 .settings .content-wrapper {
@@ -635,12 +641,12 @@ footer p {
   height: 100%;
 }
 .settings-section {
-  width: 80%;
+  width: 60%;
   max-width: 820px;
   min-width: 400px;
 }
 .settings-section h2 {
-  border-bottom: 2px dashed #d3d4d6;
+  border-bottom: 1.5px dashed #d3d4d6;
 }
 .settings-item {
   display: flex;
@@ -721,8 +727,8 @@ input[type="number"] {
   display: flex;
   align-items: center;
   margin: 2px;
-  border-bottom: 2px solid var(--text-grey-accent);
-  margin: 0px 25px 10px;
+  border-bottom: 1px solid var(--text-grey-accent);
+  /* margin: 0px 25px 10px; */
   justify-content: space-between;
   padding: 10px 0;
 }
@@ -740,7 +746,7 @@ input[type="number"] {
   border: 1px solid transparent;
   width: fit-content;
   color: var(--secondary-black);
-  font-size: 20px;
+  font-size: 1.5rem;
   font-style: italic;
 }
 
@@ -767,7 +773,7 @@ input[type="number"] {
   background-color: var(--bg-white-accent);
   width: 100%;
   min-height: 100px;
-  border: var(--text-grey-accent) solid 2px;
+  border: var(--text-grey-accent) solid 1.25px;
   border-radius: 10px;
 }
 .schedule-item-header {
@@ -775,22 +781,22 @@ input[type="number"] {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5px;
-  border-right: 2px solid var(--text-grey-accent);
-  background-color: var(--secondary-black);
-  border-radius: 7px 0 0 7px;
+  /* padding: 0 5px; */
+  border-right: 1.25px solid var(--text-grey-accent);
+  background-color: #fff;
+  border-radius: 9px 0 0 9px;
 }
 .schedule-item-day {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  margin: 5px 0;
-  width: 36px;
-  height: 36px;
+  /* padding: 5px; */
+  /* margin: 5px 0; */
+  width: 100%;
+  height: 50%;
   color: var(--bg-white);
   background-color: var(--call-to-action);
-  border-radius: 18px;
+  border-top-left-radius: 8.5px;
 }
 .schedule-item:hover button {
   visibility: visible;
@@ -815,8 +821,8 @@ input[type="number"] {
   align-items: flex-start;
   gap: 5px;
   padding: 10px;
-  border-top: 2px solid var(--text-grey-accent);
-  border-bottom: 2px solid var(--text-grey-accent);
+  border-top: 1.5px solid var(--text-grey-accent);
+  border-bottom: 1.5px solid var(--text-grey-accent);
 }
 .schedule-new-time {
   display: flex;
@@ -841,7 +847,7 @@ input[type="number"] {
   nav {
     justify-content: center;
     width: 100% !important;
-    height: 17%;
+    height: 20%;
     padding: 30px 5px;
     border-top: none;
     border-right: none;
@@ -853,11 +859,14 @@ input[type="number"] {
     }
   }
   .settings .content-wrapper {
-    margin: 16.5em 0;
+    margin: 16em 0;
+  }
+  .addictive-form {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 820px) {
   .schedule-grid {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -865,20 +874,15 @@ input[type="number"] {
     width: 90%;
   }
 }
-@media screen and (max-width: 1200px) and (min-width: 800px) {
+@media screen and (max-width: 1200px) and (min-width: 820px) {
   .schedule-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media screen and (max-width: 875px) and (min-width: 500px) {
+@media screen and (max-width: 875px) and (min-width: 631px) {
   .addictive-form {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media screen and (max-width: 630px) {
-  .addictive-form {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -943,7 +947,7 @@ input[type="number"] {
 }
 @keyframes slide-out {
   0% {
-    transform: translateX(-63px);
+    transform: translateX(-50px);
   }
   100% {
     transform: translateX(0px);

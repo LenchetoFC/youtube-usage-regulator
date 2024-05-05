@@ -18,17 +18,7 @@
     "service_worker": "/scripts/service-worker.js"
   },
   "permissions": [
-    "storage",
-    "activeTab",
-    "scripting",
-    "tabs",
-    "webRequest",
-    "declarativeNetRequest",
-    "notifications"
-  ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "storage"
   ],
   "content_scripts": [
     {
