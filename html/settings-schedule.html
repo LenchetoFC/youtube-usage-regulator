@@ -18,6 +18,8 @@
   </head>
 
   <body class="settings" id="schedule">
+    <div id="overlay"></div>
+
     <!-- Heading -->
     <header>
       <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
@@ -51,6 +53,11 @@
           <h3>Schedule the times and days for YouTube to be completely blocked</h3>
           
         </section>
+        <button class="btn-text side-icon" id="add-new-schedule-btn">
+          <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+          <div>New Schedule</div>
+        </button>
+        <br>
         
         <!-- SECTION - Your Set Schedules -->
         <h4 id="schedule-title">Your Set Schedules</h4>
@@ -62,8 +69,13 @@
 
 
         <!-- SECTION - Add New Schedule -->
-        <section class="settings-item">
-          <h4>Add New Schedule</h4>
+        <section class="settings-item schedule-overlay">
+          <div class="new-schedule-header">
+            <h4>New Schedule</h4>
+            <button class="btn new-schedule-exit">
+              <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+            </button>
+          </div>
 
           <form class="checkbox-form">
             <div class="checkbox-item checkbox-circle">

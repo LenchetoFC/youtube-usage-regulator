@@ -186,6 +186,38 @@ let submitSchedule = document.getElementById("submit-schedule");
 
 const scheduleDayForm = document.querySelectorAll("form input");
 
+// Important queries for hiding and showing 'add new schedule' popup
+let overlay = document.querySelector("#overlay");
+let newScheduleOverlay = document.querySelector(".schedule-overlay");
+let entireHTML = document.querySelector("html");
+
+// Shows the new schedule overlay when add new schedule button is clicked
+document.querySelector("#add-new-schedule-btn").addEventListener("click", () => {
+  overlay.style.display = "block";
+  newScheduleOverlay.style.display = "block";
+  entireHTML.style.overflow = "hidden";
+})
+
+// Function for hiding the new schedule popup and resetting the schedule form
+const hideNewSchedulePopup = (overlay, newScheduleOverlay, entireHTML) => {
+  overlay.style.display = "none";
+  newScheduleOverlay.style.display = "none";
+  entireHTML.style.overflow = "";
+
+  let selectedDays = document.querySelectorAll(".checkbox-circle label input");
+  hideTimeSelection(selectedDays);
+}
+
+// Hides popup when the overlay outside of the popup is clicked
+overlay.addEventListener("click", () => {
+  hideNewSchedulePopup(overlay, newScheduleOverlay, entireHTML);
+})
+
+// Hides popup when the 'X' button inside the poup is clicked
+document.querySelector(".new-schedule-exit").addEventListener("click", () => {
+  hideNewSchedulePopup(overlay, newScheduleOverlay, entireHTML);
+})
+
 // Add event listener to scheduleDayForm checkboxes
 scheduleDayForm.forEach((element) => {
   element.addEventListener("change", () => {
@@ -334,7 +366,7 @@ submitSchedule.addEventListener("click", () => {
    * SECTION - ADDING SCHEDULES TO STORAGE 
    * 
   */
- //  Add new schedule day to schedule list
+  // Add new schedule day to schedule list
   let scheduleGrid = document.getElementById("schedules");  
   selectedDays.forEach((day, index) => {
     getSettings(day, (currentTimes) => {
@@ -350,6 +382,11 @@ submitSchedule.addEventListener("click", () => {
           // Replaces currently stored times with true value for "all day" schedule to schedule day
           setSetting(day, [allDayChecked]);
 
+          // Disables both overlays for adding new schedules
+          overlay.style.display = "none";
+          newScheduleOverlay.style.display = "none";
+          entireHTML.style.overflow = "";
+
           // Only displays schedules and hides selection after the last schedule day has been handled
           if (index === (selectedDays.length - 1)) {
             scheduleGrid.innerHTML = "";
@@ -359,6 +396,11 @@ submitSchedule.addEventListener("click", () => {
         } 
         // if any times have been selected
         else {
+          // Disables both overlays for adding new schedules
+          overlay.style.display = "none";
+          newScheduleOverlay.style.display = "none";
+          entireHTML.style.overflow = "";
+
           // Pushes each time selection to currentTime array  
           selectedTimes.forEach((time) => {
             currentTimes.push(time);
