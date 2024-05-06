@@ -867,6 +867,7 @@ input[type="number"] {
   border-radius: 12px;
   padding: 12px;
   background-color: var(--bg-white-accent);
+  transition: 0.5s;
 }
 
 .new-schedule-header {
@@ -923,6 +924,11 @@ input[type="number"] {
 @media screen and (max-width: 700px) {
   .blocked .content-wrapper > section {
     flex-direction: column;
+  }
+
+  .schedule-overlay {
+    right: 10%;
+    left: 10%;
   }
 }
 
