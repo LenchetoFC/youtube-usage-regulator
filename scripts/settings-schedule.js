@@ -457,3 +457,38 @@ document.querySelectorAll(".tooltip").forEach((element) => {
     tooltip.style.visibility = "hidden";
   });
 });
+
+// Opens and closes horizontal nav bar
+document.querySelector(".hamburger-input").addEventListener("click", () => {
+  let checked = document.querySelector(".hamburger-input").checked;
+  let nav = document.querySelector("nav");
+  
+  // Only when the horizontal bar is active
+  if (window.matchMedia("(max-width: 630px)").matches) {
+    if (checked) { // Shows nav bar
+      nav.style.display = "flex";
+      nav.style.transform = "translateY(0px)";
+    } else { // Hides nav bar
+      nav.style.display = "none";
+      nav.style.transform = "translateY(-110px)";
+    }
+  }
+  
+})
+
+// When the horizontal nav bar is open and then closed, this code
+//  makes sure the vertical nav bar is not affected by "display: none"
+//  when the horizontal nav bar is closed
+// Basically a reset for vertical nav bar
+window.addEventListener("resize", () => {
+  let nav = document.querySelector("nav");
+
+  if (window.matchMedia("(min-width: 631px)").matches) {
+    nav.style.display = "flex";
+    nav.style.transform = "none";
+  } else {
+    nav.style.display = "none";
+    nav.style.transform = "translateY(-110px)";
+    document.querySelector(".hamburger-input").checked = false;
+  }
+})
