@@ -335,7 +335,7 @@ footer p {
     display: flex;
   }
   & img {
-    width: 30px;
+    width: 24px;
     transition: all 0.5s;
   }
   & div {

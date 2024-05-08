@@ -232,52 +232,74 @@ setTimeout(() => {
       switch (settingTitle) {
         // YouTube Site
         case settingTitles[0]:
-          if (window.location.href.startsWith('https://www.youtube.com') ) {
-            console.log("blocks entire site");
-            updateHTML("/html/blocked-page.html");
-          } 
+          try {
+            if (window.location.href.startsWith('https://www.youtube.com') ) {
+              console.log("blocks entire site");
+              updateHTML("/html/blocked-page.html");
+            } 
+          } catch {
+            console.log("troubles with entire youtube site")
+          }
           break;
         
         // Home Page
         case settingTitles[1]:
-          if (window.location.href === 'https://www.youtube.com') {
-            console.log("blocks home page");
-            updateHTML("/html/blocked-page.html");
-          } 
+          try {
+            if (window.location.href === 'https://www.youtube.com/') {
+              console.log("blocks home page");
+              updateHTML("/html/blocked-page.html");
+            } 
+          } catch {
+            console.log("troubles with home page")
+          }
   
           // Home button in side nav bar
-          document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
-          
-          // Home button in top bar
-          removeDOMContent('ytd-topbar-logo-renderer', 'Home button in top bar');
+          // NOTE: the side nav bar must be open at least once before the button can be removed
+          try {
+            document.querySelectorAll("ytd-guide-section-renderer #items")[0].firstChild.style.display = "none"
+            
+            // Home button in top bar
+            removeDOMContent('ytd-topbar-logo-renderer', 'Home button in top bar');
+          } catch (error) {
+            console.log("Side Nav hasn't been open yet to remove home button");
+          }
+
   
           break;
           
         // Shorts Page
         case settingTitles[2]:
-          if (window.location.href.startsWith('https://www.youtube.com/shorts')) { // Shorts page
-            console.log("blocks shorts page");
-            updateHTML("/html/blocked-page.html");
-          } 
-          else if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
-            removeDOMContent("ytd-reel-shelf-renderer", "Shorts");
-            document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
-          } 
-          else if (window.location.href.startsWith('https://www.youtube.com')) { // Home page
-            removeDOMContent("ytd-rich-section-renderer", "Shorts");
-            document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[1].style.display = 'none';
+          try {
+            if (window.location.href.startsWith('https://www.youtube.com/shorts')) { // Shorts page
+              console.log("blocks shorts page");
+              updateHTML("/html/blocked-page.html");
+            } 
+            else if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
+              removeDOMContent("ytd-reel-shelf-renderer", "Shorts");
+              document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
+            } 
+            else if (window.location.href.startsWith('https://www.youtube.com')) { // Home page
+              removeDOMContent("ytd-rich-section-renderer", "Shorts");
+              document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[1].style.display = 'none';
+            }
+          } catch {
+            console.log("NOT on shorts page")
           }
           break;
         
         // Home Button
         case settingTitles[3]:
-          removeDOMContent("ytd-topbar-logo-renderer", "Home Button");
-  
-          if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
-            document.querySelectorAll('ytd-guide-entry-renderer')[0].style.display = 'none';
-          } 
-          else if (window.location.href.startsWith('https://www.youtube.com')) {
-            document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[0].style.display = 'none';
+          try {
+            removeDOMContent("ytd-topbar-logo-renderer", "Home Button");
+    
+            if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
+              document.querySelectorAll('ytd-guide-entry-renderer')[0].style.display = 'none';
+            } 
+            else if (window.location.href.startsWith('https://www.youtube.com')) {
+              document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[0].style.display = 'none';
+            }
+          } catch {
+            console.log("troubles with button")
           }
   
           break;
@@ -301,10 +323,14 @@ setTimeout(() => {
         //TODO: doesn't remove all videos
         // Recommended Videos
         case settingTitles[6]:
-          removeDOMContent('#header', 'filters on search & home pages');
-          removeDOMContent('yt-related-chip-cloud-renderer', 'filters video playback pages');
-          removeDOMContent('ytd-compact-video-renderer', 'Recommendations on video playback pages');
-          removeDOMContent('ytd-rich-grid-row', 'Recommendations on home pages');
+          try {
+            removeDOMContent('#header', 'filters on search & home pages');
+            removeDOMContent('yt-related-chip-cloud-renderer', 'filters video playback pages');
+            removeDOMContent('ytd-compact-video-renderer', 'Recommendations on video playback pages');
+            removeDOMContent('ytd-rich-grid-row', 'Recommendations on home pages');
+          } catch {
+            console.log("troubles with recommendations")
+          }
 
           // TODO: Removes recommended video wall after video ends
           // let videoWallClassName = "html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles";
@@ -318,14 +344,22 @@ setTimeout(() => {
           // }, 1000);
           break;
          
-        // Left Side Bar
+        // Continuous Recommendations
         case settingTitles[7]:
-          removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
+          try {
+            removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
+          } catch {
+            console.log("troubles continuous recommendations")
+          }
           break;
   
         // Search Bar
         case settingTitles[8]:
-          removeDOMContent('ytd-masthead #container #center', 'Search Bar');
+          try {
+            removeDOMContent('ytd-masthead #container #center', 'Search Bar');
+          } catch {
+            console.log("troubles with search bar")
+          }
           break;
       }
     }
