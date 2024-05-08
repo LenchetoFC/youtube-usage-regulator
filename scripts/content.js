@@ -233,7 +233,7 @@ setTimeout(() => {
         // YouTube Site
         case settingTitles[0]:
           try {
-            if (window.location.href.startsWith('https://www.youtube.com') ) {
+            if (window.location.href.startsWith('https://www.youtube.com/') ) {
               console.log("blocks entire site");
               updateHTML("/html/blocked-page.html");
             } 
@@ -270,7 +270,7 @@ setTimeout(() => {
         // Shorts Page
         case settingTitles[2]:
           try {
-            if (window.location.href.startsWith('https://www.youtube.com/shorts')) { // Shorts page
+            if (window.location.href.startsWith('https://www.youtube.com/shorts/')) { // Shorts page
               console.log("blocks shorts page");
               updateHTML("/html/blocked-page.html");
             } 

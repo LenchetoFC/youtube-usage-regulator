@@ -439,6 +439,7 @@ footer p {
   background-color: var(--bg-white-accent);
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 
   > footer {
     position: relative;
@@ -454,10 +455,12 @@ footer p {
   align-items: center;
 
   & img {
-    width: 52px;
+    width: 32px;
   }
 
   & h2 {
+    display: flex;
+    align-items: center;
     color: var(--bg-white-accent);
   }
 
@@ -470,9 +473,9 @@ footer p {
 .blocked .content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  margin: 0 50px;
-  width: fit-content;
+  gap: 15px;
+  margin: 25px 50px;
+  max-width: fit-content;
   background-color: #000000b0;
   padding: 25px;
   border-radius: 32px;
@@ -481,16 +484,17 @@ footer p {
   & h1 {
     text-transform: uppercase;
     font-weight: 700;
+    font-size: 2.25rem;
   }
 
   & h3 {
     font-weight: 700;
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   > section {
     display: flex;
-    gap: 50px;
+    gap: 30px;
     flex-direction: column;
   }
 
@@ -499,7 +503,7 @@ footer p {
     align-items: center;
     justify-content: space-between;
     margin: 0;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   & h1,
   h3 {
@@ -524,22 +528,26 @@ footer p {
 }
 
 .info-box {
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: 8px;
   background-color: #ffffffd6;
   box-shadow: 0 2px 4px #00000087;
   & img {
-    width: 32px;
+    width: 24px;
   }
   > .usage-header {
     display: flex;
     align-items: center;
     gap: 5px;
     margin-bottom: 10px;
+    
+    > h4 {
+      font-size: 1.5rem;
+    }
   }
   > .usage-time {
     margin: 10px;
-    font-size: 18px;
+    font-size: 1.4rem;
     font-weight: 500;
     font-style: italic;
   }
@@ -547,19 +555,17 @@ footer p {
 
 /* Alternate Activities */
 .alt-activities {
-  > h2 {
-    text-align: center;
-  }
   > section {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     flex-direction: column;
     margin-top: 25px;
     gap: 15px;
   }
 }
 .activity {
-  width: 700px;
-  height: 50px;
+  height: auto;
+  width: auto;
   display: flex;
   align-items: center;
   gap: 10px;
