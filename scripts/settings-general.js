@@ -265,18 +265,18 @@ document.querySelectorAll(".tooltip").forEach((element) => {
 document.querySelector(".hamburger-input").addEventListener("click", () => {
   let checked = document.querySelector(".hamburger-input").checked;
   let nav = document.querySelector("nav");
+  let contentWrapper = document.querySelector(".content-wrapper");
   
   // Only when the horizontal bar is active
   if (window.matchMedia("(max-width: 630px)").matches) {
-    if (checked) { // Shows nav bar
-      nav.style.display = "flex";
-      nav.style.transform = "translateY(0px)";
-    } else { // Hides nav bar
-      nav.style.display = "none";
-      nav.style.transform = "translateY(-110px)";
+    if (checked) {
+      nav.style.transform = "translateY(83.5px)";
+      contentWrapper.style.transform = "translateY(110px)";
+    } else {
+      nav.style.transform = "translateY(-30px)";
+      contentWrapper.style.transform = "none";
     }
   }
-  
 })
 
 // When the horizontal nav bar is open and then closed, this code
@@ -285,13 +285,9 @@ document.querySelector(".hamburger-input").addEventListener("click", () => {
 // Basically a reset for vertical nav bar
 window.addEventListener("resize", () => {
   let nav = document.querySelector("nav");
+  let contentWrapper = document.querySelector(".content-wrapper");
 
-  if (window.matchMedia("(min-width: 631px)").matches) {
-    nav.style.display = "flex";
-    nav.style.transform = "none";
-  } else {
-    nav.style.display = "none";
-    nav.style.transform = "translateY(-110px)";
-    document.querySelector(".hamburger-input").checked = false;
-  }
+  contentWrapper.style.transform = "none";
+  document.querySelector(".hamburger-input").checked = false;
+  window.matchMedia("(min-width: 631px)").matches ? nav.style.transform = "none" : nav.style.transform = "translateY(-30px)";
 })
