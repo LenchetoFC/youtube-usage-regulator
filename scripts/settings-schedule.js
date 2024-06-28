@@ -1,24 +1,48 @@
-/**
+/** INFORMATION
  * @LenchetoFC 
  * @description This controls the settings pages and accurately
  *  displays current settings and user information for the schedule settings
  * 
  */
 
-/**
- * SECTION - SCHEDULING
- * 
-*/
-
-// Used to iterate through schedule days a few times throughout script 
-const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+// TODO: Better name class and id names
 
 /**
- * SECTION - INSERTS SCHEDULES INTO DOM
- * 
+ * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
  */
 
+/** Initial Variable Instances */
+const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+let timeSelectionAmt = 1;
+let startTimeChoice = document.querySelector("#schedule-start-time");
+let endTimeChoice = document.querySelector("#schedule-end-time");
+
+/** Initial Function Calls */
+isTimeChoiceValid(startTimeChoice, endTimeChoice);
+hideTimeSelection();
+insertSchedule();
+
+// TODO:
+// let allDayBtn = document.getElementById("schedule-all-day");
+let addTimeInterval = document.getElementById("add-time-btn");
+let newTimeContainer = document.getElementById("new-time-container");
+let submitSchedule = document.getElementById("submit-schedule");
+
+const scheduleDayForm = document.querySelectorAll("form input");
+const firstTimeSelectionLine = $('#time-container section:first-child');
+
+
+// Important queries for hiding and showing 'add new schedule' popup
+// let overlay = document.querySelector("#overlay");
+// let newScheduleOverlay = document.querySelector(".schedule-overlay");
+// let entireHTML = document.querySelector("html");
+
+
 /**
+ * SECTION - FUNCTION DECLARATIONS
+ */
+
+/** FUNCTION
  * Converts military time in string type into the 12 hour format in string type
  * 
  * @param {string} startTime - the beginning of the schedule time
@@ -28,7 +52,7 @@ const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
  * 
  * @example convertMilToTwelveHour("12:42", "18:00");
  */
-const convertMilToTwelveHour = (startTime, endTime) => {
+function convertMilToTwelveHour (startTime, endTime) {
   // Convert start time to AM/PM format
   let startHour = parseInt(startTime.slice(0, 2));
   let startMinutes = startTime.slice(3);
@@ -51,14 +75,8 @@ const convertMilToTwelveHour = (startTime, endTime) => {
   return [startTime, endTime];
 }
 
-/**
- * Adds schedules to the schedule grid in DOM. 
- * 
- * @returns {void} This function does not return anything. It adds schedules to the schedule grid.
- * 
- * @example insertSchedule();
- */
-const insertSchedule = () => {
+/** FUNCTION - adds schedules to the schedule grid in DOM */
+function insertSchedule () {
   let scheduleGrid = document.getElementById("schedules");  
   let header = document.getElementById("schedule-title");
 
@@ -72,38 +90,20 @@ const insertSchedule = () => {
       if (schedule.length === 1 && schedule[0] === false) return;
 
       let scheduleItem = document.createElement("section");
-      scheduleItem.className = "schedule-item";
+      scheduleItem.className = "schedule-item flex-col";
       scheduleItem.id = `schedule-${day}`;
       let scheduleItemHeader = document.createElement("section");
       scheduleItemHeader.className = "schedule-item-header";
       scheduleItemHeader.innerHTML = `
         <section class="schedule-item-day">${dayCapitalize}</section>
-        <button>
-          <img class="icon-delete" src="/images/icon-delete.svg" alt="X delete button">
-        </button>
       `;
-
-      // Actions for when time selection delete button is pressed
-      let deleteBtn = scheduleItemHeader.querySelector(".icon-delete");
-      deleteBtn.addEventListener(("click"), () => {
-        // Deletes time selection line the delete button is associated to
-        scheduleItem.remove();
-        setSetting(`schedule-${day}`, [false]);
-
-        // Eliminates extra space if there are no active schedules
-        if (scheduleGrid.childNodes.length === 0) {
-          scheduleGrid.style.display = "none";
-          header.style.display = "none";
-        };
-
-        return;
-      });
   
       scheduleItem.append(scheduleItemHeader);
       
       let scheduleTimeList = document.createElement("section");
       scheduleTimeList.className = "schedule-time-list";
   
+      // Adds either all day (schedule[0] = true) or all scheduled times (false) 
       if (schedule[0]) {
         let scheduleTime = document.createElement("section");
         scheduleTime.className = "schedule-time";
@@ -133,31 +133,64 @@ const insertSchedule = () => {
         scheduleItem.append(scheduleTimeList);
       }
 
+      // Creates and appends schedule delete button
+      let deleteBtnIcon = document.createElement("img");
+      deleteBtnIcon.className = "icon-delete";
+      deleteBtnIcon.src = "/images/icon-trash.svg";
+      deleteBtnIcon.alt = "X delete button";
+      let scheduleDeleteBtn = document.createElement("button");
+      scheduleDeleteBtn.append(deleteBtnIcon);
+
+      // Actions for when time selection delete button is pressed
+      // let deleteBtn = scheduleItemHeader.querySelector(".icon-delete");
+      // TODO: Fade out schedule item
+      $('.icon-delete').on("click", function () {
+        // Deletes time selection line the delete button is associated to
+        scheduleItem.remove();
+        setSetting(`schedule-${day}`, [false]);
+
+        // Eliminates extra space if there are no active schedules
+        if (scheduleGrid.childNodes.length === 0) {
+          scheduleGrid.style.display = "none";
+          header.style.display = "none";
+        };
+
+        return;
+      });
+
+      // Creates and appends schedule edit button 
+      let editBtnIcon = document.createElement("img");
+      editBtnIcon.className = "icon-in-btn";
+      editBtnIcon.src = "/images/icon-edit-simple.svg";
+      editBtnIcon.alt = "pencil edit button";
+      let scheduleEditBtn = document.createElement("button");
+      scheduleEditBtn.append(editBtnIcon);
+
+      // Creates and appends button container to schedule item
+      let buttonContainer = document.createElement("div");
+      buttonContainer.className = "schedule-btn-container";
+      
+      buttonContainer.append(scheduleDeleteBtn);
+      buttonContainer.append(scheduleEditBtn);
+      scheduleItem.append(buttonContainer);
+
+
+
+
       // Adds header and schedule items to grid if there is at least one schedule
       if (schedule[0] || schedule.length > 1) {
         scheduleGrid.append(scheduleItem);
 
         // Displays schedule grid and header
         scheduleGrid.style.display = "grid";
-        header.style.display = "flex";
+        // header.style.display = "flex";
       }
     })
     
   })
 }
 
-// Displays all schedules
-insertSchedule();
-
-/** !SECTION */
-
-
-/**
- * SECTION - MISC SCHEDULING CODE
- * 
- */
-
-/**
+/** FUNCTION
  * Essentially resets the time selection by to default by hiding 
  *  the time selectors and unchecking all day checkboxes
  * 
@@ -165,127 +198,97 @@ insertSchedule();
  * 
  * @returns {array} Returns an array of both times in 12-Hour format
  * 
- * @example hideTimeSelection(["schedule-mon", "schedule-fri"]);
+ * @example deselectDaySelections(["schedule-mon", "schedule-fri"]);
  */
-const hideTimeSelection = (scheduleDays) => {
+function deselectDaySelections (scheduleDays) {
   scheduleDays.forEach(element => {
     element.checked = false;
-    addTimeBtn.style.display = "flex";
-    newScheduleSelection.style.display = "none"
-    allDayBtn.checked = false;
-    scheduleNewTimeContainer.innerHTML = "";
+    hideTimeSelection();
   })
 } 
 
-//  Gets important elements from DOM
-let newScheduleSelection = document.getElementById("schedule-new-container");
-let allDayBtn = document.getElementById("schedule-all-day");
-let addTimeBtn = document.getElementById("add-time-btn");
-let scheduleNewTimeContainer = document.getElementById("time-container");
-let submitSchedule = document.getElementById("submit-schedule");
-
-const scheduleDayForm = document.querySelectorAll("form input");
-
-// Important queries for hiding and showing 'add new schedule' popup
-let overlay = document.querySelector("#overlay");
-let newScheduleOverlay = document.querySelector(".schedule-overlay");
-let entireHTML = document.querySelector("html");
-
-// Shows the new schedule overlay when add new schedule button is clicked
-document.querySelector("#add-new-schedule-btn").addEventListener("click", () => {
-  overlay.style.display = "block";
-  newScheduleOverlay.style.display = "block";
-  entireHTML.style.overflow = "hidden";
-})
-
-// Function for hiding the new schedule popup and resetting the schedule form
-const hideNewSchedulePopup = (overlay, newScheduleOverlay, entireHTML) => {
-  overlay.style.display = "none";
-  newScheduleOverlay.style.display = "none";
-  entireHTML.style.overflow = "";
-
-  let selectedDays = document.querySelectorAll(".checkbox-circle label input");
-  hideTimeSelection(selectedDays);
+/** FUNCTION - Hides entire time selection container */
+function hideTimeSelection() {
+  $('#add-time-btn').css('display', 'flex');
+  $('#schedule-new-container').slideUp();
+  $('#schedule-all-day').checked = false;
+  $('#time-container').text = "";
 }
 
-// Hides popup when the overlay outside of the popup is clicked
-overlay.addEventListener("click", () => {
-  hideNewSchedulePopup(overlay, newScheduleOverlay, entireHTML);
-})
+/** FUNCTION - Reinserts first time selection line when "all day" button is deselected */
+function addsTimeSelection () {
+  $('#add-time-btn').fadeIn();
+  $('.schedule-time-container').css('padding', '1rem 0');
+  $('.schedule-time-container').slideDown();
+}
 
-// Hides popup when the 'X' button inside the poup is clicked
-document.querySelector(".new-schedule-exit").addEventListener("click", () => {
-  hideNewSchedulePopup(overlay, newScheduleOverlay, entireHTML);
-})
+/** FUNCTION - Removes all but one time selection line when "all day" button is selected */
+function removesTimeSelection (scheduleType) {
+  $('.schedule-time-container').slideUp();
+  $('#add-time-btn').fadeOut();
+  $('.schedule-time-container').css('padding', '0');
+  
+  // Keeps first time selection child to avoid miscounting children after deselecting all day btn
+  while (newTimeContainer.lastChild.id !== `first-time-selection-${scheduleType}`) {
+    newTimeContainer.removeChild(newTimeContainer.lastChild);
+  } 
 
-// Add event listener to scheduleDayForm checkboxes
-scheduleDayForm.forEach((element) => {
-  element.addEventListener("change", () => {
-    // Check if any checkbox is checked
-    const isAnyChecked = Array.from(scheduleDayForm).some((checkbox) => checkbox.checked);
-    
-    // Hides/shows time selections if at least one checkbox is checked
-    if (isAnyChecked) {
-      newScheduleSelection.style.display = "flex"
-    } else {
-      addTimeBtn.style.display = "flex";
-      newScheduleSelection.style.display = "none"
-      allDayBtn.checked = false;
-      scheduleNewTimeContainer.innerHTML = "";
-    }
-  });
-});
+  removeTimeValues();
 
-/** !SECTION */
+  timeSelectionAmt = 1;
+}
 
+function removeTimeValues () {
+  // Removes values from the first child
+  $(`#new-time-container section:first-child input`)[0].value = ""
+  $(`#new-time-container section:first-child input`)[1].value = ""
+  $(`#edit-time-container section:first-child input`)[0].value = ""
+  $(`#edit-time-container section:first-child input`)[1].value = ""
+}
 
-/**
- * SECTION - Add new time selection line when "add time" btn is pressed
- * 
- */
-let timeSelectionAmt = 0;
-addTimeBtn.addEventListener("mouseup", (event) => {
-  timeSelectionAmt++;
+/** FUNCTION - hides the new schedule popup and resetting the schedule form */
+function hideNewSchedulePopup () {
+  $('#overlay').fadeOut();
+  $('.new-overlay').fadeOut();
+  $('html').css('overflow', '');
 
-  // Creates new element and appends time selection to schedule container 
-  let timeSelection = document.createElement("section");
-  timeSelection.className = "schedule-new-time"; 
-  timeSelection.innerHTML = `
-    <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
-      to
-    <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
+  let selectedDays = document.querySelectorAll(".checkbox-circle label input");
+  deselectDaySelections(selectedDays);
 
-    <button class="btn">
-      <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
-    </button>
-  `;
-  scheduleNewTimeContainer.append(timeSelection)
+}
 
-  // Actions for when time selection delete button is pressed
-  let deleteBtn = timeSelection.querySelector(".btn");
-  deleteBtn.addEventListener(("click"), () => {
-    // Deletes time selection line the delete button is associated to
-    timeSelection.remove()
-    timeSelectionAmt--;
-
-    // Displays "all time" button if the count is not at max 
-    if (timeSelectionAmt < 5) addTimeBtn.style.display = "flex";
+function getSelectedTimeValue (times) {
+  let selectedTimes = [];
+  times.forEach(element => {
+    let startTimeValue = element.children[0].value;
+    let endTimeValue = element.children[2].value;
+    if (startTimeValue != "" && endTimeValue != "") {
+      selectedTimes.push([startTimeValue, endTimeValue]);
+    } else selectedTimes = "";
   });
 
-  // Gets input elements of startTime and endTime time inputs
-  let startTime = timeSelection.querySelector("#schedule-start-time");
-  let endTime = timeSelection.querySelector("#schedule-end-time");
+  return selectedTimes;
+}
 
+/** FUNCTION - hides overlays */
+function hideOverlays (formOverlayID) {
+  $('#overlay').css("display", "none");
+  $(formOverlayID).css("display", "none");
+  $('html').css('overflow', '');
+}
+
+/** FUNCTION - Checks if time selections are valid (i.e. start time is always less than end time) */
+function isTimeChoiceValid(startTime, endTime) {
   // Checks if start time is later than end time
   startTime.addEventListener("blur", () => {
     if (startTime.value && endTime.value && startTime.value > endTime.value) {
       // Alerts user of their error
-      startTime.style.borderColor = "red";
-      endTime.style.borderColor = "red";
+      startTime.style.borderColor = "var(--red)";
+      endTime.style.borderColor = "var(--red)";
       alert("Start time is later than end time. Update times before adding schedule");
     } else {
-      startTime.style.borderColor = "var(--text-grey-accent)";
-      endTime.style.borderColor = "var(--text-grey-accent)";
+      startTime.style.borderColor = "var(--grey)";
+      endTime.style.borderColor = "var(--grey)";
     }
   });
 
@@ -293,51 +296,114 @@ addTimeBtn.addEventListener("mouseup", (event) => {
   endTime.addEventListener("blur", () => {
     if (startTime.value > endTime.value) {
       // Alerts user of their error
-      startTime.style.borderColor = "red";
-      endTime.style.borderColor = "red";
+      startTime.style.borderColor = "var(--red)";
+      endTime.style.borderColor = "var(--red)";
       alert("Start time is later than end time. Update times before adding schedule");
     } else {
-      startTime.style.borderColor = "var(--text-grey-accent)";
-      endTime.style.borderColor = "var(--text-grey-accent)";
+      startTime.style.borderColor = "var(--grey)";
+      endTime.style.borderColor = "var(--grey)";
     }
   });
+}
+
+
+/** SECTION - Event Listeners */
+// Shows the new schedule overlay when add new schedule button is clicked
+$('#add-new-schedule-btn').on("click", function() {
+  $('#overlay').first().fadeIn();
+  $('.new-overlay').first().fadeIn();
+  $('html').css('overflow', 'hidden');
+})
+
+/** Hides popup when the overlay outside of the popup or 'X' btn are clicked */
+$('#overlay').on("click", function() {
+  hideNewSchedulePopup();
+  removeTimeValues();
+})
+// TODO: error occurs if all day button is selected and then canceled
+$('.new-schedule-exit').on("click", function () {
+  hideNewSchedulePopup();
+  removeTimeValues();
+})
+
+/** Shows time selection container when any schedule day is checked */
+scheduleDayForm.forEach((element) => {
+  element.addEventListener("change", () => {
+    // Check if any checkbox is checked
+    const isAnyChecked = Array.from(scheduleDayForm).some((checkbox) => checkbox.checked);
+    
+    // Hides/shows time selections if at least one checkbox is checked
+    if (isAnyChecked) {
+      $('#schedule-new-container').slideDown();
+    } else {
+      hideTimeSelection();
+    }
+  });
+});
+
+// TODO: Make into function for edit and new schedule
+/** Add new time selection line when "add time" btn is pressed */
+$('#add-time-btn').on('click', function() {
+  timeSelectionAmt++;
+
+  let scheduleType = "new"
+  // Creates new element and appends time selection to schedule container 
+  let timeSelection = document.createElement("section");
+  timeSelection.className = "schedule-new-time"; 
+  timeSelection.id = `${scheduleType}-time-line-${timeSelectionAmt}`;
+  timeSelection.style.display = "none";
+  timeSelection.innerHTML = `
+    <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
+      <div>to</div>
+    <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
+
+    <button class="btn">
+      <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+    </button>
+  `;
+  newTimeContainer.append(timeSelection)
+  $(`#${scheduleType}-time-line-${timeSelectionAmt}`).slideDown();
+
+  // Actions for when time selection delete button is pressed
+  let deleteBtn = timeSelection.querySelector(".btn");
+  $(`#new-time-line-${timeSelectionAmt} .btn`).on("click", function () {
+    // Deletes time selection line the delete button is associated to
+    $(`#new-time-line-${timeSelectionAmt}`).slideUp(function() {
+      $(this).remove();
+    });
+    timeSelectionAmt--;
+
+    // Displays "all time" button if the count is not at max 
+    if (timeSelectionAmt < 5) $('#add-time-btn').css('display', 'flex');
+  });
+
+  // Checks if start time is less than end time
+  let startTime = timeSelection.querySelector("#schedule-start-time");
+  let endTime = timeSelection.querySelector("#schedule-end-time");
+  isTimeChoiceValid(startTime, endTime);
   
   // Removes "add time" button and notice user they can't add more
   if (timeSelectionAmt == 5) {
-    addTimeBtn.style.display = "none";
+    // addTimeInterval.style.display = "none";
+    $('#add-time-btn').css('display', 'none');
     alert("You cannot add more times after this.");
   }
 })
 
-/** !SECTION */
-
-
-/**
- * SECTION - Actions for when "all day" button is selected
- * 
- */
-allDayBtn.addEventListener("click", () => {
-  let currentDisplay = addTimeBtn.style.display;
-
-  // Resets time selection count, hides "add time" button, & removes all time selections
-  //  when "all day" button is checked 
-  if (currentDisplay === "none" && timeSelectionAmt < 5) {
-    addTimeBtn.style.display = "flex";
+/** Remove or insert time selection when "all day" button is clicked in new/edit schedule overlay */
+$('#schedule-all-day').on("click", function () {
+  let scheduleType = $('#schedule-all-day').prop("value");
+  console.log(scheduleType)
+  if ($('#schedule-all-day').is(":checked")) {
+    removesTimeSelection(scheduleType);
   } else {
-    addTimeBtn.style.display = "none";
-    scheduleNewTimeContainer.innerHTML = "";
-    timeSelectionAmt = 0;
+    addsTimeSelection();
   }
 })
 
-/** !SECTION */
-
-
-/**
- * SECTION - Actions for when user is submitting schedule times 
- * 
- */
-submitSchedule.addEventListener("click", () => {
+// TODO: BROKEN AS HELL
+/** Actions for when user is submitting schedule times */
+$('#submit-schedule').on("click", function () {
   // Gets selected schedule days
   let selectedDays = [];
   let scheduleDays = document.querySelectorAll(".checkbox-circle label input");
@@ -351,55 +417,54 @@ submitSchedule.addEventListener("click", () => {
   });
 
   // Gets selected time values and pushes them to an array
-  let selectedTimes = [];
-  let times = document.querySelectorAll(".schedule-new-time");
-  times.forEach(element => {
-    let startTimeValue = element.children[0].value;
-    let endTimeValue = element.children[1].value;
-    if (startTimeValue != "" && endTimeValue != "") {
-      selectedTimes.push([startTimeValue, endTimeValue]);
-    } else selectedTimes = "";
-  });
+  let scheduleType = "new";
+  let times = document.querySelectorAll(`.schedule-${scheduleType}-time`);
+  let selectedTimes = getSelectedTimeValue(times);
   
-  
-  /**
-   * SECTION - ADDING SCHEDULES TO STORAGE 
-   * 
-  */
+  // TODO: too many times
+  /** SECTION - ADDING SCHEDULES TO STORAGE */
   // Add new schedule day to schedule list
   let scheduleGrid = document.getElementById("schedules");  
   selectedDays.forEach((day, index) => {
     getSettings(day, (currentTimes) => {
-      // Gets boolean value of "all day" button
-      let allDayChecked = allDayBtn.checked;
-      if((times.length === 0 && !allDayChecked) || selectedTimes === "") alert("Select schedule times or \"All Day\" before clicking \"Done\"");
-      else {
+      console.log(day)
+      console.log(times.length)
+      console.log(($('#schedule-all-day').is(":checked")))
+      console.log(selectedTimes === "")
+      console.log(currentTimes)
+      console.log(currentTimes[0])
+
+      if (!($('#schedule-all-day').is(":checked")) && selectedTimes === "") {
+        alert("Select times or \"All Day\" before clicking \"Done\"");
+      } else {
         // Runs this code if "all day" or times have been selected 
         if (currentTimes[0] == true) {
           alert(`To add new times to ${day[9].toUpperCase()}${day.slice(10)}., delete the day's current schedule and try again.`);
         }
         else if (currentTimes[0] == false && times.length === 0) { // If all day button is selected
           // Replaces currently stored times with true value for "all day" schedule to schedule day
-          setSetting(day, [allDayChecked]);
+          setSetting(day, [$('#schedule-all-day').is(":checked")]);
 
           // Disables both overlays for adding new schedules
-          overlay.style.display = "none";
-          newScheduleOverlay.style.display = "none";
-          entireHTML.style.overflow = "";
+          // overlay.style.display = "none";
+          // newScheduleOverlay.style.display = "none";
+          // entireHTML.style.overflow = "";
+          hideOverlays('.schedule-overlay');
+
+          console.log("if all day button is selected")
 
           // Only displays schedules and hides selection after the last schedule day has been handled
           if (index === (selectedDays.length - 1)) {
             scheduleGrid.innerHTML = "";
-            hideTimeSelection(scheduleDays);
+            deselectDaySelections(scheduleDays);
             insertSchedule();
           }
         } 
         // if any times have been selected
         else {
           // Disables both overlays for adding new schedules
-          overlay.style.display = "none";
-          newScheduleOverlay.style.display = "none";
-          entireHTML.style.overflow = "";
+          console.log("if any times have been selected")
+          hideOverlays('.schedule-overlay');
 
           // Pushes each time selection to currentTime array  
           selectedTimes.forEach((time) => {
@@ -414,77 +479,20 @@ submitSchedule.addEventListener("click", () => {
             return a[0].localeCompare(b[0]);
           });
 
-          console.log(currentTimes)
-
           // Stores new and current times to schedule day
           setSetting(day, currentTimes);
 
           // Only displays schedules and hides selection after the last schedule day has been handled
           if (index === (selectedDays.length - 1)) {
             scheduleGrid.innerHTML = "";
-            hideTimeSelection(scheduleDays);
+            deselectDaySelections(scheduleDays);
+            removesTimeSelection(scheduleType);
             insertSchedule();
-            timeSelectionAmt = 0;
+            timeSelectionAmt = 1;
           }
         }
       }
+      console.log("\n")
     })
   })
-  /** !SECTION */
-
-})
-
-/** !SECTION */
-
-
-/**!SECTION */
-
-// Shows or hides the settings tooltips
-document.querySelectorAll(".tooltip").forEach((element) => {
-  let infoBtn = element.children[1];
-  let tooltip = element.children[2];
-  
-  infoBtn.addEventListener("mousedown", (event) => {
-    event.stopPropagation();
-    tooltip.style.visibility = tooltip.style.visibility === "visible" ? "hidden" : "visible";
-  });
-
-  tooltip.addEventListener("mousedown", (event) => {
-    event.stopPropagation();
-  });
-
-  document.addEventListener("mousedown", () => {
-    tooltip.style.visibility = "hidden";
-  });
-});
-
-// Opens and closes horizontal nav bar
-document.querySelector(".hamburger-input").addEventListener("click", () => {
-  let checked = document.querySelector(".hamburger-input").checked;
-  let nav = document.querySelector("nav");
-  let contentWrapper = document.querySelector(".content-wrapper");
-  
-  // Only when the horizontal bar is active
-  if (window.matchMedia("(max-width: 630px)").matches) {
-    if (checked) {
-      nav.style.transform = "translateY(83.5px)";
-      contentWrapper.style.transform = "translateY(110px)";
-    } else {
-      nav.style.transform = "translateY(-30px)";
-      contentWrapper.style.transform = "none";
-    }
-  }
-})
-
-// When the horizontal nav bar is open and then closed, this code
-//  makes sure the vertical nav bar is not affected by "display: none"
-//  when the horizontal nav bar is closed
-// Basically a reset for vertical nav bar
-window.addEventListener("resize", () => {
-  let nav = document.querySelector("nav");
-  let contentWrapper = document.querySelector(".content-wrapper");
-
-  contentWrapper.style.transform = "none";
-  document.querySelector(".hamburger-input").checked = false;
-  window.matchMedia("(min-width: 631px)").matches ? nav.style.transform = "none" : nav.style.transform = "translateY(-30px)";
 })

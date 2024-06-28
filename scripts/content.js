@@ -328,6 +328,7 @@ setTimeout(() => {
             removeDOMContent('yt-related-chip-cloud-renderer', 'filters video playback pages');
             removeDOMContent('ytd-compact-video-renderer', 'Recommendations on video playback pages');
             removeDOMContent('ytd-rich-grid-row', 'Recommendations on home pages');
+            removeDOMContent('#secondary', "recommendations in secondary column")
           } catch {
             console.log("troubles with recommendations")
           }
