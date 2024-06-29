@@ -14,7 +14,7 @@
  * @example getSettings('myKey', function(value) { console.log(value); });
  */
 window.getSettings = (key, callback) => {
-  chrome.storage.sync.get([key], (result) => {
+  chrome.storage.sync.get([key][0], (result) => {
     callback(result[key]);
   });
 }
@@ -34,7 +34,23 @@ window.setSetting = (key, value) => {
   save[key] = value;
   chrome.storage.sync.set(save, function() {
     getSettings(key, (result) => {
-      console.log(`SETTINGS CHANGED: ${key} setting was changed to ${result}`);
+      console.log(`SETTINGS CHANGED: ${key} setting was changed to ${result[key]}`);
+    });
+  });
+}
+
+window.setNestedSetting = (key, subKey, value) => {
+  chrome.storage.sync.get(key, function(result) {
+    if (!result[key]) {
+      result[key] = {};
+    }
+    result[key][subKey] = value;
+    let save = {};
+    save[key] = result[key];
+    chrome.storage.sync.set(save, function() {
+      getSettings(key, (result) => {
+        console.log(`SETTINGS CHANGED: ${key}.${subKey} setting was changed to ${result[key]}`);
+      });
     });
   });
 }

@@ -206,14 +206,9 @@ checksSchedule();
 // A list of names of all settings
 let settingTitles = [
   'youtube-site', 'home-page', 'shorts-page', 
-  'home-button', 'autoplay-button', 'next-vid-btn',
+  'home-button', 'autoplay-button', 'skip-btn',
   'recommended-vids', 'left-side-menu', 'search-bar', 
 ];
-
-// Gets values of settings & enables activated settings
-//window.onload = () => {
-//};
-
 
 // Removes ability to refresh recommendations every time the window is resized.
 // That tag is reset when the window is resized, so this is the workaround
@@ -315,7 +310,7 @@ setTimeout(() => {
           }
           break;
           
-        // Next Video Button
+        // Skip Button
         case settingTitles[5]:
           removeDOMContent('.ytp-next-button', 'Next Video Button');
           break;

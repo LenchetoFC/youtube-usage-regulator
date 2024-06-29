@@ -28,11 +28,19 @@ getSettings("activities", (result) => {
 });
 
 // Displays current time usage count in HTML
-let allTimeCount = document.getElementById("all-time-count");
-getSettings("all-time-usage", (result) => {
+getSettings("all-time", (result) => {
   $('#all-time-count').text(convertTimeToText(result));
 });
 
+// Gets initial num of activities and displays add button if not reached max
+getSettings("activities", (result) => {
+  let activityNum = 0;
+  try {
+    activityNum = result.length;
+  } catch {
+    activityNum = 0;
+  }
+});
 
 
 /**
@@ -89,6 +97,7 @@ function removeActivity (value) {
 // TODO: function description
 function addActivityEventHandler() {
   let activityNumEvent = 0;
+  let activityInput = document.getElementById("activity-input");
 
   // Gets current number of activities
   getSettings("activities", (result) => {
@@ -150,6 +159,9 @@ const removeActivityHTML = new MutationObserver((mutationsList, observer) => {
 removeActivityHTML.observe(document, { childList: true, subtree: true });
 
 // Displays or hides activity inputs based on amount of active activities
+let inputContainer = document.getElementById("input-container");
+let activityBtn = document.getElementById("activity-add");
+let inputBtnBox = document.getElementById("input-btn-box");
 const showButton = new MutationObserver((mutationsList, observer) => {
   // Look through all mutations that just occured
   for(let mutation of mutationsList) {
@@ -181,10 +193,10 @@ showButton.observe(document, { childList: true, subtree: true });
 /** SECTION - Event Listeners */
 
 // DOM Elements to be modified below
-let inputContainer = document.getElementById("input-container");
-let activityBtn = document.getElementById("activity-add");
-let inputBtnBox = document.getElementById("input-btn-box");
-let activityInput = document.getElementById("activity-input");
+// let inputContainer = document.getElementById("input-container");
+// let activityBtn = document.getElementById("activity-add");
+// let inputBtnBox = document.getElementById("input-btn-box");
+// let activityInput = document.getElementById("activity-input");
 
 /**
  * SECTION - CHECKBOX FUNCTIONALITIES
@@ -195,22 +207,34 @@ let activityInput = document.getElementById("activity-input");
  */
 const addictiveForm = document.querySelectorAll("form input");
 addictiveForm.forEach((element) => {
-  getSettings(element.name, (result) => {
+  if (element.name.includes('quick')) {
+    toggleCheckboxes("quick-actions", element);
+  } else {
+    toggleCheckboxes("addictive-elements", element);
+  }
+});
+
+function toggleCheckboxes(setting, element) {
+  getSettings(setting, (result) => {
     // Visually displays the status of the setting
-    if (result) {
-      element.checked = true;
+    if (result[element.value]) {
+      element.checked = true; // Auto-updates checkbox status
+      $(`.${element.value}`).slideToggle() // Auto-updates YT UI example
     } else {
       element.checked = false;
     }
 
     // Updates settings for whichever button is pushed
     element.addEventListener("click", (event) => {
-      setSetting(element.name, element.checked);
+      setNestedSetting(setting, element.name, element.checked);
+
+      // Displays change in YT UI example
       $(`.${element.value}`).slideToggle()
     });
   });
-});
+}
 
+// TODO: add description
 $('#activity-add button').on("click", function() {
   $('#input-btn-box').slideDown( function() {
     $('#input-container').trigger("focus");
@@ -273,4 +297,3 @@ $('#reset-usage').on("click", function() {
 //   document.querySelector(".hamburger-input").checked = false;
 //   window.matchMedia("(min-width: 631px)").matches ? nav.style.transform = "none" : nav.style.transform = "translateY(-30px)";
 // })
-
