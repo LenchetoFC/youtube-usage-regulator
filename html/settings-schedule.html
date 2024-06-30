@@ -304,51 +304,51 @@
             </div>
   
             <form class="schedule-new">
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-sun" name="schedule-sun" type="checkbox" value="1"/>
+                  <input id="sunday" name="sunday" type="checkbox" value="1"/>
                   <span>Sun</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-mon" name="schedule-mon" type="checkbox" value="1"/>
-                  <span>Monday</span>
+                  <input id="monday" name="monday" type="checkbox" value="1"/>
+                  <span>Mon</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-tue" name="schedule-tue" type="checkbox" value="1"/>
+                  <input id="tuesday" name="tuesday" type="checkbox" value="1"/>
                   <span>Tue</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-wed" name="schedule-wed" type="checkbox" value="1"/>
+                  <input id="wednesday" name="wednesday" type="checkbox" value="1"/>
                   <span>Wed</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-thu" name="schedule-thu" type="checkbox" value="1"/>
+                  <input id="thursday" name="thursday" type="checkbox" value="1"/>
                   <span>Thu</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-fri" name="schedule-fri" type="checkbox" value="1"/>
+                  <input id="friday" name="friday" type="checkbox" value="1"/>
                   <span>Fri</span>
                 </label>
               </div>
   
-              <div class="checkbox-item checkbox-circle">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-sat" name="schedule-sat" type="checkbox" value="1"/>
+                  <input id="saturday" name="saturday" type="checkbox" value="1"/>
                   <span>Sat</span>
                 </label>
               </div>
@@ -364,7 +364,7 @@
                   </label>
                 </div>
   
-                <button class="btn-text side-icon" id="add-time-btn">
+                <button class="btn-text side-icon add-time-btn" value="new">
                   <img class="icon-in-btn icon-white" src="/images/icon-plus.svg" alt="plus button">
                   <div>Add Interval</div>
                 </button>
@@ -381,7 +381,7 @@
                 </section>
               </div>
               <div class="side-by-side-btn">
-                <button class="btn-text side-icon" id="submit-schedule" type="submit">
+                <button class="btn-text side-icon submit-schedule" type="submit" value="new">
                   <div>Save</div>
                 </button>
                 <button class="btn-solo-text new-schedule-exit">
@@ -413,7 +413,7 @@
                   </label>
                 </div>
   
-                <button class="btn-text side-icon" id="add-time-btn">
+                <button class="btn-text side-icon" id="add-time-btn" value="edit">
                   <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
                   <div>Add Interval</div>
                 </button>
@@ -433,7 +433,7 @@
                 </section>
               </div>
               <div class="side-by-side-btn">
-                <button class="btn-text side-icon" id="submit-schedule" type="submit">
+                <button class="btn-text side-icon submit-schedule" type="submit" value="edit">
                   <div>Save</div>
                 </button>
                 <button class="btn">

@@ -12,24 +12,22 @@
  */
 
 /** Initial Variable Instances */
-const scheduleDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-let timeSelectionAmt = 1;
-let startTimeChoice = document.querySelector("#schedule-start-time");
-let endTimeChoice = document.querySelector("#schedule-end-time");
+const scheduleDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+let timeIntervalAmt = 1;
 
 /** Initial Function Calls */
-isTimeChoiceValid(startTimeChoice, endTimeChoice);
-hideTimeSelection();
+isTimeChoiceValid($('#schedule-start-time'), $('#schedule-end-time')); //Adds invalid test to first default interval
+hidesTimeInterval();
 insertSchedule();
 
 // TODO:
 // let allDayBtn = document.getElementById("schedule-all-day");
-let addTimeInterval = document.getElementById("add-time-btn");
+// let addTimeInterval = document.getElementById("add-new-time-btn");
 let newTimeContainer = document.getElementById("new-time-container");
-let submitSchedule = document.getElementById("submit-schedule");
+// let submitSchedule = document.getElementById("submit-schedule");
 
 const scheduleDayForm = document.querySelectorAll("form input");
-const firstTimeSelectionLine = $('#time-container section:first-child');
+const firsttimeIntervalLine = $('#time-container section:first-child');
 
 
 // Important queries for hiding and showing 'add new schedule' popup
@@ -77,117 +75,102 @@ function convertMilToTwelveHour (startTime, endTime) {
 
 /** FUNCTION - adds schedules to the schedule grid in DOM */
 function insertSchedule () {
-  let scheduleGrid = document.getElementById("schedules");  
-  let header = document.getElementById("schedule-title");
+  let scheduleGrid = $("#schedules");  
+    // Actions for when time selection delete button is pressed
+    $('#schedules').on('click', '.schedule-delete', function() {
+    // Retrieves the ID stored in the button's data-id attribute
+    let containerId = $(this).data('id');
+    
+    // Deletes the container with the matching ID
+    $("#" + containerId).remove();
+    console.log(containerId);
+
+    let dayToDelete = containerId.slice("schedule-".length);
+    setNestedSetting('schedule-days', dayToDelete, [false]);
+
+    // Eliminates extra space if there are no active schedules
+    if ($('#schedules').children().length === 0) {
+      $('#schedules').css("display", "none");
+      $('#schedule-title').css("display", "none");
+    }
+  });
 
   // Checks each day for schedules and displays any that exist on page
-  scheduleDays.forEach((day) => {
+  $.each(scheduleDays, (index, day) => {
     let dayCapitalize =  day[0].toUpperCase() + day.slice(1);
-  
+    
     // Gets the stored schedules (if any) from schedule days settings
-    getSettings(`schedule-${day}`, (schedule) => {
+    getSettings(`schedule-days`, (schedules) => {
+      let schedule = schedules[day];
+
       // Immediately skips day if there are no schedules
       if (schedule.length === 1 && schedule[0] === false) return;
 
-      let scheduleItem = document.createElement("section");
-      scheduleItem.className = "schedule-item flex-col";
-      scheduleItem.id = `schedule-${day}`;
-      let scheduleItemHeader = document.createElement("section");
-      scheduleItemHeader.className = "schedule-item-header";
-      scheduleItemHeader.innerHTML = `
+      let scheduleItem = $("<section>").addClass("schedule-item flex-col").attr("id", `schedule-${day}`);
+      let scheduleItemHeader = $("<section>").addClass("schedule-item-header").html(`
         <section class="schedule-item-day">${dayCapitalize}</section>
-      `;
+      `);
   
       scheduleItem.append(scheduleItemHeader);
       
-      let scheduleTimeList = document.createElement("section");
-      scheduleTimeList.className = "schedule-time-list";
+      let scheduleTimeList = $("<section>").addClass("schedule-time-list");
   
       // Adds either all day (schedule[0] = true) or all scheduled times (false) 
       if (schedule[0]) {
-        let scheduleTime = document.createElement("section");
-        scheduleTime.className = "schedule-time";
-        scheduleTime.innerHTML = `
+        let scheduleTime = $("<section>").addClass("schedule-time").html(`
           <div class="schedule-start-time"></div>
           <div>All Day</div> 
           <div class="schedule-end-time"></div>
-        `;
+        `);
   
         scheduleTimeList.append(scheduleTime);
         scheduleItem.append(scheduleTimeList);
       } else if (schedule[0] === false && schedule.length > 1) {
-        schedule.slice(1).forEach((time) => {
+        console.log("adds time")
+        $.each(schedule.slice(1), (index, time) => {
           // Converts military time to 12-hour clock
           let convertedTime = convertMilToTwelveHour(time[0], time[1]);
   
-          let scheduleTime = document.createElement("section");
-          scheduleTime.className = "schedule-time";
-          scheduleTime.innerHTML = `
+          let scheduleTime = $("<section>").addClass("schedule-time").html(`
             <div class="schedule-start-time">${convertedTime[0]}</div>
             <div>to</div> 
             <div class="schedule-end-time">${convertedTime[1]}</div>
-          `;
+          `);
           scheduleTimeList.append(scheduleTime);
-        })
+        });
   
         scheduleItem.append(scheduleTimeList);
       }
 
       // Creates and appends schedule delete button
-      let deleteBtnIcon = document.createElement("img");
-      deleteBtnIcon.className = "icon-delete";
-      deleteBtnIcon.src = "/images/icon-trash.svg";
-      deleteBtnIcon.alt = "X delete button";
-      let scheduleDeleteBtn = document.createElement("button");
-      scheduleDeleteBtn.append(deleteBtnIcon);
+      let deleteBtnIcon = $("<img>")
+        .addClass("icon-delete schedule-delete")
+        .attr("src", "/images/icon-trash.svg")
+        .attr("alt", "X delete button")
+        .attr("data-id", scheduleItem.attr("id"));      
 
-      // Actions for when time selection delete button is pressed
-      // let deleteBtn = scheduleItemHeader.querySelector(".icon-delete");
-      // TODO: Fade out schedule item
-      $('.icon-delete').on("click", function () {
-        // Deletes time selection line the delete button is associated to
-        scheduleItem.remove();
-        setSetting(`schedule-${day}`, [false]);
-
-        // Eliminates extra space if there are no active schedules
-        if (scheduleGrid.childNodes.length === 0) {
-          scheduleGrid.style.display = "none";
-          header.style.display = "none";
-        };
-
-        return;
-      });
+      let scheduleDeleteBtn = $("<button>").append(deleteBtnIcon);
 
       // Creates and appends schedule edit button 
-      let editBtnIcon = document.createElement("img");
-      editBtnIcon.className = "icon-in-btn";
-      editBtnIcon.src = "/images/icon-edit-simple.svg";
-      editBtnIcon.alt = "pencil edit button";
-      let scheduleEditBtn = document.createElement("button");
-      scheduleEditBtn.append(editBtnIcon);
+      let editBtnIcon = $("<img>").addClass("icon-in-btn").attr("src", "/images/icon-edit-simple.svg").attr("alt", "pencil edit button");
+      let scheduleEditBtn = $("<button>").append(editBtnIcon);
 
       // Creates and appends button container to schedule item
-      let buttonContainer = document.createElement("div");
-      buttonContainer.className = "schedule-btn-container";
+      let buttonContainer = $("<div>").addClass("schedule-btn-container");
       
       buttonContainer.append(scheduleDeleteBtn);
       buttonContainer.append(scheduleEditBtn);
       scheduleItem.append(buttonContainer);
-
-
-
 
       // Adds header and schedule items to grid if there is at least one schedule
       if (schedule[0] || schedule.length > 1) {
         scheduleGrid.append(scheduleItem);
 
         // Displays schedule grid and header
-        scheduleGrid.style.display = "grid";
-        // header.style.display = "flex";
+        scheduleGrid.css("display", "grid");
       }
-    })
-    
-  })
+    });
+  });
 }
 
 /** FUNCTION
@@ -200,32 +183,34 @@ function insertSchedule () {
  * 
  * @example deselectDaySelections(["schedule-mon", "schedule-fri"]);
  */
-function deselectDaySelections (scheduleDays) {
-  scheduleDays.forEach(element => {
-    element.checked = false;
-    hideTimeSelection();
-  })
-} 
+function deselectDaySelections(scheduleDays) {
+  $(scheduleDays).each(function() {
+    $(this).prop('checked', false);
+  });
+
+  $('#schedule-all-day').prop('checked', false);
+  addsTimeInterval();
+}
 
 /** FUNCTION - Hides entire time selection container */
-function hideTimeSelection() {
-  $('#add-time-btn').css('display', 'flex');
-  $('#schedule-new-container').slideUp();
-  $('#schedule-all-day').checked = false;
+function hidesTimeInterval() {
+  $('#add-new-time-btn').css('display', 'flex');
+  $('#schedule-time-container').slideUp();
+  $('#schedule-all-day').prop('checked', false);
   $('#time-container').text = "";
 }
 
 /** FUNCTION - Reinserts first time selection line when "all day" button is deselected */
-function addsTimeSelection () {
-  $('#add-time-btn').fadeIn();
+function addsTimeInterval () {
+  $('#add-new-time-btn').fadeIn();
   $('.schedule-time-container').css('padding', '1rem 0');
   $('.schedule-time-container').slideDown();
 }
 
 /** FUNCTION - Removes all but one time selection line when "all day" button is selected */
-function removesTimeSelection (scheduleType) {
+function removesTimeInterval (scheduleType) {
   $('.schedule-time-container').slideUp();
-  $('#add-time-btn').fadeOut();
+  $('#add-new-time-btn').fadeOut();
   $('.schedule-time-container').css('padding', '0');
   
   // Keeps first time selection child to avoid miscounting children after deselecting all day btn
@@ -235,9 +220,10 @@ function removesTimeSelection (scheduleType) {
 
   removeTimeValues();
 
-  timeSelectionAmt = 1;
+  timeIntervalAmt = 1;
 }
 
+/** TODO: Function description */
 function removeTimeValues () {
   // Removes values from the first child
   $(`#new-time-container section:first-child input`)[0].value = ""
@@ -257,52 +243,56 @@ function hideNewSchedulePopup () {
 
 }
 
-function getSelectedTimeValue (times) {
+/** TODO: Function description */
+function getSelectedTimeValue(times) {
   let selectedTimes = [];
-  times.forEach(element => {
-    let startTimeValue = element.children[0].value;
-    let endTimeValue = element.children[2].value;
+  times.each(function() {
+    let startTimeValue = $(this).children().eq(0).val();
+    let endTimeValue = $(this).children().eq(2).val();
     if (startTimeValue != "" && endTimeValue != "") {
       selectedTimes.push([startTimeValue, endTimeValue]);
     } else selectedTimes = "";
   });
+  console.log(selectedTimes)
 
   return selectedTimes;
 }
 
 /** FUNCTION - hides overlays */
-function hideOverlays (formOverlayID) {
+/** TODO: better description */
+function hideOverlay (formOverlayID) {
   $('#overlay').css("display", "none");
   $(formOverlayID).css("display", "none");
   $('html').css('overflow', '');
 }
 
+// FIXME: sometimes gets stuck in endless alert loop
 /** FUNCTION - Checks if time selections are valid (i.e. start time is always less than end time) */
 function isTimeChoiceValid(startTime, endTime) {
   // Checks if start time is later than end time
-  startTime.addEventListener("blur", () => {
-    if (startTime.value && endTime.value && startTime.value > endTime.value) {
+  startTime.on('blur', () => {
+    if (startTime.val() && endTime.val() && startTime.val() > endTime.val()) {
       // Alerts user of their error
-      startTime.style.borderColor = "var(--red)";
-      endTime.style.borderColor = "var(--red)";
+      startTime.css('borderColor', 'var(--red)');
+      endTime.css('borderColor', 'var(--red)');
       alert("Start time is later than end time. Update times before adding schedule");
     } else {
-      startTime.style.borderColor = "var(--grey)";
-      endTime.style.borderColor = "var(--grey)";
+      startTime.css('borderColor', 'var(--grey)');
+      endTime.css('borderColor', 'var(--grey)');
     }
   });
 
   // Checks if start time is later than end time
-  endTime.addEventListener("blur", () => {
-    if (startTime.value > endTime.value) {
+  endTime.on('blur', () => {
+    if (startTime.val() > endTime.val()) {
       // Alerts user of their error
-      startTime.style.borderColor = "var(--red)";
-      endTime.style.borderColor = "var(--red)";
+      startTime.css('borderColor', 'var(--red)');
+      endTime.css('borderColor', 'var(--red)');
       alert("Start time is later than end time. Update times before adding schedule");
     } else {
-      startTime.style.borderColor = "var(--grey)";
-      endTime.style.borderColor = "var(--grey)";
-    }
+      startTime.css('borderColor', 'var(--grey)');
+      endTime.css('borderColor', 'var(--grey)');
+    } 
   });
 }
 
@@ -336,141 +326,173 @@ scheduleDayForm.forEach((element) => {
     if (isAnyChecked) {
       $('#schedule-new-container').slideDown();
     } else {
-      hideTimeSelection();
+      hidesTimeInterval();
     }
   });
 });
 
-// TODO: Make into function for edit and new schedule
-/** Add new time selection line when "add time" btn is pressed */
-$('#add-time-btn').on('click', function() {
-  timeSelectionAmt++;
+/**TODO: Function description */
+function populateScheduleTimes() {
 
-  let scheduleType = "new"
+}
+
+/** TODO: Function description */
+// TODO: get initial timeIntervalAmt of what is already there for edit schedule
+function addTimeInterval(scheduleType) {
+  timeIntervalAmt++;
+
+  // console.log(`${scheduleType} time interval`);
+  // let scheduleType = "new"
   // Creates new element and appends time selection to schedule container 
-  let timeSelection = document.createElement("section");
-  timeSelection.className = "schedule-new-time"; 
-  timeSelection.id = `${scheduleType}-time-line-${timeSelectionAmt}`;
-  timeSelection.style.display = "none";
-  timeSelection.innerHTML = `
-    <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
-      <div>to</div>
-    <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
 
-    <button class="btn">
-      <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
-    </button>
-  `;
-  newTimeContainer.append(timeSelection)
-  $(`#${scheduleType}-time-line-${timeSelectionAmt}`).slideDown();
+  let timeInterval = $('<section>', {
+    class: 'schedule-new-time',
+    id: `${scheduleType}-time-line-${timeIntervalAmt}`,
+    css: {
+      display: 'none'
+    },
+    html: `
+      <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
+        <div>to</div>
+      <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
+
+      <button class="btn">
+        <img class="icon-delete" src="/images/icon-trash.svg" alt="Trash can delete button">
+      </button>
+    `
+  });
+  
+  $('#new-time-container').append(timeInterval);
+  $(`#${scheduleType}-time-line-${timeIntervalAmt}`).slideDown();
 
   // Actions for when time selection delete button is pressed
-  let deleteBtn = timeSelection.querySelector(".btn");
-  $(`#new-time-line-${timeSelectionAmt} .btn`).on("click", function () {
+  // let deleteBtn = timeInterval.querySelector(".btn");
+  $(`#new-time-line-${timeIntervalAmt} .btn`).on("click", function () {
     // Deletes time selection line the delete button is associated to
-    $(`#new-time-line-${timeSelectionAmt}`).slideUp(function() {
+    $(`#new-time-line-${timeIntervalAmt}`).slideUp(function() {
       $(this).remove();
     });
-    timeSelectionAmt--;
+    timeIntervalAmt--;
 
     // Displays "all time" button if the count is not at max 
-    if (timeSelectionAmt < 5) $('#add-time-btn').css('display', 'flex');
+    if (timeIntervalAmt < 5) $('#add-new-time-btn').fadeIn();
   });
 
   // Checks if start time is less than end time
-  let startTime = timeSelection.querySelector("#schedule-start-time");
-  let endTime = timeSelection.querySelector("#schedule-end-time");
+  let startTime = timeInterval.find("#schedule-start-time");
+  let endTime = timeInterval.find("#schedule-end-time");  
   isTimeChoiceValid(startTime, endTime);
-  
-  // Removes "add time" button and notice user they can't add more
-  if (timeSelectionAmt == 5) {
-    // addTimeInterval.style.display = "none";
-    $('#add-time-btn').css('display', 'none');
-    alert("You cannot add more times after this.");
-  }
+
+  // Removes "add time" button so user can't add more intervals
+  if (timeIntervalAmt == 5) $('#add-new-time-btn').fadeOut();
+}
+
+/** Add new time selection line "add time" btn is pressed and passes scheduleType (edit or new) */
+$('.add-time-btn').on('click', function() {
+  let scheduleType = $(this).val();
+  // console.log(scheduleType)
+  addTimeInterval(scheduleType);
 })
 
 /** Remove or insert time selection when "all day" button is clicked in new/edit schedule overlay */
 $('#schedule-all-day').on("click", function () {
   let scheduleType = $('#schedule-all-day').prop("value");
-  console.log(scheduleType)
+  // console.log(`Schedule type: ${scheduleType}`)
   if ($('#schedule-all-day').is(":checked")) {
-    removesTimeSelection(scheduleType);
+    removesTimeInterval(scheduleType);
   } else {
-    addsTimeSelection();
+    addsTimeInterval();
   }
 })
 
-// TODO: BROKEN AS HELL
+// TODO: make reusable for edit schedule
 /** Actions for when user is submitting schedule times */
-$('#submit-schedule').on("click", function () {
+$('.submit-schedule').on("click", function () {
+  // Gets selected time values and pushes them to an array
+  let scheduleType = $(this).val();
+  let times = $(`.schedule-${scheduleType}-time`);
+  let selectedTimes;
+  // console.log(times)
+
+  if ($('#schedule-all-day').is(":checked")) {
+    selectedTimes = true // if all day is selected
+  } {
+    selectedTimes = getSelectedTimeValue(times);
+    // console.log(selectedTimes)
+  }
+
   // Gets selected schedule days
   let selectedDays = [];
-  let scheduleDays = document.querySelectorAll(".checkbox-circle label input");
-  
-    // Filters out
+  let scheduleDays = $(".schedule-day label input");
+
+  // Filters out unselected days
   let filteredDays = Array.from(scheduleDays, (day) => ({[day.name]: day.checked})).filter(day => day[Object.keys(day)[0]]);
 
   // Gets rid of true boolean values and only keeps selected days
   filteredDays.forEach((element) => {
     selectedDays.push(Object.keys(element)[0]);
-  });
+  });  
 
-  // Gets selected time values and pushes them to an array
-  let scheduleType = "new";
-  let times = document.querySelectorAll(`.schedule-${scheduleType}-time`);
-  let selectedTimes = getSelectedTimeValue(times);
-  
-  // TODO: too many times
+  // FIXME: cannot do multiple days at once
+  // FIXME: Adding time intervals do not work - it may register as if all day button has been selected when it hasnt been
   /** SECTION - ADDING SCHEDULES TO STORAGE */
   // Add new schedule day to schedule list
-  let scheduleGrid = document.getElementById("schedules");  
+  let scheduleGrid = $("#schedules");  
   selectedDays.forEach((day, index) => {
-    getSettings(day, (currentTimes) => {
-      console.log(day)
-      console.log(times.length)
-      console.log(($('#schedule-all-day').is(":checked")))
-      console.log(selectedTimes === "")
-      console.log(currentTimes)
+    getSettings("schedule-days", (schedules) => {
+      let currentTimes = schedules[day];
+      // console.log("\n")
+      // console.log(`Day: ${day}`)
+      // console.log(`Times Length: ${times.length}`)
+      // console.log(`Is all day checked? ${$('#schedule-all-day').is(":checked")}`)
+      // console.log(`Selected times is blanked? ${selectedTimes === ""}`)
+      // console.log(`Current times: ${currentTimes}`)
+      // console.log(`all day checked? ${!($('#schedule-all-day').is(":checked")) && selectedTimes == ""}`)
+
+
       console.log(currentTimes[0])
+      console.log(currentTimes)
+      console.log(selectedTimes)
 
       if (!($('#schedule-all-day').is(":checked")) && selectedTimes === "") {
         alert("Select times or \"All Day\" before clicking \"Done\"");
       } else {
         // Runs this code if "all day" or times have been selected 
-        if (currentTimes[0] == true) {
-          alert(`To add new times to ${day[9].toUpperCase()}${day.slice(10)}., delete the day's current schedule and try again.`);
+        if (currentTimes[0] == true || currentTimes == true) {
+          alert(`To add new times to ${day.toUpperCase()}., delete the day's current schedule and try again.`);
         }
-        else if (currentTimes[0] == false && times.length === 0) { // If all day button is selected
+         // If all day button is selected
+        else if ((currentTimes[0] == false || currentTimes == false) && selectedTimes == true) {
           // Replaces currently stored times with true value for "all day" schedule to schedule day
-          setSetting(day, [$('#schedule-all-day').is(":checked")]);
+          console.log($('#schedule-all-day').is(":checked"))
+          setNestedSetting('schedule-days', day, [$('#schedule-all-day').is(":checked")], () => {
+            hideOverlay('.schedule-overlay');
+  
+            // console.log("if all day button is selected")
+  
+            // Only displays schedules and hides selection after the last schedule day has been handled
+            // console.log(`index: ${index}`);
+            // console.log(`selected days: ${selectedDays}`);
+            // console.log(`selected days length: ${selectedDays.length - 1}`);
+            if (index == (selectedDays.length - 1)) {
+              $("#schedules").empty();
+              deselectDaySelections(scheduleDays);
+              insertSchedule();
+            }
+          });
 
-          // Disables both overlays for adding new schedules
-          // overlay.style.display = "none";
-          // newScheduleOverlay.style.display = "none";
-          // entireHTML.style.overflow = "";
-          hideOverlays('.schedule-overlay');
-
-          console.log("if all day button is selected")
-
-          // Only displays schedules and hides selection after the last schedule day has been handled
-          if (index === (selectedDays.length - 1)) {
-            scheduleGrid.innerHTML = "";
-            deselectDaySelections(scheduleDays);
-            insertSchedule();
-          }
         } 
         // if any times have been selected
         else {
-          // Disables both overlays for adding new schedules
           console.log("if any times have been selected")
-          hideOverlays('.schedule-overlay');
-
+          
           // Pushes each time selection to currentTime array  
           selectedTimes.forEach((time) => {
             currentTimes.push(time);
           })
 
+          console.log(currentTimes)
+          
           // Sorts the currentTimes array by the first element of each nested array
           currentTimes.sort((a, b) => {
             if (typeof a === 'boolean' || typeof b === 'boolean') {
@@ -478,21 +500,30 @@ $('#submit-schedule').on("click", function () {
             }
             return a[0].localeCompare(b[0]);
           });
-
+          
           // Stores new and current times to schedule day
-          setSetting(day, currentTimes);
+          // console.log(currentTimes)
+          setNestedSetting('schedule-days', day, currentTimes, () => {
+            hideOverlay('.schedule-overlay');
 
-          // Only displays schedules and hides selection after the last schedule day has been handled
-          if (index === (selectedDays.length - 1)) {
-            scheduleGrid.innerHTML = "";
-            deselectDaySelections(scheduleDays);
-            removesTimeSelection(scheduleType);
-            insertSchedule();
-            timeSelectionAmt = 1;
-          }
+            // Only displays schedules and hides selection after the last schedule day has been handled
+            if (index === (selectedDays.length - 1)) {
+              scheduleGrid.html("");
+              deselectDaySelections(scheduleDays);
+              removesTimeInterval(scheduleType);
+              insertSchedule();
+              timeIntervalAmt = 1;
+            }
+          });
+
+
         }
       }
-      console.log("\n")
+      // console.log("\n")
     })
   })
 })
+
+//TODO: add function to check if any of the selected schedules are already set
+// if so, set an alert before adding new schedules to allow user to 
+// also, only push one alert after every day is checked to list all days affected 

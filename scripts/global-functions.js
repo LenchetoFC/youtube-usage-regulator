@@ -39,7 +39,7 @@ window.setSetting = (key, value) => {
   });
 }
 
-window.setNestedSetting = (key, subKey, value) => {
+window.setNestedSetting = (key, subKey, value, callback) => {
   chrome.storage.sync.get(key, function(result) {
     if (!result[key]) {
       result[key] = {};
@@ -49,11 +49,14 @@ window.setNestedSetting = (key, subKey, value) => {
     save[key] = result[key];
     chrome.storage.sync.set(save, function() {
       getSettings(key, (result) => {
-        console.log(`SETTINGS CHANGED: ${key}.${subKey} setting was changed to ${result[key]}`);
+        console.log(`SETTINGS CHANGED: ${key}.${subKey} setting was changed to ${result[subKey]}`);
+        if (typeof callback === 'function') {
+          callback(result); // Execute the callback, passing the result as an argument
+        }
       });
     });
   });
-}
+};
 
 /**!SECTION */
 
