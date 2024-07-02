@@ -14,6 +14,9 @@
  * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
  */
 
+// For determining if a YT element either fades or slides out of yt page examples
+const ytFadeToggleElements = ["all-pages", "home-page", "search-bar", "shorts-btn"]
+
 //FIXME: if all pages is checked, then home page is checked, the home page appears.
 // Basically, add a check for if all pages is checked, don't toggle animation for only home page
 
@@ -219,7 +222,7 @@ addictiveForm.forEach((element) => {
 
 function toggleCheckboxes(setting, element) {
   getSettings(setting, (result) => {
-    // Visually displays the status of the setting
+    // Visually displays the status of the setting on load
     if (result[element.value]) {
       element.checked = true; // Auto-updates checkbox status
       $(`.${element.value}`).slideToggle() // Auto-updates YT UI example
@@ -232,7 +235,7 @@ function toggleCheckboxes(setting, element) {
       setNestedSetting(setting, element.name, element.checked);
 
       // Displays change in YT UI example
-      $(`.${element.value}`).slideToggle()
+      ytFadeToggleElements.includes(element.value) ? $(`.${element.value}`).fadeToggle() : $(`.${element.value}`).slideToggle() 
     });
   });
 }
