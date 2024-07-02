@@ -94,7 +94,7 @@ hr {
   width: 100%;
 }
 .first-line {
-  margin: 1rem 0 2rem;
+  margin: 0 0 1rem;
   border-bottom: 1.5px solid var(--grey);
 }
 
@@ -309,6 +309,95 @@ button:active {
 .element-limit-group {
   gap: 0.75rem;
 }
+
+.side-checkbox-container {
+  display: block;
+  position: relative;
+  align-content: center;
+  padding-left: 35px;
+  cursor: pointer;
+  height: 2.5rem;
+  font-size: 1.4rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.side-checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 1px solid var(--grey);
+  background-color: var(--white);
+  border-radius: 6px;
+  transition: 0.4s background-color;
+  box-shadow: 1px 1px 6px -1px var(--grey-25);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    visibility: hidden;
+    width: 18px;
+  }
+}
+
+/* On mouse-over, add a grey background color */
+.side-checkbox-container:hover input ~ .checkmark {
+  background-color: #e6e6e6;
+}
+
+/* When the checkbox is checked, add a blue background */
+.side-checkbox-container input:checked ~ .checkmark {
+  border: 1px solid transparent;
+  background-color: var(--red);
+
+  img {
+    filter: invert(97%) sepia(26%) saturate(0%) hue-rotate(3deg)
+      brightness(103%) contrast(97%);
+    visibility: visible;
+  }
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.side-checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.side-checkbox-container .checkmark:after {
+  /* left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--white);
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg); */
+}
+
 .checkbox-item {
   background-color: var(--white);
 
@@ -388,7 +477,7 @@ button:active {
 .checkbox-item input:checked + span {
   background-color: var(--red);
   color: var(--white);
-  border: 0.75px solid transparent;
+  border: 1px solid transparent;
 
   img {
     filter: invert(97%) sepia(26%) saturate(0%) hue-rotate(3deg)
@@ -722,13 +811,17 @@ footer p {
   overflow-y: auto;
 
   > header {
-    padding: 3rem 3rem 0;
+    padding: 3rem 27rem 0 3rem;
     position: fixed;
-    width: 87.8%;
+    /* width: 87.8%; */
     left: 19.5rem;
     /* background-color: var(--white); */
     z-index: 1;
     /* border-radius: 12px 0 12px 12px; */
+
+    * {
+      background-color: var(--white);
+    }
   }
 
   > section {
@@ -740,7 +833,7 @@ footer p {
   }
 
   header {
-    /* width: 100%; */
+    width: 100%;
     gap: 1rem;
   }
 
@@ -780,17 +873,18 @@ footer p {
 .two-col {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(47rem, auto)); */
-  grid-template-columns: repeat(auto-fit, minmax(47rem, 100rem));
+  grid-template-columns: repeat(auto-fit, minmax(40rem, 47rem));
   column-gap: 5rem;
 }
 .limitations-col {
   h4 {
     font-size: 1.55rem;
+    width: fit-content;
   }
 
-  > div:first-child {
+  /* > div:first-child {
     width: 47%;
-  }
+  } */
 }
 .limitations-col:last-of-type {
   display: flex;
@@ -974,12 +1068,13 @@ footer p {
 /* Addictive Elements Checkbox Form */
 .addictive-form {
   display: grid;
-  justify-items: center;
+  justify-items: start;
   align-items: center;
   row-gap: 2rem;
+  grid-template-columns: auto;
   /* grid-template-columns: repeat(3, auto); */
   /* grid-template-columns: repeat(auto-fit, minmax(12rem, 13rem)); */
-  grid-template-columns: repeat(auto-fit, 15rem);
+  /* grid-template-columns: repeat(auto-fit, 15rem); */
 }
 
 /* Alternate Activities */

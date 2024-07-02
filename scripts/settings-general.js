@@ -14,6 +14,9 @@
  * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
  */
 
+//FIXME: if all pages is checked, then home page is checked, the home page appears.
+// Basically, add a check for if all pages is checked, don't toggle animation for only home page
+
 // Adds all activities from storage to HTML
 addActivityHTML();
 
