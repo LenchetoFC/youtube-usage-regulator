@@ -1085,8 +1085,8 @@ footer p {
 }
 li {
   position: relative;
-  padding-left: 0.5rem;
-  margin-bottom: 0.5rem;
+  /* padding-left: 0.5rem; */
+  margin-bottom: 1rem;
   width: fit-content;
 }
 li:hover::marker {
@@ -1094,17 +1094,16 @@ li:hover::marker {
 }
 li button {
   visibility: hidden;
-  display: inline-block;
+  display: flex;
   position: absolute;
-  left: -2.5rem;
-  top: 0.3rem;
+  left: -2.7rem;
   background-color: var(--white);
 }
 li:hover button {
   visibility: visible;
 }
 li::marker {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 li .activity-item {
   display: flex;
@@ -1112,7 +1111,7 @@ li .activity-item {
   align-items: center;
   border-radius: 8px;
   font-size: 1.7rem;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 }
 
 input[type="text"],
@@ -1145,6 +1144,10 @@ input[type="number"] {
   font-size: 1.25rem;
   font-weight: 400;
   letter-spacing: 0.1em;
+}
+
+#activity-add {
+  margin: 2rem 0 0;
 }
 
 /* Reset All Time Usage  */

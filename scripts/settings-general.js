@@ -6,22 +6,20 @@
  */
 
 /**
- * to access storage from console, run this command...
+ * NOTE: to access storage from browser console, run this command...
  * chrome.storage.sync.get((result) => { console.log(result) });
  */
 
 /**
  * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
+ *
  */
 
 // For determining if a YT element either fades or slides out of yt page examples
 const ytFadeToggleElements = ["all-pages", "home-page", "search-bar", "shorts-btn"]
 
-//FIXME: if all pages is checked, then home page is checked, the home page appears.
-// Basically, add a check for if all pages is checked, don't toggle animation for only home page
-
-// Adds all activities from storage to HTML
-addActivityHTML();
+// Adds all activities from storage to HTML on load
+retrieveActivityFromStorage();
 
 // Gets initial num of activities and displays add button if not reached max
 getSettings("activities", (result) => {
@@ -51,10 +49,11 @@ getSettings("activities", (result) => {
 
 /**
  * SECTION - FUNCTION DECLARATIONS
+ *
  */
 
 /** FUNCTION - retrieves the 'activities' setting and adds each activity to the HTML */
-function addActivityHTML() {
+function retrieveActivityFromStorage() {
   getSettings("activities", (result) => {
     if (result != undefined) {
       result.forEach((element, index) => {
@@ -65,18 +64,20 @@ function addActivityHTML() {
 }
 
 /** FUNCTION - Creates a new HTML element for an activity and adds it to the 'activity-section' in the document */
-function insertActivityHTML (activity) {
-  let activityItem = document.createElement("li");
-  activityItem.innerHTML = `
+function insertActivityHTML(activity) {
+  let activityItem = $("<li></li>").html(`
       <div class="activity-item" id="${activity}">
         ${activity}
         <button>
           <img class="icon-delete" src="/images/icon-delete.svg" alt="x delete button">
         </button>
       </div>
-  `;
+  `);
+
+  activityItem.css("display", "none")
 
   $('#activity-section').append(activityItem);
+  activityItem.slideDown();
 };
 
 /** FUNCTION - Adds an activity to the 'activities' setting in storage. If the 'activities' setting does not exist, it creates a new one */
@@ -100,10 +101,11 @@ function removeActivity (value) {
   });
 }
 
-// TODO: function description
+/** FUNCTION - Inserts activity from storage into HTML to and adds them to storage */
+// NOTE: Not exactly sure if this is even necessary 
 function addActivityEventHandler() {
   let activityNumEvent = 0;
-  let activityInput = document.getElementById("activity-input");
+  let activityInput = $("#activity-input");
 
   // Gets current number of activities
   getSettings("activities", (result) => {
@@ -113,113 +115,52 @@ function addActivityEventHandler() {
       activityNumEvent = 0;
     }
 
-    if(activityInput.value.length > 0 && activityNumEvent < 4){
-      insertActivityHTML(activityInput.value);
-      addActivityStorage(activityInput.value);
-      activityInput.value = "";
+    if(activityInput.val().length > 0 && activityNumEvent < 4){
+      insertActivityHTML(activityInput.val());
+      addActivityStorage(activityInput.val());
+      activityInput.val("");
     }
   });
 }
 
-// TODO: function description
-function removeActivityInput() {}
+/** FUNCTION - Displays or hides 'add activity' button or "activity input" only under the right conditions */
+function toggleActivityBtns() {
+  let activityItemAmt = $('#activity-section').children().length;
 
-// TODO: function description
-function insertActivityInput() {}
+  console.log(activityItemAmt);
+  console.log($('#input-btn-box').css("visibility"))
+  
+  if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "visible") {
+    // $('#activity-add').css("display", "block");
+    // $('#activity-add').css("visibility", "visible");
+    // $('#input-btn-box').css("visibility", "visible");
+    $('#activity-add').slideToggle();
+    $('#input-btn-box').slideToggle();
+  } else if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "hidden") {
+    // $('#activity-add').css("display", "none");
+    // $('#activity-add').css("visibility", "hidden");
+    $('#activity-add').slideToggle();
+    $('#input-btn-box').slideToggle();
+  } else {
 
-// TODO: function description
-function hideActivityInput() {
-  $('#input-btn-box').slideUp();
-  $('#activity-add').slideDown();
+  }
 }
 
-
-/** SECTION - Mutation Observers */
-
-// Adds event listener to delete buttons of actitivites
-// Create a new observer
-const removeActivityHTML = new MutationObserver((mutationsList, observer) => {
-  // Look through all mutations that just occured
-  for(let mutation of mutationsList) {
-    // If the addedNodes property has one or more nodes
-    if(mutation.addedNodes.length){
-      const deleteButtons = document.querySelectorAll('.icon-delete');
-
-      deleteButtons.forEach((button) => {
-        button.addEventListener('click', (event) => {
-          const activityItem = event.target.closest('li');
-          const activityItemId = event.target.closest('div').id;
-
-          removeActivity(activityItemId);
-
-          if (activityItem) {
-            activityItem.remove();
-          }
-        });
-      });
-    }
-  }
-});
-
-// Start observing the document with the configured parameters
-removeActivityHTML.observe(document, { childList: true, subtree: true });
-
-// Displays or hides activity inputs based on amount of active activities
-let inputContainer = document.getElementById("input-container");
-let activityBtn = document.getElementById("activity-add");
-let inputBtnBox = document.getElementById("input-btn-box");
-const showButton = new MutationObserver((mutationsList, observer) => {
-  // Look through all mutations that just occured
-  for(let mutation of mutationsList) {
-    // If the addedNodes property has one or more nodes
-    if(mutation.addedNodes.length || mutation.removedNodes.length){
-
-      const activityItems = document.querySelectorAll('.activity-item');
-
-      if (activityItems.length < 4) {
-        // inputContainer.style.visibility = "hidden"
-        activityBtn.style.display = "block"
-        activityBtn.style.visibility = "visible"; 
-        inputBtnBox.style.visibility = "visible";
-        // inputBtnBox.style.height = "40px";
-      } else {
-        // inputContainer.style.visibility = "hidden";
-        activityBtn.style.display = "none"
-        activityBtn.style.visibility = "hidden"; 
-        // inputBtnBox.style.height = "0";
-      }
-    }
-  }
-});
-
-// Start observing the document with the configured parameters
-showButton.observe(document, { childList: true, subtree: true });
-
-
-/** SECTION - Event Listeners */
-
-// DOM Elements to be modified below
-// let inputContainer = document.getElementById("input-container");
-// let activityBtn = document.getElementById("activity-add");
-// let inputBtnBox = document.getElementById("input-btn-box");
-// let activityInput = document.getElementById("activity-input");
-
-/**
- * SECTION - CHECKBOX FUNCTIONALITIES
- * This block of code gets all form checkbox inputs, adds listeners to them, and changes their visuals based on the stored settings.
- * For each checkbox input, it retrieves the corresponding setting from storage.
- * If the setting is true, it checks the checkbox. Otherwise, it unchecks the checkbox.
- * It also adds a click event listener to each checkbox to update the corresponding setting whenever the checkbox is clicked.
- */
-const addictiveForm = document.querySelectorAll("form input");
-addictiveForm.forEach((element) => {
-  if (element.name.includes('quick')) {
-    toggleCheckboxes("quick-actions", element);
+/** FUNCTION - Displays or hides activity inputs based on amount of active activities */
+function showActivityInput () {
+  let activityItemAmt = $('#activity-section').length;
+  
+  if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "hidden") {
+    $('#activity-add').css("display", "block");
+    $('#activity-add').css("visibility", "visible");
+    $('#input-btn-box').css("visibility", "visible");
   } else {
-    toggleCheckboxes("addictive-elements", element);
+    $('#activity-add').css("display", "none");
+    $('#activity-add').css("visibility", "hidden");
   }
-});
+}
 
+/** FUNCTION - Toggles all checkboxes based on the settings value (true == checked or false == unchecked) */
 function toggleCheckboxes(setting, element) {
   getSettings(setting, (result) => {
     // Visually displays the status of the setting on load
@@ -240,7 +181,37 @@ function toggleCheckboxes(setting, element) {
   });
 }
 
-// TODO: add description
+
+/** 
+ * SECTION - Event Listeners 
+ * 
+ */
+
+// Deletes activity through 'x' button
+$(document).on('click', '.icon-delete', function(event) {
+  const activityItem = $(this).closest('li');
+  const activityItemId = $(this).closest('div').attr('id');
+
+  removeActivity(activityItemId);
+
+  if (activityItem.length) {
+    activityItem.slideUp(function() {
+      $(this).remove();
+    });
+  }
+});
+
+// Triggers toggleCheckboxes with the type of checkbox on every checkbox within a form
+const addictiveForm = document.querySelectorAll("form input");
+addictiveForm.forEach((element) => {
+  if (element.name.includes('quick')) {
+    toggleCheckboxes("quick-actions", element);
+  } else {
+    toggleCheckboxes("addictive-elements", element);
+  }
+});
+
+// Displays activity input text box and auto-focuses on it
 $('#activity-add button').on("click", function() {
   $('#input-btn-box').slideDown( function() {
     $('#input-container').trigger("focus");
@@ -250,21 +221,25 @@ $('#activity-add button').on("click", function() {
 
 // Removes activity input and reshows add activity button
 $('#activity-cancel').on("click", function() {
-  hideActivityInput()
+  toggleActivityBtns();
 });
 
 // "Enter" event listener for new activity
 $('#activity-input').on("keydown", function ( event ) {
-  if (event.which == 13) {
+  let inputTextLen = $(this).val().length;
+  if (event.which == 13 && inputTextLen > 0) {
     addActivityEventHandler();
-    hideActivityInput();
+    toggleActivityBtns();
   }
 });
 
 // "Save button" event listener for new activity
 $('#activity-save').on("click", function() {
-  addActivityEventHandler();
-  hideActivityInput();
+  let inputTextLen = $('#activity-input').val().length;
+  if (inputTextLen > 0) {
+    addActivityEventHandler();
+    toggleActivityBtns();
+  }
 })
 
 // Resets all time usage to 0 and updates the displayed count
