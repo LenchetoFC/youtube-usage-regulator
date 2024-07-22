@@ -6,6 +6,7 @@
  */
 
 // TODO: Better name class and id names
+// FIXME: new schedule overlay - when times are added, the next time the overlay pops up, it will not have the any time lines
 
 /**
  * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
@@ -27,7 +28,7 @@ let newTimeContainer = document.getElementById("new-time-container");
 // let submitSchedule = document.getElementById("submit-schedule");
 
 const scheduleDayForm = document.querySelectorAll("form input");
-const firsttimeIntervalLine = $('#time-container section:first-child');
+// const firsttimeIntervalLine = $('#time-container section:first-child');
 
 
 // Important queries for hiding and showing 'add new schedule' popup
@@ -197,7 +198,7 @@ function hidesTimeInterval() {
   $('#add-new-time-btn').css('display', 'flex');
   $('#schedule-time-container').slideUp();
   $('#schedule-all-day').prop('checked', false);
-  $('#time-container').text = "";
+  $('#new-time-container').text = "";
 }
 
 /** FUNCTION - Reinserts first time selection line when "all day" button is deselected */
@@ -212,6 +213,7 @@ function removesTimeInterval (scheduleType) {
   $('.schedule-time-container').slideUp();
   $('#add-new-time-btn').fadeOut();
   $('.schedule-time-container').css('padding', '0');
+  console.log(scheduleType)
   
   // Keeps first time selection child to avoid miscounting children after deselecting all day btn
   while (newTimeContainer.lastChild.id !== `first-time-selection-${scheduleType}`) {
@@ -296,41 +298,6 @@ function isTimeChoiceValid(startTime, endTime) {
   });
 }
 
-
-/** SECTION - Event Listeners */
-// Shows the new schedule overlay when add new schedule button is clicked
-$('#add-new-schedule-btn').on("click", function() {
-  $('#overlay').first().fadeIn();
-  $('.new-overlay').first().fadeIn();
-  $('html').css('overflow', 'hidden');
-})
-
-/** Hides popup when the overlay outside of the popup or 'X' btn are clicked */
-$('#overlay').on("click", function() {
-  hideNewSchedulePopup();
-  removeTimeValues();
-})
-// TODO: error occurs if all day button is selected and then canceled
-$('.new-schedule-exit').on("click", function () {
-  hideNewSchedulePopup();
-  removeTimeValues();
-})
-
-/** Shows time selection container when any schedule day is checked */
-scheduleDayForm.forEach((element) => {
-  element.addEventListener("change", () => {
-    // Check if any checkbox is checked
-    const isAnyChecked = Array.from(scheduleDayForm).some((checkbox) => checkbox.checked);
-    
-    // Hides/shows time selections if at least one checkbox is checked
-    if (isAnyChecked) {
-      $('#schedule-new-container').slideDown();
-    } else {
-      hidesTimeInterval();
-    }
-  });
-});
-
 /**TODO: Function description */
 function populateScheduleTimes() {
 
@@ -387,6 +354,42 @@ function addTimeInterval(scheduleType) {
   if (timeIntervalAmt == 5) $('#add-new-time-btn').fadeOut();
 }
 
+
+/** SECTION - Event Listeners */
+// Shows the new schedule overlay when add new schedule button is clicked
+$('#add-new-schedule-btn').on("click", function() {
+  $('#overlay').first().fadeIn();
+  $('.new-overlay').first().fadeIn();
+  $('html').css('overflow', 'hidden');
+})
+
+/** Hides popup when the overlay outside of the popup or 'X' btn are clicked */
+$('#overlay').on("click", function() {
+  hideNewSchedulePopup();
+  removeTimeValues();
+  removesTimeInterval();
+})
+// TODO: error occurs if all day button is selected and then canceled
+$('.new-schedule-exit').on("click", function () {
+  hideNewSchedulePopup();
+  removeTimeValues();
+})
+
+/** Shows time selection container when any schedule day is checked */
+scheduleDayForm.forEach((element) => {
+  element.addEventListener("change", () => {
+    // Check if any checkbox is checked
+    const isAnyChecked = Array.from(scheduleDayForm).some((checkbox) => checkbox.checked);
+    
+    // Hides/shows time selections if at least one checkbox is checked
+    if (isAnyChecked) {
+      $('#schedule-new-container').slideDown();
+    } else {
+      hidesTimeInterval();
+    }
+  });
+});
+
 /** Add new time selection line "add time" btn is pressed and passes scheduleType (edit or new) */
 $('.add-time-btn').on('click', function() {
   let scheduleType = $(this).val();
@@ -433,6 +436,12 @@ $('.submit-schedule').on("click", function () {
     selectedDays.push(Object.keys(element)[0]);
   });  
 
+  // Alerts error and breaks from block if any invalid combo is selected
+  if ((!($('#schedule-all-day').is(":checked")) && selectedTimes === "") || selectedDays.length === 0) {
+    alert("Please choose a valid schedule selection...");
+    return;
+  }
+
   // FIXME: cannot do multiple days at once
   // FIXME: Adding time intervals do not work - it may register as if all day button has been selected when it hasnt been
   /** SECTION - ADDING SCHEDULES TO STORAGE */
@@ -462,7 +471,7 @@ $('.submit-schedule').on("click", function () {
           alert(`To add new times to ${day.toUpperCase()}., delete the day's current schedule and try again.`);
         }
          // If all day button is selected
-        else if ((currentTimes[0] == false || currentTimes == false) && selectedTimes == true) {
+        else if ((currentTimes[0] == false || currentTimes == false) && $('#schedule-all-day').is(":checked")) {
           // Replaces currently stored times with true value for "all day" schedule to schedule day
           console.log($('#schedule-all-day').is(":checked"))
           setNestedSetting('schedule-days', day, [$('#schedule-all-day').is(":checked")], () => {

@@ -10,38 +10,20 @@
 */
 
 /** 
-  * SECTION - STORAGE RELATED 
-  * 
-  */
+ * SECTION - FUNCTION DECLARATIONS
+ * 
+*/
 
 /**
- * Sets storage settings using the background script
- * 
- * @param {Object} valueToSend - The value to send to the background script
- * 
- * @returns {Promise} A promise that resolves when the settings are set
- * 
- * @example setSettings({operation: "set", key: 'settingKey', value: 'settingValue'})
- */
-const setSettings = (valueToSend) => {
-  // Send a message to the background script
-  return new Promise ((resolve, reject) => {
-    chrome.runtime.sendMessage(valueToSend, function(response) {
-      resolve(response.data);
-    });
-  });
-}
-
-/**
- * Retrieves settings from storage using the background script
+ * Sends message to service worker to retrieve or set settings from storage using the background script
  * 
  * @param {Object} valueToSend - The value to send to the background script
  * 
  * @returns {Promise} A promise that resolves with the retrieved settings
  * 
- * @example retrieveSettings({operation: "retrieve", key: 'settingKey'})
+ * @example sendMessageToServiceWorker({operation: "retrieve", key: 'settingKey'})
  */
-const retrieveSettings = (valueToSend) => {
+const sendMessageToServiceWorker = (valueToSend) => {
   // Send a message to the background script
   return new Promise ((resolve, reject) => {
     chrome.runtime.sendMessage(valueToSend, function(response) {
@@ -49,14 +31,6 @@ const retrieveSettings = (valueToSend) => {
     });
   });
 }
-
-/**!SECTION */
-
-
-/** 
-  * SECTION - REMOVAL OF ELEMENTS FUNCTIONS 
-  * 
-  */
 
 /**
  * Removes the element with the given ID
@@ -80,14 +54,6 @@ const removeDOMContent = (elementID, elementName) => {
   }
 }
 
-/**!SECTION */
-
-
-/** 
- * SECTION - MISC FUNCTIONS
- * 
- */
-
 /**
  * Updates the HTML of the current web page with the specified HTML page
  * 
@@ -97,7 +63,7 @@ const removeDOMContent = (elementID, elementName) => {
  * 
  * @example updateHTML('/html/blocked-page.html')
  */
-const updateHTML = (htmlPage) => {
+function updateHTML (htmlPage) {
   chrome.runtime.sendMessage({redirect: htmlPage}, function(response) {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError.message);
@@ -107,15 +73,6 @@ const updateHTML = (htmlPage) => {
   });
 }
 
-/**!SECTION */
-
-
-/**
- * SECTION - CHECKS SCHEDULES & BLOCKS YOUTUBE ACCORDINGLY
- * 
- */
-
-
 /**
  * Gets current time as of execution
  * 
@@ -123,7 +80,7 @@ const updateHTML = (htmlPage) => {
  * 
  * @example let currentTime = getCurrentTime();
  */
-const getCurrentTime = () => {
+function getCurrentTime () {
   let currentDateTime = new Date();
   let currentHour = currentDateTime.getHours();
   let currentMinute = currentDateTime.getMinutes();
@@ -136,16 +93,16 @@ const getCurrentTime = () => {
  * 
  * @returns {void} Returns nothing
  * 
- * @example checksSchedule();
+ * @example checkSchedules();
  */
-const checksSchedule = () => {
-  console.log("CHECKING SCHEDULE TIMES...");
+function checkSchedules () {
+  // console.log("CHECKING SCHEDULE TIMES...");
 
   // Settings IDs
   let scheduleList = [
-    "schedule-sun", "schedule-mon", "schedule-tue", 
-    "schedule-wed", "schedule-thu", "schedule-fri", 
-    "schedule-sat"
+    "sunday", "monday", "tuesday", 
+    "wednesday", "thursday", "friday", 
+    "saturday"
   ];
 
   // Empty array to store the boolean values when the current time is checked with schedule times
@@ -156,14 +113,18 @@ const checksSchedule = () => {
   let currentDay = new Date().getDay();
 
   // Iterates through schedule days and only gets schedule times when it is the current day
+  // FIXME: if there's any time scheduled that day, it will block youtube
   scheduleList.forEach(async (day, index) => {
+    console.log(currentDay, index, day)
     if (currentDay === index) {
-      let times = await retrieveSettings({operation: "retrieve", key: day});
+      console.log(currentDay)
+      let times = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "schedule-days", key: day});
   
+      console.log(`times: ${times}`)
       // Checking if current time is within schedule times
-      if (times[0]) { // All day schedule
+      if (times) { // All day schedule
         blockYouTube.push(true);
-      } else if (times[0] === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
+      } else if (times === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
         timesSelection = times.slice(1) // Only grabs the schedule intervals (array)
 
         // Iterates through each schedule interval
@@ -176,38 +137,92 @@ const checksSchedule = () => {
         })
       }
     }
-  
     // Redirects user to blocked page if there is at least true value in blockYouTube array
     //  & sets youtube-site restriction setting to true
     if (blockYouTube.includes(true)) {
-      console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
-      await setSettings({operation: "set", key: 'scheduleOn', value: true});
-      updateHTML("/html/blocked-page.html");
+      // console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
+      // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: true});
+      //updateHTML("/html/blocked-page.html");
       return;
     } else { 
       // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
-      await setSettings({operation: "set", key: 'scheduleOn', value: false});
-      console.log("NOT WITHIN SCHEDULE TIMES");
+      // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: false});
+      // console.log("NOT WITHIN SCHEDULE TIMES");
     }
   })
 }
 
+/**
+ * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
+ *
+ */
+
 // Checks schedule time when YouTube page first loads
-checksSchedule();
-
-/**!SECTION */
-
+checkSchedules();
 
 /**
- * SECTION - REMOVAL OF ELEMENTS
- * 
+ * Starts tracking time when site is focused
+ * Gets current time when tracking starts
  */
+
+// Starts timer immediately, even if not focused at first
+let startTime = new Date();
+console.log(`start time immediately ${startTime}`);
+
+// Starts timer when YouTube site is focused
+window.addEventListener("focus", (event) => {
+  startTime = new Date();
+  console.log(`start time on focus ${startTime}`);
+  
+  // Checks schedule every time the page is focused
+  //  to make sure any new schedules are applied without
+  //  the need to reload page
+  checkSchedules();
+});
+
+
+// Stops tracking and updates time tracking storage values
+// Get current time when tracking ends & compares that with time when tracking started
+window.addEventListener("blur", async (event) => {  
+  // Calculates elapsed time
+  const endTime = new Date();
+  const elapsedTime = Math.floor((endTime - startTime) / 1000);
+  console.log(`elapsed time on blur ${elapsedTime}`);
+  
+  // Gets current values of both time usages
+  const allTimeUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'all-time'});
+  const todayUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'today'});
+  const shortsUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'shorts'});
+  const regVideoUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'regular-video'});
+  
+  // Check if the current URL matches the specific URL
+  if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
+    console.log("GHDSFGJSGDHJBSEDHJBGYU")
+    // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-shorts', value: elapsedTime + shortsUsage});
+  } else if (window.location.href.startsWith('https://www.youtube.com/watch')){
+    console.log("GHDSFGJSGDHJBSEDHJBGYU")
+    // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-regular', value: elapsedTime + regVideoUsage});
+  }
+
+  await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'today', value: elapsedTime + todayUsage});
+  await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'all-time', value: elapsedTime + allTimeUsage});
+  
+  // Gets video's play/pause button to simulate a mouse click on it
+  const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
+
+  // Pause video if it is playing
+  // Effectively keeps accurate tracking for when the user is *watching* YouTube
+  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
+    playButton.click();
+  }
+});
 
 // A list of names of all settings
 let settingTitles = [
-  'youtube-site', 'home-page', 'shorts-page', 
-  'home-button', 'autoplay-button', 'skip-btn',
-  'recommended-vids', 'left-side-menu', 'search-bar', 
+  'all-pages', 'home-page', 'shorts-content', 
+  'home-btn', 'autoplay-btn', 'skip-btn',
+  'recommendations', 'recommendation-refresh', 'search-bar', 
+  'shorts-btn' //TODO: Needs to be added below
 ];
 
 // Removes ability to refresh recommendations every time the window is resized.
@@ -220,7 +235,7 @@ window.addEventListener("resize", () => {
 
 setTimeout(() => {
   settingTitles.forEach(async (settingTitle) => {
-    let returnValue = await retrieveSettings({operation: "retrieve", key: settingTitle});
+    let returnValue = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "addictive-elements", key: settingTitle});
   
     // If settings value is set to true, it restricts that element
     if (returnValue) {
@@ -230,7 +245,7 @@ setTimeout(() => {
           try {
             if (window.location.href.startsWith('https://www.youtube.com/') ) {
               console.log("blocks entire site");
-              updateHTML("/html/blocked-page.html");
+              //updateHTML("/html/blocked-page.html");
             } 
           } catch {
             console.log("troubles with entire youtube site")
@@ -242,7 +257,7 @@ setTimeout(() => {
           try {
             if (window.location.href === 'https://www.youtube.com/') {
               console.log("blocks home page");
-              updateHTML("/html/blocked-page.html");
+              //updateHTML("/html/blocked-page.html");
             } 
           } catch {
             console.log("troubles with home page")
@@ -267,7 +282,7 @@ setTimeout(() => {
           try {
             if (window.location.href.startsWith('https://www.youtube.com/shorts/')) { // Shorts page
               console.log("blocks shorts page");
-              updateHTML("/html/blocked-page.html");
+              //updateHTML("/html/blocked-page.html");
             } 
             else if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
               removeDOMContent("ytd-reel-shelf-renderer", "Shorts");
@@ -362,59 +377,3 @@ setTimeout(() => {
   });
   
 }, 2000);
-/**!SECTION */
-
-
-/**
- * SECTION - TIME TRACKING
- * 
- */
-
-/**
- * Starts tracking time when site is focused
- * Gets current time when tracking starts
- */
-
-// Starts timer immediately, even if not focused at first
-let startTime = new Date();
-console.log(`start time immediately ${startTime}`);
-
-// Starts timer when YouTube site is focused
-window.addEventListener("focus", (event) => {
-  startTime = new Date();
-  console.log(`start time on focus ${startTime}`);
-  
-  // Checks schedule every time the page is focused
-  //  to make sure any new schedules are applied without
-  //  the need to reload page
-  checksSchedule();
-});
-
-
-// Stops tracking and updates time tracking storage values
-// Get current time when tracking ends & compares that with time when tracking started
-window.addEventListener("blur", async (event) => {  
-  // Calculates elapsed time
-  const endTime = new Date();
-  const elapsedTime = Math.floor((endTime - startTime) / 1000);
-  console.log(`elapsed time on blur ${elapsedTime}`);
-  
-  // Gets current values of both time usages
-  const allTimeUsage = await retrieveSettings({operation: "retrieve", key: 'all-time-usage'});
-  const todayUsage = await retrieveSettings({operation: "retrieve", key: 'today-usage'});
-  
-  // Updates both time usages when window is blurred
-  await setSettings({operation: "set", key: 'today-usage', value: elapsedTime + todayUsage});
-  await setSettings({operation: "set", key: 'all-time-usage', value: elapsedTime + allTimeUsage});
-  
-  // Gets video's play/pause button to simulate a mouse click on it
-  const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
-
-  // Pause video if it is playing
-  // Effectively keeps accurate tracking for when the user is *watching* YouTube
-  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-    playButton.click();
-  }
-});
-
-/**!SECTION */

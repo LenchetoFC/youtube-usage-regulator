@@ -15,6 +15,9 @@
  *
  */
 
+// TODO: Change settings retrievals and sets to await promises like functions in content.js
+//        to be able to use the values outside of the callback
+
 // For determining if a YT element either fades or slides out of yt page examples
 const ytFadeToggleElements = ["all-pages", "home-page", "search-bar", "shorts-btn"]
 
@@ -31,9 +34,11 @@ getSettings("activities", (result) => {
   }
 });
 
-// Displays current time usage count in HTML
-getSettings("all-time", (result) => {
-  $('#all-time-count').text(convertTimeToText(result));
+// Displays current watch times in HTML
+getSettings("watch-usage", (result) => {
+  $('#all-time-count').text(convertTimeToText(result['all-time']));
+  $('#regular-time-count').text(convertTimeToText(result['regular-video']));
+  $('#shorts-time-count').text(convertTimeToText(result['shorts']));
 });
 
 // Gets initial num of activities and displays add button if not reached max
@@ -183,7 +188,7 @@ function toggleCheckboxes(setting, element) {
 
 
 /** 
- * SECTION - Event Listeners 
+ * SECTION - EVENT LISTENERS 
  * 
  */
 

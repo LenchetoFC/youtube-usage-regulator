@@ -559,22 +559,57 @@
         <section class="settings-section">
           <header>
             <h2>Time Usage</h2>  
-            <h3>Reset your tracked YouTube Times</h3>
+            <h3>Manage your YouTube Watch Times</h3>
           </header>
   
           <section class="usage-section flex-col">
-            <h4>All Time Watch Times</h4>
+            <button class="btn-text side-icon delete-btn" id="reset-usage">
+              <img class="icon-in-btn icon-white" src="/images/icon-reset-circle.svg" alt="circle arrow reset button">
+              <div>Reset All Watch Times</div>
+            </button>
+
+            <h4>Watch Times</h4>
             <!-- <h3>Manage your total tracked YouTube usage times.</h3> -->
-  
+
             <div>
-              <img src="/images/icon-clock-outline.svg" alt="Clock icon">
+              <img class="icon-red" src="/images/icon-clock-outline.svg" alt="Clock icon">
+              <div class="usage-text-title">Total Watch Times ................................... </div>
               <div class="usage-text" id="all-time-count">17:18:37</div>
-    
-              <button class="btn-text side-icon delete-btn" id="reset-usage">
-                <img class="icon-in-btn icon-white" src="/images/icon-reset-circle.svg" alt="circle arrow reset button">
-                <div> Reset</div>
-              </button>
             </div>
+            <div>
+              <img src="/images/icon-yt-logo.svg" alt="yt logo icon">
+              <div class="usage-text-title">Total Regular Video Watch Time ............. </div>
+              <div class="usage-text" id="regular-time-count">17:18:37</div>
+            </div>
+            <div>
+              <img class="icon-shorts" src="/images/icon-yt-shorts.svg" alt="yt shorts icon">
+              <div class="usage-text-title">Total Shorts Watch Times ....................... </div>
+              <div class="usage-text" id="shorts-time-count">17:18:37</div>
+            </div>
+
+            <!-- <section class="watch-times">
+              <div>
+                <div>
+                  <img src="/images/icon-clock-outline.svg" alt="Clock icon">
+                  <div class="usage-text-title">Total Watch Times</div>
+                </div>
+                <div>
+                  <img src="/images/icon-clock-outline.svg" alt="Clock icon">
+                  <div class="usage-text-title">Total Regular Video Watch Times</div>
+                </div>
+                <div>
+                  <img src="/images/icon-clock-outline.svg" alt="Clock icon">
+                  <div class="usage-text-title">Total Shorts Watch Times</div>
+                </div>
+              </div>
+              
+              <div>
+                <div class="usage-text" id="all-time-count">17:18:37</div>
+                <div class="usage-text" id="regular-time-count">17:18:37</div>
+                <div class="usage-text" id="shorts-time-count">17:18:37</div>
+
+              </div>
+            </section> -->
           </section>
           <!-- <br> -->
   
