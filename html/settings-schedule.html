@@ -10,159 +10,742 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>YT Regulator Schedule Settings</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
-          rel="stylesheet">
     <link rel="stylesheet" href="/styles/styles.css">
   </head>
 
   <body class="settings" id="schedule">
     <div id="overlay"></div>
 
-    <!-- Heading -->
-    <header>
-      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
-      <h1>Scheduling</h1>
-      <label class="hamburger">
-        <div></div>
-        <div></div>
-        <input class="hamburger-input" type="checkbox">
-        <div></div>
-      </label>
-    </header>
 
-    <!-- Side Navbar -->
-    <nav>
-      <a href="settings-general.html">
-        <img src="/images/icon-settings.svg" alt="Gear button to general settings">
-        <p>General</p>
-      </a>
-      <a class="current-page" href="settings-schedule.html">
-        <img  src="/images/icon-stopwatch-solid.svg" alt="Stopwatch button to schedule settings">
-        <p>Scheduling</p>
-      </a>
-    </nav>
+    <aside>
+      <nav >
+        <div>
+          <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
+          <p>Restrict the Tube</p>
+        </div>
+
+        <a href="settings-general.html">
+          <img src="/images/icon-settings.svg" alt="Gear button to general settings">
+          <p>Settings</p>
+        </a>
+        <a class="current-page" href="settings-schedule.html">
+          <img src="/images/icon-timer.svg" alt="Stopwatch button to schedule settings">
+          <p>Schedules</p>
+        </a>
+        <a href="#">
+          <img  src="/images/icon-note.svg" alt="Stopwatch button to schedule settings">
+          <p>How It Works</p>
+        </a>
+
+      </nav>
+    </aside>
+
     
-    <main class="content-wrapper">
-      <!-- Schedule Settings -->
-      <section class="settings-section">
-        <section class="settings-item">
-          <div class="tooltip">
-            <h2>Schedule YouTube Restrictions</h2>
-            <img src="/images/icon-info-circles.svg" alt="info circle">
-            <span>
-              It is recommended to keep YouTube restricted to this 
-              extension's ability 24/7 to maximize productivity.
-            </span>
-          </div>
-          <h3>Schedule the times and days for YouTube to be completely blocked</h3>
-
-        </section>
-        <button class="btn-text side-icon" id="add-new-schedule-btn">
-          <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
-          <div>New Schedule</div>
-        </button>
-        <br>
-        
-        <!-- SECTION - Your Set Schedules -->
-        <h4 id="schedule-title">Your Set Schedules</h4>
-        <section id="set-schedules">
-          <section class="settings-item schedule-grid" id="schedules"></section>
-        </section>
-
-        <!-- !SECTION -->
+    <main class="flex-col content-wrapper">
+      <header class="flex-col"> 
+        <h1>Schedules</h1>
+        <h3>Manage when YouTube is completely restricted.</h3>
+        <hr class="full-line first-line">
+      </header>
 
 
-        <!-- SECTION - Add New Schedule -->
-        <section class="settings-item schedule-overlay">
-          <div class="new-schedule-header">
-            <h4>New Schedule</h4>
-            <button class="btn new-schedule-exit">
-              <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+      <section>
+        <section class="settings-section">
+          <header>
+            <h2>YouTube Restriction Schedules</h2>  
+            <h3>Schedule the times and days for when YouTube is blocked.</h3>
+          </header>
+  
+          <div id="add-new-schedule-btn">
+            <button class="btn-text side-icon">
+             <img class="icon-in-btn icon-white" src="/images/icon-plus.svg" alt="plus button">
+             <div> New Schedule</div>
             </button>
           </div>
-
-          <form class="checkbox-form">
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-sun" name="schedule-sun" type="checkbox" value="1"/>
-                <span>Su</span>
-              </label>
+  
+          <br>
+  
+          <!-- New Overlay -->
+          <section class="settings-item schedule-overlay new-overlay">
+            <div class="new-schedule-header">
+              <div>
+                <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+                <h4>New Schedule</h4>
+              </div>
             </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-mon" name="schedule-mon" type="checkbox" value="1"/>
-                <span>M</span>
-              </label>
-            </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-tue" name="schedule-tue" type="checkbox" value="1"/>
-                <span>Tu</span>
-              </label>
-            </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-wed" name="schedule-wed" type="checkbox" value="1"/>
-                <span>W</span>
-              </label>
-            </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-thu" name="schedule-thu" type="checkbox" value="1"/>
-                <span>Th</span>
-              </label>
-            </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-fri" name="schedule-fri" type="checkbox" value="1"/>
-                <span>F</span>
-              </label>
-            </div>
-
-            <div class="checkbox-item checkbox-circle">
-              <label>
-                <input id="schedule-sat" name="schedule-sat" type="checkbox" value="1"/>
-                <span>Sa</span>
-              </label>
-            </div>
-          </form>
-          <div id="schedule-new-container">
-            <section class="schedule-new">
-              <div class="checkbox-item checkbox-square">
+  
+            <form class="schedule-new">
+              <div class="checkbox-item checkbox-circle schedule-day">
                 <label>
-                  <input id="schedule-all-day" name="schedule-all-day" type="checkbox" value="1"/>
-                  <span>ALL DAY</span>
+                  <input id="sunday" name="sunday" type="checkbox" value="1"/>
+                  <span>Sun</span>
                 </label>
               </div>
-              <div class="schedule-new-time-container">
-                <section id="time-container">
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="monday" name="monday" type="checkbox" value="1"/>
+                  <span>Mon</span>
+                </label>
+              </div>
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="tuesday" name="tuesday" type="checkbox" value="1"/>
+                  <span>Tue</span>
+                </label>
+              </div>
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="wednesday" name="wednesday" type="checkbox" value="1"/>
+                  <span>Wed</span>
+                </label>
+              </div>
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="thursday" name="thursday" type="checkbox" value="1"/>
+                  <span>Thu</span>
+                </label>
+              </div>
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="friday" name="friday" type="checkbox" value="1"/>
+                  <span>Fri</span>
+                </label>
+              </div>
+  
+              <div class="checkbox-item checkbox-circle schedule-day">
+                <label>
+                  <input id="saturday" name="saturday" type="checkbox" value="1"/>
+                  <span>Sat</span>
+                </label>
+              </div>
+            </form>
+  
+            <div id="schedule-new-container" class="flex-col">
+              <hr class="full-line">
+              <section class="schedule-header-btn">
+                <div class="checkbox-item checkbox-circle">
+                  <label>
+                    <input id="schedule-all-day" name="schedule-all-day" type="checkbox" value="new"/>
+                    <span>All Day</span>
+                  </label>
+                </div>
+  
+                <button class="btn-text side-icon add-time-btn" value="new">
+                  <img class="icon-in-btn icon-white" src="/images/icon-plus.svg" alt="plus button">
+                  <div>Add Interval</div>
+                </button>
+              </section>
+  
+              <div class="schedule-time-container">
+                <section id="new-time-container" class="time-container flex-col">
+                  <section class="schedule-new-time" id="first-time-selection-new">
+                    <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
+                      <div>to</div>
+                    <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
+      
+                  </section>
                 </section>
-                <button class="btn-text side-icon" id="add-time-btn">
-                  <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
-                  <div>Add Time</div>
+              </div>
+              <div class="side-by-side-btn">
+                <button class="btn-text side-icon submit-schedule" type="submit" value="new">
+                  <div>Save</div>
+                </button>
+                <button class="btn-solo-text new-schedule-exit">
+                  <div>Cancel</div>
                 </button>
               </div>
-            </section>
-            <button class="btn-text" id="submit-schedule" type="submit">Done</button>
+            </div>
+          </section>
+  
+          <!-- Edit Overlay -->
+          <section class="settings-item schedule-overlay edit-overlay">
+            <div class="new-schedule-header">
+              <div>
+                <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+                <h4>Edit Schedule</h4>
+              </div>
+              <button class="btn new-schedule-exit">
+                <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+              </button>
+            </div>
+  
+            <hr class="full-line">
+            <div id="schedule-new-container">
+              <section class="schedule-header-btn">
+                <div class="checkbox-item checkbox-circle">
+                  <label>
+                    <input id="schedule-all-day" name="schedule-all-day" type="checkbox" value="1"/>
+                    <span>All Day</span>
+                  </label>
+                </div>
+  
+                <button class="btn-text side-icon" id="add-time-btn" value="edit">
+                  <img class="icon-in-btn" src="/images/icon-plus.svg" alt="plus button">
+                  <div>Add Interval</div>
+                </button>
+              </section>
+  
+              <div class="schedule-time-container">
+                <section id="edit-time-container" class="time-container flex-col">
+                  <section class="schedule-edit-time" id="first-time-selection-new">
+                    <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
+                      <div>to</div>
+                    <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
+      
+                    <button class="btn">
+                      <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+                    </button>
+                  </section>
+                </section>
+              </div>
+              <div class="side-by-side-btn">
+                <button class="btn-text side-icon submit-schedule" type="submit" value="edit">
+                  <div>Save</div>
+                </button>
+                <button class="btn">
+                  <img class="icon-delete" src="/images/icon-delete.svg" alt="Trash can delete button">
+                </button>
+              </div>
+            </div>
+          </section>
+          
+          <!-- List of Schedules -->
+          <!-- <h4 id="schedule-title">Your Set Schedules</h4> -->
+          <section id="set-schedules">
+            <section class="settings-item schedule-grid" id="schedules"></section>
+          </section>
+
+          <div class="calendar">
+  
+            <!-- <header>
+                <button class="secondary" style="align-self: flex-start; flex: 0 0 1">Today</button>
+                <div class="calendar__title" style="display: flex; justify-content: center; align-items: center">
+                  <div class="icon secondary chevron_left">‹</div>
+                  <h1 class="" style="flex: 1;"><span></span><strong>18 JAN – 24 JAN</strong> 2016</h1>
+                  <div class="icon secondary chevron_left">›</div>
+                </div> 
+                <div style="align-self: flex-start; flex: 0 0 1"></div>
+            </header> -->
+            
+            <div class="outer">
+          
+            
+            <table>
+            <thead>
+              <tr>
+                <th class="headcol"></th>
+                <th>Sunday</th>
+                <th>Tuesday</th>
+                <th class="today">Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Satuday</th>
+                <th>Sunday</th>
+              </tr>
+            </thead>
+            </table>
+          
+          <div class="wrap"> 
+            <table class="offset">
+          
+            <tbody>
+              <tr id="cal-0">
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-1">
+                <td class="headcol">1:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-2">
+                <td class="headcol">2:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-3">
+                <td class="headcol">3:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-4">
+                <td class="headcol">4:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-5">
+                <td class="headcol">5:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-6">
+                <td class="headcol">6:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-7">
+                <td class="headcol">7:00</td>
+                <td></td>
+                <td></td>
+                <td class="past"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td class="now"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-8">
+                <td class="headcol">8:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><div class="event double"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>8:30–9:30 Yoga</div></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-9">
+                <td class="headcol">9:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-10">
+                <td class="headcol">10:00</td>
+                <td></td>
+                <td></td>
+                <td><div class="event double"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>10:00–11:00 Meeting</div></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-11">
+                <td class="headcol">11:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-12">
+                <td class="headcol">12:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-13">
+                <td class="headcol">13:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-14">
+                <td class="headcol">14:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-15">
+                <td class="headcol">15:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-16">
+                <td class="headcol">16:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-17">
+                <td class="headcol">17:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-18">
+                <td class="headcol">18:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-19">
+                <td class="headcol">19:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-20">
+                <td class="headcol">20:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-21">
+                <td class="headcol">21:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-22">
+                <td class="headcol">22:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr id="cal-23">
+                <td class="headcol">23:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="headcol"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
           </div>
+          </div>
+          </div>
+          
+          
         </section>
       </section>
     </main>
-    <!-- !SECTION -->  
-    
-    <!-- SECTION - FOOTER INFO -->
-    <footer>
-      <p>© 2024 by Lorenzo Ramirez, Jr.</p>
-    </footer>
-    <!-- !SECTION -->
-    
+
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script src="/scripts/settings-schedule.js"></script>
   </body>

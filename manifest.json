@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Restrict The Tube: Limit addicting aspects of YouTube",
-  "version": "0.8",
-  "description": "Restrict The Tube helps you take back control of your YouTube watch habits.",
+  "version": "1.0",
+  "description": "'Restrict The Tube' helps you take back control of your YouTube watch habits.",
   "icons": {
     "16": "/images/icon-logo-ext.png",
     "32": "/images/icon-logo-ext.png",
@@ -17,17 +17,11 @@
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
-  "permissions": [
-    "storage"
-  ],
+  "permissions": ["storage"],
   "content_scripts": [
     {
-      "js": [
-        "/scripts/content.js"
-      ],
-      "matches": [
-        "*://www.youtube.com/*"
-      ],
+      "js": ["/scripts/content.js"],
+      "matches": ["*://www.youtube.com/*"],
       "runAt": "document_end"
     }
   ],
