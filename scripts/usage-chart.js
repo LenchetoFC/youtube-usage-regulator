@@ -71,7 +71,7 @@ async function calculateTotal() {
 */
 
 // Gets result of calculateTotal and populates chart
-calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
+// calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
 
   // console.log(total);
   // console.log(pastMonthShorts);
@@ -80,28 +80,32 @@ calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
 
   let currentDayOfMonth = new Date().getDate();
 
-  const xValues = Array.from({length: currentDayOfMonth}, (_, i) => i+1);
+  const days = Array.from({length: currentDayOfMonth}, (_, i) => i+1);
+
+  let total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
   
-  new Chart("watchHistoryChart", {
+  new Chart("overall-chart", {
     type: "line",
     data: {
-      labels: xValues,
+      labels: days,
       datasets: [{ 
         label: "Total",
         data: total,
-        borderColor: "#3d3d3d",
+        borderColor: "#fbfbfb",
         fill: false
-      }, { 
-        label: "Regular Video",
-        data: pastMonthShorts,
-        borderColor: "#db2121",
-        fill: false
-      }, { 
-        label: "Shorts",
-        data: pastMonthRegular,
-        borderColor: "#137a23",
-        fill: false
-      }]
+      }, 
+      // { 
+      //   label: "Regular Video",
+      //   data: pastMonthShorts,
+      //   borderColor: "#db2121",
+      //   fill: false
+      // }, { 
+      //   label: "Shorts",
+      //   data: pastMonthRegular,
+      //   borderColor: "#137a23",
+      //   fill: false
+      // }
+    ]
     },
     options: {
       scales: {
@@ -111,10 +115,10 @@ calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
           },
           title: {
             display: true,
-            text: 'Day',
-            color: '#3d3d3d',
+            text: 'Days',
+            color: '#fbfbfb',
             font: {
-              size: 16,
+              size: 12,
               weight: 'bold',
             },
           }
@@ -123,9 +127,9 @@ calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
           title: {
             display: true,
             text: 'Hours',
-            color: '#3d3d3d',
+            color: '#fbfbfb',
             font: {
-              size: 16,
+              size: 12,
               weight: 'bold',
             },
           }
@@ -135,12 +139,12 @@ calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
         legend: {
           display: true,
           position: 'bottom',
-          labels: { color: '#3d3d3d' }
+          labels: { color: '#fbfbfb' }
         },
         title: {
-          display: true,
+          display: false,
           text: 'YouTube Watch History over 30 Days',
-          color: '#3d3d3d',
+          color: '#fbfbfb',
           position: 'top',
           font: {
             size: 16,
@@ -152,5 +156,155 @@ calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
       }
     }
   });
-});
+
+  total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
+
+  new Chart("regular-video-chart", {
+    type: "line",
+    data: {
+      labels: days,
+      datasets: [{ 
+        label: "Total",
+        data: total,
+        borderColor: "#fbfbfb",
+        fill: false
+      }, 
+      // { 
+      //   label: "Regular Video",
+      //   data: pastMonthShorts,
+      //   borderColor: "#db2121",
+      //   fill: false
+      // }, { 
+      //   label: "Shorts",
+      //   data: pastMonthRegular,
+      //   borderColor: "#137a23",
+      //   fill: false
+      // }
+    ]
+    },
+    options: {
+      scales: {
+        x: { // Updated from 'xAxes' to 'x'
+          grid: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Days',
+            color: '#fbfbfb',
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+          }
+        },
+        y: { // Updated from 'yAxes' to 'y'
+          title: {
+            display: true,
+            text: 'Hours',
+            color: '#fbfbfb',
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { color: '#fbfbfb' }
+        },
+        title: {
+          display: false,
+          text: 'YouTube Watch History over 30 Days',
+          color: '#fbfbfb',
+          position: 'top',
+          font: {
+            size: 16,
+            weight: 'bold',
+          },
+          padding: 15,
+          fullSize: true,
+        }
+      }
+    }
+  });
+
+  total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
+
+  new Chart("shorts-chart", {
+    type: "line",
+    data: {
+      labels: days,
+      datasets: [{ 
+        label: "Total",
+        data: total,
+        borderColor: "#fbfbfb",
+        fill: false
+      }, 
+      // { 
+      //   label: "Regular Video",
+      //   data: pastMonthShorts,
+      //   borderColor: "#db2121",
+      //   fill: false
+      // }, { 
+      //   label: "Shorts",
+      //   data: pastMonthRegular,
+      //   borderColor: "#137a23",
+      //   fill: false
+      // }
+    ]
+    },
+    options: {
+      scales: {
+        x: { // Updated from 'xAxes' to 'x'
+          grid: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Days',
+            color: '#fbfbfb',
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+          }
+        },
+        y: { // Updated from 'yAxes' to 'y'
+          title: {
+            display: true,
+            text: 'Hours',
+            color: '#fbfbfb',
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { color: '#fbfbfb' }
+        },
+        title: {
+          display: false,
+          text: 'YouTube Watch History over 30 Days',
+          color: '#fbfbfb',
+          position: 'top',
+          font: {
+            size: 16,
+            weight: 'bold',
+          },
+          padding: 15,
+          fullSize: true,
+        }
+      }
+    }
+  });
+// });
 
