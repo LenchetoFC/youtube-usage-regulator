@@ -6,28 +6,38 @@
 <!DOCTYPE html>
 <html class="html-popup" lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>YT Regulator Popup</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
-          rel="stylesheet">
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
 
   <body class="popup">
     <!-- Popup Header with logo and settings buttons -->
     <header>
-      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
+      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
 
       <div id="header-buttons">
-        <a href="settings-schedule.html" target="_blank">
-          <img class="schedule-icon" src="/images/icon-stopwatch-solid.svg" alt="stopwatch schedule button">
+        <a href="dashboard.html" target="_blank">
+          <img
+            class="schedule-icon"
+            src="/images/icon-stopwatch-solid.svg"
+            alt="stopwatch schedule button"
+          />
         </a>
 
-        <a href="settings-general.html" target="_blank">
-          <img class="gear-icon" src="/images/icon-settings.svg" alt="settings gear button">
+        <a href="settings.html" target="_blank">
+          <img
+            class="gear-icon"
+            src="/images/icon-settings.svg"
+            alt="settings gear button"
+          />
         </a>
       </div>
     </header>
@@ -40,7 +50,7 @@
           <!-- Displays the current day's usage time -->
           <section class="usage-time">
             <div>
-              <img src="/images/icon-clock.svg" alt="clock icon">
+              <img src="/images/icon-clock.svg" alt="clock icon" />
               <p>Today</p>
             </div>
             <p id="today-usage"></p>
@@ -49,13 +59,13 @@
           <!-- Displays total usage time -->
           <section class="usage-time">
             <div>
-              <img src="/images/icon-clock.svg" alt="clock icon">
+              <img src="/images/icon-clock.svg" alt="clock icon" />
               <p>All Time</p>
             </div>
             <p id="all-time-usage"></p>
           </section>
         </section>
-      </section> 
+      </section>
 
       <!-- Free Video Counter -->
       <!-- <section class="popup-section free-videos">
@@ -68,7 +78,12 @@
         <form class="checkbox-form">
           <div class="checkbox-item">
             <label>
-              <input id="youtube-site" name="youtube-site" type="checkbox" value="youtube-site">
+              <input
+                id="youtube-site"
+                name="youtube-site"
+                type="checkbox"
+                value="youtube-site"
+              />
               <span for="youtube-site">Disable YouTube Site</span>
             </label>
           </div>

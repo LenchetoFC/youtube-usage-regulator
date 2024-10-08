@@ -4,576 +4,916 @@
                 YouTube Algorithm Regulator browser extension.
 -->
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self';"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Settings</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
 
   <body class="settings" id="general">
+    <nav>
+      <div class="nav-logo">
+        <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
+        <p>Restrict the Tube</p>
+      </div>
 
-    <main>
-      <nav>
-        <div>
-          <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
-          <p>Restrict the Tube</p>
-        </div>
-
+      <div>
         <a class="current-page" href="settings-general.html">
-          <img src="/images/icon-settings.svg" alt="Gear button to general settings">
-          <p>Settings</p>
+          <img
+            src="/images/icon-settings.svg"
+            alt="Gear button to general settings"
+          />
+          <p>General</p>
         </a>
         <a href="settings-schedule.html">
-          <img  src="/images/icon-timer.svg" alt="Stopwatch button to schedule settings">
+          <img
+            src="/images/icon-timer.svg"
+            alt="Stopwatch button to schedule settings"
+          />
           <p>Schedules</p>
         </a>
         <a href="settings-schedule.html">
-          <img  src="/images/icon-note.svg" alt="Stopwatch button to schedule settings">
-          <p>How It Works</p>
+          <img
+            src="/images/icon-note.svg"
+            alt="Stopwatch button to schedule settings"
+          />
+          <p>Watch Modes</p>
         </a>
-      </nav>
+      </div>
+    </nav>
+    <main>
+      <!-- Page Header -->
+      <header class="page-header">
+        <h1>General</h1>
+        <h2>Manage how your YouTube experience changes.</h2>
+      </header>
 
+      <!-- Addictive Elements Limitations -->
       <section>
+        <header>
+          <h1>Addictive Elements Limitations</h1>
+          <h2>Select YouTube content to limit or remove.</h2>
+        </header>
 
+        <!-- Demonstrations of element removals -->
+        <div class="limitation-demos">
+          <div class="yt-limit-examples">
+            <div class="all-pages">
+              <div class="home-page">
+                <header>
+                  <img
+                    class="left-menu"
+                    src="/images/icon-hamburger-menu.svg"
+                  />
+                  <img
+                    class="home-btn yt-logo"
+                    src="/images/icon-yt-logo.svg"
+                  />
+                  <div class="search-bar"></div>
+                </header>
+                <div class="side flex-col">
+                  <img class="home-btn" src="/images/icon-yt-home.svg" />
+                  <img class="shorts-btn" src="/images/icon-yt-shorts.svg" />
+                </div>
+                <div class="yt-content flex-col">
+                  <div class="home-videos recommendations">
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <img
+                    class="shorts-content"
+                    src="/images/icon-yt-shorts.svg"
+                  />
+                  <div class="home-shorts shorts-content">
+                    <div class="short"></div>
+                    <div class="short"></div>
+                    <div class="short"></div>
+                    <div class="short"></div>
+                    <div class="short"></div>
+                    <div class="short"></div>
+                    <div class="short"></div>
+                  </div>
+
+                  <div class="home-videos recommendations">
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="home-videos recommendations">
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="yt-limit-examples">
+            <div class="all-pages">
+              <header>
+                <img class="left-menu" src="/images/icon-hamburger-menu.svg" />
+                <img class="home-btn yt-logo" src="/images/icon-yt-logo.svg" />
+                <div class="search-bar"></div>
+              </header>
+              <div class="side flex-col">
+                <img class="home-btn" src="/images/icon-yt-home.svg" />
+                <img class="shorts-btn" src="/images/icon-yt-shorts.svg" />
+              </div>
+              <div class="yt-content flex-col">
+                <div class="playback">
+                  <div class="window">
+                    <div class="bottom-bar">
+                      <div>
+                        <img src="/images/icon-yt-play.svg" />
+                        <img class="skip-btn" src="/images/icon-yt-skip.svg" />
+                        <img src="/images/icon-yt-volume.svg" />
+                      </div>
+
+                      <div>
+                        <img
+                          class="autoplay-btn"
+                          src="/images/icon-yt-autoplay.png"
+                        />
+                        <img src="/images/icon-yt-subtitles.png" />
+                        <img src="/images/icon-yt-settings.svg" />
+                        <img src="/images/icon-yt-miniplayer.png" />
+                        <img src="/images/icon-yt-view.png" />
+                        <img src="/images/icon-yt-full-screen.png" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="desc flex-col">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  <div class="comments"></div>
+                </div>
+                <div class="side-content flex-col">
+                  <img
+                    class="shorts-content"
+                    src="/images/icon-yt-shorts.svg"
+                  />
+                  <div class="side-shorts shorts-content">
+                    <div class="short"></div>
+                    <div class="short"></div>
+                  </div>
+                  <div class="side-vids flex-col recommendations">
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="video"></div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+
+        <!-- Selections for element limitations -->
+        <div class="limitation-selection">
+          <section>
+            <h1>Full Pages</h1>
+            <form class="checkbox-form limitations-form">
+              <div class="element-limit-group flex-col">
+                <!-- Block All Pages -->
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="all-pages">
+                    <input
+                      id="all-pages"
+                      name="all-pages"
+                      type="checkbox"
+                      value="all-pages"
+                    />
+                    <span for="all-pages" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Block All Pages</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="all-pages-quick">
+                    <input
+                      id="all-pages-quick"
+                      name="all-pages-quick"
+                      type="checkbox"
+                      value="all-pages-quick"
+                    />
+                    <span for="all-pages-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <!-- Block Home Page -->
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="home-page">
+                    <input
+                      id="home-page"
+                      name="home-page"
+                      type="checkbox"
+                      value="home-page"
+                    />
+                    <span for="home-page" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Block Home Page</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="home-page-quick">
+                    <input
+                      id="home-page-quick"
+                      name="home-page-quick"
+                      type="checkbox"
+                      value="home-page-quick"
+                    />
+                    <span for="home-page-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <!-- Block Shorts Page -->
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="shorts-content">
+                    <input
+                      id="shorts-content"
+                      name="shorts-content"
+                      type="checkbox"
+                      value="shorts-content"
+                    />
+                    <span for="shorts-content" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Block Shorts Page</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="shorts-content-quick">
+                    <input
+                      id="shorts-content-quick"
+                      name="shorts-content-quick"
+                      type="checkbox"
+                      value="shorts-content-quick"
+                    />
+                    <span for="shorts-content-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </form>
+          </section>
+
+          <section>
+            <h1>All Pages</h1>
+            <form class="checkbox-form limitations-form">
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="home-btn">
+                    <input
+                      id="home-btn"
+                      name="home-btn"
+                      type="checkbox"
+                      value="home-btn"
+                    />
+                    <span for="home-btn" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Home Button</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="home-btn-quick">
+                    <input
+                      id="home-btn-quick"
+                      name="home-btn-quick"
+                      type="checkbox"
+                      value="home-btn-quick"
+                    />
+                    <span for="home-btn-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="shorts-btn">
+                    <input
+                      id="shorts-btn"
+                      name="shorts-btn"
+                      type="checkbox"
+                      value="shorts-btn"
+                    />
+                    <span for="shorts-btn" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Shorts Button</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="shorts-btn-quick">
+                    <input
+                      id="shorts-btn-quick"
+                      name="shorts-btn-quick"
+                      type="checkbox"
+                      value="shorts-btn-quick"
+                    />
+                    <span for="shorts-btn-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="search-bar">
+                    <input
+                      id="search-bar"
+                      name="search-bar"
+                      type="checkbox"
+                      value="search-bar"
+                    />
+                    <span for="search-bar" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Search Bar</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="search-bar-quick">
+                    <input
+                      id="search-bar-quick"
+                      name="search-bar-quick"
+                      type="checkbox"
+                      value="search-bar-quick"
+                    />
+                    <span for="search-bar-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="recommendations">
+                    <input
+                      id="recommendations"
+                      name="recommendations"
+                      type="checkbox"
+                      value="recommendations"
+                    />
+                    <span for="recommendations" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Video Recommendations</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="recommendations-quick">
+                    <input
+                      id="recommendations-quick"
+                      name="recommendations-quick"
+                      type="checkbox"
+                      value="recommendations-quick"
+                    />
+                    <span for="recommendations-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label
+                    class="side-checkbox-container"
+                    for="recommendation-refresh"
+                  >
+                    <input
+                      id="recommendation-refresh"
+                      name="recommendation-refresh"
+                      type="checkbox"
+                      value="recommendation-refresh"
+                    />
+                    <span for="recommendation-refresh" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Disable Video Recommendations Refresh</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="recommendation-refresh-quick">
+                    <input
+                      id="recommendation-refresh-quick"
+                      name="recommendation-refresh-quick"
+                      type="checkbox"
+                      value="recommendation-refresh-quick"
+                    />
+                    <span for="recommendation-refresh-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </form>
+          </section>
+
+          <section>
+            <h1>Playback Page</h1>
+            <form class="checkbox-form limitations-form">
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="autoplay-btn">
+                    <input
+                      id="autoplay-btn"
+                      name="autoplay-btn"
+                      type="checkbox"
+                      value="autoplay-btn"
+                    />
+                    <span for="autoplay-btn" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Autoplay Button</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="autoplay-btn-quick">
+                    <input
+                      id="autoplay-btn-quick"
+                      name="autoplay-btn-quick"
+                      type="checkbox"
+                      value="autoplay-btn-quick"
+                    />
+                    <span for="autoplay-btn-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="element-limit-group flex-col">
+                <span class="checkbox-container">
+                  <label class="side-checkbox-container" for="skip-btn">
+                    <input
+                      id="skip-btn"
+                      name="skip-btn"
+                      type="checkbox"
+                      value="skip-btn"
+                    />
+                    <span for="skip-btn" class="checkmark"
+                      ><img src="/images/icon-checkmark.svg"
+                    /></span>
+                  </label>
+
+                  <h2>Remove Skip Button</h2>
+                </span>
+
+                <div class="checkbox-item quick-act">
+                  <label for="skip-btn-quick">
+                    <input
+                      id="skip-btn-quick"
+                      name="skip-btn-quick"
+                      type="checkbox"
+                      value="skip-btn-quick"
+                    />
+                    <span for="skip-btn-quick"
+                      ><img
+                        class="icon-in-btn icon-green"
+                        src="/images/icon-plus.svg"
+                        alt="plus button"
+                      />
+                      Quick Activation</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section>
+
+      <!-- Watch Times -->
+      <section>
+        <header>
+          <h1>Watch Times</h1>
+          <h2>Manage your YouTube usage times.</h2>
+        </header>
+
+        <span class="checkbox-container">
+          <label class="side-checkbox-container" for="pause-video-on-blur">
+            <input
+              id="pause-video-on-blur"
+              name="pause-video-on-blur"
+              type="checkbox"
+              value="pause-video-on-blur"
+            />
+            <span for="pause-video-on-blur" class="checkmark"
+              ><img src="/images/icon-checkmark.svg"
+            /></span>
+          </label>
+          <h2>
+            Pause Video when Youtube page is not focused. (i) Disclaimer: will
+            cause inaccurate watch times.
+          </h2>
+          <img src="/images/icon-info-circles.svg" />
+        </span>
+
+        <!-- TODO: Maybe try to have the overall chart (bigger in size) be above both of the other charts (smaller in size on same row)  -->
+        <div class="charts-container">
+          <!-- Overall Watch Time Chart -->
+          <div class="watch-time-chart-container">
+            <h1>Overall Watch Time</h1>
+
+            <div>
+              <div class="total-time-container">
+                <img src="/images/icon-clock-outline.svg" />
+                <span id="overall-watch-time"
+                  >17 Days 18 Minutes 37 Seconds</span
+                >
+              </div>
+
+              <div class="time-selection-container">
+                <label for="overall-timeframe">Select Timeframe</label>
+                <select name="days" id="overall-timeframe">
+                  <option value="30-days">30 Days</option>
+                  <option value="3-months">3 Months</option>
+                  <option value="6-months">6 Months</option>
+                  <option value="9-months">9 Months</option>
+                  <option value="1-year">1 Year</option>
+                  <option value="everyday">Everyday</option>
+                </select>
+              </div>
+            </div>
+
+            <canvas id="overall-chart"></canvas>
+
+            <button
+              class="btn-text side-icon delete-btn"
+              id="reset-usage-overall"
+            >
+              <img
+                class="icon-in-btn icon-white"
+                src="/images/icon-reset-circle.svg"
+                alt="circle arrow reset button"
+              />
+              <p>Reset</p>
+            </button>
+          </div>
+
+          <!-- Regular Video Watch Time Chart -->
+          <div class="watch-time-chart-container">
+            <h1>Regular Video Watch Time</h1>
+
+            <div>
+              <div class="total-time-container">
+                <img src="/images/icon-clock-outline.svg" />
+                <span id="regular-video-watch-time"
+                  >17 Days 18 Minutes 37 Seconds</span
+                >
+              </div>
+
+              <div class="time-selection-container">
+                <label for="regular-video-timeframe">Select Timeframe</label>
+                <select name="days" id="regular-video-timeframe">
+                  <option value="30-days">30 Days</option>
+                  <option value="3-months">3 Months</option>
+                  <option value="6-months">6 Months</option>
+                  <option value="9-months">9 Months</option>
+                  <option value="1-year">1 Year</option>
+                  <option value="everyday">Everyday</option>
+                </select>
+              </div>
+            </div>
+
+            <canvas id="regular-video-chart"></canvas>
+
+            <button
+              class="btn-text side-icon delete-btn"
+              id="reset-usage-regular-video"
+            >
+              <img
+                class="icon-in-btn icon-white"
+                src="/images/icon-reset-circle.svg"
+                alt="circle arrow reset button"
+              />
+              <p>Reset</p>
+            </button>
+          </div>
+
+          <!-- Short Video Watch Time Chart -->
+          <div class="watch-time-chart-container">
+            <h1>Shorts Watch Time</h1>
+
+            <div>
+              <div class="total-time-container">
+                <img src="/images/icon-clock-outline.svg" />
+                <span id="shorts-watch-time"
+                  >17 Days 18 Minutes 37 Seconds</span
+                >
+              </div>
+
+              <div class="time-selection-container">
+                <label for="shorts-timeframe">Select Timeframe</label>
+                <select name="days" id="shorts-timeframe">
+                  <option value="30-days">30 Days</option>
+                  <option value="3-months">3 Months</option>
+                  <option value="6-months">6 Months</option>
+                  <option value="9-months">9 Months</option>
+                  <option value="1-year">1 Year</option>
+                  <option value="everyday">Everyday</option>
+                </select>
+              </div>
+            </div>
+
+            <canvas id="shorts-chart"></canvas>
+
+            <button
+              class="btn-text side-icon delete-btn"
+              id="reset-usage-shorts"
+            >
+              <img
+                class="icon-in-btn icon-white"
+                src="/images/icon-reset-circle.svg"
+                alt="circle arrow reset button"
+              />
+              <p>Reset</p>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alternate Activities -->
+      <section>
+        <header>
+          <h1>Alternate Activities</h1>
+          <h2>
+            Suggest other activities for yourself to do. These are shown on
+            blocked page.
+          </h2>
+        </header>
+
+        <ul id="activity-section"></ul>
+        <div id="activity-add">
+          <button class="btn-text side-icon">
+            <img
+              class="icon-in-btn icon-white"
+              src="/images/icon-plus.svg"
+              alt="plus button"
+            />
+            <div>Activity</div>
+          </button>
+        </div>
+
+        <div id="input-btn-box">
+          <div id="input-container">
+            <input
+              class="activity-input"
+              type="text"
+              size="32"
+              maxlength="30"
+              id="activity-input"
+              name="activity-input"
+              value=""
+              placeholder="Write alternate activity"
+            />
+          </div>
+
+          <div class="side-by-side-btn">
+            <button class="btn-text side-icon" id="activity-save">
+              <div>Save</div>
+            </button>
+            <button class="btn-solo-text" id="activity-cancel">
+              <div>Cancel</div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Block Additional Websites -->
+      <section>
+        <header>
+          <h1>Block Additional Websites</h1>
+          <h2>Add the URL of websites you want to be completely blocked.</h2>
+        </header>
+
+        <ul id="activity-section"></ul>
+        <div id="activity-add">
+          <button class="btn-text side-icon">
+            <img
+              class="icon-in-btn icon-white"
+              src="/images/icon-plus.svg"
+              alt="plus button"
+            />
+            <div>Activity</div>
+          </button>
+        </div>
+
+        <div id="input-btn-box">
+          <div id="input-container">
+            <input
+              class="activity-input"
+              type="text"
+              size="32"
+              maxlength="30"
+              id="activity-input"
+              name="activity-input"
+              value=""
+              placeholder="Write alternate activity"
+            />
+          </div>
+
+          <div class="side-by-side-btn">
+            <button class="btn-text side-icon" id="activity-save">
+              <div>Save</div>
+            </button>
+            <button class="btn-solo-text" id="activity-cancel">
+              <div>Cancel</div>
+            </button>
+          </div>
+        </div>
       </section>
     </main>
 
-    <!-- <aside>
-      <nav >
-        <div>
-          <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo">
-          <p>Restrict the Tube</p>
-        </div>
-
-        <a class="current-page" href="settings-general.html">
-          <img src="/images/icon-settings.svg" alt="Gear button to general settings">
-          <p>Settings</p>
-        </a>
-        <a href="settings-schedule.html">
-          <img  src="/images/icon-timer.svg" alt="Stopwatch button to schedule settings">
-          <p>Schedules</p>
-        </a>
-        <a href="settings-schedule.html">
-          <img  src="/images/icon-note.svg" alt="Stopwatch button to schedule settings">
-          <p>How It Works</p>
-        </a>
-        
-      </nav>
-    </aside>
-    
-    <main class="flex-col content-wrapper">
-      <header class="flex-col"> 
-        <h1>Settings</h1>
-        <h3>Manage how your YouTube experience is changed.</h3>
-        <hr class="full-line first-line">
-      </header>
-
-      <section>
-        <section class="settings-section">
-          <header>
-            <h2>Addictive Elements Limitations</h2>  
-            <h3>Select YouTube content to limit or remove.</h3>
-          </header>
-  
-          <div class="two-col">
-            <div class="limitations-col">
-              <div>
-                <h4>Full Pages</h4>
-                <form class="checkbox-form addictive-form">
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="all-pages">
-                      Block All Pages
-                      <input id="all-pages" name="all-pages" type="checkbox" value="all-pages">
-                      <span for="all-pages" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="all-pages-quick">
-                        <input id="all-pages-quick" name="all-pages-quick" type="checkbox" value="all-pages-quick">
-                        <span for="all-pages-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                  <div class="element-limit-group flex-col">
-                    <label class="side-checkbox-container" for="home-page">
-                      Block Home Page
-                      <input id="home-page" name="home-page" type="checkbox" value="home-page">
-                      <span for="home-page" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="home-page-quick">
-                        <input id="home-page-quick" name="home-page-quick" type="checkbox" value="home-page-quick">
-                        <span for="home-page-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="shorts-content">
-                      Block Shorts Page
-                      <input id="shorts-content" name="shorts-content" type="checkbox" value="shorts-content">
-                      <span for="shorts-content" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="shorts-content-quick">
-                        <input id="shorts-content-quick" name="shorts-content-quick" type="checkbox" value="shorts-content-quick">
-                        <span for="shorts-content-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-  
-              <div>
-                <h4>All Pages</h4>
-                <form class="checkbox-form addictive-form">
-  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="home-btn">
-                      Remove Home Button
-                      <input id="home-btn" name="home-btn" type="checkbox" value="home-btn">
-                      <span for="home-btn" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="home-btn-quick">
-                        <input id="home-btn-quick" name="home-btn-quick" type="checkbox" value="home-btn-quick">
-                        <span for="home-btn-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="shorts-btn">
-                      Remove Shorts Button
-                      <input id="shorts-btn" name="shorts-btn" type="checkbox" value="shorts-btn">
-                      <span for="shorts-btn" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="shorts-btn-quick">
-                        <input id="shorts-btn-quick" name="shorts-btn-quick" type="checkbox" value="shorts-btn-quick">
-                        <span for="shorts-btn-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="search-bar">
-                      Remove Search Bar
-                      <input id="search-bar" name="search-bar" type="checkbox" value="search-bar">
-                      <span for="search-bar" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="search-bar-quick">
-                        <input id="search-bar-quick" name="search-bar-quick" type="checkbox" value="search-bar-quick">
-                        <span for="search-bar-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="recommendations">
-                      Remove Video Recommendations
-                      <input id="recommendations" name="recommendations" type="checkbox" value="recommendations">
-                      <span for="recommendations" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="recommendations-quick">
-                        <input id="recommendations-quick" name="recommendations-quick" type="checkbox" value="recommendations-quick">
-                        <span for="recommendations-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-                
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="recommendation-refresh">
-                      Disable Video Recommendations Refresh
-                      <input id="recommendation-refresh" name="recommendation-refresh" type="checkbox" value="recommendation-refresh">
-                      <span for="recommendation-refresh" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="recommendation-refresh-quick">
-                        <input id="recommendation-refresh-quick" name="recommendation-refresh-quick" type="checkbox" value="recommendation-refresh-quick">
-                        <span for="recommendation-refresh-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-  
-              <div>
-                <h4>Playback Page</h4>
-                <form class="checkbox-form addictive-form">
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="autoplay-btn">
-                      Remove Autoplay Button
-                      <input id="autoplay-btn" name="autoplay-btn" type="checkbox" value="autoplay-btn">
-                      <span for="autoplay-btn" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="autoplay-btn-quick">
-                        <input id="autoplay-btn-quick" name="autoplay-btn-quick" type="checkbox" value="autoplay-btn-quick">
-                        <span for="autoplay-btn-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                  <div class="element-limit-group flex-col">
-
-                    <label class="side-checkbox-container" for="skip-btn">
-                      Remove Skip Button
-                      <input id="skip-btn" name="skip-btn" type="checkbox" value="skip-btn">
-                      <span for="skip-btn" class="checkmark"><img src="/images/icon-checkmark.svg"></span>
-                    </label>
-  
-                    <div class="checkbox-item quick-act">
-                      <label for="skip-btn-quick">
-                        <input id="skip-btn-quick" name="skip-btn-quick" type="checkbox" value="skip-btn-quick">
-                        <span for="skip-btn-quick"><img class="icon-in-btn icon-green" src="/images/icon-plus.svg" alt="plus button"> Quick Activation</span>
-                      </label>
-                    </div>
-                  </div>
-  
-                </form>
-              </div>
-            </div>
-  
-            <div class="limitations-col">
-              <div>
-                <h4>Home Page</h4>
-                <div class="yt-limit-examples">
-                  <div class="all-pages">
-                    <div class="home-page">
-                      <header>
-                        <img class="left-menu" src="/images/icon-hamburger-menu.svg"/>
-                        <img class="home-btn yt-logo" src="/images/icon-yt-logo.svg"/>
-                        <div class="search-bar"></div>
-                      </header>
-                      <div class="side flex-col">
-                        <img class="home-btn" src="/images/icon-yt-home.svg"/>
-                        <img class="shorts-btn" src="/images/icon-yt-shorts.svg"/>
-                      </div>
-                      <div class="yt-content flex-col">
-                        <div class="home-videos recommendations">
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                        </div>
-      
-                        <img class="shorts-content" src="/images/icon-yt-shorts.svg"/>
-                        <div class="home-shorts shorts-content">
-                          <div class="short"></div>
-                          <div class="short"></div>
-                          <div class="short"></div>
-                          <div class="short"></div>
-                          <div class="short"></div>
-                          <div class="short"></div>
-                          <div class="short"></div>
-                        </div>
-      
-                        <div class="home-videos recommendations">
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                        </div>
-      
-                        <div class="home-videos recommendations">
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-  
-              </div>
-  
-              <div>
-                <h4>Playback Page</h4>
-                <div class="yt-limit-examples">
-                  <div class="all-pages">
-                    <header>
-                      <img class="left-menu" src="/images/icon-hamburger-menu.svg"/>
-                      <img class="home-btn yt-logo" src="/images/icon-yt-logo.svg"/>
-                      <div class="search-bar"></div>
-                    </header>
-                    <div class="side flex-col">
-                      <img class="home-btn" src="/images/icon-yt-home.svg"/>
-                      <img class="shorts-btn" src="/images/icon-yt-shorts.svg"/>
-                    </div>
-                    <div class="yt-content flex-col">
-                      <div class="playback">
-                        <div class="window">
-                          <div class="bottom-bar">
-                            <div>
-                              <img src="/images/icon-yt-play.svg"/>
-                              <img class="skip-btn" src="/images/icon-yt-skip.svg"/>
-                              <img src="/images/icon-yt-volume.svg"/>
-                            </div>
-    
-                            <div>
-                              <img class="autoplay-btn" src="/images/icon-yt-autoplay.png"/>
-                              <img src="/images/icon-yt-subtitles.png"/>
-                              <img src="/images/icon-yt-settings.svg"/>
-                              <img src="/images/icon-yt-miniplayer.png"/>
-                              <img src="/images/icon-yt-view.png"/>
-                              <img src="/images/icon-yt-full-screen.png"/>
-                            </div>
-    
-                          </div>
-                        </div>
-                        <div class="desc flex-col">
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                        </div>
-                        <div class="comments"></div>
-                      </div>
-                      <div class="side-content flex-col">
-                        <img class="shorts-content" src="/images/icon-yt-shorts.svg"/>
-                        <div class="side-shorts shorts-content">
-                          <div class="short"></div>
-                          <div class="short"></div>
-    
-                        </div>
-                        <div class="side-vids flex-col recommendations">
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-    
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div class="video"></div>
-                            <div class="desc flex-col">
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-  
-        <section class="settings-section">
-          <header>
-            <h2>Time Usage</h2>  
-            <h3>Manage your YouTube Watch Times</h3>
-          </header>
-  
-          <section class="usage-section flex-col">
-            <button class="btn-text side-icon delete-btn" id="reset-usage">
-              <img class="icon-in-btn icon-white" src="/images/icon-reset-circle.svg" alt="circle arrow reset button">
-              <div>Reset All Watch Times</div>
-            </button>
-
-            <h4>Watch Times</h4>
-
-            <div>
-              <img class="icon-red" src="/images/icon-clock-outline.svg" alt="Clock icon">
-              <div class="usage-text-title">Total Watch Times ................................... </div>
-              <div class="usage-text" id="all-time-count">17:18:37</div>
-            </div>
-            <div>
-              <img src="/images/icon-yt-logo.svg" alt="yt logo icon">
-              <div class="usage-text-title">Total Regular Video Watch Time ............. </div>
-              <div class="usage-text" id="regular-time-count">17:18:37</div>
-            </div>
-            <div>
-              <img class="icon-shorts" src="/images/icon-yt-shorts.svg" alt="yt shorts icon">
-              <div class="usage-text-title">Total Shorts Watch Times ....................... </div>
-              <div class="usage-text" id="shorts-time-count">17:18:37</div>
-            </div>
-
-           
-          </section>
-          
-        </section>
-
-        <section class="settings-section">
-          <header>
-            <h2>Alternate Activities</h2>  
-            <h3>Suggest other activities for yourself to do that are shown on blocked page.</h3>
-          </header>
-  
-          <ul id="activity-section">
-            
-          </ul>
-          <div id="activity-add">
-            <button class="btn-text side-icon">
-             <img class="icon-in-btn icon-white" src="/images/icon-plus.svg" alt="plus button">
-             <div> Activity</div>
-            </button>
-          </div>
-  
-          <div id="input-btn-box">
-            <div id="input-container">
-              <input class="activity-input" type="text" size="32" maxlength="30"
-                id="activity-input" name="activity-input" value=""
-                placeholder="Write alternate activity">
-            </div>
-  
-            <div class="side-by-side-btn">
-              <button class="btn-text side-icon" id="activity-save">
-                <div>Save</div>
-              </button>
-              <button class="btn-solo-text" id="activity-cancel">
-                <div>Cancel</div>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section class="settings-section">
-          <header>
-            <h2>Block Additional Websites</h2>  
-            <h3>Add the URL of websites you want to be completely blocked.</h3>
-          </header>
-  
-          <ul id="activity-section">
-            
-          </ul>
-          <div id="activity-add">
-            <button class="btn-text side-icon">
-             <img class="icon-in-btn icon-white" src="/images/icon-plus.svg" alt="plus button">
-             <div> Activity</div>
-            </button>
-          </div>
-  
-          <div id="input-btn-box">
-            <div id="input-container">
-              <input class="activity-input" type="text" size="32" maxlength="30"
-                id="activity-input" name="activity-input" value=""
-                placeholder="Write alternate activity">
-            </div>
-  
-            <div class="side-by-side-btn">
-              <button class="btn-text side-icon" id="activity-save">
-                <div>Save</div>
-              </button>
-              <button class="btn-solo-text" id="activity-cancel">
-                <div>Cancel</div>
-              </button>
-            </div>
-          </div>
-        </section>
-      </section>
-
-    </main> -->
-
-    <script src="/scripts/chart.js"></script>    
+    <script src="/scripts/chart.js"></script>
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/usage-chart.js"></script>

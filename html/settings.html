@@ -1,0 +1,1880 @@
+<!-- 
+  Author: Lorenzo Ramirez
+  Description: Contains the general settings page for the 
+                YouTube Algorithm Regulator browser extension.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta
+      name="description"
+      content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
+    />
+    <title>Restrict the Tube Settings</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
+  </head>
+
+  <body class="settings" id="general">
+    <nav>
+      <span class="nav-logo">
+        <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
+        <p>Restrict the Tube</p>
+      </span>
+
+      <ul>
+        <li>
+          <a href="dashboard.html" class="underline-hover">
+            <span
+              class="material-symbols-rounded"
+              alt="Icon for widget dashboard page"
+              >dashboard</span
+            >
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <li>
+          <a class="current-page underline-hover" href="settings.html">
+            <span
+              class="material-symbols-rounded"
+              alt="Gear icon for settings page"
+              >settings</span
+            >
+            <p>Settings</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <!-- First Row -->
+      <div class="widget-container">
+        <!-- Addictive Elements Limitations -->
+        <section id="element-limitations" class="widget-item">
+          <header>
+            <span>
+              <h1>Addictive Elements Limitations</h1>
+              <h2>
+                YouTube's algorithm and suggestive UI can be controlled now.
+              </h2>
+            </span>
+          </header>
+
+          <!-- Content -->
+          <section class="content">
+            <!-- TODO: change h2 to p -->
+            <!-- Blocking Pages -->
+            <!-- TESTING NEW CHECKBOX TECHNIQUE -->
+            <div class="sub-content limitation-settings">
+              <!-- Removing Content Form -->
+              <section>
+                <h1>Restrict YouTube</h1>
+
+                <!-- Blocking Pages -->
+
+                <fieldset>
+                  <legend>Blocking Pages</legend>
+
+                  <label class="side-checkbox-container" for="home-page">
+                    <input
+                      id="home-page"
+                      name="home-page"
+                      type="checkbox"
+                      value="home-page"
+                    />
+                    <span for="home-page" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Home Page</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="shorts-page">
+                    <input
+                      id="shorts-page"
+                      name="shorts-page"
+                      type="checkbox"
+                      value="shorts-page"
+                    />
+                    <span for="shorts-page" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Page</h1>
+                  </label>
+                </fieldset>
+
+                <!-- Hiding Page Elements -->
+                <fieldset>
+                  <legend>Hiding Page Elements</legend>
+
+                  <label class="side-checkbox-container" for="home-btn">
+                    <input
+                      id="home-btn"
+                      name="home-btn"
+                      type="checkbox"
+                      value="home-btn"
+                    />
+                    <span
+                      for="home-btn"
+                      class="checkmark"
+                      role="checkbox"
+                      tabindex="3"
+                      aria-checked="false"
+                    >
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Home Button</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="shorts-btn">
+                    <input
+                      id="shorts-btn"
+                      name="shorts-btn"
+                      type="checkbox"
+                      value="shorts-btn"
+                    />
+                    <span for="shorts-btn" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Button</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="shorts-content">
+                    <input
+                      id="shorts-content"
+                      name="shorts-content"
+                      type="checkbox"
+                      value="shorts-content"
+                    />
+                    <span for="shorts-content" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Content</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="search-bar">
+                    <input
+                      id="search-bar"
+                      name="search-bar"
+                      type="checkbox"
+                      value="search-bar"
+                    />
+                    <span for="search-bar" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Search Bar</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="recommendations">
+                    <input
+                      id="recommendations"
+                      name="recommendations"
+                      type="checkbox"
+                      value="recommendations"
+                    />
+                    <span for="recommendations" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Video Recommendations</h1>
+                  </label>
+
+                  <label
+                    class="side-checkbox-container"
+                    for="recommendation-refresh"
+                  >
+                    <input
+                      id="recommendation-refresh"
+                      name="recommendation-refresh"
+                      type="checkbox"
+                      value="recommendation-refresh"
+                    />
+                    <span for="recommendation-refresh" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">
+                      Disable Infinite Video Recommendations
+                    </h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="skip-btn">
+                    <input
+                      id="skip-btn"
+                      name="skip-btn"
+                      type="checkbox"
+                      value="skip-btn"
+                    />
+                    <span for="skip-btn" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Skip Button (Playback)</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="comments">
+                    <input
+                      id="comments"
+                      name="comments"
+                      type="checkbox"
+                      value="comments"
+                    />
+                    <span for="comments" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Comments Section</h1>
+                  </label>
+                </fieldset>
+              </section>
+
+              <!-- Quick Adds to Popup Form -->
+              <section>
+                <h1>Quick Adds (Popup)</h1>
+
+                <!-- Blocking Pages -->
+                <fieldset>
+                  <legend>Blocking Pages</legend>
+
+                  <label class="side-checkbox-container" for="home-page-quick">
+                    <input
+                      id="home-page-quick"
+                      name="home-page-quick"
+                      type="checkbox"
+                      value="home-page-quick"
+                    />
+                    <span for="home-page" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Home Page</h1>
+                  </label>
+
+                  <label
+                    class="side-checkbox-container"
+                    for="shorts-page-quick"
+                  >
+                    <input
+                      id="shorts-page-quick"
+                      name="shorts-page-quick"
+                      type="checkbox"
+                      value="shorts-page-quick"
+                    />
+                    <span for="shorts-page" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Page</h1>
+                  </label>
+                </fieldset>
+
+                <!-- Hiding Page Elements -->
+                <fieldset>
+                  <legend>Hiding Page Elements</legend>
+
+                  <label class="side-checkbox-container" for="home-btn-quick">
+                    <input
+                      id="home-btn-quick"
+                      name="home-btn-quick"
+                      type="checkbox"
+                      value="home-btn-quick"
+                    />
+                    <span for="home-btn" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Home Button</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="shorts-btn-quick">
+                    <input
+                      id="shorts-btn-quick"
+                      name="shorts-btn-quick"
+                      type="checkbox"
+                      value="shorts-btn-quick"
+                    />
+                    <span for="shorts-btn" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Button</h1>
+                  </label>
+
+                  <label
+                    class="side-checkbox-container"
+                    for="shorts-content-quick"
+                  >
+                    <input
+                      id="shorts-content-quick"
+                      name="shorts-content-quick"
+                      type="checkbox"
+                      value="shorts-content-quick"
+                    />
+                    <span for="shorts-content" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Shorts Content</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="search-bar-quick">
+                    <input
+                      id="search-bar-quick"
+                      name="search-bar-quick"
+                      type="checkbox"
+                      value="search-bar-quick"
+                    />
+                    <span for="search-bar" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Search Bar</h1>
+                  </label>
+
+                  <label
+                    class="side-checkbox-container"
+                    for="recommendations-quick"
+                  >
+                    <input
+                      id="recommendations-quick"
+                      name="recommendations-quick"
+                      type="checkbox"
+                      value="recommendations-quick"
+                    />
+                    <span for="recommendations" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Video Recommendations</h1>
+                  </label>
+
+                  <label
+                    class="side-checkbox-container"
+                    for="recommendation-refresh-quick"
+                  >
+                    <input
+                      id="recommendation-refresh-quick"
+                      name="recommendation-refresh-quick"
+                      type="checkbox"
+                      value="recommendation-refresh-quick"
+                    />
+                    <span for="recommendation-refresh-quick" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">
+                      Disable Infinite Video Recommendations
+                    </h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="skip-btn-quick">
+                    <input
+                      id="skip-btn-quick"
+                      name="skip-btn-quick"
+                      type="checkbox"
+                      value="skip-btn-quick"
+                    />
+                    <span for="skip-btn" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Skip Button (Playback)</h1>
+                  </label>
+
+                  <label class="side-checkbox-container" for="comments-quick">
+                    <input
+                      id="comments-quick"
+                      name="comments-quick"
+                      type="checkbox"
+                      value="comments-quick"
+                    />
+                    <span for="comments" class="checkmark">
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Checkmark icon."
+                        >check</span
+                      >
+                    </span>
+                    <h1 class="checkbox-label">Comments Section</h1>
+                  </label>
+                </fieldset>
+              </section>
+
+              <button type="submit">Save Settings</button>
+            </div>
+
+            <!-- Demonstrations of element removals -->
+            <div class="sub-content limitation-demos">
+              <div class="yt-limit-examples">
+                <div class="all-pages">
+                  <div class="home-page">
+                    <header>
+                      <span
+                        class="material-symbols-rounded"
+                        alt="Three horizontal bars for menu."
+                        >Menu</span
+                      >
+                      <img
+                        class="home-btn yt-logo"
+                        src="/images/icon-yt-logo.svg"
+                      />
+                      <div class="search-bar"></div>
+                    </header>
+                    <div class="side flex-col">
+                      <span
+                        class="material-symbols-rounded home-btn"
+                        alt="House with open door."
+                        >Home</span
+                      >
+                      <img
+                        class="shorts-btn shorts-page"
+                        src="/images/icon-yt-shorts.svg"
+                        alt="Youtube shorts logo."
+                      />
+                    </div>
+                    <div class="yt-content flex-col">
+                      <div class="home-videos recommendations">
+                        <div>
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <img
+                        class="shorts-content"
+                        src="/images/icon-yt-shorts.svg"
+                      />
+                      <div class="home-shorts shorts-content">
+                        <div class="short"></div>
+                        <div class="short"></div>
+                        <div class="short"></div>
+                        <div class="short"></div>
+                        <div class="short"></div>
+                        <div class="short"></div>
+                        <div class="short"></div>
+                      </div>
+
+                      <div class="home-videos recommendations">
+                        <div class="home-videos recommendation-refresh">
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="home-videos recommendations">
+                        <div class="home-videos recommendation-refresh">
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="video"></div>
+                            <div class="desc flex-col">
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="yt-limit-examples">
+                <div class="all-pages">
+                  <header>
+                    <span
+                      class="material-symbols-rounded"
+                      alt="Three horizontal bars for menu."
+                      >Menu</span
+                    >
+                    <img
+                      class="home-btn yt-logo"
+                      src="/images/icon-yt-logo.svg"
+                    />
+                    <div class="search-bar"></div>
+                  </header>
+                  <div class="side flex-col">
+                    <span
+                      class="material-symbols-rounded home-btn"
+                      alt="House with open door."
+                      >Home</span
+                    >
+                    <img
+                      class="shorts-btn shorts-page"
+                      src="/images/icon-yt-shorts.svg"
+                      alt="Youtube shorts logo."
+                    />
+                  </div>
+                  <div class="yt-content flex-col">
+                    <div class="playback">
+                      <div class="window">
+                        <div class="bottom-bar">
+                          <div>
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Video play arrow button."
+                              >play_arrow</span
+                            >
+                            <span
+                              class="material-symbols-rounded skip-btn"
+                              alt="Skip next icon."
+                              >skip_next</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Video volume up icon."
+                              >volume_up</span
+                            >
+                          </div>
+
+                          <div>
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Autoplay icon."
+                              >autoplay</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Closed caption icon."
+                              >closed_caption</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Settings gear icon."
+                              >settings</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Miniplayer icon."
+                              >magnification_small</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Theater mode view icon."
+                              >rectangle</span
+                            >
+                            <span
+                              class="material-symbols-rounded"
+                              alt="Fullscreen icon with all four corners with borders."
+                              >fullscreen</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="desc flex-col">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="comments"></div>
+                    </div>
+                    <div class="side-content flex-col">
+                      <img
+                        class="shorts-content"
+                        src="/images/icon-yt-shorts.svg"
+                      />
+                      <div class="side-shorts shorts-content">
+                        <div class="short"></div>
+                        <div class="short"></div>
+                      </div>
+                      <div class="side-vids flex-col recommendations">
+                        <div>
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+
+                        <div class="recommendation-refresh">
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+
+                        <div class="recommendation-refresh">
+                          <div class="video"></div>
+                          <div class="desc flex-col">
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- Watch Modes -->
+        <section id="watch-mode-section" class="widget-item">
+          <header>
+            <span>
+              <h1>Watch Modes</h1>
+              <h2>Control what content is recommended to you.</h2>
+            </span>
+
+            <button class="misc-button" id="watch-mode-add">
+              <span class="material-symbols-rounded">add</span>
+              Add Watch Mode
+            </button>
+          </header>
+
+          <!-- Content -->
+          <div class="content">
+            <ul id="watch-modes">
+              <li id="[watch-mode-id]">
+                <header>
+                  <h1 id="watch-mode-name">Watch Mode Name</h1>
+                  <h2 id="watch-mode-desc">Watch mode description.</h2>
+                </header>
+
+                <fieldset id="[watch-mode-id]-allowed">
+                  <legend>Allowed/Prioritized</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <span>
+                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                  <button>Enable</button>
+                </span>
+              </li>
+
+              <li id="[watch-mode-id]">
+                <header>
+                  <h1 id="watch-mode-name">Watch Mode Name</h1>
+                  <h2 id="watch-mode-desc">Watch mode description.</h2>
+                </header>
+
+                <fieldset id="[watch-mode-id]-restricted">
+                  <legend>Restricted</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                    <li>Example Tag</li>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <span>
+                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                  <button>Enable</button>
+                </span>
+              </li>
+
+              <li id="[watch-mode-id]">
+                <header>
+                  <h1 id="watch-mode-name">Watch Mode Name</h1>
+                  <h2 id="watch-mode-desc">Watch mode description.</h2>
+                </header>
+
+                <fieldset id="[watch-mode-id]-allowed">
+                  <legend>Allowed/Prioritized</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <fieldset id="[watch-mode-id]-restricted">
+                  <legend>Restricted</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <span>
+                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                  <button>Enable</button>
+                </span>
+              </li>
+
+              <li id="[watch-mode-id]">
+                <header>
+                  <h1 id="watch-mode-name">Watch Mode Name</h1>
+                  <h2 id="watch-mode-desc">Watch mode description.</h2>
+                </header>
+
+                <fieldset id="[watch-mode-id]-allowed">
+                  <legend>Allowed/Prioritized</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <fieldset id="[watch-mode-id]-restricted">
+                  <legend>Restricted</legend>
+                  <ul>
+                    <li>Example Tag</li>
+                  </ul>
+                </fieldset>
+
+                <span>
+                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                  <button>Enable</button>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <!-- Second Row -->
+      <div class="widget-container">
+        <!-- Preferred Creators -->
+        <section id="preferred-creators" class="widget-item">
+          <header>
+            <span>
+              <h1>Preferred Creators</h1>
+              <h2>
+                Specific creators you subscribe to, but not other subscriptions,
+                will be recommended to you.
+              </h2>
+            </span>
+          </header>
+
+          <!-- Content -->
+
+          <div class="empty-content">
+            <span class="material-symbols-rounded">account_circle</span>
+            <h1>Link your YouTube Account</h1>
+            <p>
+              Link your account to personalize your feed with chosen creators.
+              Your subscriptions will be displayed here, allowing you to select
+              your favorites.
+            </p>
+            <button class="misc-button" id="youtube-login-btn">
+              <span class="material-symbols-rounded">youtube_activity</span>
+              Connect Account
+            </button>
+          </div>
+
+          <div class="content">
+            <ul class="selectable-list" id="creators-list">
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img id="channel-profile-img" />
+                    <h1 class="checkbox-label" id="channel-name">
+                      Channel Name
+                    </h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <!-- <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#"
+                    name="channel-#"
+                    type="checkbox"
+                    value="channel-#"
+                  />
+                  <span for="channel-#" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li>
+
+              <li>
+                <label class="full-width-checkbox-container" for="channel-#1">
+                  <span>
+                    <img />
+                    <h1 class="checkbox-label">Channel Name</h1>
+                  </span>
+
+                  <input
+                    id="channel-#1"
+                    name="channel-#1"
+                    type="checkbox"
+                    value="channel-#1"
+                  />
+                  <span for="channel-#1" class="checkmark">
+                    <span class="material-symbols-rounded" alt="Checkmark icon."
+                      >check</span
+                    >
+                  </span>
+                </label>
+              </li> -->
+            </ul>
+          </div>
+
+          <button type="submit">Prioritize Channels</button>
+        </section>
+
+        <!-- Block Additional Websites -->
+        <section id="block-websites" class="widget-item">
+          <header>
+            <span>
+              <h1>Block Additional Websites</h1>
+              <h2>
+                Completely block other websites that steal you away from your
+                own life.
+              </h2>
+            </span>
+            <button class="misc-button" id="block-website-btn-empty">
+              <span class="material-symbols-rounded">add</span>
+              Add Website
+            </button>
+          </header>
+
+          <div class="empty-content">
+            <span class="material-symbols-rounded">block</span>
+            <h1>Add Websites to Block</h1>
+            <p>
+              Add websites to block completely, and categorize them by website
+              type using the dropdown list. You can add broad (reddit.com) or
+              specific URL (reddit.com/?feed=home).
+            </p>
+            <button class="misc-button" id="block-website-btn-empty">
+              <span class="material-symbols-rounded">add</span>
+              Add Website
+            </button>
+          </div>
+
+          <div class="content">
+            <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset>
+
+            <!-- <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset>
+
+            <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset>
+
+            <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset>
+
+            <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset>
+
+            <fieldset id="website-type-[id]">
+              <legend>Website Type</legend>
+
+              <ul>
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+
+                <li>
+                  <span>
+                    <h1>Website Name</h1>
+                    <p>https://websitename.com/</p>
+                  </span>
+
+                  <button class="misc-button" id="">
+                    <span class="material-symbols-rounded">close</span>
+                  </button>
+                </li>
+              </ul>
+            </fieldset> -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/global-functions.js"></script>
+    <script type="module" src="/scripts/usage-chart.js"></script>
+    <script type="module" src="/scripts/settings-general.js"></script>
+
+    <!-- <script>
+      Inserts watch modes from database into DOM 
+      document.addEventListener('DOMContentLoaded', function() {
+        // Example data fetched from the database
+        const watchModes = [
+          { id: 'watch-mode-1', name: 'Watch Mode 1', desc: 'Description 1', bgColor: 'cadetblue' },
+          { id: 'watch-mode-2', name: 'Watch Mode 2', desc: 'Description 2', bgColor: 'aquamarine' }
+        ];
+  
+        const watchModesList = document.getElementById('watch-modes-list');
+  
+        watchModes.forEach(mode => {
+          const li = document.createElement('li');
+          li.id = mode.id;
+          li.style.setProperty('--wm-bg-color', mode.bgColor);
+  
+          li.innerHTML = `
+            <header>
+              <h1 id="watch-mode-name">${mode.name}</h1>
+              <h2 id="watch-mode-desc">${mode.desc}</h2>
+            </header>
+            <fieldset id="${mode.id}-allowed">
+              <legend>Allowed/Prioritized</legend>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </fieldset>
+            <span>
+              <button>Edit</button>
+              <button>Enable</button>
+            </span>
+          `;
+  
+          watchModesList.appendChild(li);
+        });
+      });
+
+      Determines text color based on text 
+      var darkOrLight = function(red, green, blue) {
+      var brightness;
+      brightness = (red * 299) + (green * 587) + (blue * 114);
+      brightness = brightness / 255000;
+
+      // values range from 0 to 1
+      // anything greater than 0.5 should be bright enough for dark text
+      if (brightness >= 0.5) {
+        return "dark-text";
+      } else {
+        return "light-text";
+      }
+    }
+    </script> -->
+  </body>
+</html>
