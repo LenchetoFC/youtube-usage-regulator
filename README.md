@@ -33,23 +33,12 @@ Once the extension is functional, there will be an offical release on the store 
   - Video autoplay button
   - Next video button
   - and more!
-- Alternate Activities:
-  - Write alternate activities to remind you what better things you can be doing
 - Schedules:
   - Add days and times that YouTube will be completely restricted
-- Limit the ability to endlessly recommend videos
 
 ### Future Features
 
-- Timer to Disable YouTube
-- Dark Mode
-- Watch Modes:
-  - Only shows videos according to watch mode
-  - Options include: educational, recreational, and all-inclusive (default)
-  - Uses video tags to determine if video respects current watch mode
-- Free Videos:
-  - Allow yourself at most 3 videos per day to watch
-  - YouTube will disable after tokens have been used
+-
 
 ## User Interface Designs
 
@@ -73,69 +62,15 @@ Shows the user's set schedules and buttons to add a new schedule for the selecte
 On top of a gif that is randomly chosen from 12 different "funny fail" gifs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
 ![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
 
-<!-- ### Free Video Popup
-
-![Screenshot of a popup to tell the extension that the user is going to spend a free video token on the video they're current watching](/images/ui-free-videos-popup.png) -->
-
 ## To-Do
 
-### Known Bugs
+### Stylings
 
-- [ ] Sometimes the comments are removed
-- [ ] Sometimes the time check while adding a new time repeatedly alerts user and user must refresh page
+- [ ] jQuery confirm popups
 
-### YouTube Restrictions
+### Settings
 
-- [ ] Check settings every time the window is focused
-  - [ ] Update removal functions to include the settings value and hide/show based on value
-- [ ] Remove recommendation wall after video ends
-
-### Publishing Extension
-
-- [ ] Publish to Chrome Web Store
-- [ ] Update Repo Example Photos
-- [ ] Record Demo Video
-
-### Scheduling
-
-- [ ] Combine crossed times
-- [ ] Options for what restrictions to turn on when schedule is active
-- [ ] Ability to remove individual times instead of entire day
-- [ ] Use time usage to determine if youtube is disabled
-
-### Testing
-
-- [ ] Test in all most popular browsers
-
-### Completed
-
-- [x] Improve restriction functionality
-- [x] Sorts schedule times before storing
-- [x] Allow schedules to block site
-- [x] Create new schedules
-- [x] Delete schedules
-- [x] Display current schedules
-- [x] Create default settings on first extension use
-- [x] Separate general and schedule settings javascript into two files
-- [x] Add new schedule form functionality
-- [x] Display alt activities
-- [x] Display usage times
-- [x] Redesign Blocked Page
-- [x] Display all time usage value on settings page
-- [x] Display current day's usage time
-- [x] Track and storage user's usage time
-- [x] Display total usage time
-- [x] Reset all time usage
-- [x] Create activities
-- [x] Delete activities
-- [x] Display activities on settings page
-- [x] Responsive design based on deleting and adding
-- [x] Revise current version of how YouTube elements are removed
-- [x] Extension Popup UI
-- [x] General Settings UI
-- [x] Schedule Settings UI
-- [x] Free Video Popup UI
-- [x] Blocked Page UI
+- [ ] Remove 'unsaved changes' notice when the user returns to original setting states
 
 ## Sole Author & Developer
 
@@ -168,6 +103,4 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 
 Icon Creators
 
-- [BomSymbols](https://creativemarket.com/BomSymbols)
-- [FlatArt](https://www.freepik.com/author/flatart)
-- [Erik_Rgnr](https://www.iconfinder.com/Erik_Rgnr)
+- [Google Material Icons](https://fonts.google.com/icons)

@@ -10,11 +10,9 @@
     <meta charset="UTF-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
     />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <meta
       name="description"
       content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
@@ -22,6 +20,7 @@
     <title>Restrict the Tube Settings</title>
 
     <link rel="stylesheet" href="/styles/styles.css" />
+    <!-- <link rel="stylesheet" href="/styles/jquery-confirm.min.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -85,7 +84,7 @@
             <!-- TODO: change h2 to p -->
             <!-- Blocking Pages -->
             <!-- TESTING NEW CHECKBOX TECHNIQUE -->
-            <div class="sub-content limitation-settings">
+            <div class="sub-content" id="limitation-settings">
               <!-- Removing Content Form -->
               <section>
                 <h1>Restrict YouTube</h1>
@@ -482,7 +481,21 @@
                 </fieldset>
               </section>
 
-              <button type="submit">Save Settings</button>
+              <span class="btn-with-msg">
+                <button type="submit" id="save-settings">Save Settings</button>
+                <span id="settings-success-msg" class="btn-msg">
+                  <span class="material-symbols-rounded">verified</span>
+                  <p>Saved Settings Successfully</p>
+                </span>
+                <span id="settings-failure-msg" class="btn-msg">
+                  <span class="material-symbols-rounded">release_alert</span>
+                  <p>Saved Unsuccessfully. Try again later.</p>
+                </span>
+                <span id="settings-unsaved-msg" class="btn-msg">
+                  <span class="material-symbols-rounded">warning</span>
+                  <p>Unsaved Changes</p>
+                </span>
+              </span>
             </div>
 
             <!-- Demonstrations of element removals -->
@@ -769,7 +782,11 @@
               <h2>Control what content is recommended to you.</h2>
             </span>
 
-            <button class="misc-button" id="watch-mode-add">
+            <button
+              class="misc-button"
+              id="watch-mode-add"
+              popovertarget="popover-new-watch-mode"
+            >
               <span class="material-symbols-rounded">add</span>
               Add Watch Mode
             </button>
@@ -778,32 +795,32 @@
           <!-- Content -->
           <div class="content">
             <ul id="watch-modes">
-              <li id="[watch-mode-id]">
+              <li id="watch-mode-0">
                 <header>
                   <h1 id="watch-mode-name">Watch Mode Name</h1>
                   <h2 id="watch-mode-desc">Watch mode description.</h2>
                 </header>
 
-                <fieldset id="[watch-mode-id]-allowed">
+                <fieldset id="watch-mode-1-allowed">
                   <legend>Allowed/Prioritized</legend>
                   <ul>
                     <li>Example Tag</li>
                   </ul>
                 </fieldset>
 
-                <span>
-                  <a href="#" class="underline-hover"><p>Edit</p></a>
-                  <button>Enable</button>
+                <span class="group-of-btns">
+                  <a class="underline-hover"><p>Edit</p></a>
+                  <button class="watch-mode-disabled" disabled>Enable</button>
                 </span>
               </li>
 
-              <li id="[watch-mode-id]">
+              <li id="watch-mode-1">
                 <header>
                   <h1 id="watch-mode-name">Watch Mode Name</h1>
                   <h2 id="watch-mode-desc">Watch mode description.</h2>
                 </header>
 
-                <fieldset id="[watch-mode-id]-restricted">
+                <fieldset id="watch-mode-1-restricted">
                   <legend>Restricted</legend>
                   <ul>
                     <li>Example Tag</li>
@@ -812,26 +829,26 @@
                   </ul>
                 </fieldset>
 
-                <span>
-                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                <span class="group-of-btns">
+                  <a class="underline-hover"><p>Edit</p></a>
                   <button>Enable</button>
                 </span>
               </li>
 
-              <li id="[watch-mode-id]">
+              <li id="watch-mode-2">
                 <header>
                   <h1 id="watch-mode-name">Watch Mode Name</h1>
                   <h2 id="watch-mode-desc">Watch mode description.</h2>
                 </header>
 
-                <fieldset id="[watch-mode-id]-allowed">
+                <fieldset id="watch-mode-2-allowed">
                   <legend>Allowed/Prioritized</legend>
                   <ul>
                     <li>Example Tag</li>
                   </ul>
                 </fieldset>
 
-                <fieldset id="[watch-mode-id]-restricted">
+                <fieldset id="watch-mode-2-restricted">
                   <legend>Restricted</legend>
                   <ul>
                     <li>Example Tag</li>
@@ -839,34 +856,34 @@
                   </ul>
                 </fieldset>
 
-                <span>
-                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                <span class="group-of-btns">
+                  <a class="underline-hover"><p>Edit</p></a>
                   <button>Enable</button>
                 </span>
               </li>
 
-              <li id="[watch-mode-id]">
+              <li id="watch-mode-3">
                 <header>
                   <h1 id="watch-mode-name">Watch Mode Name</h1>
                   <h2 id="watch-mode-desc">Watch mode description.</h2>
                 </header>
 
-                <fieldset id="[watch-mode-id]-allowed">
+                <fieldset id="watch-mode-3-allowed">
                   <legend>Allowed/Prioritized</legend>
                   <ul>
                     <li>Example Tag</li>
                   </ul>
                 </fieldset>
 
-                <fieldset id="[watch-mode-id]-restricted">
+                <fieldset id="watch-mode-3-restricted">
                   <legend>Restricted</legend>
                   <ul>
                     <li>Example Tag</li>
                   </ul>
                 </fieldset>
 
-                <span>
-                  <a href="#" class="underline-hover"><p>Edit</p></a>
+                <span class="group-of-btns">
+                  <a class="underline-hover"><p>Edit</p></a>
                   <button>Enable</button>
                 </span>
               </li>
@@ -912,7 +929,7 @@
                   <span>
                     <img id="channel-profile-img" />
                     <h1 class="checkbox-label" id="channel-name">
-                      Channel Name
+                      Creator Name
                     </h1>
                   </span>
 
@@ -1415,7 +1432,22 @@
             </ul>
           </div>
 
-          <button type="submit">Prioritize Channels</button>
+          <span class="btn-with-msg">
+            <button type="submit" id="save-creators">Save Creators</button>
+            <span id="creators-success-msg" class="btn-msg">
+              <span class="material-symbols-rounded">verified</span>
+              <p>Saved Creators Successfully</p>
+            </span>
+            <span id="creators-failure-msg" class="btn-msg">
+              <span class="material-symbols-rounded">release_alert</span>
+              <p>Saved Unsuccessfully. Try again later.</p>
+            </span>
+
+            <span id="creators-unsaved-msg" class="btn-msg">
+              <span class="material-symbols-rounded">warning</span>
+              <p>Unsaved Changes</p>
+            </span>
+          </span>
         </section>
 
         <!-- Block Additional Websites -->
@@ -1428,7 +1460,11 @@
                 own life.
               </h2>
             </span>
-            <button class="misc-button" id="block-website-btn-empty">
+            <button
+              class="misc-button"
+              id="add-new-website"
+              popovertarget="popover-new-blocked-website"
+            >
               <span class="material-symbols-rounded">add</span>
               Add Website
             </button>
@@ -1449,72 +1485,87 @@
           </div>
 
           <div class="content">
-            <fieldset id="website-type-[id]">
+            <fieldset id="website-type-0">
               <legend>Website Type</legend>
 
               <ul>
-                <li>
+                <li id="blocked-website-0">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
                   </span>
 
-                  <button class="misc-button" id="">
+                  <button
+                    class="misc-button"
+                    data-website-id="blocked-website-0"
+                  >
                     <span class="material-symbols-rounded">close</span>
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-1">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
                   </span>
 
-                  <button class="misc-button" id="">
+                  <button
+                    class="misc-button"
+                    data-website-id="blocked-website-1"
+                  >
                     <span class="material-symbols-rounded">close</span>
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-2">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
                   </span>
 
-                  <button class="misc-button" id="">
+                  <button
+                    class="misc-button"
+                    data-website-id="blocked-website-2"
+                  >
                     <span class="material-symbols-rounded">close</span>
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-3">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
                   </span>
 
-                  <button class="misc-button" id="">
+                  <button
+                    class="misc-button"
+                    data-website-id="blocked-website-3"
+                  >
                     <span class="material-symbols-rounded">close</span>
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-4">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
                   </span>
 
-                  <button class="misc-button" id="">
+                  <button
+                    class="misc-button"
+                    data-website-id="blocked-website-4"
+                  >
                     <span class="material-symbols-rounded">close</span>
                   </button>
                 </li>
               </ul>
             </fieldset>
 
-            <!-- <fieldset id="website-type-[id]">
+            <!-- <fieldset id="website-type-2">
               <legend>Website Type</legend>
 
               <ul>
-                <li>
+                <li id="blocked-website-5">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
@@ -1525,7 +1576,7 @@
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-6">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
@@ -1536,7 +1587,7 @@
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-7">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
@@ -1547,7 +1598,7 @@
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-8">
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
@@ -1558,7 +1609,7 @@
                   </button>
                 </li>
 
-                <li>
+                <li id="blocked-website-9"> 
                   <span>
                     <h1>Website Name</h1>
                     <p>https://websitename.com/</p>
@@ -1817,9 +1868,146 @@
           </div>
         </section>
       </div>
+
+      <!-- New Blocked Website Overlay -->
+      <div popover id="popover-new-blocked-website" class="popover">
+        <header>
+          <h1>New Blocked Website</h1>
+        </header>
+
+        <form action="" method="" class="content">
+          <div class="text-input-container">
+            <label for="website-name">Website Name</label>
+            <input
+              type="text"
+              name="website-name"
+              id="website-name"
+              placeholder="Reddit"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-url">URL Address</label>
+            <input
+              type="url"
+              name="website-url"
+              id="website-url"
+              placeholder="https://reddit.com"
+              minlength="7"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-type">Website Name</label>
+            <select type="text" name="website-type" id="website-type" required>
+              <option value="">Choose a Website Type</option>
+              <option value="social-media">Social Media</option>
+              <option value="shopping">Shopping</option>
+              <option value="streaming">Streaming Media</option>
+            </select>
+          </div>
+
+          <span class="group-of-btns">
+            <a
+              class="text-btn underline-hover cancel"
+              data-popover="popover-new-blocked-website"
+            >
+              <p>Cancel</p>
+            </a>
+            <button type="submit" value="" popovertargetaction="toggle">
+              Block Website
+            </button>
+          </span>
+        </form>
+      </div>
+
+      <!-- New Watch Mode Overlay -->
+      <div popover id="popover-new-watch-mode" class="popover">
+        <header>
+          <h1>New Watch Mode</h1>
+        </header>
+
+        <form action="" method="" class="content">
+          <div class="text-input-container">
+            <label for="watch-mode-name">Watch Mode Name</label>
+            <input
+              type="text"
+              name="watch-mode-name"
+              id="watch-mode-name"
+              placeholder="Educational Mode"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="watch-mode-desc">Description</label>
+            <input
+              type="text"
+              name="watch-mode-desc"
+              id="watch-mode-desc"
+              placeholder="Remove all non-educational materials"
+              minlength="1"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <fieldset>
+            <legend>Allowed/Prioritized</legend>
+            <ul>
+              <li class="tag-button-item">
+                <button class="text-btn underline-hover">
+                  <span class="material-symbols-rounded">add</span>
+                  <p>Add allowed tag</p>
+                </button>
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <legend>Restricted</legend>
+            <ul>
+              <li class="tag-button-item">
+                <button class="text-btn underline-hover">
+                  <span class="material-symbols-rounded">add</span>
+                  <p>Add restricted tag</p>
+                </button>
+              </li>
+            </ul>
+          </fieldset>
+
+          <div class="color-input-container">
+            <input
+              type="color"
+              id="watch-mode-bg"
+              name="watch-mode-bg"
+              value="#000000"
+              required
+            />
+            <label for="watch-mode-bg">Background Color</label>
+          </div>
+
+          <span class="group-of-btns">
+            <a
+              class="text-btn underline-hover cancel"
+              data-popover="popover-new-watch-mode"
+            >
+              <p>Cancel</p>
+            </a>
+            <button type="submit" value="">Save Watch Mode</button>
+          </span>
+        </form>
+      </div>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <!-- <script src="/scripts/jquery-confirm.min.js"></script> -->
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
@@ -1851,7 +2039,7 @@
                 <li>Example Tag</li>
               </ul>
             </fieldset>
-            <span>
+            <span class="group-of-btns">
               <button>Edit</button>
               <button>Enable</button>
             </span>

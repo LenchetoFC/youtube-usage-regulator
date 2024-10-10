@@ -97,7 +97,8 @@ h1,
 h2,
 h3,
 h4,
-p {
+p,
+legend {
   font-weight: 500;
   margin: 0;
   line-height: 150%;
@@ -147,6 +148,10 @@ html {
   overflow-x: auto;
 }
 
+html:has(:popover-open) {
+  overflow: hidden;
+}
+
 body {
   font-family: "Inter", sans-serif;
   font-size: 1.6rem; /* 10px * 1.6rem = 16px bc of 62.5% */
@@ -164,6 +169,11 @@ body {
 /* 
   FORM
 */
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 fieldset {
   /* gap: 0.8rem; */
   margin: 0;
@@ -278,7 +288,7 @@ a:hover {
 }
 
 button {
-  transition: background 0.25s;
+  transition: background, opacity 0.25s;
   border: none;
   box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.25);
   user-select: none;
@@ -348,6 +358,91 @@ button[type="submit"]:active {
   }
 }
 
+.cancel p {
+  color: var(--text-brand);
+}
+
+.text-btn {
+  display: flex;
+  gap: 0.4rem;
+  color: var(--text-dark);
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.group-of-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  flex-direction: row;
+  width: 100%;
+
+  p {
+    /* color: var(--wm-text-color); */
+    color: black;
+  }
+}
+
+/* Typically for success messages */
+.btn-with-msg {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  position: relative;
+
+  .material-symbols-rounded {
+    font-size: 3.2rem;
+  }
+
+  p {
+    color: var(--text-dark);
+    width: max-content;
+  }
+}
+.btn-msg {
+  align-items: center;
+  gap: 0.4rem;
+  position: absolute;
+  left: 13.6rem;
+}
+#settings-success-msg,
+#creators-success-msg {
+  display: none;
+
+  .material-symbols-rounded {
+    color: var(--surface-brand-2);
+  }
+}
+#settings-unsaved-msg,
+#creators-unsaved-msg {
+  display: none;
+
+  .material-symbols-rounded {
+    color: #ffdb58;
+  }
+}
+
+#settings-failure-msg,
+#creators-failure-msg {
+  display: none;
+
+  .material-symbols-rounded {
+    color: var(--surface-brand);
+  }
+}
+
+button:disabled {
+  opacity: 50%;
+}
+
+button[type="submit"]:disabled:hover {
+  cursor: wait;
+}
+.watch-mode-disabled:disabled:hover {
+  cursor: not-allowed;
+}
+
 /* 
   ICONS & IMAGES 
 */
@@ -355,7 +450,7 @@ button[type="submit"]:active {
   font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
   color: var(--surface-dark);
 }
-.material-symbols-rounded {
+button .material-symbols-rounded {
   color: var(--surface-light);
 }
 .playback .material-symbols-rounded {
@@ -435,6 +530,10 @@ nav {
   }
   > div {
     gap: var(--spacing-md);
+  }
+
+  .material-symbols-rounded {
+    color: var(--surface-light);
   }
 }
 
@@ -573,7 +672,7 @@ nav {
   LIMITATIONS SETTINGS
 */
 
-.limitation-settings {
+#limitation-settings {
   > section {
     display: flex;
     flex-direction: column;
@@ -1021,6 +1120,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
         color: black;
       }
 
+      /* Watch Mode Item */
       > li {
         display: flex;
         flex-direction: column;
@@ -1040,19 +1140,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
         h2 {
           font-size: 1.4rem;
           font-weight: 400;
-        }
-
-        > span {
-          display: flex;
-          justify-content: flex-end;
-          gap: 1.2rem;
-          flex-direction: row;
-          width: 100%;
-
-          p {
-            /* color: var(--wm-text-color); */
-            color: black;
-          }
         }
       }
 
@@ -1089,7 +1176,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       }
     }
   }
+}
+.watch-mode-enabled {
+  /* background-color: #636363; */
+  opacity: 75%;
 
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+#watch-mode-section,
+#popover-new-watch-mode {
   fieldset {
     legend {
       font-size: 1.4rem;
@@ -1101,7 +1198,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       gap: 0.8rem;
     }
 
-    li {
+    li:not(.tag-button-item) {
       display: flex;
       align-items: center;
       align-self: stretch;
@@ -1144,10 +1241,102 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
   p {
     color: var(--text-dark);
+    width: 50ch;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   li:has(button:hover) h1,
   li:has(button:hover) p {
     font-weight: 600;
+  }
+}
+
+/* 
+  MODEL POPOVER
+*/
+.popover {
+  /* display: flex; */
+  flex-direction: column;
+  width: 60rem;
+  padding: 1.6rem;
+  align-items: flex-start;
+  gap: 1.2rem;
+  border-radius: var(--radius-more-rounded);
+  /* background: var(--surface-light); */
+  box-shadow: 0 0 4px 0 rgba(61, 61, 61, 0.25);
+  border: transparent;
+
+  form {
+    gap: 1.2rem;
+  }
+
+  header {
+    margin-bottom: 1.2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+}
+
+.popover::backdrop {
+  /* background-color: rgba(102, 46, 128, 0.1); */
+  background-color: rgba(61, 61, 61, 0.25);
+}
+
+.flex-popover {
+  display: flex;
+}
+
+.text-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  /* align-items: center; */
+  align-self: stretch;
+  justify-content: center;
+
+  label {
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 200%;
+  }
+
+  input[type="text"],
+  input[type="url"],
+  select[type="text"] {
+    display: flex;
+    padding: 0.8rem;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 0.8rem;
+    border: 0.75px solid var(--border-dark);
+  }
+}
+
+input[type="color"] {
+  border-radius: 0.4rem;
+}
+
+/* 
+  NEW WATCH MODE OVERLAY
+*/
+.tag-button-item {
+  span,
+  p {
+    color: var(--text-dark);
+  }
+}
+
+.color-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  label {
+    font-size: 1.4rem;
+    line-height: 200%;
   }
 }

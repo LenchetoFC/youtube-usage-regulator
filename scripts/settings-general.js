@@ -18,55 +18,8 @@
 // TODO: Change settings retrievals and sets to await promises like functions in content.js
 //        to be able to use the values outside of the callback
 
-// For determining if a YT element either fades or slides out of yt page examples
-const ytFadeToggleElements = [
-  "all-pages",
-  "home-page",
-  "search-bar",
-  "shorts-btn",
-];
-
 // Adds all activities from storage to HTML on load
 retrieveActivityFromStorage();
-
-// Gets initial num of activities and displays add button if not reached max
-try {
-  getSettings("activities", (result) => {
-    let activityNum = 0;
-    try {
-      activityNum = result.length;
-    } catch {
-      activityNum = 0;
-    }
-  });
-} catch (error) {
-  console.log(`Error getting activities ${error}`);
-}
-
-// Displays current watch times in HTML
-// try {
-//   getSettings("watch-usage", (result) => {
-//     $("#all-time-count").text(convertTimeToText(result["all-time"]));
-//     $("#regular-time-count").text(convertTimeToText(result["regular-video"]));
-//     $("#shorts-time-count").text(convertTimeToText(result["shorts"]));
-//   });
-// } catch (error) {
-//   console.log(`Error getting watch times ${error}`);
-// }
-
-// Gets initial num of activities and displays add button if not reached max
-try {
-  getSettings("activities", (result) => {
-    let activityNum = 0;
-    try {
-      activityNum = result.length;
-    } catch {
-      activityNum = 0;
-    }
-  });
-} catch (error) {
-  console.log(`Error getting activities ${error}`);
-}
 
 /**
  * SECTION - FUNCTION DECLARATIONS
@@ -118,95 +71,16 @@ function addActivityStorage(activity) {
   }
 }
 
-/** FUNCTION - Removes a specific activity from the 'activities' setting in storage */
-function removeActivity(value) {
-  try {
-    getSettings("activities", (result) => {
-      // Get index of key activity and removes it
-      // let activityIndex = result.indexOf(activity);
-      result.splice(result.indexOf(value), 1);
-
-      // Saves updated array to storage
-      setSetting("activities", result);
-    });
-  } catch (error) {
-    console.log(`Error getting activities ${error}`);
-  }
-}
-
-/** FUNCTION - Inserts activity from storage into HTML to and adds them to storage */
-// NOTE: Not exactly sure if this is even necessary
-function addActivityEventHandler() {
-  let activityNumEvent = 0;
-  let activityInput = $("#activity-input");
-
-  // Gets current number of activities
-  try {
-    getSettings("activities", (result) => {
-      try {
-        activityNumEvent = result.length;
-      } catch {
-        activityNumEvent = 0;
-      }
-
-      if (activityInput.val().length > 0 && activityNumEvent < 4) {
-        insertActivityHTML(activityInput.val());
-        addActivityStorage(activityInput.val());
-        activityInput.val("");
-      }
-    });
-  } catch (error) {
-    console.log(`Error getting activities ${error}`);
-  }
-}
-
-/** FUNCTION - Displays or hides 'add activity' button or "activity input" only under the right conditions */
-function toggleActivityBtns() {
-  let activityItemAmt = $("#activity-section").children().length;
-
-  console.log(activityItemAmt);
-  console.log($("#input-btn-box").css("visibility"));
-
-  if (
-    activityItemAmt < 4 &&
-    $("#input-btn-box").css("visibility") == "visible"
-  ) {
-    // $('#activity-add').css("display", "block");
-    // $('#activity-add').css("visibility", "visible");
-    // $('#input-btn-box').css("visibility", "visible");
-    $("#activity-add").slideToggle();
-    $("#input-btn-box").slideToggle();
-  } else if (
-    activityItemAmt < 4 &&
-    $("#input-btn-box").css("visibility") == "hidden"
-  ) {
-    // $('#activity-add').css("display", "none");
-    // $('#activity-add').css("visibility", "hidden");
-    $("#activity-add").slideToggle();
-    $("#input-btn-box").slideToggle();
-  } else {
-  }
-}
-
-/** FUNCTION - Displays or hides activity inputs based on amount of active activities */
-function showActivityInput() {
-  let activityItemAmt = $("#activity-section").length;
-
-  if (
-    activityItemAmt < 4 &&
-    $("#input-btn-box").css("visibility") == "hidden"
-  ) {
-    $("#activity-add").css("display", "block");
-    $("#activity-add").css("visibility", "visible");
-    $("#input-btn-box").css("visibility", "visible");
-  } else {
-    $("#activity-add").css("display", "none");
-    $("#activity-add").css("visibility", "hidden");
-  }
-}
-
 /** FUNCTION - Toggles all checkboxes based on the settings value (true == checked or false == unchecked) */
 function toggleCheckboxes(setting, element) {
+  // For determining if a YT element either fades or slides out of yt page examples
+  const ytFadeToggleElements = [
+    "all-pages",
+    "home-page",
+    "search-bar",
+    "shorts-btn",
+  ];
+
   try {
     getSettings(setting, (result) => {
       // Visually displays the status of the setting on load
@@ -237,20 +111,6 @@ function toggleCheckboxes(setting, element) {
  *
  */
 
-// Deletes activity through 'x' button
-$(document).on("click", ".icon-delete", function (event) {
-  const activityItem = $(this).closest("li");
-  const activityItemId = $(this).closest("div").attr("id");
-
-  removeActivity(activityItemId);
-
-  if (activityItem.length) {
-    activityItem.slideUp(function () {
-      $(this).remove();
-    });
-  }
-});
-
 // Triggers toggleCheckboxes with the type of checkbox on every checkbox within a form
 const addictiveForm = document.querySelectorAll("fieldset input");
 addictiveForm.forEach((element) => {
@@ -261,37 +121,6 @@ addictiveForm.forEach((element) => {
   }
 });
 
-// Displays activity input text box and auto-focuses on it
-$("#activity-add button").on("click", function () {
-  $("#input-btn-box").slideDown(function () {
-    $("#input-container").trigger("focus");
-  });
-  $("#activity-add").slideUp();
-});
-
-// Removes activity input and reshows add activity button
-$("#activity-cancel").on("click", function () {
-  toggleActivityBtns();
-});
-
-// "Enter" event listener for new activity
-$("#activity-input").on("keydown", function (event) {
-  let inputTextLen = $(this).val().length;
-  if (event.which == 13 && inputTextLen > 0) {
-    addActivityEventHandler();
-    toggleActivityBtns();
-  }
-});
-
-// "Save button" event listener for new activity
-$("#activity-save").on("click", function () {
-  let inputTextLen = $("#activity-input").val().length;
-  if (inputTextLen > 0) {
-    addActivityEventHandler();
-    toggleActivityBtns();
-  }
-});
-
 // Resets all time usage to 0 and updates the displayed count
 $("#reset-usage").on("click", function () {
   setSetting("all-time-usage", 0);
@@ -299,32 +128,90 @@ $("#reset-usage").on("click", function () {
   console.log("ALL TIME USAGE RESET TO 0");
 });
 
-// Opens and closes horizontal nav bar
-// document.querySelector(".hamburger-input").addEventListener("click", () => {
-//   let checked = document.querySelector(".hamburger-input").checked;
-//   let nav = document.querySelector("nav");
-//   let contentWrapper = document.querySelector(".content-wrapper");
+// NOTE: Below is all new code
 
-//   if (window.matchMedia("(max-width: 630px)").matches) {
-//     if (checked) {
-//       nav.style.transform = "translateY(83.5px)";
-//       contentWrapper.style.transform = "translateY(110px)";
-//     } else {
-//       nav.style.transform = "translateY(-30px)";
-//       contentWrapper.style.transform = "none";
-//     }
-//   }
-// })
+// jQuery animation for displaying button statuses
+function btnStatusAnim(statusMsgId, isSuccess) {
+  const delayTime = isSuccess ? 1000 : 5000;
+  $(statusMsgId)
+    .fadeIn(1000)
+    .css("display", "flex")
+    .delay(delayTime)
+    .fadeOut(1000);
+}
 
-// When the horizontal nav bar is open and then closed, this code
-//  makes sure the vertical nav bar is not affected by "display: none"
-//  when the horizontal nav bar is closed
-// Basically a reset for vertical nav bar
-// window.addEventListener("resize", () => {
-//   let nav = document.querySelector("nav");
-//   let contentWrapper = document.querySelector(".content-wrapper");
+// Popover won't close when cancel button is pressed if the form is incomplete in any way
+$(".cancel").on("click", function () {
+  const popoverId = $(this).attr("data-popover");
+  document.querySelector(`#${popoverId}`).togglePopover();
+});
 
-//   contentWrapper.style.transform = "none";
-//   document.querySelector(".hamburger-input").checked = false;
-//   window.matchMedia("(min-width: 631px)").matches ? nav.style.transform = "none" : nav.style.transform = "translateY(-30px)";
-// })
+// Saves restrictive settings and displays status message
+$("#save-settings").on("click", function () {
+  $("#settings-unsaved-msg").fadeOut();
+
+  const $button = $(this);
+  $button.prop("disabled", true);
+
+  // TODO: requires function to save all creators
+  // Call function to save all creators
+  // Return function status
+
+  setTimeout(function () {
+    //NOTE - temporary
+    const btnSuccess = false; // Simulated save outcome
+
+    // Start animation on status message, depending saving outcome
+    btnSuccess
+      ? btnStatusAnim("#settings-success-msg", true)
+      : btnStatusAnim("#settings-failure-msg", false);
+
+    $button.prop("disabled", false); // Re-enable button after operation
+  }, 2000);
+});
+
+// Saves preferred creators and displays status message
+$("#save-creators").on("click", function () {
+  $("#creators-unsaved-msg").fadeOut();
+
+  const $button = $(this);
+  $button.prop("disabled", true);
+
+  // TODO: requires function to save all creators
+  // Call function to save all creators
+  // Return function status
+
+  setTimeout(function () {
+    //NOTE - temporary
+    const btnSuccess = true; // Simulated save outcome
+
+    // Start animation on status message, depending saving outcome
+    btnSuccess
+      ? btnStatusAnim("#creators-success-msg", true)
+      : btnStatusAnim("#creators-failure-msg", false);
+
+    $button.prop("disabled", false); // Re-enable button after operation
+  }, 2000);
+});
+
+// Warns user that there are unsaved changes for restrictive settings
+$('#limitation-settings input[type="checkbox"]').on("click", function () {
+  $("#settings-unsaved-msg").fadeIn(1000).css("display", "flex");
+});
+
+// Warns user that there are unsaved changes for preferred creators
+$('#creators-list input[type="checkbox"]').on("click", function () {
+  $("#creators-unsaved-msg").fadeIn(1000).css("display", "flex");
+});
+
+// Removes blocked website from HTML list
+// TODO: Delete from database
+$("[id^='blocked-website-'] button").on("click", function () {
+  const websiteId = $(this).attr("data-website-id");
+
+  if (window.confirm("Permanently delete this website?")) {
+    $(`#${websiteId}`).slideUp("slow", function () {
+      $(this).remove();
+    });
+  }
+});
