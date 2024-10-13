@@ -20,7 +20,11 @@
   "permissions": ["storage"],
   "content_scripts": [
     {
-      "js": ["/scripts/content.js"],
+      "js": [
+        "/scripts/global-functions.js",
+        "/scripts/database-functions.js",
+        "/scripts/content.js"
+      ],
       "matches": ["*://www.youtube.com/*"],
       "runAt": "document_end"
     }

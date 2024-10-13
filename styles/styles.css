@@ -362,7 +362,7 @@ button[type="submit"]:active {
   color: var(--text-brand);
 }
 
-.text-btn {
+.text-button {
   display: flex;
   gap: 0.4rem;
   color: var(--text-dark);
@@ -371,7 +371,7 @@ button[type="submit"]:active {
   padding: 0;
 }
 
-.group-of-btns {
+.group-of-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 1.2rem;
@@ -385,7 +385,7 @@ button[type="submit"]:active {
 }
 
 /* Typically for success messages */
-.btn-with-msg {
+.button-with-msg {
   display: flex;
   gap: 1.2rem;
   align-items: center;
@@ -400,7 +400,7 @@ button[type="submit"]:active {
     width: max-content;
   }
 }
-.btn-msg {
+.button-msg {
   align-items: center;
   gap: 0.4rem;
   position: absolute;
