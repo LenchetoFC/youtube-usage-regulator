@@ -184,7 +184,7 @@ fieldset {
 legend {
   align-self: center;
   font-size: 1.6rem;
-  font-weight: 600;
+  /* font-weight: 600; */
   margin: 0;
   padding: 0;
 }
@@ -240,6 +240,19 @@ main {
   }
   > * {
     transition: padding 0.5s;
+  }
+}
+
+/* Info button TODO: place into proper place */
+section > h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  abbr {
+    align-self: center;
+    height: 24px;
+    cursor: default;
   }
 }
 
@@ -304,6 +317,7 @@ button {
   align-items: center;
   border-radius: var(--radius-3xl);
   background: var(--surface-dark);
+  min-width: max-content;
 }
 
 button[type="submit"] {
@@ -392,7 +406,7 @@ button[type="submit"]:active {
   position: relative;
 
   .material-symbols-rounded {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
   }
 
   p {
@@ -402,11 +416,48 @@ button[type="submit"]:active {
 }
 .button-msg {
   align-items: center;
-  gap: 0.4rem;
+  justify-content: flex-end;
+  gap: 1.2rem;
   position: absolute;
-  left: 13.6rem;
+  right: 14rem;
+  /* top: 6rem; */
+  background: var(--surface-light);
+  width: fit-content;
+  z-index: 1;
+  box-shadow: 1px 1px 6px -2px #00000038;
+  padding: 11px 16px;
+  border-radius: var(--radius-2xl);
 }
-#settings-success-msg,
+
+/* 
+  Loading Button
+*/
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.spin-animation {
+  animation: 1s spin linear infinite;
+  background-image: conic-gradient(
+    from var(--angle),
+    var(--surface-brand),
+    blue,
+    var(--surface-brand)
+  ) !important;
+  border: 0px solid transparent !important;
+
+  button {
+    margin: 3px;
+  }
+}
+
+span:has(> button[type="submit"]) {
+  border-radius: var(--radius-3xl);
+  border: 3px solid transparent;
+}
+
+#limitations-success-msg,
 #creators-success-msg {
   display: none;
 
@@ -414,8 +465,10 @@ button[type="submit"]:active {
     color: var(--surface-brand-2);
   }
 }
-#settings-unsaved-msg,
-#creators-unsaved-msg {
+#limitations-unsaved-msg,
+#creators-unsaved-msg,
+#limitations-no-change-msg,
+#creators-no-change-msg {
   display: none;
 
   .material-symbols-rounded {
@@ -423,7 +476,7 @@ button[type="submit"]:active {
   }
 }
 
-#settings-failure-msg,
+#limitations-failure-msg,
 #creators-failure-msg {
   display: none;
 
@@ -431,10 +484,10 @@ button[type="submit"]:active {
     color: var(--surface-brand);
   }
 }
-
+/* 
 button:disabled {
   opacity: 50%;
-}
+} */
 
 button[type="submit"]:disabled:hover {
   cursor: wait;
@@ -460,7 +513,7 @@ button .material-symbols-rounded {
 .yt-limit-examples header .material-symbols-rounded,
 .side .material-symbols-rounded,
 .checkmark span {
-  font-size: 16px;
+  font-size: 20px;
   color: var(--surface-light);
 }
 
@@ -572,7 +625,7 @@ nav {
       flex-direction: column;
     }
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 600;
     }
     h2 {
@@ -599,9 +652,10 @@ nav {
     flex-wrap: wrap;
     gap: 2.4rem;
     align-self: stretch;
+    flex-direction: row;
     align-content: center;
-    justify-content: space-evenly;
-    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -673,15 +727,18 @@ nav {
 */
 
 #limitation-settings {
+  justify-content: flex-start;
+  column-gap: 16rem;
+
   > section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.6rem;
+    gap: 1.2rem;
     align-self: stretch;
 
     > h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 600;
     }
   }
@@ -755,7 +812,6 @@ input[type="checkbox"] {
 
   h1 {
     font-size: 1.4rem;
-    font-weight: 500;
   }
   img {
     width: 32px;
@@ -949,7 +1005,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     }
   }
   .video,
-  .comments {
+  .comments-section {
     border-radius: 8px;
     background-color: var(--surface-light);
     margin-bottom: 0.5rem;
@@ -1029,7 +1085,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       width: 0%;
     }
   }
-  .comments {
+  .comments-section {
     width: 100%;
     height: 6rem;
   }
@@ -1338,5 +1394,17 @@ input[type="color"] {
   label {
     font-size: 1.4rem;
     line-height: 200%;
+  }
+}
+
+/* 
+  Animations
+*/
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
   }
 }

@@ -1,5 +1,5 @@
 /**
- * DEFAULT DATABASE
+ * SECTION - DEFAULT DATABASE
  */
 const database = {
   watchTimes: [],
@@ -129,9 +129,7 @@ const database = {
   ],
 };
 
-/**
- * Initializes default database in Chrome Storage Sync if doesn't exist
- */
+/** Initializes default database in Chrome Storage Sync if doesn't exist */
 chrome.storage.sync.get(
   [
     "misc-settings",
@@ -173,6 +171,12 @@ chrome.storage.sync.get(
   }
 );
 
+/** !SECTION */
+
+/**
+ * SECTION - FUNCTION DECLARATIONS
+ */
+
 /** FUNCTION: Get all records from a table
  *
  * @param {string} table - table name i.e. "youtube-limitations"
@@ -212,41 +216,24 @@ async function selectRecordById(table, id) {
  *
  * @param {string} table - table name i.e. "youtube-limitations"
  *
- * @param {string} property - property name i.e. name or "restricted-tags"
- *
- * @returns {object} Returns the record(s) from the given table that have the given property
- *
- * @example selectRecordByProp("youtube-limitations", "restricted-tags");
- */
-async function selectRecordByProp(table, property) {
-  const records = await selectAllRecords(table);
-  return records.find((record) => record.property === property);
-}
-
-/** FUNCTION: Filter records based on a condition
- *
- * @param {string} table - table name i.e. "youtube-limitations"
- *
- * @param {string} condition - conditional statement to filter records in table
- *
  * @returns {object} Returns the filters records from the given table that follows the given condition
  *
  * @example filterRecords("youtube-limitations" (record) => record[id] === 1);
  */
-async function filterRecords(table, condition) {
+async function filterRecords(table, property, value) {
   const records = await selectAllRecords(table);
-  return records.filter(condition);
+  return records.filter((record) => record[property] === value);
 }
 
 /** FUNCTION: Insert new records into a table
  *
  * @param {string} table - table name i.e. "youtube-limitations"
  *
- * @param {object} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
+ * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
  * @returns {null} Returns nothing
  *
- * @example insertRecords("youtube-limitations");
+ * @example insertRecords("youtube-limitations", { quick-add: true });
  */
 async function insertRecords(table, newRecords) {
   try {
@@ -288,7 +275,7 @@ async function insertRecords(table, newRecords) {
  *
  * @returns {null} Returns nothing
  *
- * @example updateRecords("youtube-limitations");
+ * @example updateRecords("youtube-limitations", [{ id: 1, name: "sunday", active: true, allDay: false });
  */
 function updateRecords(table, records) {
   return new Promise((resolve, reject) => {
@@ -305,31 +292,39 @@ function updateRecords(table, records) {
 }
 
 /** FUNCTION: Update a specific record by ID
+ * NOTE: ideal to use a unique column identifier, because using a column with the same value among
+ *       multiple values will result in only the first record to be updated
  *
  * @param {string} table - table name i.e. "youtube-limitations"
  *
- * @param {int} id - record id i.e. 1
+ * @param {int} column - any record column i.e. id or name or active
  *
- * @param {object} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
+ * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
  * @returns {null} Returns nothing
  *
- * @example updateRecordById("youtube-limitations", 1);
+ * @example updateRecordByColumn("youtube-limitations", "name", "home-button", { quick-add: true });
  */
-async function updateRecordById(table, id, newRecords) {
+async function updateRecordByColumn(table, column, value, newRecords) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
 
     // Find the index of the record with the specified ID
-    const recordIndex = records.findIndex((record) => record.id === id);
+    const recordIndex = records.findIndex((record) => record[column] === value);
 
     if (recordIndex === -1) {
-      throw new Error(`Record with ID ${id} not found in table ${table}`);
+      throw new Error(
+        `Record with column ${column}, value ${value} not found in table ${table}`
+      );
     }
 
     // Update the record's properties
     records[recordIndex] = { ...records[recordIndex], ...newRecords };
+    console.log(
+      `records for ${column} ${value} with ${JSON.stringify(newRecords)}\n`,
+      records
+    );
 
     // Save the updated records back to the table
     updateRecords(table, records);
@@ -387,9 +382,9 @@ async function deleteRecordById(table, id) {
  *
  * @returns {null} Returns nothing
  *
- * @example deletepropertyInRecord("youtube-limitations", 1, "restricted-tags");
+ * @example deletePropertyInRecord("youtube-limitations", 1, "restricted-tags");
  */
-async function deletepropertyInRecord(table, id, property) {
+async function deletePropertyInRecord(table, id, property) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
@@ -415,17 +410,19 @@ async function deletepropertyInRecord(table, id, property) {
   }
 }
 
+/** !SECTION */
+
 /**
  * SECTION - MESSAGE LISTENERS
  */
 
-// Listens for request to modify or select from chrome storage
+// EVENT LISTENER: Listens for request to modify or select from chrome storage
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // Get value of settings
   if (request.operation === "selectById") {
     // Gets records by ID
     selectRecordById(request.table, request.index)
-      .then((table) => sendResponse({ data: table }))
+      .then((table) => sendResponse(table))
       .catch((error) => {
         sendResponse({ error: true, message: error.message });
       });
@@ -434,19 +431,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   } else if (request.operation === "selectAll") {
     // Gets all records from a specified table
     selectAllRecords(request.table)
-      .then((table) => sendResponse({ data: table }))
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
-      });
-
-    return true;
-  } else if (request.operation === "filterRecordsBool") {
-    // Filters records by boolean values like "active"
-    filterRecords(
-      request.table,
-      (record) => record[request.property] === request.boolValue
-    )
-      .then((filteredData) => sendResponse({ data: filteredData }))
+      .then((table) => sendResponse(table))
       .catch((error) => {
         sendResponse({ error: true, message: error.message });
       });
@@ -454,11 +439,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     return true;
   } else if (request.operation === "filterRecords") {
     // Filters records
-    filterRecords(
-      request.table,
-      (record) => record[request.property] == request.value
-    )
-      .then((filteredData) => sendResponse({ data: filteredData }))
+    filterRecords(request.table, request.property, request.value)
+      .then((filteredData) => sendResponse(filteredData))
       .catch((error) => {
         sendResponse({ error: true, message: error.message });
       });
@@ -469,7 +451,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     updateRecords(request.table, request.newRecords)
       .then((records) => {
         sendResponse({
-          data: `Records set successfully for table ${request.table} with ${records}`,
+          data: `Records set successfully for table ${
+            request.table
+          } with ${JSON.stringify(records)}`,
         });
       })
       .catch((error) => {
@@ -477,12 +461,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
 
     return true;
-  } else if (request.operation === "updateRecordById") {
+  } else if (request.operation === "updateRecordByColumn") {
     // Updates record by ID
-    updateRecordById(request.table, request.id, request.newRecords)
+    updateRecordByColumn(
+      request.table,
+      request.column,
+      request.value,
+      request.newRecords
+    )
       .then(() => {
         sendResponse({
-          data: `Record updated successfully for table ${request.table}, id ${request.id} with new records ${request.newRecords} .`,
+          data: `Record updated successfully for table ${
+            request.table
+          } with column ${request.column}, ${
+            request.value
+          } with new records ${JSON.stringify(request.newRecords)}.`,
         });
       })
       .catch((error) => {
@@ -503,9 +496,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
 
     return true;
-  } else if (request.operation === "deletepropertyInRecord") {
+  } else if (request.operation === "deletePropertyInRecord") {
     // Deletes properties within specific records
-    deletepropertyInRecord(request.table, request.id, request.property)
+    deletePropertyInRecord(request.table, request.id, request.property)
       .then(() => {
         console.log(
           sendResponse({
@@ -523,7 +516,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     insertRecords(request.table, request.records)
       .then(() => {
         sendResponse({
-          data: `Records inserted successfully into table ${request.table}.`,
+          data: `Records inserted successfully into table ${
+            request.table
+          } with ${JSON.stringify(request.records)}.`,
         });
       })
       .catch((error) => {
@@ -542,6 +537,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
   return true;
 });
+
+/** !SECTION */
 
 // Updates last-used-date to current date if date doesn't match or exist
 // chrome.storage.sync.get(["last-used-date"], function (result) {
