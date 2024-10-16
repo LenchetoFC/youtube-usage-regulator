@@ -49,7 +49,7 @@
  * @returns {various} - can return storage objects or status response messages
  *
  * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
- * //
+ *
  */
 function sendMessageToServiceWorker(message) {
   return new Promise((resolve, reject) => {
@@ -206,7 +206,7 @@ async function isValidLimitations(limitationChoices) {
  *
  * @param {int} delayTime - amount of time (in seconds) that the buttons shows before disappearing
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example triggerSubmitStatusAnimation("#limitations-no-change-msg", 2500);
  */
@@ -312,10 +312,20 @@ $("#save-limitations").on("click", function () {
 
   setTimeout(function () {
     // Start animation on status message, depending saving outcome
-    isValid
-      ? triggerSubmitStatusAnimation("#limitations-success-msg", 1000)
-      : triggerSubmitStatusAnimation("#limitations-failure-msg", 5000);
+    if (isValid) {
+      triggerSubmitStatusAnimation("#limitations-success-msg", 1000);
 
+      // Updates the YouTube UI Demo all at once
+      $("#limitation-settings fieldset input").each(function () {
+        if (this.checked) {
+          $(`.limitation-demos .${this.name}`).slideUp();
+        } else {
+          $(`.limitation-demos .${this.name}`).slideDown();
+        }
+      });
+    } else {
+      triggerSubmitStatusAnimation("#limitations-failure-msg", 5000);
+    }
     // Re-enable button after animation
     $button.parent().toggleClass("spin-animation");
     $button.prop("disabled", false);

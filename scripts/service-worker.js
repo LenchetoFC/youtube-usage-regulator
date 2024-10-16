@@ -2,7 +2,15 @@
  * SECTION - DEFAULT DATABASE
  */
 const database = {
-  watchTimes: [],
+  watchTimes: [
+    {
+      id: 1,
+      date: getCurrentDate(),
+      "total-watch-time": 0,
+      "long-form-watch-time": 0,
+      "short-form-watch-time": 0,
+    },
+  ],
 
   watchModes: [
     {
@@ -126,6 +134,13 @@ const database = {
       type: "hide",
       "quick-add": false,
     },
+    {
+      id: 11,
+      name: "all-pages",
+      active: false,
+      type: "block",
+      "quick-add": false,
+    },
   ],
 };
 
@@ -176,6 +191,20 @@ chrome.storage.sync.get(
 /**
  * SECTION - FUNCTION DECLARATIONS
  */
+
+/** FUNCTION: Get current date
+ *
+ * @returns {string} Returns current date in ISO standard format (yyyy-MM-dd) "2024-10-15"
+ *
+ * @example let curretnDate = getCurrentDate();
+ */
+function getCurrentDate() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 /** FUNCTION: Get all records from a table
  *
@@ -231,7 +260,7 @@ async function filterRecords(table, property, value) {
  *
  * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example insertRecords("youtube-limitations", { quick-add: true });
  */
@@ -273,7 +302,7 @@ async function insertRecords(table, newRecords) {
  *
  * @param {object} records - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example updateRecords("youtube-limitations", [{ id: 1, name: "sunday", active: true, allDay: false });
  */
@@ -301,7 +330,7 @@ function updateRecords(table, records) {
  *
  * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example updateRecordByColumn("youtube-limitations", "name", "home-button", { quick-add: true });
  */
@@ -342,7 +371,7 @@ async function updateRecordByColumn(table, column, value, newRecords) {
  *
  * @param {int} id - record id i.e. 1
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example deleteRecordById("youtube-limitations", 1);
  */
@@ -380,7 +409,7 @@ async function deleteRecordById(table, id) {
  *
  * @param {string} property - property name i.e. name or "restricted-tags"
  *
- * @returns {null} Returns nothing
+ * @returns {void} Returns nothing
  *
  * @example deletePropertyInRecord("youtube-limitations", 1, "restricted-tags");
  */

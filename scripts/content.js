@@ -1,70 +1,85 @@
 /**
  * Author: Lorenzo Ramirez
- * Purpose: This script is injected into the YouTube page 
- *  and removes elements from the page
- * 
+ * Purpose: This script is injected into the YouTube page
+ *  and hides elements from the page
+ *
  */
 
-/**TODO: 
- * 1. Time tracking resets at wrong times
-*/
+/** SECTION - FUNCTION DECLARATIONS */
 
-/** 
- * SECTION - FUNCTION DECLARATIONS
- * 
-*/
-
-/**
- * Sends message to service worker to retrieve or set settings from storage using the background script
- * 
- * @param {Object} valueToSend - The value to send to the background script
- * 
- * @returns {Promise} A promise that resolves with the retrieved settings
- * 
- * @example sendMessageToServiceWorker({operation: "retrieve", key: 'settingKey'})
+/** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
+ * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
+ *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
+ *
+ * @param {object} message - holds the operation name and other properties to send to servicer worker
+ *
+ * @returns {various} - can return storage objects or status response messages
+ *
+ * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
+ *
  */
-const sendMessageToServiceWorker = (valueToSend) => {
-  // Send a message to the background script
-  return new Promise ((resolve, reject) => {
-    chrome.runtime.sendMessage(valueToSend, function(response) {
-      resolve(response.data);
+function sendMessageToServiceWorker(message) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(message, (response) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(response);
+      }
     });
   });
 }
 
-/**
- * Removes the element with the given ID
- * 
- * @param {string} elementID - ID of the element to remove
- * @param {string} elementName - Name of the element to remove
- * 
- * @returns {void} Returns nothing
- * 
- * @example removeDOMContent('elementID', 'elementName')
+/** FUNCTION: hides the element with the given ID
+ *
+ * @param {string} elementID - ID of the element to hide
+ *
+ * @param {string} elementName - Descriptive name of the element that's being hidden
+ *
+ * @returns {void}
+ *
+ * @example hideDOMContent("#guide-inner-content [title='Home']", "Home Button - Drawer Event Listener")
  */
-const removeDOMContent = (elementID, elementName) => {
+function hideDOMContent(elementID, elementName) {
   try {
-    const contentItems = document.querySelectorAll(elementID);
-    contentItems.forEach((item) => {
-      item.style.display = "none";
-    })
-    console.log(`removed ${elementName}`);
+    // Ensure the DOM is fully loaded before running the script
+    $(document).ready(function () {
+      const contentItems = $(elementID);
+
+      // NOTE: Doesn't throw error if drawer is closed since it's rechecked when it's opened
+      if (contentItems.length === 0) {
+        throw new Error(
+          `${elementName}: Element with ID ${elementID} not found.`
+        );
+      }
+
+      // Iterate through all found elements to remove them
+      // contentItems.forEach((_, item) => {
+      contentItems.each((_, item) => {
+        // $(item).css("display", "none");
+        // $(item).slideUp();
+        $(item).remove();
+        console.log(`Hides ${elementName}: ${elementID}`);
+      });
+    });
   } catch (error) {
-    console.log(`Error removing ${elementName}: ${error}`);
+    console.log(
+      `Error removing ${elementID} for ${elementName}: ${error.message}`
+    );
   }
 }
 
-/**
- * Updates the HTML of the current web page with the specified HTML page
- * 
+/** TODO: FUNCTION: Updates the HTML of the current web page with the specified HTML page
+ *
  * @param {string} htmlPage - The path to the HTML page to be loaded
- * 
- * @returns {void} Returns nothing
- * 
- * @example updateHTML('/html/blocked-page.html')
+ *
+ * @returns {void}
+ *
+ * @example redirectUser('/html/blocked-page.html')
  */
-function updateHTML (htmlPage) {
-  chrome.runtime.sendMessage({redirect: htmlPage}, function(response) {
+// TODO: needs to redirect to dashboard
+function redirectUser(htmlPage) {
+  chrome.runtime.sendMessage({ redirect: htmlPage }, function (response) {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError.message);
     } else {
@@ -73,14 +88,327 @@ function updateHTML (htmlPage) {
   });
 }
 
-/**
- * Gets current time as of execution
- * 
+/** FUNCTION: Hides all buttons that redirect user's to the YT home page
+ *
+ * @returns {void}
+ *
+ * @example hideHomeButton();
+ */
+// FIXME: unreliable sometimes - needs further testing
+function hideHomeButton() {
+  // YouTube Logo
+  hideDOMContent("#logo > a", "Home Button - YouTube Logo");
+
+  // Drawer home button - will not show if the side drawer haven't been opened yet
+  $("ytd-masthead #guide-button").on("click", function () {
+    setTimeout(() => {
+      // Home Button
+      hideDOMContent(
+        "#guide-inner-content [title='Home']",
+        "Home Button - Drawer Event Listener"
+      );
+      // Home Button as YT Logo
+      hideDOMContent(
+        "ytd-topbar-logo-renderer [title='YouTube Home']",
+        "Home Button - YouTube Logo"
+      );
+    }, 500);
+  });
+
+  // Drawer home button - drawer is already opened
+  if ($("tp-yt-app-drawer").opened) {
+    console.log("drawer opened");
+    hideDOMContent(
+      "#guide-inner-content [title='Home']",
+      "Home Button - Drawer Opened"
+    );
+  }
+
+  // Side home button home page (only exists on home page)
+  if (!window.location.href.includes("/watch?")) {
+    hideDOMContent(
+      "ytd-mini-guide-renderer [title='Home']",
+      "Side Home Button"
+    );
+  }
+}
+
+/** FUNCTION: Hides all buttons that leads to YT Shorts page
+ *
+ * @returns {void}
+ *
+ * @example hideShortsButton();
+ */
+// FIXME: unreliable sometimes - needs further testing
+function hideShortsButton() {
+  // Drawer shorts button - will not show if the side drawer haven't been opened yet
+  $("ytd-masthead #guide-button").on("click", function () {
+    setTimeout(() => {
+      hideDOMContent(
+        "#guide-inner-content a[title='Shorts']",
+        "Shorts Button - Drawer Event Listener"
+      );
+    }, 500);
+  });
+
+  // Drawer home button - drawer is already opened
+  if ($("tp-yt-app-drawer").opened) {
+    hideDOMContent(
+      "#guide-inner-content a[title='Shorts']",
+      "Shorts Button - Drawer Opened"
+    );
+  }
+
+  // Side home button home page (only exists on home page)
+  if (!window.location.href.includes("/watch?")) {
+    hideDOMContent(
+      "ytd-mini-guide-renderer a[title='Shorts']",
+      "Side Shorts Button"
+    );
+  }
+}
+
+/** FUNCTION: Hides all Shorts videos and recommended Shorts
+ *  NOTE: applies to home & playback pages
+ *
+ * @returns {void}
+ *
+ * @example hideShortsContent();
+ */
+function hideShortsContent() {
+  if (window.location.href.includes("/watch?")) {
+    // Shorts content - side recommendations (playback)
+    hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
+  } else if (window.location.href.includes("?search_query=")) {
+    // Shorts chip filter - search page
+    hideDOMContent(
+      "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
+      "shorts chip content - search page"
+    );
+    hideDOMContent(
+      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+      "Shorts Content - search page"
+    );
+  } else if (window.location.href === "https://youtube.com") {
+    // Shorts content - home page
+    hideDOMContent(
+      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+      "Shorts Content - home page"
+    );
+    console.log("should hide shorts");
+  } else if (window.location.href.includes("/shorts/")) {
+    // TODO: redirect to dashboard
+  }
+}
+
+/** FUNCTION: Hides search at top middle of page
+ *  NOTE: applies to home & playback pages
+ *
+ * @returns {void}
+ *
+ * @example hideSearchBar();
+ */
+function hideSearchBar() {
+  hideDOMContent("#center:has(#search)", "Search Bar");
+}
+
+/** FUNCTION: Hides all video recommendations on home page and on side of videos
+ *  NOTE: applies to home & playback pages
+ *
+ * @returns {void}
+ *
+ * @example hideVideoRecommendations();
+ */
+function hideVideoRecommendations() {
+  if (window.location.href.includes("/watch?")) {
+    // Side recommendations - playback
+    hideDOMContent(
+      "#secondary:has(ytd-watch-next-secondary-results-renderer)",
+      "Recommendations on video playback pages"
+    );
+
+    // Removes button to switch to default view because the layout
+    //  is messed up after removing recommendations on that view
+    hideDOMContent(
+      ".ytp-size-button",
+      "Default View Button for recommendations - playback"
+    );
+
+    setTimeout(() => {
+      // Video Wall after videos
+      hideDOMContent(
+        ".videowall-endscreen",
+        "Video Wall after video ends - playback"
+      );
+
+      // FIXME: next video still autoplays
+      // Video Wall after videos
+      // hideDOMContent(
+      //   ".ytp-autonav-endscreen-countdown-overlay",
+      //   "Autoplay screen after video ends - playback"
+      // );
+    }, 5000);
+  } else if (window.location.href === "https://youtube.com") {
+    // Video recommendations - home page
+    hideDOMContent(
+      "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
+      "Recommendations on home pages"
+    );
+  }
+}
+
+/** FUNCTION: Removes the element that loads another section of recommended videos
+ *  NOTE: applies to home & playback pages
+ *
+ * @returns {void}
+ *
+ * @example disableInfiniteRecommendations();
+ */
+function disableInfiniteRecommendations() {
+  hideDOMContent(
+    "#primary ytd-continuation-item-renderer",
+    "Infinite Video Recommendations"
+  );
+}
+
+/** FUNCTION: Hides skip button on videos to avoid moving from video to video easily
+ *
+ * @returns {void}
+ *
+ * @example hideSkipButton();
+ */
+function hideSkipButton() {
+  hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
+}
+
+/** FUNCTION: Hides all comment sections
+ *  NOTE: applies to playback and shorts pages
+ *
+ * @returns {void}
+ *
+ * @example hideComments();
+ */
+// FIXME: comments sometimes takes too long to load in
+function hideComments() {
+  if (window.location.href.includes("watch")) {
+    hideDOMContent("ytd-comments#comments", "Comments Section on videos");
+  } else if (window.location.href.includes("/shorts/")) {
+    //FIXME: none of this works
+    hideDOMContent(
+      "watch-while-engagement-panel",
+      "Comments Section in Shorts"
+    );
+    hideDOMContent("#comments-button", "Comments button in Shorts");
+    $("#comments-buttons").on("click", function () {
+      console.log("clicked");
+      hideDOMContent(
+        "`${this} watch-while-engagement-panel`",
+        "Comments Section in Shorts"
+      );
+    });
+  }
+}
+
+/** FUNCTION: Retrieves and applies all active limitations to current web page
+ *
+ * @returns {void}
+ *
+ * @example applyActiveLimitations();
+ */
+function applyActiveLimitations() {
+  setTimeout(async () => {
+    try {
+      // Get only active limitations from storage
+      let allActiveLimitations = await sendMessageToServiceWorker({
+        operation: "filterRecords",
+        table: "youtube-limitations",
+        property: "active",
+        value: true,
+      });
+
+      // Iterate through active limitations to apply to current web page
+      for (let index in allActiveLimitations) {
+        // Limitation name property from storage
+        const currentLimitation = allActiveLimitations[index].name;
+
+        // Run hide/disable function that corresponds with the current limitation name
+        switch (currentLimitation) {
+          case "all-pages":
+            if (window.location.href.startsWith("https://youtube.com/")) {
+              redirectUser();
+            }
+            break;
+          case "home-page":
+            hideHomeButton();
+
+            if (window.location.href == "https://youtube.com/") {
+              redirectUser();
+            }
+            break;
+          case "shorts-page":
+            hideShortsButton();
+
+            if (window.location.href.startsWith("https://youtube.com/shorts")) {
+              redirectUser();
+            }
+            break;
+          case "home-button":
+            hideHomeButton();
+            break;
+          case "shorts-button":
+            hideShortsButton();
+            break;
+          case "shorts-content":
+            hideShortsContent();
+            break;
+          case "search-bar":
+            hideSearchBar();
+            break;
+          case "infinite-recommendations":
+            disableInfiniteRecommendations();
+            break;
+          case "video-recommendations":
+            hideVideoRecommendations();
+            break;
+          case "skip-button":
+            if (window.location.href.includes("/watch?")) {
+              hideSkipButton();
+            }
+            break;
+          case "comments-section":
+            if (window.location.href.includes("/watch?")) {
+              hideComments();
+            }
+            break;
+        }
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }, 2000);
+}
+
+/** FUNCTION: Get current date
+ *
+ * @returns {string} Returns current date in ISO standard format (yyyy-MM-dd) "2024-10-15"
+ *
+ * @example let curretnDate = getCurrentDate();
+ */
+function getCurrentDate() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+/** FUNCTION: Gets current time as of execution
+ *
  * @returns {string} Returns the current time in a string format
- * 
+ *
  * @example let currentTime = getCurrentTime();
  */
-function getCurrentTime () {
+function getCurrentTime() {
   let currentDateTime = new Date();
   let currentHour = currentDateTime.getHours();
   let currentMinute = currentDateTime.getMinutes();
@@ -88,77 +416,74 @@ function getCurrentTime () {
   return `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`;
 }
 
-/**
- * Checks stored schedule times and blocks YouTube accordingly
- * 
- * @returns {void} Returns nothing
- * 
+/** TODO: FUNCTION: Checks stored schedule times and blocks YouTube accordingly
+ *
+ * @returns {void}
+ *
  * @example checkSchedules();
  */
-function checkSchedules () {
-  // console.log("CHECKING SCHEDULE TIMES...");
+// function checkSchedules () {
+//   // console.log("CHECKING SCHEDULE TIMES...");
 
-  // Settings IDs
-  let scheduleList = [
-    "sunday", "monday", "tuesday", 
-    "wednesday", "thursday", "friday", 
-    "saturday"
-  ];
+//   // Settings IDs
+//   let scheduleList = [
+//     "sunday", "monday", "tuesday",
+//     "wednesday", "thursday", "friday",
+//     "saturday"
+//   ];
 
-  // Empty array to store the boolean values when the current time is checked with schedule times
-  let blockYouTube = [];
-  
-  // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
-  let currentTime = getCurrentTime();
-  let currentDay = new Date().getDay();
+//   // Empty array to store the boolean values when the current time is checked with schedule times
+//   let blockYouTube = [];
 
-  // Iterates through schedule days and only gets schedule times when it is the current day
-  // FIXME: if there's any time scheduled that day, it will block youtube
-  scheduleList.forEach(async (day, index) => {
-    console.log(currentDay, index, day)
-    if (currentDay === index) {
-      console.log(currentDay)
-      let times = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "schedule-days", key: day});
-  
-      console.log(`times: ${times}`)
-      // Checking if current time is within schedule times
-      if (times) { // All day schedule
-        blockYouTube.push(true);
-      } else if (times === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
-        timesSelection = times.slice(1) // Only grabs the schedule intervals (array)
+//   // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
+//   let currentTime = getCurrentTime();
+//   let currentDay = new Date().getDay();
 
-        // Iterates through each schedule interval
-        timesSelection.forEach((time) => {
-          // Adds true value to blockYoutube array if current time is between interval
-          if (currentTime >= time[0] && currentTime <= time[1]) {
-            blockYouTube.push(true);
-          }
-  
-        })
-      }
-    }
-    // Redirects user to blocked page if there is at least true value in blockYouTube array
-    //  & sets youtube-site restriction setting to true
-    if (blockYouTube.includes(true)) {
-      // console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
-      // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: true});
-      //updateHTML("/html/blocked-page.html");
-      return;
-    } else { 
-      // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
-      // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: false});
-      // console.log("NOT WITHIN SCHEDULE TIMES");
-    }
-  })
-}
+//   TODO: get current day of week, filter records for just that day instead of iterating through all days
 
-/**
- * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
- *
- */
+//   // Iterates through schedule days and only gets schedule times when it is the current day
+//   // FIXME: if there's any time scheduled that day, it will block youtube
+//   scheduleList.forEach(async (day, index) => {
+//     console.log(currentDay, index, day)
+//     if (currentDay === index) {
+//       console.log(currentDay)
+//       let times = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "schedule-days", key: day});
 
-// Checks schedule time when YouTube page first loads
-checkSchedules();
+//       console.log(`times: ${times}`)
+//       // Checking if current time is within schedule times
+//       if (times) { // All day schedule
+//         blockYouTube.push(true);
+//       } else if (times === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
+//         timesSelection = times.slice(1) // Only grabs the schedule intervals (array)
+
+//         // Iterates through each schedule interval
+//         timesSelection.forEach((time) => {
+//           // Adds true value to blockYoutube array if current time is between interval
+//           if (currentTime >= time[0] && currentTime <= time[1]) {
+//             blockYouTube.push(true);
+//           }
+
+//         })
+//       }
+//     }
+//     // Redirects user to blocked page if there is at least true value in blockYouTube array
+//     //  & sets youtube-site restriction setting to true
+//     if (blockYouTube.includes(true)) {
+//       // console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
+//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: true});
+//       //updateHTML("/html/blocked-page.html");
+//       return;
+//     } else {
+//       // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
+//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: false});
+//       // console.log("NOT WITHIN SCHEDULE TIMES");
+//     }
+//   })
+// }
+
+/** !SECTION */
+
+/** SECTION - EVENT LISTENERS */
 
 /**
  * Starts tracking time when site is focused
@@ -167,213 +492,102 @@ checkSchedules();
 
 // Starts timer immediately, even if not focused at first
 let startTime = new Date();
-console.log(`start time immediately ${startTime}`);
+// console.log(`start time immediately ${startTime}`);
 
 // Starts timer when YouTube site is focused
 window.addEventListener("focus", (event) => {
   startTime = new Date();
-  console.log(`start time on focus ${startTime}`);
-  
+  // console.log(`start time on focus ${startTime}`);
+
   // Checks schedule every time the page is focused
   //  to make sure any new schedules are applied without
   //  the need to reload page
-  checkSchedules();
+  // checkSchedules();
 });
-
 
 // Stops tracking and updates time tracking storage values
 // Get current time when tracking ends & compares that with time when tracking started
-window.addEventListener("blur", async (event) => {  
+window.addEventListener("blur", async (event) => {
   // Calculates elapsed time
   const endTime = new Date();
   const elapsedTime = Math.floor((endTime - startTime) / 1000);
-  console.log(`elapsed time on blur ${elapsedTime}`);
-  
-  // Gets current values of both time usages
-  const allTimeUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'all-time'});
-  const todayUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'today'});
-  const shortsUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'shorts'});
-  const regVideoUsage = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "watch-usage", key: 'regular-video'});
-  
-  // Check if the current URL matches the specific URL
-  if (window.location.href.startsWith('https://www.youtube.com/shorts/')) {
-    console.log("GHDSFGJSGDHJBSEDHJBGYU")
-    // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-shorts', value: elapsedTime + shortsUsage});
-  } else if (window.location.href.startsWith('https://www.youtube.com/watch')){
-    console.log("GHDSFGJSGDHJBSEDHJBGYU")
-    // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-regular', value: elapsedTime + regVideoUsage});
-  }
+  // console.log(`elapsed time on blur ${elapsedTime}`);
 
-  await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'today', value: elapsedTime + todayUsage});
-  await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'all-time', value: elapsedTime + allTimeUsage});
-  
+  // Gets current values of both time usages
+  // const allTimeUsage = await sendMessageToServiceWorker({
+  //   operation: "retrieveNested",
+  //   parentKey: "watch-usage",
+  //   key: "all-time",
+  // });
+  // const todayUsage = await sendMessageToServiceWorker({
+  //   operation: "retrieveNested",
+  //   parentKey: "watch-usage",
+  //   key: "today",
+  // });
+  // const shortsUsage = await sendMessageToServiceWorker({
+  //   operation: "retrieveNested",
+  //   parentKey: "watch-usage",
+  //   key: "shorts",
+  // });
+  // const regVideoUsage = await sendMessageToServiceWorker({
+  //   operation: "retrieveNested",
+  //   parentKey: "watch-usage",
+  //   key: "regular-video",
+  // });
+
+  // Check if the current URL matches the specific URL
+  // if (window.location.href.startsWith("https://www.youtube.com/shorts/")) {
+  //   console.log("GHDSFGJSGDHJBSEDHJBGYU");
+  //   // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-shorts', value: elapsedTime + shortsUsage});
+  // } else if (window.location.href.startsWith("https://www.youtube.com/watch")) {
+  //   console.log("GHDSFGJSGDHJBSEDHJBGYU");
+  //   // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-regular', value: elapsedTime + regVideoUsage});
+  // }
+
+  // await sendMessageToServiceWorker({
+  //   operation: "setNested",
+  //   parentKey: "watch-usage",
+  //   key: "today",
+  //   value: elapsedTime + todayUsage,
+  // });
+  // await sendMessageToServiceWorker({
+  //   operation: "setNested",
+  //   parentKey: "watch-usage",
+  //   key: "all-time",
+  //   value: elapsedTime + allTimeUsage,
+  // });
+
   // Gets video's play/pause button to simulate a mouse click on it
-  const playButton = document.getElementsByClassName("ytp-play-button ytp-button").item(0);
+  // const playButton = document
+  //   .getElementsByClassName("ytp-play-button ytp-button")
+  //   .item(0);
 
   // Pause video if it is playing
   // Effectively keeps accurate tracking for when the user is *watching* YouTube
-  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-    playButton.click();
-  }
+  // if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
+  //   playButton.click();
+  // }
 });
 
-// A list of names of all settings
-let settingTitles = [
-  'all-pages', 'home-page', 'shorts-content', 
-  'home-btn', 'autoplay-btn', 'skip-btn',
-  'recommendations', 'recommendation-refresh', 'search-bar', 
-  'shorts-btn' //TODO: Needs to be added below
-];
-
-// Removes ability to refresh recommendations every time the window is resized.
+// hides ability to refresh recommendations every time the window is resized.
 // That tag is reset when the window is resized, so this is the workaround
-window.addEventListener("resize", () => {
-  setTimeout(() => {
-    removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
-  }, 1000);
-});
+// window.addEventListener("resize", () => {
+//   setTimeout(() => {
+//     hideDOMContent(
+//       "ytd-continuation-item-renderer",
+//       "Continuous Recommendations"
+//     );
+//   }, 1000);
+// });
 
-setTimeout(() => {
-  settingTitles.forEach(async (settingTitle) => {
-    let returnValue = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "addictive-elements", key: settingTitle});
-  
-    // If settings value is set to true, it restricts that element
-    if (returnValue) {
-      switch (settingTitle) {
-        // YouTube Site
-        case settingTitles[0]:
-          try {
-            if (window.location.href.startsWith('https://www.youtube.com/') ) {
-              console.log("blocks entire site");
-              //updateHTML("/html/blocked-page.html");
-            } 
-          } catch {
-            console.log("troubles with entire youtube site")
-          }
-          break;
-        
-        // Home Page
-        case settingTitles[1]:
-          try {
-            if (window.location.href === 'https://www.youtube.com/') {
-              console.log("blocks home page");
-              //updateHTML("/html/blocked-page.html");
-            } 
-          } catch {
-            console.log("troubles with home page")
-          }
-  
-          // Home button in side nav bar
-          // NOTE: the side nav bar must be open at least once before the button can be removed
-          try {
-            document.querySelectorAll("ytd-guide-section-renderer #items")[0].firstChild.style.display = "none"
-            
-            // Home button in top bar
-            removeDOMContent('ytd-topbar-logo-renderer', 'Home button in top bar');
-          } catch (error) {
-            console.log("Side Nav hasn't been open yet to remove home button");
-          }
+/** !SECTION */
 
-  
-          break;
-          
-        // Shorts Page
-        case settingTitles[2]:
-          try {
-            if (window.location.href.startsWith('https://www.youtube.com/shorts/')) { // Shorts page
-              console.log("blocks shorts page");
-              //updateHTML("/html/blocked-page.html");
-            } 
-            else if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
-              removeDOMContent("ytd-reel-shelf-renderer", "Shorts");
-              document.querySelectorAll('ytd-guide-entry-renderer')[1].style.display = 'none';
-            } 
-            else if (window.location.href.startsWith('https://www.youtube.com')) { // Home page
-              removeDOMContent("ytd-rich-section-renderer", "Shorts");
-              document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[1].style.display = 'none';
-            }
-          } catch {
-            console.log("NOT on shorts page")
-          }
-          break;
-        
-        // Home Button
-        case settingTitles[3]:
-          try {
-            removeDOMContent("ytd-topbar-logo-renderer", "Home Button");
-    
-            if (window.location.href.startsWith('https://www.youtube.com/results') || window.location.href.startsWith('https://www.youtube.com/watch')) { // Search page
-              document.querySelectorAll('ytd-guide-entry-renderer')[0].style.display = 'none';
-            } 
-            else if (window.location.href.startsWith('https://www.youtube.com')) {
-              document.querySelectorAll('ytd-guide-section-renderer #items ytd-guide-entry-renderer')[0].style.display = 'none';
-            }
-          } catch {
-            console.log("troubles with button")
-          }
-  
-          break;
-    
-        // Autoplay Button
-        //TODO: Remove feature - unable to disable autoplay
-        case settingTitles[4]:
-          try {
-            document.querySelector('.ytp-autonav-toggle-button').ariaChecked = 'false';
-            document.querySelector('.ytp-autonav-toggle-button-container').parentNode.style.display = 'none';
-          } catch (error) {
-            console.log(`Error removing autoplay button: ${error}`);
-          }
-          break;
-          
-        // Skip Button
-        case settingTitles[5]:
-          removeDOMContent('.ytp-next-button', 'Next Video Button');
-          break;
-    
-        //TODO: doesn't remove all videos
-        // Recommended Videos
-        case settingTitles[6]:
-          try {
-            removeDOMContent('#header', 'filters on search & home pages');
-            removeDOMContent('yt-related-chip-cloud-renderer', 'filters video playback pages');
-            removeDOMContent('ytd-compact-video-renderer', 'Recommendations on video playback pages');
-            removeDOMContent('ytd-rich-grid-row', 'Recommendations on home pages');
-            removeDOMContent('#secondary', "recommendations in secondary column")
-          } catch {
-            console.log("troubles with recommendations")
-          }
+/** SECTION - ONLOAD FUNCTION CALLS */
 
-          // TODO: Removes recommended video wall after video ends
-          // let videoWallClassName = "html5-endscreen ytp-player-content videowall-endscreen ytp-show-tiles";
-          // let intervalID = setInterval(function() {
-          //   try {
-          //     removeClassElement(videoWallClassName, 'recommendedVideosWall');
-          //     return;
-          //   } catch (error) {
-          //     console.log("Video Wall Hasn't Appeared Yet...")
-          //   }
-          // }, 1000);
-          break;
-         
-        // Continuous Recommendations
-        case settingTitles[7]:
-          try {
-            removeDOMContent('ytd-continuation-item-renderer', 'Continuous Recommendations');
-          } catch {
-            console.log("troubles continuous recommendations")
-          }
-          break;
-  
-        // Search Bar
-        case settingTitles[8]:
-          try {
-            removeDOMContent('ytd-masthead #container #center', 'Search Bar');
-          } catch {
-            console.log("troubles with search bar")
-          }
-          break;
-      }
-    }
-  });
-  
-}, 2000);
+//
+applyActiveLimitations();
+
+// Checks schedule time when YouTube page first loads
+// checkSchedules();
+
+/** !SECTION */

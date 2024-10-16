@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "js": [
-        "/scripts/global-functions.js",
+        "/scripts/jquery-3.7.1.min.js",
         "/scripts/content.js"
       ],
       "matches": ["*://www.youtube.com/*"],
