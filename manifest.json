@@ -24,7 +24,7 @@
         "/scripts/jquery-3.7.1.min.js",
         "/scripts/content.js"
       ],
-      "matches": ["*://www.youtube.com/*"],
+      "matches": ["<all_urls>"],
       "runAt": "document_end"
     }
   ],

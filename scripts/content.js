@@ -30,6 +30,28 @@ function sendMessageToServiceWorker(message) {
   });
 }
 
+/** FUNCTION: Gets all additional blocked websites and redirects the user if the current website is blocked
+ *
+ * @returns {void}
+ *
+ * @example checkBlockedWebsite()
+ */
+async function checkBlockedWebsite() {
+  let blockedWebsites = await sendMessageToServiceWorker({
+    operation: "selectAll",
+    table: "additional-websites",
+  });
+
+  // Iterates through each blocked website, removes 'https://', and checks if that is in the current URL
+  // -- redirects user to dashboard page
+  blockedWebsites.forEach((element) => {
+    let baseURL = element.url.split("//");
+    if (window.location.href.includes(baseURL[1])) {
+      redirectUser();
+    }
+  });
+}
+
 /** FUNCTION: hides the element with the given ID
  *
  * @param {string} elementID - ID of the element to hide
@@ -69,23 +91,25 @@ function hideDOMContent(elementID, elementName) {
   }
 }
 
-/** TODO: FUNCTION: Updates the HTML of the current web page with the specified HTML page
+/** FUNCTION: Updates the HTML of the current web page with the specified HTML page
  *
  * @param {string} htmlPage - The path to the HTML page to be loaded
  *
  * @returns {void}
  *
- * @example redirectUser('/html/blocked-page.html')
+ * @example redirectUser()
  */
-// TODO: needs to redirect to dashboard
-function redirectUser(htmlPage) {
-  chrome.runtime.sendMessage({ redirect: htmlPage }, function (response) {
-    if (chrome.runtime.lastError) {
-      console.error(chrome.runtime.lastError.message);
-    } else {
-      console.log(response);
+function redirectUser() {
+  chrome.runtime.sendMessage(
+    { redirect: "/html/dashboard.html" },
+    function (response) {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        console.log(response);
+      }
     }
-  });
+  );
 }
 
 /** FUNCTION: Hides all buttons that redirect user's to the YT home page
@@ -197,7 +221,7 @@ function hideShortsContent() {
     );
     console.log("should hide shorts");
   } else if (window.location.href.includes("/shorts/")) {
-    // TODO: redirect to dashboard
+    redirectUser();
   }
 }
 
@@ -219,6 +243,7 @@ function hideSearchBar() {
  *
  * @example hideVideoRecommendations();
  */
+// FIXME: doesn't remove recommendations on any page and doesn't show any errors
 function hideVideoRecommendations() {
   if (window.location.href.includes("/watch?")) {
     // Side recommendations - playback
@@ -316,76 +341,78 @@ function hideComments() {
  * @example applyActiveLimitations();
  */
 function applyActiveLimitations() {
-  setTimeout(async () => {
-    try {
-      // Get only active limitations from storage
-      let allActiveLimitations = await sendMessageToServiceWorker({
-        operation: "filterRecords",
-        table: "youtube-limitations",
-        property: "active",
-        value: true,
-      });
+  if (window.location.href.includes("youtube.com")) {
+    setTimeout(async () => {
+      try {
+        // Get only active limitations from storage
+        let allActiveLimitations = await sendMessageToServiceWorker({
+          operation: "filterRecords",
+          table: "youtube-limitations",
+          property: "active",
+          value: true,
+        });
 
-      // Iterate through active limitations to apply to current web page
-      for (let index in allActiveLimitations) {
-        // Limitation name property from storage
-        const currentLimitation = allActiveLimitations[index].name;
+        // Iterate through active limitations to apply to current web page
+        for (let index in allActiveLimitations) {
+          // Limitation name property from storage
+          const currentLimitation = allActiveLimitations[index].name;
 
-        // Run hide/disable function that corresponds with the current limitation name
-        switch (currentLimitation) {
-          case "all-pages":
-            if (window.location.href.startsWith("https://youtube.com/")) {
-              redirectUser();
-            }
-            break;
-          case "home-page":
-            hideHomeButton();
+          // Run hide/disable function that corresponds with the current limitation name
+          switch (currentLimitation) {
+            case "all-pages":
+              if (window.location.href.includes("youtube.com/")) {
+                redirectUser();
+              }
+              break;
+            case "home-page":
+              hideHomeButton();
 
-            if (window.location.href == "https://youtube.com/") {
-              redirectUser();
-            }
-            break;
-          case "shorts-page":
-            hideShortsButton();
+              if (window.location.href === "https://youtube.com/") {
+                redirectUser();
+              }
+              break;
+            case "shorts-page":
+              hideShortsButton();
 
-            if (window.location.href.startsWith("https://youtube.com/shorts")) {
-              redirectUser();
-            }
-            break;
-          case "home-button":
-            hideHomeButton();
-            break;
-          case "shorts-button":
-            hideShortsButton();
-            break;
-          case "shorts-content":
-            hideShortsContent();
-            break;
-          case "search-bar":
-            hideSearchBar();
-            break;
-          case "infinite-recommendations":
-            disableInfiniteRecommendations();
-            break;
-          case "video-recommendations":
-            hideVideoRecommendations();
-            break;
-          case "skip-button":
-            if (window.location.href.includes("/watch?")) {
-              hideSkipButton();
-            }
-            break;
-          case "comments-section":
-            if (window.location.href.includes("/watch?")) {
-              hideComments();
-            }
-            break;
+              if (window.location.href.includes("youtube.com/shorts")) {
+                redirectUser();
+              }
+              break;
+            case "home-button":
+              hideHomeButton();
+              break;
+            case "shorts-button":
+              hideShortsButton();
+              break;
+            case "shorts-content":
+              hideShortsContent();
+              break;
+            case "search-bar":
+              hideSearchBar();
+              break;
+            case "infinite-recommendations":
+              disableInfiniteRecommendations();
+              break;
+            case "video-recommendations":
+              hideVideoRecommendations();
+              break;
+            case "skip-button":
+              if (window.location.href.includes("/watch?")) {
+                hideSkipButton();
+              }
+              break;
+            case "comments-section":
+              if (window.location.href.includes("/watch?")) {
+                hideComments();
+              }
+              break;
+          }
         }
+      } catch (error) {
+        console.error(error.message);
       }
-    } catch (error) {
-      console.error(error.message);
-    }
-  }, 2000);
+    }, 2000);
+  }
 }
 
 /** FUNCTION: Get current date
@@ -584,10 +611,13 @@ window.addEventListener("blur", async (event) => {
 
 /** SECTION - ONLOAD FUNCTION CALLS */
 
-//
+// Removes any YouTube element that is current limited (only on YouTube site)
 applyActiveLimitations();
 
-// Checks schedule time when YouTube page first loads
+// Redirects user from current website if it is in the blocked website list
+checkBlockedWebsite();
+
+// Redirects user to dashboard from YouTube if a limited schedule is active
 // checkSchedules();
 
 /** !SECTION */

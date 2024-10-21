@@ -362,7 +362,8 @@ button[type="submit"]:active {
   transform: translateY(4px);
 }
 
-.underline-hover:hover p::after {
+.underline-hover:hover p::after,
+.underline-hover:focus p::after {
   width: 100%;
 }
 
@@ -383,6 +384,10 @@ button[type="submit"]:active {
   background: none;
   box-shadow: none;
   padding: 0;
+}
+
+.text-button:focus-visible {
+  outline: none;
 }
 
 .group-of-buttons {
@@ -419,7 +424,7 @@ button[type="submit"]:active {
   justify-content: flex-end;
   gap: 1.2rem;
   position: absolute;
-  right: 14rem;
+  right: 16rem;
   /* top: 6rem; */
   background: var(--surface-light);
   width: fit-content;
@@ -458,7 +463,8 @@ span:has(> button[type="submit"]) {
 }
 
 #limitations-success-msg,
-#creators-success-msg {
+#creators-success-msg,
+#website-success-msg {
   display: none;
 
   .material-symbols-rounded {
@@ -477,7 +483,8 @@ span:has(> button[type="submit"]) {
 }
 
 #limitations-failure-msg,
-#creators-failure-msg {
+#creators-failure-msg,
+#website-failure-msg {
   display: none;
 
   .material-symbols-rounded {
@@ -638,7 +645,7 @@ nav {
     display: flex;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 2.4rem;
+    gap: 2rem;
     align-self: stretch;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -1147,7 +1154,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
 
   h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   p {
@@ -1282,6 +1289,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
   legend {
     margin-bottom: 0.8rem;
+    font-size: 1.7rem;
   }
   ul {
     flex-direction: column;
@@ -1292,10 +1300,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     width: 100%;
     justify-content: space-between;
   }
-  h1 {
+  h1:not(.empty-content h1) {
     font-size: 1.6rem;
   }
-  p {
+  p:not(.button-with-msg p):not(.empty-content p) {
     color: var(--text-dark);
     width: 50ch;
     text-overflow: ellipsis;
@@ -1303,8 +1311,16 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
 
   li:has(button:hover) h1,
-  li:has(button:hover) p {
+  li:has(button:hover) p,
+  li:has(button:focus) h1,
+  li:has(button:focus) p {
     font-weight: 600;
+  }
+  hr {
+    width: 100%;
+  }
+  .content {
+    gap: 1.6rem;
   }
 }
 

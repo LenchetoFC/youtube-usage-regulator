@@ -1,3 +1,10 @@
+// TODO: look into adding function properties to storage objects for modifying them maybe?
+// Refer Fireship 100+ JavaScript concepts you need to know
+
+// TODO: add try catch to ALL async functions
+
+// Bundle project using Module Bundling
+
 /**
  * SECTION - DEFAULT DATABASE
  */
@@ -142,6 +149,8 @@ const database = {
       "quick-add": false,
     },
   ],
+
+  additionalWebsites: [],
 };
 
 /** Initializes default database in Chrome Storage Sync if doesn't exist */
@@ -153,6 +162,7 @@ chrome.storage.sync.get(
     "watch-times",
     "schedules",
     "preferred-creators",
+    "additional-websites",
   ],
   (result) => {
     if (!result["misc-settings"]) {
@@ -181,6 +191,11 @@ chrome.storage.sync.get(
     if (!result["preferred-creators"]) {
       chrome.storage.sync.set({
         "preferred-creators": database.preferredCreators,
+      });
+    }
+    if (!result["additional-websites"]) {
+      chrome.storage.sync.set({
+        "additional-websites": database.additionalWebsites,
       });
     }
   }
@@ -452,8 +467,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // Gets records by ID
     selectRecordById(request.table, request.index)
       .then((table) => sendResponse(table))
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error retrieving table ${request.table}, id ${request.index}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -461,8 +479,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // Gets all records from a specified table
     selectAllRecords(request.table)
       .then((table) => sendResponse(table))
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error retrieving table ${request.table}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -470,8 +491,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // Filters records
     filterRecords(request.table, request.property, request.value)
       .then((filteredData) => sendResponse(filteredData))
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error filtering table ${request.table}, property ${request.property}, value ${request.value}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -480,13 +504,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     updateRecords(request.table, request.newRecords)
       .then((records) => {
         sendResponse({
-          data: `Records set successfully for table ${
+          data: `Successful updated table ${
             request.table
-          } with ${JSON.stringify(records)}`,
+          }, new records ${JSON.stringify(records)}`,
         });
       })
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error updating table ${
+            request.table
+          }, new records ${JSON.stringify(request.newRecords)}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -500,15 +529,22 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     )
       .then(() => {
         sendResponse({
-          data: `Record updated successfully for table ${
-            request.table
-          } with column ${request.column}, ${
-            request.value
-          } with new records ${JSON.stringify(request.newRecords)}.`,
+          data: `Successfully updated table ${request.table} by column ${
+            request.column
+          }, ${request.value} with new records ${JSON.stringify(
+            request.newRecords
+          )}.`,
         });
       })
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error updating table ${request.table} by column ${
+            request.column
+          }, value ${request.value}, new records ${JSON.stringify(
+            request.newRecords
+          )}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -517,11 +553,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     deleteRecordById(request.table, request.id)
       .then(() => {
         sendResponse({
-          data: `Record deleted successfully for table ${request.table}, id ${request.id}`,
+          data: `Successfully deleted of table ${request.table}, id ${request.id}`,
         });
       })
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error deleting table ${request.table}, id ${request.id}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -531,12 +570,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       .then(() => {
         console.log(
           sendResponse({
-            data: `property ${request.property} deleted successfully for table ${request.table}.`,
+            data: `Successfully deleted of table ${request.table}, property ${request.property}, id ${request.id}.`,
           })
         );
       })
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error deleting table ${request.table}, property ${request.property}, id ${request.id} table ${request.table}: ${errorMsg}.`,
+        });
       });
 
     return true;
@@ -545,13 +587,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     insertRecords(request.table, request.records)
       .then(() => {
         sendResponse({
-          data: `Records inserted successfully into table ${
-            request.table
-          } with ${JSON.stringify(request.records)}.`,
+          data: `Successfuly inserted records ${JSON.stringify(
+            request.records
+          )} into table ${request.table}.`,
         });
       })
-      .catch((error) => {
-        sendResponse({ error: true, message: error.message });
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: `Error inserting records ${JSON.stringify(
+            request.records
+          )} into table ${request.table}: ${errorMsg}`,
+        });
       });
 
     return true;

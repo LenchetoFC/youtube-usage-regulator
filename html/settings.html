@@ -83,6 +83,10 @@
                 <button type="submit" id="save-limitations">
                   Save Settings
                 </button>
+                <!-- <button type="submit" id="save-limitations">
+                  <span class="material-symbols-rounded">save</span>
+                  Save Settings
+                </button> -->
               </span>
               <span id="limitations-success-msg" class="button-msg">
                 <span class="material-symbols-rounded">verified</span>
@@ -693,7 +697,7 @@
                               >magnification_small</span
                             >
                             <span
-                              class="material-symbols-rounded"
+                              class="material-symbols-rounded video-recommendations"
                               alt="Theater mode view icon."
                               >rectangle</span
                             >
@@ -889,6 +893,10 @@
             <span class="button-with-msg">
               <span>
                 <button type="submit" id="save-creators">Save Creators</button>
+                <!-- <button type="submit" id="save-creators">
+                  <span class="material-symbols-rounded">save</span>
+                  Save Creators
+                </button> -->
               </span>
               <span id="creators-success-msg" class="button-msg">
                 <span class="material-symbols-rounded">verified</span>
@@ -1446,6 +1454,34 @@
                 own life.
               </h2>
             </span>
+            <span class="button-with-msg">
+              <span>
+                <button
+                  class="misc-button"
+                  id="add-new-website"
+                  popovertarget="popover-new-blocked-website"
+                >
+                  <span class="material-symbols-rounded">add</span>
+                  Add Website
+                </button>
+              </span>
+
+              <span id="website-failure-msg" class="button-msg">
+                <span class="material-symbols-rounded">release_alert</span>
+                <p>Unsuccessfully Deleted Website. Try again later.</p>
+              </span>
+            </span>
+          </header>
+
+          <div class="empty-content">
+            <span class="material-symbols-rounded">block</span>
+            <h1>Add Websites to Block</h1>
+            <p>
+              Add websites to block completely, and categorize them by website
+              type using the dropdown list. You can add broad URL
+              <strong>(reddit.com)</strong> or specific URL
+              <strong>(reddit.com/?feed=home)</strong>.
+            </p>
             <button
               class="misc-button"
               id="add-new-website"
@@ -1454,404 +1490,9 @@
               <span class="material-symbols-rounded">add</span>
               Add Website
             </button>
-          </header>
-
-          <div class="empty-content">
-            <span class="material-symbols-rounded">block</span>
-            <h1>Add Websites to Block</h1>
-            <p>
-              Add websites to block completely, and categorize them by website
-              type using the dropdown list. You can add broad (reddit.com) or
-              specific URL (reddit.com/?feed=home).
-            </p>
-            <button class="misc-button" id="block-website-button-empty">
-              <span class="material-symbols-rounded">add</span>
-              Add Website
-            </button>
           </div>
 
-          <div class="content">
-            <fieldset id="website-type-0">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li id="blocked-website-0">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button
-                    class="misc-button"
-                    data-website-id="blocked-website-0"
-                  >
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-1">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button
-                    class="misc-button"
-                    data-website-id="blocked-website-1"
-                  >
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-2">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button
-                    class="misc-button"
-                    data-website-id="blocked-website-2"
-                  >
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-3">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button
-                    class="misc-button"
-                    data-website-id="blocked-website-3"
-                  >
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-4">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button
-                    class="misc-button"
-                    data-website-id="blocked-website-4"
-                  >
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset>
-
-            <!-- <fieldset id="website-type-2">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li id="blocked-website-5">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-6">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-7">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-8">
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li id="blocked-website-9"> 
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset id="website-type-[id]">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset id="website-type-[id]">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset id="website-type-[id]">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset id="website-type-[id]">
-              <legend>Website Type</legend>
-
-              <ul>
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-
-                <li>
-                  <span>
-                    <h1>Website Name</h1>
-                    <p>https://websitename.com/</p>
-                  </span>
-
-                  <button class="misc-button" id="">
-                    <span class="material-symbols-rounded">close</span>
-                  </button>
-                </li>
-              </ul>
-            </fieldset> -->
-          </div>
+          <div class="content"></div>
         </section>
       </div>
 
@@ -1861,7 +1502,7 @@
           <h1>New Blocked Website</h1>
         </header>
 
-        <form action="" method="" class="content">
+        <form action="" method="" class="content" id="new-blocked-website-form">
           <div class="text-input-container">
             <label for="website-name">Website Name</label>
             <input
@@ -1893,19 +1534,26 @@
               <option value="">Choose a Website Type</option>
               <option value="social-media">Social Media</option>
               <option value="shopping">Shopping</option>
-              <option value="streaming">Streaming Media</option>
+              <option value="streaming">Streaming Content</option>
+              <option value="adult-content">Adult Content</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
           <span class="group-of-buttons">
-            <a
+            <button
               class="text-button underline-hover cancel"
               data-popover="popover-new-blocked-website"
             >
               <p>Cancel</p>
-            </a>
+            </button>
             <span>
-              <button type="submit" value="" popovertargetaction="toggle">
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="block-website"
+              >
                 Block Website
               </button>
             </span>
@@ -1982,12 +1630,12 @@
           </div>
 
           <span class="group-of-buttons">
-            <a
+            <button
               class="text-button underline-hover cancel"
               data-popover="popover-new-watch-mode"
             >
               <p>Cancel</p>
-            </a>
+            </button>
             <span>
               <button type="submit" value="">Save Watch Mode</button>
             </span>

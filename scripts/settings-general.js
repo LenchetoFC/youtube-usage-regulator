@@ -12,34 +12,6 @@
 
 /** SECTION - FUNCTION DECLARATIONS */
 
-/** FUNCTION - Creates a new HTML element for an activity and adds it to the 'activity-section' in the document */
-// function insertActivityHTML(activity) {
-//   let activityItem = $("<li></li>").html(`
-//       <div class="activity-item" id="${activity}">
-//         ${activity}
-//         <button>
-//           <img class="icon-delete" src="/images/icon-delete.svg" alt="x delete button">
-//         </button>
-//       </div>
-//   `);
-
-//   activityItem.css("display", "none");
-
-//   $("#activity-section").append(activityItem);
-//   activityItem.slideDown();
-// }
-
-/** FUNCTION - Adds an activity to the 'activities' setting in storage. If the 'activities' setting does not exist, it creates a new one */
-// function addActivityStorage(activity) {
-//   getAllRecords("activities").then((activity) => console.log(activity));
-
-//   getSettings("activities", (result) => {
-//     // Saves new activity to exisiting storage
-//     result.unshift(activity);
-//     setSetting("activities", result);
-//   });
-// }
-
 /** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
  * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
  *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
@@ -218,6 +190,171 @@ function triggerSubmitStatusAnimation(statusMsgId, delayTime) {
     .fadeOut(1000);
 }
 
+// NOTE: ADDITIONAL WEBSITES FUNCTIONS
+
+/** FUNCTION: Removes website from database and web page when delete button is pressed
+ *
+ * @param {int} websiteItemId - website ID from database, just a number
+ *
+ * @param {string} websiteType - website type from database
+ *
+ * @returns {void}
+ *
+ * @example addDeleteWebsiteEventListener(2, "social-media");
+ */
+function addDeleteWebsiteEventListener(websiteItemId, websiteType) {
+  $(`[data-website-id='blocked-website-${websiteItemId}']`).on(
+    "click",
+    async function () {
+      try {
+        // Asks user to confirm deletion
+        if (window.confirm("Permanently delete this website?")) {
+          let deleteWebsite = await sendMessageToServiceWorker({
+            operation: "deleteRecordById",
+            table: "additional-websites",
+            id: parseInt(websiteItemId),
+          });
+
+          // Displays error message if deleting is unsuccessful
+          if (deleteWebsite.error) {
+            triggerSubmitStatusAnimation("#website-failure-msg", 5000);
+
+            throw new Error(`${deleteWebsite.message}`);
+          } else {
+            // Removes website from DOM if deleting is successful
+            $(`#blocked-website-${websiteItemId}`).slideUp("slow", function () {
+              $(this).remove();
+              isWebsiteTypeEmpty(`website-${websiteType}`);
+            });
+          }
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+        // Optionally, you can display an error message to the user here
+      }
+    }
+  );
+}
+
+/** FUNCTION: Checks if any websites are still in the website type group; if so, remove group from DOM
+ *
+ * @param {string} websiteType - website type from database, but follows 'website-' string
+ *
+ * @returns {void}
+ *
+ * @example isWebsiteTypeEmpty(`website-shopping`);
+ */
+function isWebsiteTypeEmpty(websiteType) {
+  console.log($(`#${websiteType} li`).length);
+  if ($(`#${websiteType} li`).length === 0) {
+    $(`#${websiteType}`).slideUp(function () {
+      // Removes the horizontal line below the website type group, then removes the group element
+      $(`#${websiteType} + hr`).remove();
+      $(`#${websiteType}`).remove();
+
+      // Displays empty content if there is no websites left
+      if ($(`#block-websites .content`).children().length === 0) {
+        $(this).css("display", "none");
+
+        $("#block-websites .empty-content").fadeIn().css("display", "flex");
+      }
+    });
+  }
+}
+
+/** FUNCTION: Reformts website type into a header. "social-media" -> "Social Media"
+ *
+ * @param {string} websiteType - website type from database - "social-media"
+ *
+ * @returns {string} formattedWord - "Social Media"
+ *
+ * @example reformatWebsiteType(`social-media`);
+ */
+function reformatWebsiteType(websiteType) {
+  // Split the string by hyphens
+  let splitArray = websiteType.split("-");
+
+  // Capitalize the first letter of each word and join them with spaces
+  let formattedType = splitArray
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return formattedType;
+}
+
+/** FUNCTION: Inserts all websites from database into DOM
+ *
+ * @returns {void}
+ *
+ * @example insertWebsitesIntoDocument();
+ */
+async function insertWebsitesIntoDocument() {
+  // Retrieve all additional websites
+  let allWebsites = await sendMessageToServiceWorker({
+    operation: "selectAll",
+    table: "additional-websites",
+  });
+
+  // If there are no websites in database, display the empty content HTML
+  if (Object.keys(allWebsites).length === 0) {
+    $("#block-websites .content").css("display", "none");
+    $("#block-websites .empty-content").css("display", "flex");
+
+    return; // Skip the rest of the code
+  }
+
+  // Iterates through each website and inserts the website data into DOM
+  for (let index in allWebsites) {
+    let currentWebsite = allWebsites[index];
+
+    // Puts website data into its own object
+    const websiteObj = {
+      id: currentWebsite.id,
+      name: currentWebsite.name,
+      url: currentWebsite.url,
+      type: currentWebsite.type,
+    };
+
+    // Website Item HTML
+    let websiteItem = $(`<li id="blocked-website-${websiteObj.id}"></li>`)
+      .html(`
+      <span>
+       <h1>${websiteObj.name}</h1>
+        <p>${websiteObj.url}</p>
+      </span>
+      <button class="misc-button" data-website-id="blocked-website-${websiteObj.id}">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    `);
+
+    // Inserts website type group if doesn't exist
+    // -- otherwise add website to existing type group
+    if ($(`#website-${websiteObj.type}`).length === 0) {
+      // Reformats website type from database with proper capitalization
+      let reformattedType = reformatWebsiteType(websiteObj.type);
+
+      // Website Type Group Item
+      let websiteTypeItem = $(`
+        <fieldset id="website-${websiteObj.type}">
+        </fieldset>`).html(`<legend>${reformattedType}</legend> <ul></ul>`);
+
+      // Append new website type group and append new website item
+      // $("#block-websites .content").append(websiteTypeItem);
+      $("#block-websites .content").append(websiteTypeItem).append("<hr>");
+      $(`#website-${websiteObj.type} ul`).append(websiteItem);
+      websiteItem.slideDown();
+    } else {
+      // Append new website item to existing website type group
+      $(`#website-${websiteObj.type} ul`).append(websiteItem);
+      websiteItem.slideDown();
+    }
+
+    // Adds an event listener to all website items to delete them from DOM and database
+    addDeleteWebsiteEventListener(websiteObj.id, websiteObj.type);
+  }
+}
+
 /** !SECTION */
 
 /** SECTION - ONLOAD FUNCTION CALLS */
@@ -249,6 +386,9 @@ getActiveQuickActivations()
   .catch((error) => {
     console.error(error);
   });
+
+/** ONLOAD FUNCTION CALL: Inserts all websites from database into DOM */
+insertWebsitesIntoDocument();
 
 /** !SECTION */
 
@@ -388,17 +528,65 @@ $("#save-creators").on("click", function () {
   }, 2000);
 });
 
-/** TODO: EVENT LISTENER: Removes website from database and web page when delete button is pressed */
-$("[id^='blocked-website-'] button").on("click", function () {
-  const websiteId = $(this).attr("data-website-id");
+// NOTE: Additional Websites
+/** EVENT LISTENER: Saves new additional website to database */
+$("#block-website").on("click", async function (event) {
+  try {
+    // Disable default form submission event
+    event.preventDefault();
 
-  // Asks user to confirm deletion
-  if (window.confirm("Permanently delete this website?")) {
-    $(`#${websiteId}`).slideUp("slow", function () {
-      $(this).remove();
+    // Get the form element
+    const form = document.getElementById("new-blocked-website-form");
 
-      // TODO: delete website from database through ID
-    });
+    // Check if the form is valid
+    if (!form.checkValidity()) {
+      // Form is invalid, let the browser display the default validation messages
+      form.reportValidity();
+      return;
+    }
+
+    // Disable the submit button
+    const $button = $(this);
+    $button.prop("disabled", true);
+    $button.parent().toggleClass("spin-animation");
+
+    console.log("blocking new website...");
+
+    // Get form values
+    const websiteObj = {
+      name: $("#website-name").val(),
+      url: $("#website-url").val(),
+      type: $("#website-type").val(),
+    };
+
+    setTimeout(async function () {
+      // Re-enable button after animation
+      $button.parent().toggleClass("spin-animation");
+      $button.prop("disabled", false);
+
+      // Inserts new website object into database
+      let insertNewWebsite = await sendMessageToServiceWorker({
+        operation: "insertRecords",
+        table: "additional-websites",
+        records: [websiteObj],
+      });
+
+      // Gets status message from insertion
+      if (insertNewWebsite.error) {
+        console.error("Error inserting new records:", insertNewWebsite.message);
+      } else {
+        console.log(insertNewWebsite.data);
+      }
+
+      // Reload webpage to load in new website
+      location.reload();
+      // $("[id='popover-new-blocked-website']").hide();
+
+      return true;
+    }, 2000);
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 });
 
