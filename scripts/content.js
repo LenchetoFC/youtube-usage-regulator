@@ -123,6 +123,14 @@ function hideHomeButton() {
   // YouTube Logo
   hideDOMContent("#logo > a", "Home Button - YouTube Logo");
 
+  setTimeout(() => {
+    // Side Home Button
+    hideDOMContent(
+      "ytd-mini-guide-entry-renderer a[title='Home']",
+      "Side Home Button - timeout 500"
+    );
+  }, 500);
+
   // Drawer home button - will not show if the side drawer haven't been opened yet
   $("ytd-masthead #guide-button").on("click", function () {
     setTimeout(() => {
@@ -134,7 +142,13 @@ function hideHomeButton() {
       // Home Button as YT Logo
       hideDOMContent(
         "ytd-topbar-logo-renderer [title='YouTube Home']",
-        "Home Button - YouTube Logo"
+        "Home Button - YouTube Logo on guide button click"
+      );
+
+      // Side Home Button
+      hideDOMContent(
+        "ytd-mini-guide-entry-renderer a[title='Home']",
+        "Side Home Button - on guide button click"
       );
     }, 500);
   });
@@ -152,7 +166,7 @@ function hideHomeButton() {
   if (!window.location.href.includes("/watch?")) {
     hideDOMContent(
       "ytd-mini-guide-renderer [title='Home']",
-      "Side Home Button"
+      "Side Home Button - home page"
     );
   }
 }
@@ -165,6 +179,14 @@ function hideHomeButton() {
  */
 // FIXME: unreliable sometimes - needs further testing
 function hideShortsButton() {
+  setTimeout(() => {
+    // Side Shorts button
+    hideDOMContent(
+      "ytd-mini-guide-entry-renderer a[title='Shorts']",
+      "Side Shorts Button - timeout 500"
+    );
+  }, 500);
+
   // Drawer shorts button - will not show if the side drawer haven't been opened yet
   $("ytd-masthead #guide-button").on("click", function () {
     setTimeout(() => {
@@ -172,6 +194,12 @@ function hideShortsButton() {
         "#guide-inner-content a[title='Shorts']",
         "Shorts Button - Drawer Event Listener"
       );
+
+      // Side Shorts button
+      // hideDOMContent(
+      //   "ytd-mini-guide-entry-renderer a[title='Shorts']",
+      //   "Side Shorts Button - on guide button click"
+      // );
     }, 500);
   });
 
@@ -187,7 +215,7 @@ function hideShortsButton() {
   if (!window.location.href.includes("/watch?")) {
     hideDOMContent(
       "ytd-mini-guide-renderer a[title='Shorts']",
-      "Side Shorts Button"
+      "Side Shorts Button - home page"
     );
   }
 }
@@ -200,6 +228,9 @@ function hideShortsButton() {
  * @example hideShortsContent();
  */
 function hideShortsContent() {
+  // Hides shorts button as well
+  hideShortsButton();
+
   if (window.location.href.includes("/watch?")) {
     // Shorts content - side recommendations (playback)
     hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
@@ -213,14 +244,22 @@ function hideShortsContent() {
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
       "Shorts Content - search page"
     );
-  } else if (window.location.href === "https://youtube.com") {
+  } else if (window.location.href.includes("youtube.com")) {
     // Shorts content - home page
     hideDOMContent(
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
       "Shorts Content - home page"
     );
+
+    hideDOMContent(
+      "ytd-rich-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+      "Shorts Content - home page other try"
+    );
     console.log("should hide shorts");
-  } else if (window.location.href.includes("/shorts/")) {
+  }
+
+  // Redirects user if they are on shorts page
+  if (window.location.href.includes("/shorts/")) {
     redirectUser();
   }
 }
@@ -248,7 +287,7 @@ function hideVideoRecommendations() {
   if (window.location.href.includes("/watch?")) {
     // Side recommendations - playback
     hideDOMContent(
-      "#secondary:has(ytd-watch-next-secondary-results-renderer)",
+      "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
       "Recommendations on video playback pages"
     );
 
@@ -273,7 +312,7 @@ function hideVideoRecommendations() {
       //   "Autoplay screen after video ends - playback"
       // );
     }, 5000);
-  } else if (window.location.href === "https://youtube.com") {
+  } else if (window.location.href.includes("youtube.com")) {
     // Video recommendations - home page
     hideDOMContent(
       "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
@@ -367,7 +406,7 @@ function applyActiveLimitations() {
             case "home-page":
               hideHomeButton();
 
-              if (window.location.href === "https://youtube.com/") {
+              if (window.location.href === "https://www.youtube.com/") {
                 redirectUser();
               }
               break;
