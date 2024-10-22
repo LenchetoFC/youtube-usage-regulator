@@ -282,7 +282,6 @@ function hideSearchBar() {
  *
  * @example hideVideoRecommendations();
  */
-// FIXME: doesn't remove recommendations on any page and doesn't show any errors
 function hideVideoRecommendations() {
   if (window.location.href.includes("/watch?")) {
     // Side recommendations - playback

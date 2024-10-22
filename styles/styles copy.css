@@ -1760,8 +1760,6 @@ input[type="number"] {
   + = adjacent sibling
 */
 
-/* TODO: Change media queries to "design for mobile first" */
-
 :root {
   color-scheme: dark;
 

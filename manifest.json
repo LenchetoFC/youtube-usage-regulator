@@ -7,7 +7,7 @@
     "16": "/images/icon-logo-ext.png",
     "32": "/images/icon-logo-ext.png",
     "48": "/images/icon-logo-ext.png",
-    "128": "/images/icon-logo-ext.png"
+    "128": "/images/icon-logo-ext-128.png"
   },
   "action": {
     "default_popup": "/html/popup.html",
@@ -30,7 +30,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["/html/blocked-page.html"],
+      "resources": [],
       "matches": ["<all_urls>"]
     }
   ]
