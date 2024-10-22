@@ -8,89 +8,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>YT Regulator Popup</title>
+    <meta
+      name="description"
+      content="Popup for restrict the tube extension. Review your watch times and quick activate some youtube limitations."
+    />
+    <title>Restrict the Tube Popup</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
   </head>
 
   <body class="popup">
     <!-- Popup Header with logo and settings buttons -->
-    <header>
-      <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
+    <nav>
+      <span class="nav-logo">
+        <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
 
-      <div id="header-buttons">
-        <a href="dashboard.html" target="_blank">
-          <img
-            class="schedule-icon"
-            src="/images/icon-stopwatch-solid.svg"
-            alt="stopwatch schedule button"
-          />
-        </a>
+        <span
+          class="current-watch-mode"
+          style="--watch-mode-color: var(--surface-brand)"
+          >Watch Mode</span
+        >
+      </span>
 
-        <a href="settings.html" target="_blank">
-          <img
-            class="gear-icon"
-            src="/images/icon-settings.svg"
-            alt="settings gear button"
-          />
-        </a>
-      </div>
-    </header>
+      <ul>
+        <li>
+          <a href="/html/dashboard.html" target="_blank">
+            <span class="material-symbols-rounded">dashboard</span>
+          </a>
+        </li>
 
-    <main class="content-wrapper">
+        <li>
+          <a href="/html/settings.html" target="_blank">
+            <span class="material-symbols-rounded">settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
       <!-- YouTube Usage -->
-      <section class="popup-section">
-        <h4>YouTube Usage</h4>
+      <section>
+        <h4>Watch Times</h4>
         <section class="usage-section-popup">
           <!-- Displays the current day's usage time -->
-          <section class="usage-time">
+          <span class="usage-time">
+            <span class="material-symbols-rounded"
+              >nest_clock_farsight_analog
+            </span>
             <div>
-              <img src="/images/icon-clock.svg" alt="clock icon" />
               <p>Today</p>
+              <p id="today-watch-time"></p>
             </div>
-            <p id="today-usage"></p>
-          </section>
+          </span>
 
           <!-- Displays total usage time -->
-          <section class="usage-time">
+          <span class="usage-time">
+            <span class="material-symbols-rounded"
+              >nest_clock_farsight_analog
+            </span>
             <div>
-              <img src="/images/icon-clock.svg" alt="clock icon" />
-              <p>All Time</p>
+              <p>Total</p>
+              <p id="total-watch-time"></p>
             </div>
-            <p id="all-time-usage"></p>
-          </section>
+          </span>
         </section>
       </section>
 
-      <!-- Free Video Counter -->
-      <!-- <section class="popup-section free-videos">
-        <h1 id="free-video-count"></h1>
-        <h4>Free Videos Remaining</h4>
-      </section>  -->
-
-      <!-- Button to Disable YouTube Entirely -->
+      <!-- Section of quick activation buttons -->
       <section class="popup-section">
-        <form class="checkbox-form">
-          <div class="checkbox-item">
-            <label>
-              <input
-                id="youtube-site"
-                name="youtube-site"
-                type="checkbox"
-                value="youtube-site"
-              />
-              <span for="youtube-site">Disable YouTube Site</span>
-            </label>
-          </div>
-        </form>
+        <h4>Quick Activations</h4>
+        <form class="checkbox-form" id="quick-act-form"></form>
       </section>
     </main>
 
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script src="/scripts/popup.js"></script>
   </body>

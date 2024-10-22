@@ -227,6 +227,7 @@ main {
   padding-bottom: 1.6rem;
   width: 100%;
   flex-wrap: wrap;
+  height: inherit;
 
   > section,
   > header {
@@ -542,6 +543,7 @@ img {
 /* 
   NAVIGATION BAR
 */
+/* body:not(.popup) > nav { */
 nav {
   display: flex;
   justify-content: space-between;
@@ -644,7 +646,7 @@ nav {
   .content {
     display: flex;
     align-items: flex-start;
-    align-content: flex-start;
+    align-content: space-between;
     gap: 2rem;
     align-self: stretch;
     flex-wrap: wrap;
@@ -652,6 +654,7 @@ nav {
     max-height: 100%;
     overflow-y: auto;
     padding-right: 1.2rem;
+    height: -webkit-fill-available;
   }
 
   .sub-content {
@@ -798,6 +801,68 @@ input[type="checkbox"] {
 
   span {
     visibility: hidden;
+  }
+}
+
+/* 
+  Checkbox with Text Inside
+*/
+.checkbox-form,
+.schedule-new {
+  display: block;
+  /* margin: 10px 0; */
+  /* align-items: flex-start; */
+  /* align-content: flex-start; */
+  column-gap: 0.8rem;
+  columns: 2;
+  /* align-self: stretch; */
+  /* flex-wrap: wrap; */
+
+  & .checkbox-item {
+    float: left;
+    overflow: hidden;
+    margin: 4px 0;
+    background-color: var(--surface-light);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-2xl);
+    transition: 0.3s;
+    height: fit-content;
+    width: 100%;
+    break-inside: avoid;
+
+    & label span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      padding: 8px 16px;
+      cursor: pointer;
+      user-select: none;
+      flex: 1 0 0;
+      font-size: 14px;
+    }
+    & label input {
+      display: none;
+      position: absolute;
+    }
+    & label input + span {
+      color: var(--text-dark);
+      font-weight: 600;
+      transition: 0.4s;
+    }
+  }
+  & .checkbox-item:hover {
+    /* background-color: #e3e3e3; */
+    border-radius: var(--radius-3xl);
+  }
+  & .checkbox-item:active {
+    border-radius: 3rem;
+    /* background-color: #d2d2d2; */
+  }
+  .checkbox-item input:checked + span {
+    background-color: var(--surface-brand);
+    color: var(--text-light);
   }
 }
 
@@ -1168,6 +1233,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   WATCH MODE
 */
 #watch-mode-section {
+  /* NOTE: temporary, until watch mode feature is implemented */
+  display: none;
+
   .content {
     > #watch-modes {
       display: flex;
@@ -1411,6 +1479,100 @@ input[type="color"] {
     font-size: 1.4rem;
     line-height: 200%;
   }
+}
+
+/* 
+  Popup
+*/
+.popup {
+  width: 40rem;
+  padding: 2rem;
+  gap: 1.6rem;
+  margin: 0;
+  background: var(--surface-light);
+
+  main {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6rem;
+
+    > section {
+      /* width: 50%; */
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      align-self: stretch;
+
+      > section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        align-self: stretch;
+      }
+    }
+  }
+
+  nav {
+    background: var(--surface-light);
+    padding: 0;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    ul {
+      gap: 1.2rem;
+    }
+  }
+
+  .material-symbols-rounded {
+    color: var(--surface-dark);
+  }
+
+  .usage-time {
+    display: flex;
+    gap: 8px;
+    align-self: stretch;
+    align-items: center;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 1 0 0;
+
+      p:last-child {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    .material-symbols-rounded {
+      font-size: 2.8rem;
+    }
+  }
+}
+
+.current-watch-mode {
+  /* NOTE: Temp, until watch mode feature is done */
+  display: none;
+
+  /* display: flex; */
+  padding: 4px 12px;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-more-rounded);
+  border: 1.5px dashed var(--border-dark);
+  box-shadow: 0 0 4px 0 rgba(61, 61, 61, 0.15);
+
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
 }
 
 /* 

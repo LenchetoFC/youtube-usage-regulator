@@ -448,6 +448,9 @@ $("#save-limitations").on("click", function () {
   }
   console.log(limitationChoices);
 
+  // FIXME: isValid returns promise, not a boolean value
+  // replicate this by clearing storage, then trying to save to non-existant storage
+  // NOTE: possibly use .then()
   let isValid = isValidLimitations(limitationChoices);
 
   setTimeout(function () {
