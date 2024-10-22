@@ -183,11 +183,12 @@ async function isValidLimitations(limitationChoices) {
  * @example triggerSubmitStatusAnimation("#limitations-no-change-msg", 2500);
  */
 function triggerSubmitStatusAnimation(statusMsgId, delayTime) {
-  $(statusMsgId)
-    .fadeIn(1000)
-    .css("display", "flex")
-    .delay(delayTime)
-    .fadeOut(1000);
+  if ($(statusMsgId).css("display") !== "flex")
+    $(statusMsgId)
+      .fadeIn(1000)
+      .css("display", "flex")
+      .delay(delayTime)
+      .fadeOut(1000);
 }
 
 // NOTE: ADDITIONAL WEBSITES FUNCTIONS

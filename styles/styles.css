@@ -414,27 +414,35 @@ button[type="submit"]:active {
   .material-symbols-rounded {
     font-size: 2.8rem;
   }
+}
+.button-msg,
+.popup-button-msg {
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  position: absolute;
+  /* top: 6rem; */
+  background: var(--surface-light);
+  width: fit-content;
+  z-index: 3;
+  box-shadow: 1px 1px 6px -2px #00000038;
+  padding: 11px 16px;
+  border-radius: var(--radius-2xl);
 
   p {
     color: var(--text-dark);
     width: max-content;
   }
 }
+
 .button-msg {
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1.2rem;
-  position: absolute;
   right: 16rem;
-  /* top: 6rem; */
-  background: var(--surface-light);
-  width: fit-content;
-  z-index: 1;
-  box-shadow: 1px 1px 6px -2px #00000038;
-  padding: 11px 16px;
-  border-radius: var(--radius-2xl);
 }
 
+.popup-button-msg {
+  right: 6rem;
+  top: 1.5rem;
+}
 /* 
   Loading Button
 */
@@ -475,7 +483,8 @@ span:has(> button[type="submit"]) {
 #limitations-unsaved-msg,
 #creators-unsaved-msg,
 #limitations-no-change-msg,
-#creators-no-change-msg {
+#creators-no-change-msg,
+#refresh-reminder-msg {
   display: none;
 
   .material-symbols-rounded {
