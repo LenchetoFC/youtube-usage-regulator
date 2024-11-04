@@ -71,27 +71,28 @@
 // */
 
 // // Gets result of calculateTotal and populates chart
-// // calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
+// calculateTotal().then(({ total, pastMonthShorts, pastMonthRegular }) => {
 
-//   // console.log(total);
-//   // console.log(pastMonthShorts);
-//   // console.log(pastMonthRegular);
+// console.log(total);
+// console.log(pastMonthShorts);
+// console.log(pastMonthRegular);
 
-//   let currentDayOfMonth = new Date().getDate();
+// let currentDayOfMonth = new Date().getDate();
 
-//   const days = Array.from({length: currentDayOfMonth}, (_, i) => i+1);
+// const days = Array.from({ length: currentDayOfMonth }, (_, i) => i + 1);
 
-//   let total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
+// let total = Array.from({ length: 31 }, () => Math.floor(Math.random() * 24));
 
-//   new Chart("overall-chart", {
-//     type: "line",
-//     data: {
-//       labels: days,
-//       datasets: [{
+// new Chart("chart", {
+//   type: "line",
+//   data: {
+//     labels: days,
+//     datasets: [
+//       {
 //         label: "Total",
 //         data: total,
 //         borderColor: "#fbfbfb",
-//         fill: false
+//         fill: false,
 //       },
 //       // {
 //       //   label: "Regular Video",
@@ -104,69 +105,72 @@
 //       //   borderColor: "#137a23",
 //       //   fill: false
 //       // }
-//     ]
-//     },
-//     options: {
-//       scales: {
-//         x: { // Updated from 'xAxes' to 'x'
-//           grid: {
-//             display: false
-//           },
-//           title: {
-//             display: true,
-//             text: 'Days',
-//             color: '#fbfbfb',
-//             font: {
-//               size: 12,
-//               weight: 'bold',
-//             },
-//           }
-//         },
-//         y: { // Updated from 'yAxes' to 'y'
-//           title: {
-//             display: true,
-//             text: 'Hours',
-//             color: '#fbfbfb',
-//             font: {
-//               size: 12,
-//               weight: 'bold',
-//             },
-//           }
-//         }
-//       },
-//       plugins: {
-//         legend: {
-//           display: true,
-//           position: 'bottom',
-//           labels: { color: '#fbfbfb' }
+//     ],
+//   },
+//   options: {
+//     scales: {
+//       x: {
+//         // Updated from 'xAxes' to 'x'
+//         grid: {
+//           display: false,
 //         },
 //         title: {
-//           display: false,
-//           text: 'YouTube Watch History over 30 Days',
-//           color: '#fbfbfb',
-//           position: 'top',
+//           display: true,
+//           text: "Days",
+//           color: "#fbfbfb",
 //           font: {
-//             size: 16,
-//             weight: 'bold',
+//             size: 12,
+//             weight: "bold",
 //           },
-//           padding: 15,
-//           fullSize: true,
-//         }
-//       }
-//     }
-//   });
+//         },
+//       },
+//       y: {
+//         // Updated from 'yAxes' to 'y'
+//         title: {
+//           display: true,
+//           text: "Hours",
+//           color: "#fbfbfb",
+//           font: {
+//             size: 12,
+//             weight: "bold",
+//           },
+//         },
+//       },
+//     },
+//     plugins: {
+//       legend: {
+//         display: true,
+//         position: "bottom",
+//         labels: { color: "#fbfbfb" },
+//       },
+//       title: {
+//         display: false,
+//         text: "YouTube Watch History over 30 Days",
+//         color: "#fbfbfb",
+//         position: "top",
+//         font: {
+//           size: 16,
+//           weight: "bold",
+//         },
+//         padding: 15,
+//         fullSize: true,
+//       },
+//     },
+//   },
+// });
 
-//   total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
+// total = Array.from({ length: 31 }, () => Math.floor(Math.random() * 24));
 
-//   new Chart("regular-video-chart", {
-//     type: "line",
-//     data: {
-//       labels: days,
-//       datasets: [{
+// new Chart("regular-video-chart", {
+//   type: "line",
+//   data: {
+//     labels: days,
+//     datasets: [
+//       {
 //         label: "Total",
 //         data: total,
 //         borderColor: "#fbfbfb",
-//         fill: false
+//         fill: false,
 //       },
 //       // {
 //       //   label: "Regular Video",
@@ -179,57 +183,59 @@
 //       //   borderColor: "#137a23",
 //       //   fill: false
 //       // }
-//     ]
-//     },
-//     options: {
-//       scales: {
-//         x: { // Updated from 'xAxes' to 'x'
-//           grid: {
-//             display: false
-//           },
-//           title: {
-//             display: true,
-//             text: 'Days',
-//             color: '#fbfbfb',
-//             font: {
-//               size: 12,
-//               weight: 'bold',
-//             },
-//           }
-//         },
-//         y: { // Updated from 'yAxes' to 'y'
-//           title: {
-//             display: true,
-//             text: 'Hours',
-//             color: '#fbfbfb',
-//             font: {
-//               size: 12,
-//               weight: 'bold',
-//             },
-//           }
-//         }
-//       },
-//       plugins: {
-//         legend: {
-//           display: true,
-//           position: 'bottom',
-//           labels: { color: '#fbfbfb' }
+//     ],
+//   },
+//   options: {
+//     scales: {
+//       x: {
+//         // Updated from 'xAxes' to 'x'
+//         grid: {
+//           display: false,
 //         },
 //         title: {
-//           display: false,
-//           text: 'YouTube Watch History over 30 Days',
-//           color: '#fbfbfb',
-//           position: 'top',
+//           display: true,
+//           text: "Days",
+//           color: "#fbfbfb",
 //           font: {
-//             size: 16,
-//             weight: 'bold',
+//             size: 12,
+//             weight: "bold",
 //           },
-//           padding: 15,
-//           fullSize: true,
-//         }
-//       }
-//     }
-//   });
+//         },
+//       },
+//       y: {
+//         // Updated from 'yAxes' to 'y'
+//         title: {
+//           display: true,
+//           text: "Hours",
+//           color: "#fbfbfb",
+//           font: {
+//             size: 12,
+//             weight: "bold",
+//           },
+//         },
+//       },
+//     },
+//     plugins: {
+//       legend: {
+//         display: true,
+//         position: "bottom",
+//         labels: { color: "#fbfbfb" },
+//       },
+//       title: {
+//         display: false,
+//         text: "YouTube Watch History over 30 Days",
+//         color: "#fbfbfb",
+//         position: "top",
+//         font: {
+//           size: 16,
+//           weight: "bold",
+//         },
+//         padding: 15,
+//         fullSize: true,
+//       },
+//     },
+//   },
+// });
 
 //   total = Array.from({length: 31}, () => Math.floor(Math.random() * 24));
 

@@ -318,6 +318,9 @@ function hideVideoRecommendations() {
       "Recommendations on home pages"
     );
   }
+
+  // Also disables infinite recommendations
+  disableInfiniteRecommendations();
 }
 
 /** FUNCTION: Removes the element that loads another section of recommended videos
@@ -453,20 +456,6 @@ function applyActiveLimitations() {
   }
 }
 
-/** FUNCTION: Get current date
- *
- * @returns {string} Returns current date in ISO standard format (yyyy-MM-dd) "2024-10-15"
- *
- * @example let curretnDate = getCurrentDate();
- */
-function getCurrentDate() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
 /** FUNCTION: Gets current time as of execution
  *
  * @returns {string} Returns the current time in a string format
@@ -555,11 +544,69 @@ function getCurrentTime() {
  * Gets current time when tracking starts
  */
 
+// TODO: Get value of pause video on inactive and save to global variable
+
 // Starts timer immediately, even if not focused at first
 let startTime = new Date();
-// console.log(`start time immediately ${startTime}`);
+console.log(`start time immediately ${startTime}`);
+
+// Save new watch times (total and video type) to current date's entry
+async function updateWatchTimes(newWatchTimesObj) {
+  let updateWatchTime = await sendMessageToServiceWorker({
+    operation: "updateRecordByColumn",
+    table: "watch-times",
+    column: "date",
+    value: getCurrentDate(),
+    newRecords: newWatchTimesObj,
+  });
+
+  return updateWatchTime;
+}
+
+// Adds new entry into watch times for the current date if !exists
+function addNewWatchTimeEntry() {
+  getCurrentWatchTimes().then(async (data) => {
+    if (data.length === 0) {
+      let watchTimeObj = {
+        date: getCurrentDate(),
+        "long-form-watch-time": 0,
+        "short-form-watch-time": 0,
+        "total-watch-time": 0,
+      };
+
+      await sendMessageToServiceWorker({
+        operation: "insertRecords",
+        table: "watch-times",
+        records: [watchTimeObj],
+      });
+    }
+  });
+}
+
+function prepareNewWatchTimesObj(
+  currentWatchTimeObj,
+  elapsedTime,
+  longForm,
+  shortForm
+) {
+  let newWatchTimesObj = {
+    date: getCurrentDate(),
+    "long-form-watch-time":
+      parseInt(currentWatchTimeObj["long-form-watch-time"]) +
+      (longForm ? elapsedTime : 0),
+    "short-form-watch-time":
+      parseInt(currentWatchTimeObj["short-form-watch-time"]) +
+      (shortForm ? elapsedTime : 0),
+    "total-watch-time":
+      parseInt(currentWatchTimeObj["total-watch-time"]) + elapsedTime,
+  };
+
+  return newWatchTimesObj;
+}
 
 // Starts timer when YouTube site is focused
+// TODO: add youtube limitation checks to make sure the elements do not appear
+// -- even if the page never "officially" refreshes
 window.addEventListener("focus", (event) => {
   startTime = new Date();
   // console.log(`start time on focus ${startTime}`);
@@ -573,55 +620,37 @@ window.addEventListener("focus", (event) => {
 // Stops tracking and updates time tracking storage values
 // Get current time when tracking ends & compares that with time when tracking started
 window.addEventListener("blur", async (event) => {
-  // Calculates elapsed time
-  const endTime = new Date();
-  const elapsedTime = Math.floor((endTime - startTime) / 1000);
-  // console.log(`elapsed time on blur ${elapsedTime}`);
+  // Get type of video (short-form or long-form)
+  let activeLongForm = window.location.href.includes("/watch?");
+  let activeShortForm = window.location.href.includes("/shorts/");
 
-  // Gets current values of both time usages
-  // const allTimeUsage = await sendMessageToServiceWorker({
-  //   operation: "retrieveNested",
-  //   parentKey: "watch-usage",
-  //   key: "all-time",
-  // });
-  // const todayUsage = await sendMessageToServiceWorker({
-  //   operation: "retrieveNested",
-  //   parentKey: "watch-usage",
-  //   key: "today",
-  // });
-  // const shortsUsage = await sendMessageToServiceWorker({
-  //   operation: "retrieveNested",
-  //   parentKey: "watch-usage",
-  //   key: "shorts",
-  // });
-  // const regVideoUsage = await sendMessageToServiceWorker({
-  //   operation: "retrieveNested",
-  //   parentKey: "watch-usage",
-  //   key: "regular-video",
-  // });
+  // Updates watch times for the current day in storage
+  if (activeLongForm || activeShortForm) {
+    // Calculates elapsed time
+    const endTime = new Date();
+    const elapsedTime = Math.floor((endTime - startTime) / 1000);
 
-  // Check if the current URL matches the specific URL
-  // if (window.location.href.startsWith("https://www.youtube.com/shorts/")) {
-  //   console.log("GHDSFGJSGDHJBSEDHJBGYU");
-  //   // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-shorts', value: elapsedTime + shortsUsage});
-  // } else if (window.location.href.startsWith("https://www.youtube.com/watch")) {
-  //   console.log("GHDSFGJSGDHJBSEDHJBGYU");
-  //   // await sendMessageToServiceWorker({operation: "setNested", parentKey: "watch-usage", key: 'past-month-regular', value: elapsedTime + regVideoUsage});
-  // }
+    // Gets current day's watch times and updates with new watch times
+    getCurrentWatchTimes().then(async (data) => {
+      let currentWatchTimeObj = data[0];
 
-  // await sendMessageToServiceWorker({
-  //   operation: "setNested",
-  //   parentKey: "watch-usage",
-  //   key: "today",
-  //   value: elapsedTime + todayUsage,
-  // });
-  // await sendMessageToServiceWorker({
-  //   operation: "setNested",
-  //   parentKey: "watch-usage",
-  //   key: "all-time",
-  //   value: elapsedTime + allTimeUsage,
-  // });
+      let newWatchTimeObj = prepareNewWatchTimesObj(
+        currentWatchTimeObj,
+        elapsedTime,
+        activeLongForm,
+        activeShortForm
+      );
 
+      updateWatchTimes(newWatchTimeObj);
+    });
+
+    // Save new watch times (total and video type) to current date's entry
+    console.log(`elapsed time on blur ${elapsedTime}`);
+  } else {
+    console.log("Not on playback page.");
+  }
+
+  // TODO: depends on pause on inactive global variable, activate this
   // Gets video's play/pause button to simulate a mouse click on it
   // const playButton = document
   //   .getElementsByClassName("ytp-play-button ytp-button")
@@ -648,6 +677,8 @@ window.addEventListener("blur", async (event) => {
 /** !SECTION */
 
 /** SECTION - ONLOAD FUNCTION CALLS */
+
+addNewWatchTimeEntry();
 
 // Removes any YouTube element that is current limited (only on YouTube site)
 applyActiveLimitations();

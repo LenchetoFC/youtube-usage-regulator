@@ -12,46 +12,6 @@
  * SECTION - FUNCTION DECLARATIONS
  */
 
-// TODO: put into global functions
-/** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
- * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
- *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
- *
- * @param {object} message - holds the operation name and other properties to send to servicer worker
- *
- * @returns {various} - can return storage objects or status response messages
- *
- * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
- *
- */
-function sendMessageToServiceWorker(message) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(message, (response) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(response);
-      }
-    });
-  });
-}
-
-// TODO: put into global functions
-/** FUNCTION: Get current date
- *
- * @returns {string} Returns current date in ISO standard format (yyyy-MM-dd) "2024-10-15"
- *
- * @example let curretnDate = getCurrentDate();
- */
-function getCurrentDate() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-// TODO: put into global functions
 /** ASYNC FUNCTION: Get the total watch times from the first date to the current date
  *
  * @returns {int} Returns current date's watch time in seconds i.e. 120
@@ -87,51 +47,18 @@ async function getTotalWatchTime() {
   }
 }
 
-// TODO: put into global functions
-/** ASYNC FUNCTION: Get the watch times of the current date
- *
- * @returns {int} Returns current date's watch time in seconds i.e. 120
- *
- * @example getTodayWatchTime()
-    .then((todayTime) => {
-      $(`#today-watch-time`).html(convertTimeToText(todayTime));
-    })
-    .catch((error) => {
-      $(`#today-watch-time`).html(convertTimeToText(error));
-      console.error(error);
-    });
- */
-async function getTodayWatchTime() {
-  let currentDate = getCurrentDate();
-
-  try {
-    let data = await sendMessageToServiceWorker({
-      operation: "filterRecords",
-      table: "watch-times",
-      property: "date",
-      value: currentDate,
-    });
-
-    console.log(data);
-
-    let todayTime = data[0]["total-watch-time"];
-
-    return todayTime;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// TODO: put into global functions
 /** FUNCTION: Get total watch time and today's watch time, reformats them, and inserts them into DOM
  *
  * @returns {null}
  *
  * @example getWatchTimes();
  */
-function getWatchTimes() {
-  getTodayWatchTime()
-    .then((todayTime) => {
+function insertWatchTimes() {
+  // Gets the total watch time for the current day
+  getCurrentWatchTimes()
+    .then(async (data) => {
+      let todayTime = data[0]["total-watch-time"];
+      console.log(todayTime);
       $(`#today-watch-time`).html(convertTimeToText(todayTime));
     })
     .catch((error) => {
@@ -139,6 +66,7 @@ function getWatchTimes() {
       console.error(error);
     });
 
+  // Calculates all total watch times from all days
   getTotalWatchTime()
     .then((totalTime) => {
       $(`#total-watch-time`).html(convertTimeToText(totalTime));
@@ -149,7 +77,6 @@ function getWatchTimes() {
     });
 }
 
-// TODO: put into global functions
 /** FUNCTION: Reformts website type into a header. "social-media" -> "Social Media"
  *
  * @param {string} name - website type from database - "social-media"
@@ -176,71 +103,25 @@ function reformatSettingName(name) {
   return reformattedName;
 }
 
-// TODO: put into global functions
-/** ASYNC FUNCTION: Update a specific record by ID
- *
- * @param {int} id - record id i.e. 1
- *
- * @param {array} newRecords - records, can be some or all properties
- *        within an existing table  i.e. { allDay: true }
- *
- * @returns {boolean} Returns if the process was successful or not
- *
- * @example await updateLimitationsDB(3, { quick-add: true });
- */
-async function updateLimitationsDB(id, newRecords) {
-  console.log(
-    `Updating limitations DB for id: ${id} with new records: ${JSON.stringify(
-      newRecords
-    )}`
-  );
-  try {
-    let sendUpdatedRecords = await sendMessageToServiceWorker({
-      operation: "updateRecordByColumn",
-      table: "youtube-limitations",
-      column: "id",
-      value: id,
-      newRecords: newRecords,
-    });
-
-    if (!sendUpdatedRecords.error) {
-      console.log(
-        `Record updated successfully for table youtube-limitations with column id, ${id} with new records ${JSON.stringify(
-          newRecords
-        )}.`
-      );
-      return true;
-    }
-  } catch (error) {
-    console.error(`Error updating limitations DB for id: ${id}`, error);
-    return false;
-  }
-}
-
 /** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
  *
  * @returns {null}
  *
- * @example getCurrentWatchMode();
+ * @example insertCurrentWatchMode();
  */
-async function getCurrentWatchMode() {
+async function insertCurrentWatchMode() {
   try {
-    let data = await sendMessageToServiceWorker({
-      operation: "filterRecords",
-      table: "watch-modes",
-      property: "active",
-      value: true,
-    });
-
-    let currentWatchMode = data[0];
-
-    $(".current-watch-mode").html(currentWatchMode.name);
-    $(".current-watch-mode").css("border-color", currentWatchMode.color);
-    $(".current-watch-mode").css("color", currentWatchMode.color);
-
+    getCurrentWatchMode()
+      .then((data) => {
+        $(".current-watch-mode").html(data.name);
+        $(".current-watch-mode").css("border-color", data.color);
+        $(".current-watch-mode").css("color", data.color);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 }
@@ -316,7 +197,9 @@ getActiveQuickActivations()
           <input id="${quickActObj.name}" name="${
         quickActObj.name
       }" type="checkbox" value="${quickActObj.id}" ${checked} />
-          <span for="name">${reformatSettingName(quickActObj.name)}</span>
+          <span for="${quickActObj.name}">${reformatSettingName(
+        quickActObj.name
+      )}</span>
         </label>
       `);
 
@@ -332,9 +215,9 @@ getActiveQuickActivations()
   });
 
 /** ONLOAD FUNCTION CALL: Gets total and today's watch times and inserts it into popup */
-getWatchTimes();
+insertWatchTimes();
 
 /** ONLOAD FUNCTION CALL: Gets current watch mode and inserts it into popup */
-getCurrentWatchMode();
+insertCurrentWatchMode();
 
 /** !SECTION */

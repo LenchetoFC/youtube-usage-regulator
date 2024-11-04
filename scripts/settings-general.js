@@ -12,29 +12,6 @@
 
 /** SECTION - FUNCTION DECLARATIONS */
 
-/** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
- * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
- *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
- *
- * @param {object} message - holds the operation name and other properties to send to servicer worker
- *
- * @returns {various} - can return storage objects or status response messages
- *
- * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
- *
- */
-function sendMessageToServiceWorker(message) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(message, (response) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(response);
-      }
-    });
-  });
-}
-
 /** FUNCTION: Get all active youtube limitations settings
  *
  * @returns {array} Returns array of records with active values
@@ -256,7 +233,7 @@ function isWebsiteTypeEmpty(websiteType) {
 
       // Displays empty content if there is no websites left
       if ($(`#block-websites .content`).children().length === 0) {
-        $(this).css("display", "none");
+        $(`#block-websites .content`).css("display", "none");
 
         $("#block-websites .empty-content").fadeIn().css("display", "flex");
       }
@@ -820,3 +797,10 @@ $("#block-website").on("click", async function (event) {
 // } else {
 //   console.log(insertNewWatchTimes.data);
 // }
+
+//
+function getLeastWatchedDay() {}
+
+function getMostWatchedDay() {}
+
+function getWatchTypeComparisons() {}

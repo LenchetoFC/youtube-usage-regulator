@@ -23,6 +23,7 @@ const database = {
     {
       id: 1,
       name: "Recreational",
+      desc: "Remove content is restricted",
       active: true,
       restrictedTags: [],
       priorityTags: [],
@@ -31,6 +32,7 @@ const database = {
     {
       id: 2,
       name: "Safe for Work",
+      desc: "Keep that feed PG-13",
       active: false,
       restrictedTags: ["Violence", "Nudity"],
       priorityTags: [],
@@ -39,6 +41,7 @@ const database = {
     {
       id: 3,
       name: "Educational",
+      desc: "Remove all non-educational materials",
       active: false,
       restrictedTags: ["Game", "Movie"],
       priorityTags: ["School", "Learning", "Study"],
@@ -278,6 +281,8 @@ async function filterRecords(table, property, value) {
  * @returns {void} Returns nothing
  *
  * @example insertRecords("youtube-limitations", { quick-add: true });
+ *
+ * NOTE: omit id property when calling this as that is calculated in this function
  */
 async function insertRecords(table, newRecords) {
   try {

@@ -1,480 +1,290 @@
 <!-- 
   Author: Lorenzo Ramirez
-  Description: Contains the schedule settings page for the 
-                YouTube Algorithm Regulator browser extension.
+  Description: 
 -->
-
-<!-- Watch Times -->
-<section id="watch-times">
-  <header>
-    <h1>Watch Times</h1>
-    <h2>Manage your YouTube usage times.</h2>
-  </header>
-
-  <span class="checkbox-container">
-    <label class="side-checkbox-container" for="pause-video-on-blur">
-      <input
-        id="pause-video-on-blur"
-        name="pause-video-on-blur"
-        type="checkbox"
-        value="pause-video-on-blur"
-      />
-      <span for="pause-video-on-blur" class="checkmark"
-        ><img src="/images/icon-checkmark.svg"
-      /></span>
-    </label>
-    <h2>
-      Pause Video when Youtube page is not focused. (i) Disclaimer: will cause
-      inaccurate watch times.
-    </h2>
-    <img src="/images/icon-info-circles.svg" />
-  </span>
-
-  <!-- TODO: Maybe try to have the overall chart (bigger in size) be above both of the other charts (smaller in size on same row)  -->
-  <div class="charts-container">
-    <!-- Overall Watch Time Chart -->
-    <div class="watch-time-chart-container">
-      <h1>Overall Watch Time</h1>
-
-      <div>
-        <div class="total-time-container">
-          <img src="/images/icon-clock-outline.svg" />
-          <span id="overall-watch-time">17 Days 18 Minutes 37 Seconds</span>
-        </div>
-
-        <div class="time-selection-container">
-          <label for="overall-timeframe">Select Timeframe</label>
-          <select name="days" id="overall-timeframe">
-            <option value="30-days">30 Days</option>
-            <option value="3-months">3 Months</option>
-            <option value="6-months">6 Months</option>
-            <option value="9-months">9 Months</option>
-            <option value="1-year">1 Year</option>
-            <option value="everyday">Everyday</option>
-          </select>
-        </div>
-      </div>
-
-      <canvas id="overall-chart"></canvas>
-
-      <button class="btn-text side-icon delete-btn" id="reset-usage-overall">
-        <img
-          class="icon-in-btn icon-white"
-          src="/images/icon-reset-circle.svg"
-          alt="circle arrow reset button"
-        />
-        <p>Reset</p>
-      </button>
-    </div>
-
-    <!-- Regular Video Watch Time Chart -->
-    <div class="watch-time-chart-container">
-      <h1>Regular Video Watch Time</h1>
-
-      <div>
-        <div class="total-time-container">
-          <img src="/images/icon-clock-outline.svg" />
-          <span id="regular-video-watch-time"
-            >17 Days 18 Minutes 37 Seconds</span
-          >
-        </div>
-
-        <div class="time-selection-container">
-          <label for="regular-video-timeframe">Select Timeframe</label>
-          <select name="days" id="regular-video-timeframe">
-            <option value="30-days">30 Days</option>
-            <option value="3-months">3 Months</option>
-            <option value="6-months">6 Months</option>
-            <option value="9-months">9 Months</option>
-            <option value="1-year">1 Year</option>
-            <option value="everyday">Everyday</option>
-          </select>
-        </div>
-      </div>
-
-      <canvas id="regular-video-chart"></canvas>
-
-      <button
-        class="btn-text side-icon delete-btn"
-        id="reset-usage-regular-video"
-      >
-        <img
-          class="icon-in-btn icon-white"
-          src="/images/icon-reset-circle.svg"
-          alt="circle arrow reset button"
-        />
-        <p>Reset</p>
-      </button>
-    </div>
-
-    <!-- Short Video Watch Time Chart -->
-    <div class="watch-time-chart-container">
-      <h1>Shorts Watch Time</h1>
-
-      <div>
-        <div class="total-time-container">
-          <img src="/images/icon-clock-outline.svg" />
-          <span id="shorts-watch-time">17 Days 18 Minutes 37 Seconds</span>
-        </div>
-
-        <div class="time-selection-container">
-          <label for="shorts-timeframe">Select Timeframe</label>
-          <select name="days" id="shorts-timeframe">
-            <option value="30-days">30 Days</option>
-            <option value="3-months">3 Months</option>
-            <option value="6-months">6 Months</option>
-            <option value="9-months">9 Months</option>
-            <option value="1-year">1 Year</option>
-            <option value="everyday">Everyday</option>
-          </select>
-        </div>
-      </div>
-
-      <canvas id="shorts-chart"></canvas>
-
-      <button class="btn-text side-icon delete-btn" id="reset-usage-shorts">
-        <img
-          class="icon-in-btn icon-white"
-          src="/images/icon-reset-circle.svg"
-          alt="circle arrow reset button"
-        />
-        <p>Reset</p>
-      </button>
-    </div>
-  </div>
-</section>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>YT Regulator Schedule Settings</title>
+    <meta
+      name="description"
+      content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
+    />
+    <title>Restrict the Tube Dashboard</title>
+
     <link rel="stylesheet" href="/styles/styles.css" />
+    <!-- <link rel="stylesheet" href="/styles/jquery-confirm.min.css" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
   </head>
 
-  <body class="settings" id="schedule">
-    <div id="overlay"></div>
+  <body class="settings" id="dashboard">
+    <nav>
+      <span class="nav-logo">
+        <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
+        <p>Restrict the Tube</p>
+      </span>
 
-    <aside>
-      <nav>
-        <div>
-          <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
-          <p>Restrict the Tube</p>
-        </div>
+      <ul>
+        <li>
+          <a href="dashboard.html" class="underline-hover current-page">
+            <span
+              class="material-symbols-rounded"
+              alt="Icon for widget dashboard page"
+              >dashboard</span
+            >
+            <p>Dashboard</p>
+          </a>
+        </li>
 
-        <a href="settings.html">
-          <img
-            src="/images/icon-settings.svg"
-            alt="Gear button to general settings"
-          />
-          <p>Settings</p>
-        </a>
-        <a class="current-page" href="settings-dashboard.html">
-          <img
-            src="/images/icon-timer.svg"
-            alt="Stopwatch button to schedule settings"
-          />
-          <p>Schedules</p>
-        </a>
-        <a href="#">
-          <img
-            src="/images/icon-note.svg"
-            alt="Stopwatch button to schedule settings"
-          />
-          <p>How It Works</p>
-        </a>
-      </nav>
-    </aside>
+        <li>
+          <a class="underline-hover" href="settings.html">
+            <span
+              class="material-symbols-rounded"
+              alt="Gear icon for settings page"
+              >settings</span
+            >
+            <p>Settings</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-    <main class="flex-col content-wrapper">
-      <header class="flex-col">
-        <h1>Schedules</h1>
-        <h3>Manage when YouTube is completely restricted.</h3>
-        <hr class="full-line first-line" />
-      </header>
-
-      <section>
-        <section class="settings-section">
+    <main>
+      <!-- First Row -->
+      <div class="widget-container widget-container-row">
+        <!-- Active Watch Mode Item -->
+        <section class="widget-item top-widget" id="watch-mode-top-widget">
           <header>
-            <h2>YouTube Restriction Schedules</h2>
-            <h3>Schedule the times and days for when YouTube is blocked.</h3>
+            <span>
+              <span class="material-symbols-rounded">live_tv</span>
+              <h1>Active Watch Mode</h1>
+            </span>
+
+            <!-- Button to settings -->
+            <a href="/html/settings.html">
+              <p>Switch Modes</p>
+
+              <span class="material-symbols-rounded"> arrow_right_alt </span>
+            </a>
           </header>
 
-          <div id="add-new-schedule-btn">
-            <button class="btn-text side-icon">
-              <img
-                class="icon-in-btn icon-white"
-                src="/images/icon-plus.svg"
-                alt="plus button"
-              />
-              <div>New Schedule</div>
-            </button>
-          </div>
-
-          <br />
-
-          <!-- New Overlay -->
-          <section class="settings-item schedule-overlay new-overlay">
-            <div class="new-schedule-header">
-              <div>
-                <img
-                  class="icon-in-btn"
-                  src="/images/icon-plus.svg"
-                  alt="plus button"
-                />
-                <h4>New Schedule</h4>
-              </div>
-            </div>
-
-            <form class="schedule-new">
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input id="sunday" name="sunday" type="checkbox" value="1" />
-                  <span>Sun</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input id="monday" name="monday" type="checkbox" value="1" />
-                  <span>Mon</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input
-                    id="tuesday"
-                    name="tuesday"
-                    type="checkbox"
-                    value="1"
-                  />
-                  <span>Tue</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input
-                    id="wednesday"
-                    name="wednesday"
-                    type="checkbox"
-                    value="1"
-                  />
-                  <span>Wed</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input
-                    id="thursday"
-                    name="thursday"
-                    type="checkbox"
-                    value="1"
-                  />
-                  <span>Thu</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input id="friday" name="friday" type="checkbox" value="1" />
-                  <span>Fri</span>
-                </label>
-              </div>
-
-              <div class="checkbox-item checkbox-circle schedule-day">
-                <label>
-                  <input
-                    id="saturday"
-                    name="saturday"
-                    type="checkbox"
-                    value="1"
-                  />
-                  <span>Sat</span>
-                </label>
-              </div>
-            </form>
-
-            <div id="schedule-new-container" class="flex-col">
-              <hr class="full-line" />
-              <section class="schedule-header-btn">
-                <div class="checkbox-item checkbox-circle">
-                  <label>
-                    <input
-                      id="schedule-all-day"
-                      name="schedule-all-day"
-                      type="checkbox"
-                      value="new"
-                    />
-                    <span>All Day</span>
-                  </label>
-                </div>
-
-                <button class="btn-text side-icon add-time-btn" value="new">
-                  <img
-                    class="icon-in-btn icon-white"
-                    src="/images/icon-plus.svg"
-                    alt="plus button"
-                  />
-                  <div>Add Interval</div>
-                </button>
-              </section>
-
-              <div class="schedule-time-container">
-                <section
-                  id="new-time-container"
-                  class="time-container flex-col"
-                >
-                  <section
-                    class="schedule-new-time"
-                    id="first-time-selection-new"
-                  >
-                    <input
-                      id="schedule-start-time"
-                      name="schedule-start-time"
-                      placeholder="Start time"
-                      type="time"
-                    />
-                    <div>to</div>
-                    <input
-                      id="schedule-end-time"
-                      name="schedule-end-time"
-                      placeholder="End time"
-                      type="time"
-                    />
-                  </section>
-                </section>
-              </div>
-              <div class="side-by-side-btn">
-                <button
-                  class="btn-text side-icon submit-schedule"
-                  type="submit"
-                  value="new"
-                >
-                  <div>Save</div>
-                </button>
-                <button class="btn-solo-text new-schedule-exit">
-                  <div>Cancel</div>
-                </button>
-              </div>
+          <section class="content" id="db-current-watch-mode">
+            <div>
+              <h1></h1>
+              <p></p>
             </div>
           </section>
+        </section>
 
-          <!-- Edit Overlay -->
-          <section class="settings-item schedule-overlay edit-overlay">
-            <div class="new-schedule-header">
-              <div>
-                <img
-                  class="icon-in-btn"
-                  src="/images/icon-plus.svg"
-                  alt="plus button"
-                />
-                <h4>Edit Schedule</h4>
+        <!-- Video Type Comparisons Item -->
+        <section
+          class="widget-item top-widget"
+          id="video-comparison-top-widget"
+        >
+          <header>
+            <span>
+              <span class="material-symbols-rounded">percent</span>
+              <h1>Watch Type Comparisons</h1>
+            </span>
+          </header>
+
+          <section class="content">
+            <span class="progress-container">
+              <h1>Long-Form</h1>
+              <div class="progress" id="progress-long-form"></div>
+            </span>
+
+            <span class="progress-container">
+              <h1>Short-Form</h1>
+              <div class="progress" id="progress-short-form"></div>
+            </span>
+          </section>
+        </section>
+
+        <!-- Notable Days Item -->
+        <section class="widget-item top-widget" id="notable-days-top-widget">
+          <header>
+            <span>
+              <span class="material-symbols-rounded">calendar_today</span>
+              <h1>Notable Days</h1>
+            </span>
+          </header>
+
+          <section class="content">
+            <span id="least-watch-day">
+              <h1>Least Watched Day</h1>
+              <h2 id="watch-time">8 min</h2>
+              <p id="date">Jul 4 2024, Thu</p>
+            </span>
+            <span id="today-day">
+              <h1>Today</h1>
+              <h2 id="watch-time">2 hr 59 min</h2>
+              <p id="date">Sep 25 2024, Wed</p>
+            </span>
+            <span id="most-watch-day">
+              <h1>Most Watched Day</h1>
+              <h2 id="watch-time">8 hr 19 min</h2>
+              <p id="date">Jun 16 2024, Sun</p>
+            </span>
+          </section>
+        </section>
+
+        <!-- New Videos in Past Week Item -->
+        <section class="widget-item top-widget" id="new-videos-top-widget">
+          <header>
+            <span>
+              <span class="material-symbols-rounded">video_library</span>
+              <h1>New Videos in Past Week</h1>
+            </span>
+
+            <!-- Button to settings -->
+            <a href="/html/settings.html">
+              <p>See All</p>
+              <span class="material-symbols-rounded"> arrow_right_alt </span>
+            </a>
+          </header>
+
+          <section class="content">
+            <ul>
+              <li>
+                <a href="https://www.youtube.com">
+                  <span>
+                    <img src="" />
+                    <h1>Channel Name</h1>
+                  </span>
+                  <h2>#</h2>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+
+      <!-- Second Row -->
+      <div class="widget-container">
+        <!-- Watch Times -->
+        <section id="watch-times" class="widget-item">
+          <header>
+            <span>
+              <h1>Watch Times</h1>
+              <h2>Manage you tracked YouTube usage times.</h2>
+            </span>
+          </header>
+
+          <!-- Content -->
+          <section>
+            <!-- List of Watch Times -->
+            <span class="watch-time-span" id="watch-times-list">
+              <header>
+                <h1>Watch Times</h1>
+
+                <select name="days" id="list-timeframe">
+                  <option value="daily-times">Daily</option>
+                  <option value="weekly-times">Weekly</option>
+                  <option value="monthly-times">Monthly</option>
+                </select>
+              </header>
+
+              <ul>
+                <li>
+                  <p>Sep 25, 2024, Wed</p>
+                  <p>2 hr 59 min</p>
+                </li>
+
+                <hr />
+
+                <li>
+                  <p>Sep 25, 2024, Wed</p>
+                  <p>2 hr 59 min</p>
+                </li>
+
+                <hr />
+
+                <li>
+                  <p>Sep 25, 2024, Wed</p>
+                  <p>2 hr 59 min</p>
+                </li>
+              </ul>
+            </span>
+
+            <!-- Charts -->
+            <span id="charts" class="watch-time-span">
+              <header>
+                <h1>Watch Times Chart</h1>
+
+                <select name="video-form" id="list-timeframe">
+                  <option value="both-forms">Both Forms of Videos</option>
+                  <option value="long-form">Long-Form Videos</option>
+                  <option value="short-form">Short-Form Videos</option>
+                </select>
+              </header>
+
+              <div class="total-time-container">
+                <span class="material-symbols-rounded"
+                  >nest_clock_farsight_analog
+                </span>
+                <span id="overall-watch-time">0 Seconds</span>
               </div>
-              <button class="btn new-schedule-exit">
-                <img
-                  class="icon-delete"
-                  src="/images/icon-delete.svg"
-                  alt="Trash can delete button"
-                />
+
+              <div class="timeframe-container">
+                <label for="timeframe">Timeframe</label>
+                <span class="timeframe-inputs">
+                  <input type="date" id="timeframe-start" name="timeframe" />
+                  <p>-</p>
+                  <input type="date" id="timeframe-end" />
+                  <button class="misc-button">Get Watch Times</button>
+                </span>
+              </div>
+
+              <canvas id="chart"></canvas>
+
+              <button class="misc-button" id="reset-combined">
+                Reset Watch Time
               </button>
-            </div>
-
-            <hr class="full-line" />
-            <div id="schedule-new-container">
-              <section class="schedule-header-btn">
-                <div class="checkbox-item checkbox-circle">
-                  <label>
-                    <input
-                      id="schedule-all-day"
-                      name="schedule-all-day"
-                      type="checkbox"
-                      value="1"
-                    />
-                    <span>All Day</span>
-                  </label>
-                </div>
-
-                <button
-                  class="btn-text side-icon"
-                  id="add-time-btn"
-                  value="edit"
-                >
-                  <img
-                    class="icon-in-btn"
-                    src="/images/icon-plus.svg"
-                    alt="plus button"
-                  />
-                  <div>Add Interval</div>
-                </button>
-              </section>
-
-              <div class="schedule-time-container">
-                <section
-                  id="edit-time-container"
-                  class="time-container flex-col"
-                >
-                  <section
-                    class="schedule-edit-time"
-                    id="first-time-selection-new"
-                  >
-                    <input
-                      id="schedule-start-time"
-                      name="schedule-start-time"
-                      placeholder="Start time"
-                      type="time"
-                    />
-                    <div>to</div>
-                    <input
-                      id="schedule-end-time"
-                      name="schedule-end-time"
-                      placeholder="End time"
-                      type="time"
-                    />
-
-                    <button class="btn">
-                      <img
-                        class="icon-delete"
-                        src="/images/icon-delete.svg"
-                        alt="Trash can delete button"
-                      />
-                    </button>
-                  </section>
-                </section>
-              </div>
-              <div class="side-by-side-btn">
-                <button
-                  class="btn-text side-icon submit-schedule"
-                  type="submit"
-                  value="edit"
-                >
-                  <div>Save</div>
-                </button>
-                <button class="btn">
-                  <img
-                    class="icon-delete"
-                    src="/images/icon-delete.svg"
-                    alt="Trash can delete button"
-                  />
-                </button>
-              </div>
-            </div>
+            </span>
           </section>
+        </section>
+      </div>
 
-          <!-- List of Schedules -->
-          <!-- <h4 id="schedule-title">Your Set Schedules</h4> -->
-          <section id="set-schedules">
-            <section
-              class="settings-item schedule-grid"
-              id="schedules"
-            ></section>
-          </section>
+      <!-- Third Row -->
+      <div class="widget-container">
+        <!-- Preferred Creators -->
+        <section id="schedule" class="widget-item">
+          <header>
+            <span>
+              <h1>YouTube Restriction Schedules</h1>
+              <h2>Schedule the times and days for when YouTube is blocked.</h2>
+            </span>
 
-          <div class="calendar">
-            <!-- <header>
+            <button
+              class="misc-button"
+              id="schedule-add"
+              popovertarget="popover-new-schedule"
+            >
+              <span class="material-symbols-rounded">add</span>
+              Add Schedule
+            </button>
+          </header>
+
+          <div class="content"></div>
+          <!-- NOTE: old calendar code -->
+          <!-- <div class="calendar">
+            <header>
                 <button class="secondary" style="align-self: flex-start; flex: 0 0 1">Today</button>
                 <div class="calendar__title" style="display: flex; justify-content: center; align-items: center">
                   <div class="icon secondary chevron_left">‹</div>
@@ -482,8 +292,8 @@
                   <div class="icon secondary chevron_left">›</div>
                 </div> 
                 <div style="align-self: flex-start; flex: 0 0 1"></div>
-            </header> -->
-
+            </header>
+  
             <div class="outer">
               <table>
                 <thead>
@@ -499,7 +309,7 @@
                   </tr>
                 </thead>
               </table>
-
+  
               <div class="wrap">
                 <table class="offset">
                   <tbody>
@@ -1003,11 +813,401 @@
                 </table>
               </div>
             </div>
-          </div>
+          </div> -->
         </section>
-      </section>
+      </div>
+
+      <!-- New Schedule Overlay -->
+      <div popover id="popover-new-schedule" class="popover">
+        <!-- NOTE: old overlay code -->
+        <!-- <section class="settings-item schedule-overlay new-overlay">
+          <div class="new-schedule-header">
+            <div>
+              <img
+                class="icon-in-btn"
+                src="/images/icon-plus.svg"
+                alt="plus button"
+              />
+              <h4>New Schedule</h4>
+            </div>
+          </div>
+
+          <form class="schedule-new">
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input id="sunday" name="sunday" type="checkbox" value="1" />
+                <span>Sun</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input id="monday" name="monday" type="checkbox" value="1" />
+                <span>Mon</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input id="tuesday" name="tuesday" type="checkbox" value="1" />
+                <span>Tue</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input
+                  id="wednesday"
+                  name="wednesday"
+                  type="checkbox"
+                  value="1"
+                />
+                <span>Wed</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input
+                  id="thursday"
+                  name="thursday"
+                  type="checkbox"
+                  value="1"
+                />
+                <span>Thu</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input id="friday" name="friday" type="checkbox" value="1" />
+                <span>Fri</span>
+              </label>
+            </div>
+
+            <div class="checkbox-item checkbox-circle schedule-day">
+              <label>
+                <input
+                  id="saturday"
+                  name="saturday"
+                  type="checkbox"
+                  value="1"
+                />
+                <span>Sat</span>
+              </label>
+            </div>
+          </form>
+
+          <div id="schedule-new-container" class="flex-col">
+            <hr class="full-line" />
+            <section class="schedule-header-btn">
+              <div class="checkbox-item checkbox-circle">
+                <label>
+                  <input
+                    id="schedule-all-day"
+                    name="schedule-all-day"
+                    type="checkbox"
+                    value="new"
+                  />
+                  <span>All Day</span>
+                </label>
+              </div>
+
+              <button class="btn-text side-icon add-time-btn" value="new">
+                <img
+                  class="icon-in-btn icon-white"
+                  src="/images/icon-plus.svg"
+                  alt="plus button"
+                />
+                <div>Add Interval</div>
+              </button>
+            </section>
+
+            <div class="schedule-time-container">
+              <section id="new-time-container" class="time-container flex-col">
+                <section
+                  class="schedule-new-time"
+                  id="first-time-selection-new"
+                >
+                  <input
+                    id="schedule-start-time"
+                    name="schedule-start-time"
+                    placeholder="Start time"
+                    type="time"
+                  />
+                  <div>to</div>
+                  <input
+                    id="schedule-end-time"
+                    name="schedule-end-time"
+                    placeholder="End time"
+                    type="time"
+                  />
+                </section>
+              </section>
+            </div>
+            <div class="side-by-side-btn">
+              <button
+                class="btn-text side-icon submit-schedule"
+                type="submit"
+                value="new"
+              >
+                <div>Save</div>
+              </button>
+              <button class="btn-solo-text new-schedule-exit">
+                <div>Cancel</div>
+              </button>
+            </div>
+          </div>
+        </section> -->
+
+        <header>
+          <h1>New Schedule</h1>
+        </header>
+
+        <form action="" method="" class="content" id="new-blocked-website-form">
+          <div class="text-input-container">
+            <label for="website-name">Website Name</label>
+            <input
+              type="text"
+              name="website-name"
+              id="website-name"
+              placeholder="Reddit"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-url">URL Address</label>
+            <input
+              type="url"
+              name="website-url"
+              id="website-url"
+              placeholder="https://reddit.com"
+              minlength="7"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-type">Website Name</label>
+            <select type="text" name="website-type" id="website-type" required>
+              <option value="">Choose a Website Type</option>
+              <option value="social-media">Social Media</option>
+              <option value="shopping">Shopping</option>
+              <option value="streaming">Streaming Content</option>
+              <option value="adult-content">Adult Content</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <span class="group-of-buttons">
+            <button
+              class="text-button underline-hover cancel"
+              data-popover="popover-new-blocked-website"
+            >
+              <p>Cancel</p>
+            </button>
+            <span>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="block-website"
+              >
+                Block Website
+              </button>
+            </span>
+          </span>
+        </form>
+      </div>
+
+      <!-- Edit Schedule Overlay -->
+      <div popover id="popover-edit-schedule" class="popover">
+        <!-- NOTE: old overlay code -->
+        <!-- <section class="settings-item schedule-overlay edit-overlay">
+          <div class="new-schedule-header">
+            <div>
+              <img
+                class="icon-in-btn"
+                src="/images/icon-plus.svg"
+                alt="plus button"
+              />
+              <h4>Edit Schedule</h4>
+            </div>
+            <button class="btn new-schedule-exit">
+              <img
+                class="icon-delete"
+                src="/images/icon-delete.svg"
+                alt="Trash can delete button"
+              />
+            </button>
+          </div>
+
+          <hr class="full-line" />
+          <div id="schedule-new-container">
+            <section class="schedule-header-btn">
+              <div class="checkbox-item checkbox-circle">
+                <label>
+                  <input
+                    id="schedule-all-day"
+                    name="schedule-all-day"
+                    type="checkbox"
+                    value="1"
+                  />
+                  <span>All Day</span>
+                </label>
+              </div>
+
+              <button
+                class="btn-text side-icon"
+                id="add-time-btn"
+                value="edit"
+              >
+                <img
+                  class="icon-in-btn"
+                  src="/images/icon-plus.svg"
+                  alt="plus button"
+                />
+                <div>Add Interval</div>
+              </button>
+            </section>
+
+            <div class="schedule-time-container">
+              <section
+                id="edit-time-container"
+                class="time-container flex-col"
+              >
+                <section
+                  class="schedule-edit-time"
+                  id="first-time-selection-new"
+                >
+                  <input
+                    id="schedule-start-time"
+                    name="schedule-start-time"
+                    placeholder="Start time"
+                    type="time"
+                  />
+                  <div>to</div>
+                  <input
+                    id="schedule-end-time"
+                    name="schedule-end-time"
+                    placeholder="End time"
+                    type="time"
+                  />
+
+                  <button class="btn">
+                    <img
+                      class="icon-delete"
+                      src="/images/icon-delete.svg"
+                      alt="Trash can delete button"
+                    />
+                  </button>
+                </section>
+              </section>
+            </div>
+            <div class="side-by-side-btn">
+              <button
+                class="btn-text side-icon submit-schedule"
+                type="submit"
+                value="edit"
+              >
+                <div>Save</div>
+              </button>
+              <button class="btn">
+                <img
+                  class="icon-delete"
+                  src="/images/icon-delete.svg"
+                  alt="Trash can delete button"
+                />
+              </button>
+            </div>
+          </div>
+        </section> -->
+
+        <header>
+          <h1><span id="schedule-day"></span> Schedule</h1>
+        </header>
+
+        <form action="" method="" class="content">
+          <div class="text-input-container">
+            <label for="watch-mode-name">Watch Mode Name</label>
+            <input
+              type="text"
+              name="watch-mode-name-input"
+              id="watch-mode-name"
+              placeholder="Educational Mode"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="watch-mode-desc">Description</label>
+            <input
+              type="text"
+              name="watch-mode-desc-input"
+              id="watch-mode-desc"
+              placeholder="Remove all non-educational materials"
+              minlength="1"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <fieldset>
+            <legend>Priority</legend>
+            <ul>
+              <li class="tag-button-item">
+                <button class="text-button underline-hover">
+                  <span class="material-symbols-rounded">add</span>
+                  <p>Add priority tag</p>
+                </button>
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <legend>Restricted</legend>
+            <ul>
+              <li class="tag-button-item">
+                <button class="text-button underline-hover">
+                  <span class="material-symbols-rounded">add</span>
+                  <p>Add restricted tag</p>
+                </button>
+              </li>
+            </ul>
+          </fieldset>
+
+          <div class="color-input-container">
+            <input
+              type="color"
+              id="watch-mode-bg"
+              name="watch-mode-bg"
+              value="#000000"
+              required
+            />
+            <label for="watch-mode-bg">Background Color</label>
+          </div>
+
+          <span class="group-of-buttons">
+            <button
+              class="text-button underline-hover cancel"
+              data-popover="popover-new-watch-mode"
+            >
+              <p>Cancel</p>
+            </button>
+            <span>
+              <button type="submit" value="">Save Watch Mode</button>
+            </span>
+          </span>
+        </form>
+      </div>
     </main>
 
+    <script src="/node_modules/progressbar.js/dist/progressbar.js"></script>
     <script src="/scripts/chart.js"></script>
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>

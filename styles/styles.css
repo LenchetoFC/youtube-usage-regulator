@@ -11,7 +11,8 @@
   /* color-scheme: dark; */
 
   /* Primitive Variables */
-  --grey-50: #f1f1f1;
+  /* --grey-50: #f1f1f1; */
+  --grey-50: ghostwhite;
   --grey-600: #262725;
   --grey-800: #1e1f1f;
   --grey-900: #202020;
@@ -60,6 +61,7 @@
   --surface-dark: var(--grey-800);
   --surface-brand: var(--brand-1);
   --surface-brand-2: var(--brand-2);
+  --surface-hover: offwhite;
 
   --border-primary: var(--brand-800);
   --border-secondary: var(--grey-900);
@@ -244,6 +246,11 @@ main {
   }
 }
 
+#dashboard > main {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 /* Info button TODO: place into proper place */
 section > h1 {
   display: flex;
@@ -304,7 +311,7 @@ a:hover {
 button {
   transition: background, opacity 0.25s;
   border: none;
-  box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   user-select: none;
   color: var(--text-light);
   width: fit-content;
@@ -316,7 +323,7 @@ button {
   gap: 0.8rem;
   justify-content: center;
   align-items: center;
-  border-radius: var(--radius-3xl);
+  border-radius: 1.6rem;
   background: var(--surface-dark);
   min-width: max-content;
 }
@@ -425,7 +432,7 @@ button[type="submit"]:active {
   background: var(--surface-light);
   width: fit-content;
   z-index: 3;
-  box-shadow: 1px 1px 6px -2px #00000038;
+  box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.1);
   padding: 11px 16px;
   border-radius: var(--radius-2xl);
 
@@ -443,6 +450,148 @@ button[type="submit"]:active {
   right: 6rem;
   top: 1.5rem;
 }
+
+/* 
+  Inputs
+*/
+input[type="date"],
+select,
+input[type="text"],
+input[type="url"],
+select[type="text"] {
+  border-radius: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  border: #1e1f1f4f solid 1.4px;
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+}
+
+input[type="date"]:hover,
+select:hover,
+input[type="text"]:hover,
+input[type="url"]:hover,
+select[type="text"]:hover {
+  cursor: pointer;
+}
+
+input[type="date"]:focus-visible,
+select:focus-visible,
+input[type="text"]:focus-visible,
+input[type="url"]:focus-visible,
+select[type="text"]:focus-visible {
+  outline-color: var(--surface-brand);
+}
+
+/* Checkbox Button Appearance */
+/* Hidden visibility to allow tab index and accessibility */
+input[type="checkbox"] {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* Custom Time input */
+input[type="time" i] {
+  padding: 1rem;
+  background: var(--surface-dark);
+  border: 1.25px solid var(--border-dark);
+  border-radius: 1rem;
+  color: var(--text-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* width: 12.5rem; */
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(25%) sepia(0%) saturate(30%) hue-rotate(193deg) brightness(93%)
+    contrast(96%);
+  cursor: pointer;
+}
+
+/* Color input for watch mode creation */
+input[type="color"] {
+  border-radius: 0.4rem;
+}
+
+/* Custom checkboxes */
+.checkmark {
+  height: 24px;
+  width: 24px;
+  border: 1px solid var(--border-dark);
+  transition: 0.4s background-color;
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+
+  display: flex;
+
+  span {
+    visibility: hidden;
+  }
+}
+
+/* 
+  Checkbox with Text Inside
+*/
+.checkbox-form,
+.schedule-new {
+  display: block;
+  /* margin: 10px 0; */
+  /* align-items: flex-start; */
+  /* align-content: flex-start; */
+  column-gap: 0.8rem;
+  columns: 2;
+  /* align-self: stretch; */
+  /* flex-wrap: wrap; */
+
+  & .checkbox-item {
+    float: left;
+    overflow: hidden;
+    margin: 4px 0;
+    background-color: var(--surface-light);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-2xl);
+    transition: 0.3s;
+    height: fit-content;
+    width: 100%;
+    break-inside: avoid;
+
+    & label span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      padding: 8px 16px;
+      cursor: pointer;
+      user-select: none;
+      flex: 1 0 0;
+      font-size: 14px;
+    }
+    & label input {
+      display: none;
+      position: absolute;
+    }
+    & label input + span {
+      color: var(--text-dark);
+      font-weight: 600;
+      transition: 0.4s;
+    }
+  }
+  & .checkbox-item:hover {
+    /* background-color: #e3e3e3; */
+    border-radius: var(--radius-3xl);
+  }
+  & .checkbox-item:active {
+    border-radius: 3rem;
+    /* background-color: #d2d2d2; */
+  }
+  .checkbox-item input:checked + span {
+    background-color: var(--surface-brand);
+    color: var(--text-light);
+  }
+}
+
 /* 
   Loading Button
 */
@@ -608,6 +757,12 @@ nav {
   }
 }
 
+.current-page {
+  span {
+    color: var(--surface-brand);
+  }
+}
+
 /* 
   WIDGETS
 */
@@ -619,28 +774,31 @@ nav {
   align-self: stretch;
   /* width: 100%; */
   flex-direction: column;
-  flex: 1 0 0;
+  /* flex: 1 0 0; */
 }
 
 .widget-item {
-  background: var(--surface-light);
-  border-radius: var(--radius-xl);
   display: flex;
-  min-width: 56rem;
-  padding: 2rem;
+  min-width: 40rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.6rem;
+  gap: 1.2rem;
   flex: 1 0 0;
 
   > header {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    color: var(--text-light);
 
     > span {
       display: flex;
       flex-direction: column;
+    }
+    .material-symbols-rounded {
+      color: var(--text-light);
+      font-size: 2rem;
+      align-self: center;
     }
     h1 {
       font-size: 1.6rem;
@@ -653,17 +811,19 @@ nav {
   }
 
   .content {
+    /* background: var(--surface-light); */
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: flex-start;
-    align-content: space-between;
-    gap: 2rem;
+    align-content: flex-start;
+    gap: 1.6rem;
     align-self: stretch;
     flex-wrap: wrap;
     justify-content: space-between;
     max-height: 100%;
-    overflow-y: auto;
-    padding-right: 1.2rem;
-    height: -webkit-fill-available;
+    /* overflow-y: auto; */
+    /* padding-right: 1.2rem; */
+    height: 100%;
   }
 
   .sub-content {
@@ -675,6 +835,37 @@ nav {
     align-content: center;
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+#dashboard .widget-container-row {
+  flex-direction: row;
+  flex: 0;
+
+  .widget-item header > span {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+
+  a {
+    align-items: center;
+    gap: 0.4rem;
+    display: flex;
+
+    /* p {
+      color: var(--text-dark);
+    } */
+
+    span {
+      transition: 0.25s;
+    }
+  }
+
+  a:hover {
+    span {
+      transform: translateX(2px);
+    }
   }
 }
 
@@ -787,92 +978,8 @@ nav {
   }
 }
 
-/* Checkbox Button Appearance */
-/* Hidden visibility to allow tab index and accessibility */
-input[type="checkbox"] {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-}
-
-.checkmark {
-  height: 24px;
-  width: 24px;
-  border: 1px solid var(--border-dark);
-  transition: 0.4s background-color;
-  box-shadow: 0px 0px 2px -1px var(--surface-dark);
-  border-radius: 16px;
-
-  display: flex;
-
-  span {
-    visibility: hidden;
-  }
-}
-
-/* 
-  Checkbox with Text Inside
-*/
-.checkbox-form,
-.schedule-new {
-  display: block;
-  /* margin: 10px 0; */
-  /* align-items: flex-start; */
-  /* align-content: flex-start; */
-  column-gap: 0.8rem;
-  columns: 2;
-  /* align-self: stretch; */
-  /* flex-wrap: wrap; */
-
-  & .checkbox-item {
-    float: left;
-    overflow: hidden;
-    margin: 4px 0;
-    background-color: var(--surface-light);
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius-2xl);
-    transition: 0.3s;
-    height: fit-content;
-    width: 100%;
-    break-inside: avoid;
-
-    & label span {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100%;
-      padding: 8px 16px;
-      cursor: pointer;
-      user-select: none;
-      flex: 1 0 0;
-      font-size: 14px;
-    }
-    & label input {
-      display: none;
-      position: absolute;
-    }
-    & label input + span {
-      color: var(--text-dark);
-      font-weight: 600;
-      transition: 0.4s;
-    }
-  }
-  & .checkbox-item:hover {
-    /* background-color: #e3e3e3; */
-    border-radius: var(--radius-3xl);
-  }
-  & .checkbox-item:active {
-    border-radius: 3rem;
-    /* background-color: #d2d2d2; */
-  }
-  .checkbox-item input:checked + span {
-    background-color: var(--surface-brand);
-    color: var(--text-light);
-  }
+#watch-times .checkbox-form {
+  columns: 1;
 }
 
 /* 
@@ -1013,23 +1120,6 @@ input[type="checkbox"] {
   background-color: #e6e6e6;
 }
 
-/* Custom Time input */
-input[type="time" i] {
-  padding: 1rem;
-  background: var(--surface-dark);
-  border: 1.25px solid var(--border-dark);
-  border-radius: 1rem;
-  color: var(--text-text);
-  font-size: 1.5rem;
-  cursor: pointer;
-  /* width: 12.5rem; */
-}
-input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(25%) sepia(0%) saturate(30%) hue-rotate(193deg) brightness(93%)
-    contrast(96%);
-  cursor: pointer;
-}
-
 /* 
   YOUTUBE LAYOUT DEMO
 */
@@ -1044,7 +1134,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding: 1.5rem;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 0 2px 0 var(--surface-dark);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
 
   header {
     display: flex;
@@ -1345,7 +1435,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       padding: 1rem;
       border-radius: 0.8rem;
       background: var(--surface-light);
-      box-shadow: 0 2px 4px 0 rgba(19, 122, 25, 0.1);
+      box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
       font-size: 1.4rem;
     }
   }
@@ -1413,7 +1503,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   gap: 1.2rem;
   border-radius: var(--radius-more-rounded);
   /* background: var(--surface-light); */
-  box-shadow: 0 0 4px 0 rgba(61, 61, 61, 0.25);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   border: transparent;
 
   form {
@@ -1452,21 +1542,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     font-weight: 500;
     line-height: 200%;
   }
-
-  input[type="text"],
-  input[type="url"],
-  select[type="text"] {
-    display: flex;
-    padding: 0.8rem;
-    align-items: center;
-    align-self: stretch;
-    border-radius: 0.8rem;
-    border: 0.75px solid var(--border-dark);
-  }
-}
-
-input[type="color"] {
-  border-radius: 0.4rem;
 }
 
 /* 
@@ -1577,11 +1652,186 @@ input[type="color"] {
   align-items: center;
   border-radius: var(--radius-more-rounded);
   border: 1.5px dashed var(--border-dark);
-  box-shadow: 0 0 4px 0 rgba(61, 61, 61, 0.15);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
 
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
+}
+
+.top-widget {
+  height: 22.4rem;
+  /* gap: 0; */
+
+  .content {
+    align-content: space-between;
+    padding: 2rem;
+    overflow-y: auto;
+    background: var(--surface-light);
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--text-dark);
+      font-weight: 400;
+    }
+  }
+}
+
+#watch-mode-top-widget {
+  /* NOTE: Temp, until watch mode feature is done */
+  /* display: none; */
+  /* min-width: 40rem; */
+  * {
+    color: var(--text-light);
+  }
+}
+
+#db-current-watch-mode {
+  background: var(--surface-light);
+  display: flex;
+  flex-direction: column;
+}
+
+#video-comparison-top-widget {
+  /* min-width: 40rem; */
+}
+
+#notable-days-top-widget {
+  min-width: 52rem;
+}
+
+#new-videos-top-widget {
+  /* min-width: 40rem; */
+}
+
+#notable-days-top-widget .content > span {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+#new-videos-top-widget .content > ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 1.2rem;
+
+  > li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+
+  a {
+    color: var(--text-dark);
+    border-radius: 12px;
+    padding: 1.2rem;
+    width: 100%;
+    gap: 1.2rem;
+    justify-content: space-between;
+
+    > span {
+      display: flex;
+      gap: 0.8rem;
+    }
+  }
+
+  a:hover {
+    box-shadow: 2px 3px 8px 0px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* #watch-times select {
+  padding: 0.8rem;
+  border-radius: 1.2rem;
+  background: var(--surface-light);
+  border: 1.5px solid var(--border-dark);
+} */
+
+#watch-times > section:has(.watch-time-span) {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1.6rem;
+
+  h1 {
+    font-size: 1.6rem;
+    /* font-weight: 500; */
+  }
+}
+
+.watch-time-container {
+  display: flex;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.watch-time-span {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+  border-radius: 12px;
+  background: var(--surface-light);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+  flex: 1 0 0;
+  justify-content: space-between;
+  min-width: 50rem;
+
+  height: auto;
+
+  > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  canvas {
+    height: 42rem;
+    max-height: 50rem;
+  }
+}
+
+.total-time-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.total-time-container > span:nth-child(2) {
+  padding: 0.4rem 1.2rem;
+  border-radius: 1.6rem;
+  border: 1.5px dashed var(--border-brand);
+  background: white;
+}
+
+.timeframe-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.timeframe-inputs {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+
+  p {
+    color: var(--text-dark);
+  }
 }
 
 /* 
@@ -1593,5 +1843,57 @@ input[type="color"] {
   }
   to {
     --angle: 360deg;
+  }
+}
+
+/* Circular Progress Bar */
+.progress-container h1 {
+  font-size: 1.6rem;
+  text-align: center;
+}
+.progress {
+  margin: 1.2rem;
+  width: 10rem;
+  height: 10rem;
+  position: relative;
+}
+
+.progress > svg {
+  height: 100%;
+  display: block;
+}
+
+.progressbar-text {
+  color: var(--text-dark) !important;
+}
+
+#watch-times-list {
+  ul,
+  li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  ul {
+    height: 100%;
+    gap: 0.8rem;
+  }
+
+  li {
+    gap: 0.4rem;
+
+    p:nth-child(2) {
+      font-weight: 700;
+    }
+  }
+
+  * {
+    color: var(--border-dark);
+  }
+
+  hr {
+    width: 100%;
+    border: 1px solid var(--border-dark);
+    margin: 0.4rem 0;
   }
 }
