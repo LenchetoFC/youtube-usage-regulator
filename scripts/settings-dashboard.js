@@ -1,569 +1,48 @@
 /** INFORMATION
  * @LenchetoFC
- * @description This controls the settings pages and accurately
- *  displays current settings and user information for the schedule settings
+ * @description Dashboard that shows user quick information regarding watch times, scheduling, and current watch modes
  *
  */
 
-// TODO: Better name class and id names
-// FIXME: new schedule overlay - when times are added, the next time the overlay pops up, it will not have the any time lines
-
 /**
- * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** Initial Variable Instances */
-// const scheduleDays = [
-//   "sunday",
-//   "monday",
-//   "tuesday",
-//   "wednesday",
-//   "thursday",
-//   "friday",
-//   "saturday",
-// ];
-// let timeIntervalAmt = 1;
-
-// /** Initial Function Calls */
-// isTimeChoiceValid($("#schedule-start-time"), $("#schedule-end-time")); //Adds invalid test to first default interval
-// hidesTimeInterval();
-// insertSchedule();
-
-// // TODO:
-// // let allDayBtn = document.getElementById("schedule-all-day");
-// // let addTimeInterval = document.getElementById("add-new-time-btn");
-// let newTimeContainer = document.getElementById("new-time-container");
-// // let submitSchedule = document.getElementById("submit-schedule");
-
-// const scheduleDayForm = document.querySelectorAll("form input");
-// // const firsttimeIntervalLine = $('#time-container section:first-child');
-
-// // Important queries for hiding and showing 'add new schedule' popup
-// // let overlay = document.querySelector("#overlay");
-// // let newScheduleOverlay = document.querySelector(".schedule-overlay");
-// // let entireHTML = document.querySelector("html");
-
-// /**
-//  * SECTION - FUNCTION DECLARATIONS
-//  */
-
-// /** FUNCTION
-//  * Converts military time in string type into the 12 hour format in string type
-//  *
-//  * @param {string} startTime - the beginning of the schedule time
-//  * @param {string} endTime - the end of the schedule time
-//  *
-//  * @returns {array} Returns an array of both times in 12-Hour format
-//  *
-//  * @example convertMilToTwelveHour("12:42", "18:00");
-//  */
-// function convertMilToTwelveHour(startTime, endTime) {
-//   // Convert start time to AM/PM format
-//   let startHour = parseInt(startTime.slice(0, 2));
-//   let startMinutes = startTime.slice(3);
-//   let startPeriod = startHour >= 12 ? "PM" : "AM";
-//   if (startHour > 12) {
-//     startHour -= 12;
-//   }
-//   startTime = `${startHour}:${startMinutes} ${startPeriod}`;
-
-//   // Convert end time to AM/PM format
-//   let endHour = parseInt(endTime.slice(0, 2));
-//   let endMinutes = endTime.slice(3);
-//   let endPeriod = endHour >= 12 ? "PM" : "AM";
-//   if (endHour > 12) {
-//     endHour -= 12;
-//   }
-//   endTime = `${endHour}:${endMinutes} ${endPeriod}`;
-
-//   // Returns an array of both times in 12-Hour format
-//   return [startTime, endTime];
-// }
-
-// /** FUNCTION - adds schedules to the schedule grid in DOM */
-// function insertSchedule() {
-//   let scheduleGrid = $("#schedules");
-//   // Actions for when time selection delete button is pressed
-//   $("#schedules").on("click", ".schedule-delete", function () {
-//     // Retrieves the ID stored in the button's data-id attribute
-//     let containerId = $(this).data("id");
-
-//     // Deletes the container with the matching ID
-//     $("#" + containerId).remove();
-//     console.log(containerId);
-
-//     let dayToDelete = containerId.slice("schedule-".length);
-//     setNestedSetting("schedule-days", dayToDelete, [false]);
-
-//     // Eliminates extra space if there are no active schedules
-//     if ($("#schedules").children().length === 0) {
-//       $("#schedules").css("display", "none");
-//       $("#schedule-title").css("display", "none");
-//     }
-//   });
-
-//   // Checks each day for schedules and displays any that exist on page
-//   $.each(scheduleDays, (index, day) => {
-//     let dayCapitalize = day[0].toUpperCase() + day.slice(1);
-
-//     // Gets the stored schedules (if any) from schedule days settings
-//     getSettings(`schedule-days`, (schedules) => {
-//       let schedule = schedules[day];
-
-//       // Immediately skips day if there are no schedules
-//       if (schedule.length === 1 && schedule[0] === false) return;
-
-//       let scheduleItem = $("<section>")
-//         .addClass("schedule-item flex-col")
-//         .attr("id", `schedule-${day}`);
-//       let scheduleItemHeader = $("<section>").addClass("schedule-item-header")
-//         .html(`
-//         <section class="schedule-item-day">${dayCapitalize}</section>
-//       `);
-
-//       scheduleItem.append(scheduleItemHeader);
-
-//       let scheduleTimeList = $("<section>").addClass("schedule-time-list");
-
-//       // Adds either all day (schedule[0] = true) or all scheduled times (false)
-//       if (schedule[0]) {
-//         let scheduleTime = $("<section>").addClass("schedule-time").html(`
-//           <div class="schedule-start-time"></div>
-//           <div>All Day</div>
-//           <div class="schedule-end-time"></div>
-//         `);
-
-//         scheduleTimeList.append(scheduleTime);
-//         scheduleItem.append(scheduleTimeList);
-//       } else if (schedule[0] === false && schedule.length > 1) {
-//         console.log("adds time");
-//         $.each(schedule.slice(1), (index, time) => {
-//           // Converts military time to 12-hour clock
-//           let convertedTime = convertMilToTwelveHour(time[0], time[1]);
-
-//           let scheduleTime = $("<section>").addClass("schedule-time").html(`
-//             <div class="schedule-start-time">${convertedTime[0]}</div>
-//             <div>to</div>
-//             <div class="schedule-end-time">${convertedTime[1]}</div>
-//           `);
-//           scheduleTimeList.append(scheduleTime);
-//         });
-
-//         scheduleItem.append(scheduleTimeList);
-//       }
-
-//       // Creates and appends schedule delete button
-//       let deleteBtnIcon = $("<img>")
-//         .addClass("icon-delete schedule-delete")
-//         .attr("src", "/images/icon-trash.svg")
-//         .attr("alt", "X delete button")
-//         .attr("data-id", scheduleItem.attr("id"));
-
-//       let scheduleDeleteBtn = $("<button>").append(deleteBtnIcon);
-
-//       // Creates and appends schedule edit button
-//       let editBtnIcon = $("<img>")
-//         .addClass("icon-in-btn")
-//         .attr("src", "/images/icon-edit-simple.svg")
-//         .attr("alt", "pencil edit button");
-//       let scheduleEditBtn = $("<button>").append(editBtnIcon);
-
-//       // Creates and appends button container to schedule item
-//       let buttonContainer = $("<div>").addClass("schedule-btn-container");
-
-//       buttonContainer.append(scheduleDeleteBtn);
-//       buttonContainer.append(scheduleEditBtn);
-//       scheduleItem.append(buttonContainer);
-
-//       // Adds header and schedule items to grid if there is at least one schedule
-//       if (schedule[0] || schedule.length > 1) {
-//         scheduleGrid.append(scheduleItem);
-
-//         // Displays schedule grid and header
-//         scheduleGrid.css("display", "grid");
-//       }
-//     });
-//   });
-// }
-
-// /** FUNCTION
-//  * Essentially resets the time selection by to default by hiding
-//  *  the time selectors and unchecking all day checkboxes
-//  *
-//  * @param {array} scheduleDays - an array of the checkboxes to uncheck
-//  *
-//  * @returns {array} Returns an array of both times in 12-Hour format
-//  *
-//  * @example deselectDaySelections(["schedule-mon", "schedule-fri"]);
-//  */
-// function deselectDaySelections(scheduleDays) {
-//   $(scheduleDays).each(function () {
-//     $(this).prop("checked", false);
-//   });
-
-//   $("#schedule-all-day").prop("checked", false);
-//   addsTimeInterval();
-// }
-
-// /** FUNCTION - Hides entire time selection container */
-// function hidesTimeInterval() {
-//   $("#add-new-time-btn").css("display", "flex");
-//   $("#schedule-time-container").slideUp();
-//   $("#schedule-all-day").prop("checked", false);
-//   $("#new-time-container").text = "";
-// }
-
-// /** FUNCTION - Reinserts first time selection line when "all day" button is deselected */
-// function addsTimeInterval() {
-//   $("#add-new-time-btn").fadeIn();
-//   $(".schedule-time-container").css("padding", "1rem 0");
-//   $(".schedule-time-container").slideDown();
-// }
-
-// /** FUNCTION - Removes all but one time selection line when "all day" button is selected */
-// function removesTimeInterval(scheduleType) {
-//   $(".schedule-time-container").slideUp();
-//   $("#add-new-time-btn").fadeOut();
-//   $(".schedule-time-container").css("padding", "0");
-//   console.log(scheduleType);
-
-//   // Keeps first time selection child to avoid miscounting children after deselecting all day btn
-//   while (
-//     newTimeContainer.lastChild.id !== `first-time-selection-${scheduleType}`
-//   ) {
-//     newTimeContainer.removeChild(newTimeContainer.lastChild);
-//   }
-
-//   removeTimeValues();
-
-//   timeIntervalAmt = 1;
-// }
-
-// /** TODO: Function description */
-// function removeTimeValues() {
-//   // Removes values from the first child
-//   $(`#new-time-container section:first-child input`)[0].value = "";
-//   $(`#new-time-container section:first-child input`)[1].value = "";
-//   $(`#edit-time-container section:first-child input`)[0].value = "";
-//   $(`#edit-time-container section:first-child input`)[1].value = "";
-// }
-
-// /** FUNCTION - hides the new schedule popup and resetting the schedule form */
-// function hideNewSchedulePopup() {
-//   $("#overlay").fadeOut();
-//   $(".new-overlay").fadeOut();
-//   $("html").css("overflow", "");
-
-//   let selectedDays = document.querySelectorAll(".checkbox-circle label input");
-//   deselectDaySelections(selectedDays);
-// }
-
-// /** TODO: Function description */
-// function getSelectedTimeValue(times) {
-//   let selectedTimes = [];
-//   times.each(function () {
-//     let startTimeValue = $(this).children().eq(0).val();
-//     let endTimeValue = $(this).children().eq(2).val();
-//     if (startTimeValue != "" && endTimeValue != "") {
-//       selectedTimes.push([startTimeValue, endTimeValue]);
-//     } else selectedTimes = "";
-//   });
-//   console.log(selectedTimes);
-
-//   return selectedTimes;
-// }
-
-// /** FUNCTION - hides overlays */
-// /** TODO: better description */
-// function hideOverlay(formOverlayID) {
-//   $("#overlay").css("display", "none");
-//   $(formOverlayID).css("display", "none");
-//   $("html").css("overflow", "");
-// }
-
-// // FIXME: sometimes gets stuck in endless alert loop
-// /** FUNCTION - Checks if time selections are valid (i.e. start time is always less than end time) */
-// function isTimeChoiceValid(startTime, endTime) {
-//   // Checks if start time is later than end time
-//   startTime.on("blur", () => {
-//     if (startTime.val() && endTime.val() && startTime.val() > endTime.val()) {
-//       // Alerts user of their error
-//       startTime.css("borderColor", "var(--red)");
-//       endTime.css("borderColor", "var(--red)");
-//       alert(
-//         "Start time is later than end time. Update times before adding schedule"
-//       );
-//     } else {
-//       startTime.css("borderColor", "var(--grey)");
-//       endTime.css("borderColor", "var(--grey)");
-//     }
-//   });
-
-//   // Checks if start time is later than end time
-//   endTime.on("blur", () => {
-//     if (startTime.val() > endTime.val()) {
-//       // Alerts user of their error
-//       startTime.css("borderColor", "var(--red)");
-//       endTime.css("borderColor", "var(--red)");
-//       alert(
-//         "Start time is later than end time. Update times before adding schedule"
-//       );
-//     } else {
-//       startTime.css("borderColor", "var(--grey)");
-//       endTime.css("borderColor", "var(--grey)");
-//     }
-//   });
-// }
-
-// /**TODO: Function description */
-// function populateScheduleTimes() {}
-
-// /** TODO: Function description */
-// // TODO: get initial timeIntervalAmt of what is already there for edit schedule
-// function addTimeInterval(scheduleType) {
-//   timeIntervalAmt++;
-
-//   // console.log(`${scheduleType} time interval`);
-//   // let scheduleType = "new"
-//   // Creates new element and appends time selection to schedule container
-
-//   let timeInterval = $("<section>", {
-//     class: "schedule-new-time",
-//     id: `${scheduleType}-time-line-${timeIntervalAmt}`,
-//     css: {
-//       display: "none",
-//     },
-//     html: `
-//       <input id="schedule-start-time" name="schedule-start-time" placeholder="Start time" type="time">
-//         <div>to</div>
-//       <input id="schedule-end-time" name="schedule-end-time" placeholder="End time" type="time">
-
-//       <button class="btn">
-//         <img class="icon-delete" src="/images/icon-trash.svg" alt="Trash can delete button">
-//       </button>
-//     `,
-//   });
-
-//   $("#new-time-container").append(timeInterval);
-//   $(`#${scheduleType}-time-line-${timeIntervalAmt}`).slideDown();
-
-//   // Actions for when time selection delete button is pressed
-//   // let deleteBtn = timeInterval.querySelector(".btn");
-//   $(`#new-time-line-${timeIntervalAmt} .btn`).on("click", function () {
-//     // Deletes time selection line the delete button is associated to
-//     $(`#new-time-line-${timeIntervalAmt}`).slideUp(function () {
-//       $(this).remove();
-//     });
-//     timeIntervalAmt--;
-
-//     // Displays "all time" button if the count is not at max
-//     if (timeIntervalAmt < 5) $("#add-new-time-btn").fadeIn();
-//   });
-
-//   // Checks if start time is less than end time
-//   let startTime = timeInterval.find("#schedule-start-time");
-//   let endTime = timeInterval.find("#schedule-end-time");
-//   isTimeChoiceValid(startTime, endTime);
-
-//   // Removes "add time" button so user can't add more intervals
-//   if (timeIntervalAmt == 5) $("#add-new-time-btn").fadeOut();
-// }
-
-// /** SECTION - Event Listeners */
-// // Shows the new schedule overlay when add new schedule button is clicked
-// $("#add-new-schedule-btn").on("click", function () {
-//   $("#overlay").first().fadeIn();
-//   $(".new-overlay").first().fadeIn();
-//   $("html").css("overflow", "hidden");
-// });
-
-// /** Hides popup when the overlay outside of the popup or 'X' btn are clicked */
-// $("#overlay").on("click", function () {
-//   hideNewSchedulePopup();
-//   removeTimeValues();
-//   removesTimeInterval();
-// });
-// // TODO: error occurs if all day button is selected and then canceled
-// $(".new-schedule-exit").on("click", function () {
-//   hideNewSchedulePopup();
-//   removeTimeValues();
-// });
-
-// /** Shows time selection container when any schedule day is checked */
-// scheduleDayForm.forEach((element) => {
-//   element.addEventListener("change", () => {
-//     // Check if any checkbox is checked
-//     const isAnyChecked = Array.from(scheduleDayForm).some(
-//       (checkbox) => checkbox.checked
-//     );
-
-//     // Hides/shows time selections if at least one checkbox is checked
-//     if (isAnyChecked) {
-//       $("#schedule-new-container").slideDown();
-//     } else {
-//       hidesTimeInterval();
-//     }
-//   });
-// });
-
-// /** Add new time selection line "add time" btn is pressed and passes scheduleType (edit or new) */
-// $(".add-time-btn").on("click", function () {
-//   let scheduleType = $(this).val();
-//   // console.log(scheduleType)
-//   addTimeInterval(scheduleType);
-// });
-
-// /** Remove or insert time selection when "all day" button is clicked in new/edit schedule overlay */
-// $("#schedule-all-day").on("click", function () {
-//   let scheduleType = $("#schedule-all-day").prop("value");
-//   // console.log(`Schedule type: ${scheduleType}`)
-//   if ($("#schedule-all-day").is(":checked")) {
-//     removesTimeInterval(scheduleType);
-//   } else {
-//     addsTimeInterval();
-//   }
-// });
-
-// // TODO: make reusable for edit schedule
-// /** Actions for when user is submitting schedule times */
-// $(".submit-schedule").on("click", function () {
-//   // Gets selected time values and pushes them to an array
-//   let scheduleType = $(this).val();
-//   let times = $(`.schedule-${scheduleType}-time`);
-//   let selectedTimes;
-//   // console.log(times)
-
-//   if ($("#schedule-all-day").is(":checked")) {
-//     selectedTimes = true; // if all day is selected
-//   }
-//   {
-//     selectedTimes = getSelectedTimeValue(times);
-//     // console.log(selectedTimes)
-//   }
-
-//   // Gets selected schedule days
-//   let selectedDays = [];
-//   let scheduleDays = $(".schedule-day label input");
-
-//   // Filters out unselected days
-//   let filteredDays = Array.from(scheduleDays, (day) => ({
-//     [day.name]: day.checked,
-//   })).filter((day) => day[Object.keys(day)[0]]);
-
-//   // Gets rid of true boolean values and only keeps selected days
-//   filteredDays.forEach((element) => {
-//     selectedDays.push(Object.keys(element)[0]);
-//   });
-
-//   // Alerts error and breaks from block if any invalid combo is selected
-//   if (
-//     (!$("#schedule-all-day").is(":checked") && selectedTimes === "") ||
-//     selectedDays.length === 0
-//   ) {
-//     alert("Please choose a valid schedule selection...");
-//     return;
-//   }
-
-//   // FIXME: cannot do multiple days at once
-//   // FIXME: Adding time intervals do not work - it may register as if all day button has been selected when it hasnt been
-//   /** SECTION - ADDING SCHEDULES TO STORAGE */
-//   // Add new schedule day to schedule list
-//   let scheduleGrid = $("#schedules");
-//   selectedDays.forEach((day, index) => {
-//     getSettings("schedule-days", (schedules) => {
-//       let currentTimes = schedules[day];
-//       // console.log("\n")
-//       // console.log(`Day: ${day}`)
-//       // console.log(`Times Length: ${times.length}`)
-//       // console.log(`Is all day checked? ${$('#schedule-all-day').is(":checked")}`)
-//       // console.log(`Selected times is blanked? ${selectedTimes === ""}`)
-//       // console.log(`Current times: ${currentTimes}`)
-//       // console.log(`all day checked? ${!($('#schedule-all-day').is(":checked")) && selectedTimes == ""}`)
-
-//       console.log(currentTimes[0]);
-//       console.log(currentTimes);
-//       console.log(selectedTimes);
-
-//       if (!$("#schedule-all-day").is(":checked") && selectedTimes === "") {
-//         alert('Select times or "All Day" before clicking "Done"');
-//       } else {
-//         // Runs this code if "all day" or times have been selected
-//         if (currentTimes[0] == true || currentTimes == true) {
-//           alert(
-//             `To add new times to ${day.toUpperCase()}., delete the day's current schedule and try again.`
-//           );
-//         }
-//         // If all day button is selected
-//         else if (
-//           (currentTimes[0] == false || currentTimes == false) &&
-//           $("#schedule-all-day").is(":checked")
-//         ) {
-//           // Replaces currently stored times with true value for "all day" schedule to schedule day
-//           console.log($("#schedule-all-day").is(":checked"));
-//           setNestedSetting(
-//             "schedule-days",
-//             day,
-//             [$("#schedule-all-day").is(":checked")],
-//             () => {
-//               hideOverlay(".schedule-overlay");
-
-//               // console.log("if all day button is selected")
-
-//               // Only displays schedules and hides selection after the last schedule day has been handled
-//               // console.log(`index: ${index}`);
-//               // console.log(`selected days: ${selectedDays}`);
-//               // console.log(`selected days length: ${selectedDays.length - 1}`);
-//               if (index == selectedDays.length - 1) {
-//                 $("#schedules").empty();
-//                 deselectDaySelections(scheduleDays);
-//                 insertSchedule();
-//               }
-//             }
-//           );
-//         }
-//         // if any times have been selected
-//         else {
-//           console.log("if any times have been selected");
-
-//           // Pushes each time selection to currentTime array
-//           selectedTimes.forEach((time) => {
-//             currentTimes.push(time);
-//           });
-
-//           console.log(currentTimes);
-
-//           // Sorts the currentTimes array by the first element of each nested array
-//           currentTimes.sort((a, b) => {
-//             if (typeof a === "boolean" || typeof b === "boolean") {
-//               return 0;
-//             }
-//             return a[0].localeCompare(b[0]);
-//           });
-
-//           // Stores new and current times to schedule day
-//           // console.log(currentTimes)
-//           setNestedSetting("schedule-days", day, currentTimes, () => {
-//             hideOverlay(".schedule-overlay");
-
-//             // Only displays schedules and hides selection after the last schedule day has been handled
-//             if (index === selectedDays.length - 1) {
-//               scheduleGrid.html("");
-//               deselectDaySelections(scheduleDays);
-//               removesTimeInterval(scheduleType);
-//               insertSchedule();
-//               timeIntervalAmt = 1;
-//             }
-//           });
-//         }
-//       }
-//       // console.log("\n")
-//     });
-//   });
-// });
-
-//TODO: add function to check if any of the selected schedules are already set
-// if so, set an alert before adding new schedules to allow user to
-// also, only push one alert after every day is checked to list all days affected
+/** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
+ *
+ * @returns {Object} an object that holds the percentages of watch types
+ *
+ * @example getWatchTypeComparisons();
+ */
+async function getWatchTypeComparisons() {
+  try {
+    let totalLongFormTime = 0;
+    let totalShortFormTime = 0;
+
+    let allWatchTimes = await getAllWatchTimes();
+
+    // Gets all long form and short form times
+    for (let index in allWatchTimes) {
+      totalLongFormTime += allWatchTimes[index]["long-form-watch-time"];
+      totalShortFormTime += allWatchTimes[index]["short-form-watch-time"];
+    }
+
+    // Calculates percentages and fixes them to 2 decimal places
+    let totalTime = totalLongFormTime + totalShortFormTime;
+    let longFormPercentage = (totalLongFormTime / totalTime).toFixed(2);
+    let shortFormPercentage = (totalShortFormTime / totalTime).toFixed(2);
+
+    // Create object to be returned
+    let watchTypeComparisons = {
+      "long-form-percentage": longFormPercentage,
+      "short-form-percentage": shortFormPercentage,
+    };
+
+    return watchTypeComparisons;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 /** SECTION - FUNCTION DECLARATIONS */
 
@@ -593,70 +72,400 @@ async function insertCurrentWatchMode() {
 
 /** !SECTION */
 
-insertCurrentWatchMode();
+/** FUNCTION: Create circular bar for the percentage of watched long-form and short-form videos
+ *
+ * @param {string} selector - the selector tag id to connect the bar with
+ * @param {string} fromColor - the start color of the bar while it's animating to its set percentage
+ * @param {string} toColor - the end color of the bar after the percentage has reached its set number
+ * @param {string} fontSize - the size of the font inside of the progress bar
+ *
+ * @returns {Object} Progress bar object to be animated
+ *
+ * @example const longFormBar = createProgressBar("#progress-long-form", "#d92121", "#d92121", "2rem");
+ *
+ * @notes progressbar.js@1.0.0 version is used
+ * @notes Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+ */
+function createProgressBar(selector, fromColor, toColor, fontSize) {
+  const element = document.querySelector(selector);
 
-// progressbar.js@1.0.0 version is used
-// Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
-/** Create circular bar for how much combined watch time is from short form videos */
-let percentageFontSize = "2rem";
-const shortFormBar = new ProgressBar.Circle("#progress-short-form", {
-  strokeWidth: 6,
-  trailWidth: 3,
-  easing: "easeInOut",
-  duration: 1400,
-  text: {
-    autoStyleContainer: false,
-  },
-  from: { color: "#47935b", width: 4 },
-  to: { color: "#47935b", width: 6 },
-  // Set default step function for all animate calls
-  step: function (state, circle) {
-    circle.path.setAttribute("stroke", state.color);
-    circle.path.setAttribute("stroke-width", state.width);
+  const bar = new ProgressBar.Circle(element, {
+    strokeWidth: 6,
+    trailWidth: 3,
+    easing: "easeInOut",
+    duration: 1400,
+    text: {
+      autoStyleContainer: false,
+    },
+    from: { color: fromColor, width: 4 },
+    to: { color: toColor, width: 6 },
+    step: function (state, circle) {
+      circle.path.setAttribute("stroke", state.color);
+      circle.path.setAttribute("stroke-width", state.width);
 
-    var value = Math.round(circle.value() * 100);
-    if (value === 0) {
-      circle.setText("");
+      var value = Math.round(circle.value() * 100);
+      if (value === 0) {
+        circle.setText("");
+      } else {
+        circle.setText(`${value}%`);
+      }
+    },
+  });
+
+  bar.text.style.fontSize = fontSize;
+  return bar;
+}
+
+/** TODO: FUNCTION: Determine if the chosen dates are valid as in the start date is before the end date
+ *
+ * @param {null} null - null
+ *
+ * @returns {null} Progress bar object to be animated
+ *
+ * @example const isValidated = validChartTimeFrame();
+ *
+ */
+function validChartTimeFrame(startDate, endDate) {
+  return new Date(startDate) < new Date(endDate);
+}
+
+/** FUNCTION: Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+ *
+ * @param {string} dateValue - the watch time date in format 'yyyy-mm-dd'
+ *
+ * @returns {string} the watch time date in format 'mmm dd yyyy, www'
+ *
+ * @example let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
+ *
+ */
+function reformatDateToText(dateValue) {
+  let date = new Date(dateValue);
+  let dateSplit = date.toString().split(" ").slice(0, 4);
+  return `${dateSplit[1]} ${dateSplit[2]} ${dateSplit[3]}, ${dateSplit[0]}`;
+}
+
+/** ASYNC FUNCTION: Gets all watch times from chrome local storage
+ *
+ * @returns {array} array of watch time objects
+ *
+ * @example let allWatchTimes = getAllWatchTimes();
+ *
+ */
+async function getAllWatchTimes() {
+  let allRecords = await sendMessageToServiceWorker({
+    operation: "selectAll",
+    table: "watch-times",
+  });
+
+  return allRecords;
+}
+
+/** ASYNC FUNCTION: Calculates all watch times combined by week
+ *
+ * @returns {array} array of watch time objects combined by week
+ *
+ * @example let weeklyWatchTimes = await getWeeklyWatchTimes();
+ *
+ */
+async function getWeeklyWatchTimes() {
+  /** ENCAPSULATED FUNCTION: Determines which week the current watch time is in
+   *
+   * @param {string} date - watch time date in the format of "yyyy-mm-dd"
+   *
+   * @returns {string} the week in the format of "mm/dd/yyyy - mm/dd/yyyy"
+   *
+   */
+  function determineWeek(date) {
+    const [year, month, day] = date.split("-");
+    let curr = new Date(`${month}-${day}-${year}`);
+    let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+    let last = first + 6; // last day is the first day + 6
+
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    let firstDay = new Date(curr.setDate(first)).toLocaleDateString(
+      "en-US",
+      options
+    );
+    let lastDay = new Date(curr.setDate(last)).toLocaleDateString(
+      "en-US",
+      options
+    );
+
+    return `${firstDay} - ${lastDay}`;
+  }
+
+  /** Main Body */
+  // Gets all watch times unfiltered and unsorted
+  let allWatchTimes = await getAllWatchTimes();
+
+  let weeklyWatchTimes = [];
+
+  // Combines watch times by week
+  for (let index in allWatchTimes) {
+    const weeklyItem = {};
+    let week = determineWeek(allWatchTimes[index].date);
+
+    // Find the existing week entry
+    let existingWeek = weeklyWatchTimes.find((item) => item.date === week);
+
+    if (existingWeek) {
+      // If the week exists, add the current watch time to the existing total
+      existingWeek["total-watch-time"] +=
+        allWatchTimes[index]["total-watch-time"];
     } else {
-      circle.setText(`${value}%`);
+      // If the week doesn't exist, create a new entry
+      weeklyItem.date = week;
+      weeklyItem["total-watch-time"] = allWatchTimes[index]["total-watch-time"];
+      weeklyWatchTimes.push(weeklyItem);
     }
-  },
-});
-shortFormBar.text.style.fontSize = percentageFontSize;
+  }
 
-// Animate shortFormBar to a specific percentage
-shortFormBar.animate(0.38);
+  return weeklyWatchTimes;
+}
 
-/** Create circular bar for how much combined watch time is from long form videos */
-const longFormBar = new ProgressBar.Circle("#progress-long-form", {
-  strokeWidth: 6,
-  trailWidth: 3,
-  easing: "easeInOut",
-  duration: 1400,
-  text: {
-    autoStyleContainer: false,
-  },
-  from: { color: "#d92121", width: 4 },
-  to: { color: "#d92121", width: 6 },
-  // Set default step function for all animate calls
-  step: function (state, circle) {
-    circle.path.setAttribute("stroke", state.color);
-    circle.path.setAttribute("stroke-width", state.width);
+/** ASYNC FUNCTION: Calculates all watch times combined by month
+ *
+ * @returns {array} array of watch time objects combined by month
+ *
+ * @example let monthlyWatchTimes = await getMonthlyWatchTimes();
+ *
+ */
+async function getMonthlyWatchTimes() {
+  /** ENCAPSULATED FUNCTION: Determines which month the current watch time is in
+   *
+   * @param {string} date - watch time date in the format of "yyyy-mm-dd"
+   *
+   * @returns {string} Capitalized month name
+   *
+   */
+  function determineMonth(date) {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-    var value = Math.round(circle.value() * 100);
-    if (value === 0) {
-      circle.setText("");
+    const [year, month, day] = date.split("-");
+    let curr = new Date(`${month}-${day}-${year}`);
+    let currMonth = months[curr.getMonth()];
+
+    let currMonthCap = `${currMonth.charAt(0).toUpperCase()}${currMonth.slice(
+      1
+    )}`;
+
+    return currMonthCap;
+  }
+
+  /** Main Body */
+  // Gets all watch times to interate through
+  let allWatchTimes = await getAllWatchTimes();
+
+  let monthlyWatchTimes = [];
+
+  // Combines watch times by month
+  for (let index in allWatchTimes) {
+    const monthlyItem = {};
+    let month = determineMonth(allWatchTimes[index].date);
+
+    // Find the existing month entry
+    let existingMonth = monthlyWatchTimes.find((item) => item.date === month);
+
+    if (existingMonth) {
+      // If the month exists, add the current watch time to the existing total
+      existingMonth["total-watch-time"] +=
+        allWatchTimes[index]["total-watch-time"];
     } else {
-      circle.setText(`${value}%`);
+      // If the month doesn't exist, create a new entry
+      monthlyItem.date = month;
+      monthlyItem["total-watch-time"] =
+        allWatchTimes[index]["total-watch-time"];
+      monthlyWatchTimes.push(monthlyItem);
     }
-  },
-});
-longFormBar.text.style.fontSize = percentageFontSize;
-// longFormBar.text.style.trailWidth = 3;
+  }
 
-// Animate longFormBar to a specific percentage
-longFormBar.animate(0.62);
+  return monthlyWatchTimes;
+}
 
+/** ASYNC FUNCTION: Inserts watch time list items depending on timeframe chosen
+ *
+ * @param {Object} watchTimes - holds the watch time object that has the date and total amount of watch time in seconds
+ * @param {string} timeframe - determines how the watch time list item is prepared for HTML insertion
+ *
+ * @returns {null}
+ *
+ * @notes convertTimeToText() is imported from global-functions.js
+ *
+ */
+async function insertFilteredWatchTimes(watchTimes, timeframe) {
+  /** ENCAPSULATED FUNCTION: Appends watch time line into watch time list
+   *
+   * @param {Object} dateValue - holds the watch time date; could be three different formats depending on the timeframe
+   * @param {int} watchTimeSeconds - the watch time in seconds that will be converted to text
+   * @param {boolean} isLastItem - determines if a horizontal line is appended after an item
+   * @param {boolean} needsReformatting - only applies to reformatting the date to text for daily times; default is false
+   *
+   * @returns {null}
+   *
+   */
+  function appendWatchTimeItem(
+    dateValue,
+    watchTimeSeconds,
+    isLastItem,
+    needsReformatting = false
+  ) {
+    let watchTimeListElem = $("#watch-times-list > ul");
+
+    let newDateFormat = needsReformatting
+      ? reformatDateToText(dateValue)
+      : dateValue;
+    let newTimeForamt = convertTimeToText(watchTimeSeconds, true);
+    let watchTimeItem = $(`<li>
+                            <p>${newDateFormat}</p>
+                            <p>${newTimeForamt}</p>
+                          </li>`);
+
+    watchTimeListElem.append(watchTimeItem);
+
+    // Appends a horizontal line after every watch time except the final time
+    if (!isLastItem) {
+      watchTimeListElem.append("<hr>");
+    }
+  }
+
+  /** Main Body */
+  if (timeframe === "daily-times") {
+    for (let index in watchTimes) {
+      let dateValue = watchTimes[index]["date"];
+      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
+      let isLastItem = index == watchTimes.length - 1;
+      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem, true);
+    }
+  } else if (timeframe === "weekly-times") {
+    for (let index in watchTimes) {
+      let dateValue = watchTimes[index]["date"];
+      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
+      let isLastItem = index == watchTimes.length - 1;
+      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem);
+    }
+  } else if (timeframe === "monthly-times") {
+    for (let index in watchTimes) {
+      let dateValue = watchTimes[index]["date"];
+      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
+      let isLastItem = index == watchTimes.length - 1;
+      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem);
+    }
+  }
+}
+
+/** FUNCTION: Gets and displays the relevant watch times for the "Notable Days" widget
+ *
+ * @returns {null}
+ *
+ * @example insertNotableWatchDays();
+ *
+ * @notes getCurrentWatchTimes() is imported from global-functions.js
+ *
+ */
+async function insertNotableWatchDays() {
+  /** ENCAPSULATED FUNCTION: Sorts the watch times by ascending order
+   *
+   * @returns {Array} An array of watch time objects
+   *
+   */
+  async function sortWatchTimesAsc() {
+    let allWatchTimes = await getAllWatchTimes();
+
+    return allWatchTimes.sort(
+      (a, b) => a["total-watch-time"] - b["total-watch-time"]
+    );
+  }
+
+  /** ENCAPSULATED FUNCTION: Gets the day with the least amount of watch time
+   *
+   * @returns {Object} Watch time object
+   *
+   */
+  async function getLeastWatchedDay() {
+    try {
+      const data = await sortWatchTimesAsc();
+
+      // Returns first element (least amount of watch time)
+      return data[0];
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /** ENCAPSULATED FUNCTION: Gets the day with the most amount of watch time
+   *
+   * @returns {Object} Watch time object
+   *
+   */
+  async function getMostWatchedDay() {
+    try {
+      const data = await sortWatchTimesAsc();
+
+      // Returns last element (most amount of watch time)
+      return data.pop();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /** Main Body */
+  try {
+    // Gets total watch time for the current day and inserts the date and time into "Today" column
+    const currentWatchTimes = await getCurrentWatchTimes();
+    let todayTime = currentWatchTimes[0]["total-watch-time"];
+    $(`#today-day #watch-time`).html(convertTimeToText(todayTime, true));
+
+    // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+    let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
+    $(`#today-day #date`).html(newDateFormat);
+
+    // Gets least watched day and inserts the date and time into "Least Watched Day" column
+    const leastWatchedObj = await getLeastWatchedDay();
+    if (leastWatchedObj) {
+      let leastDayTime = leastWatchedObj["total-watch-time"];
+      $(`#least-watch-day #watch-time`).html(
+        convertTimeToText(leastDayTime, true)
+      );
+
+      // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+      let leastDayNewDate = reformatDateToText(leastWatchedObj["date"]);
+      $(`#least-watch-day #date`).html(leastDayNewDate);
+    }
+
+    // Gets most watched day and inserts the date and time into "Most Watched Day" column
+    const mostWatchedObj = await getMostWatchedDay();
+    if (mostWatchedObj) {
+      let mostDayTime = mostWatchedObj["total-watch-time"];
+      $(`#most-watch-day #watch-time`).html(
+        convertTimeToText(mostDayTime, true)
+      );
+
+      // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+      let mostDayNewDate = reformatDateToText(mostWatchedObj["date"]);
+      $(`#most-watch-day #date`).html(mostDayNewDate);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/** !SECTION */
+
+/** Watch Times Chart */
+// TODO: encapsulate
 let currentDayOfMonth = new Date().getDate();
 
 const days = Array.from({ length: currentDayOfMonth }, (_, i) => i + 1);
@@ -738,3 +547,71 @@ new Chart("chart", {
     },
   },
 });
+
+/** SECTION - ONLOAD FUNCTION CALLS */
+$(document).ready(async function () {
+  /** EVENT LISTENER: calculates and displays corresponding watch time chart  */
+  $("#chart-timeframe").on("change", function () {
+    let videoTypeValue = $(this).val();
+    console.log("Selected value:", videoTypeValue);
+    // You can add additional logic here to handle the selected value
+  });
+
+  /** EVENT LISTENER: calculates and displays corresponding watch time timeframes  */
+  $("#list-timeframe").on("change", async function () {
+    // Deletes any existing list to be replaced by upcoming list
+    $("#watch-times-list > ul").html("");
+
+    // Timeframe value for determining which times to display
+    let timeframeValue = $(this).val();
+
+    // Choose the corresponding filter function according to selected value
+    if (timeframeValue === "daily-times") {
+      let dailyWatchTimes = await getAllWatchTimes();
+
+      insertFilteredWatchTimes(dailyWatchTimes, "daily-times");
+    } else if (timeframeValue === "weekly-times") {
+      let weeklyWatchTimes = await getWeeklyWatchTimes();
+
+      insertFilteredWatchTimes(weeklyWatchTimes, "weekly-times");
+    } else if (timeframeValue === "monthly-times") {
+      let monthlyWatchTimes = await getMonthlyWatchTimes();
+
+      insertFilteredWatchTimes(monthlyWatchTimes, "monthly-times");
+    }
+  });
+
+  // Populates watch time list by default (daily)
+  let dailyWatchTimes = await getAllWatchTimes();
+  insertFilteredWatchTimes(dailyWatchTimes, "daily-times");
+
+  // Gets and displays the relevant watch times for the "Notable Days" widget
+  insertNotableWatchDays();
+
+  // Gets and displays the current watch mode in the corresponding widget
+  insertCurrentWatchMode();
+
+  // Creates the circular bar for the relative percentage of short form video watch time
+  const shortFormBar = createProgressBar(
+    "#progress-short-form",
+    "#47935b",
+    "#47935b",
+    "2rem"
+  );
+
+  // Creates the circular bar for the relative percentage of long form video watch time
+  const longFormBar = createProgressBar(
+    "#progress-long-form",
+    "#d92121",
+    "#d92121",
+    "2rem"
+  );
+
+  // Animate longFormBar and shortFormBar to a specific percentage
+  getWatchTypeComparisons().then((percentages) => {
+    shortFormBar.animate(percentages["short-form-percentage"]);
+    longFormBar.animate(percentages["long-form-percentage"]);
+  });
+});
+
+/** !SECTION */

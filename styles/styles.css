@@ -1701,16 +1701,8 @@ nav {
   flex-direction: column;
 }
 
-#video-comparison-top-widget {
-  /* min-width: 40rem; */
-}
-
 #notable-days-top-widget {
   min-width: 52rem;
-}
-
-#new-videos-top-widget {
-  /* min-width: 40rem; */
 }
 
 #notable-days-top-widget .content > span {

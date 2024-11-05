@@ -84,7 +84,7 @@ window.updateLimitationsDB = async (id, newRecords) => {
  *
  * @example let usageStatement = convertTimeToText(timeUsage);
  */
-window.convertTimeToText = (timeUsage) => {
+window.convertTimeToText = (timeUsage, abbrActive = false) => {
   // if time usage is below a minute
   if (timeUsage < 60) {
     return `${timeUsage} seconds`;
@@ -95,33 +95,40 @@ window.convertTimeToText = (timeUsage) => {
 
     // if time usage is between a minute and an hour
     if (timeUsage < 3600) {
-      return `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
+      let timeText = abbrActive
+        ? `${min} ${min === 1 ? "Min" : "Mins"} ${sec} Sec`
+        : `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
+      return timeText;
     } else if (timeUsage >= 3600) {
       // if time usage is above an hour
       let hours = Math.floor(timeUsage / 3600);
       let remainingMinutes = Math.floor((timeUsage - hours * 3600) / 60);
       return `${hours} Hr${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
         remainingMinutes === 1 ? "Min" : "Mins"
-      } ${sec} ${sec === 1 ? "Sec" : "Secs"}`;
+      }`;
     }
   }
 };
 
 /** ASYNC FUNCTION: Get current day's watch times
  *
- * @returns {string} Returns current day's watch time object
+ * @returns {Object} Returns current day's watch time object
  *
- * @example let currentWatchTimes = getCurrentWatchTimes();
+ * @example let currentWatchTimes = await getCurrentWatchTimes();
  */
 window.getCurrentWatchTimes = async () => {
-  let currentWatchTimeObj = await sendMessageToServiceWorker({
-    operation: "filterRecords",
-    table: "watch-times",
-    property: "date",
-    value: getCurrentDate(),
-  });
+  try {
+    let currentWatchTimeObj = await sendMessageToServiceWorker({
+      operation: "filterRecords",
+      table: "watch-times",
+      property: "date",
+      value: getCurrentDate(),
+    });
 
-  return currentWatchTimeObj;
+    return currentWatchTimeObj;
+  } catch (error) {
+    console.error("Error fetching current watch times:", error);
+  }
 };
 
 /** FUNCTION: Get current date
@@ -163,3 +170,35 @@ async function getCurrentWatchMode() {
     return false;
   }
 }
+
+/** ASYNC FUNCTION: Get the total watch times from the first date to the current date
+ *
+ * @returns {int} Returns current date's watch time in seconds i.e. 120
+ *
+ * @example getTotalWatchTime()
+    .then((totalTime) => {
+      $(`#total-watch-time`).html(convertTimeToText(totalTime));
+    })
+    .catch((error) => {
+      $(`#total-watch-time`).html(convertTimeToText(error));
+      console.error(error);
+    });
+ */
+window.getTotalWatchTime = async () => {
+  try {
+    let totalTime = 0;
+
+    let totalWatchTimes = await sendMessageToServiceWorker({
+      operation: "selectAll",
+      table: "watch-times",
+    });
+
+    for (let index in totalWatchTimes) {
+      totalTime += totalWatchTimes[index]["total-watch-time"];
+    }
+
+    return totalTime;
+  } catch (error) {
+    console.error(error);
+  }
+};

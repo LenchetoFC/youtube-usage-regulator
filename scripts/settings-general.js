@@ -797,10 +797,3 @@ $("#block-website").on("click", async function (event) {
 // } else {
 //   console.log(insertNewWatchTimes.data);
 // }
-
-//
-function getLeastWatchedDay() {}
-
-function getMostWatchedDay() {}
-
-function getWatchTypeComparisons() {}

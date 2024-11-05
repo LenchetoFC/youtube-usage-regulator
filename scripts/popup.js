@@ -12,41 +12,6 @@
  * SECTION - FUNCTION DECLARATIONS
  */
 
-/** ASYNC FUNCTION: Get the total watch times from the first date to the current date
- *
- * @returns {int} Returns current date's watch time in seconds i.e. 120
- *
- * @example getTotalWatchTime()
-    .then((totalTime) => {
-      $(`#total-watch-time`).html(convertTimeToText(totalTime));
-    })
-    .catch((error) => {
-      $(`#total-watch-time`).html(convertTimeToText(error));
-      console.error(error);
-    });
- */
-async function getTotalWatchTime() {
-  try {
-    let totalTime = 0;
-
-    let totalWatchTimes = await sendMessageToServiceWorker({
-      operation: "selectAll",
-      table: "watch-times",
-    });
-
-    for (let index in totalWatchTimes) {
-      // Auto-checks corresponding checkbox input
-      // $(`#${data[index].name}-quick`).attr("checked", true);
-      // console.log(totalWatchTimes[index]["total-watch-time"]);
-      totalTime += totalWatchTimes[index]["total-watch-time"];
-    }
-
-    return totalTime;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 /** FUNCTION: Get total watch time and today's watch time, reformats them, and inserts them into DOM
  *
  * @returns {null}
@@ -62,7 +27,7 @@ function insertWatchTimes() {
       $(`#today-watch-time`).html(convertTimeToText(todayTime));
     })
     .catch((error) => {
-      $(`#today-watch-time`).html(convertTimeToText(error));
+      $(`#today-watch-time`).html(error);
       console.error(error);
     });
 
@@ -72,7 +37,7 @@ function insertWatchTimes() {
       $(`#total-watch-time`).html(convertTimeToText(totalTime));
     })
     .catch((error) => {
-      $(`#total-watch-time`).html(convertTimeToText(error));
+      $(`#total-watch-time`).html(error);
       console.error(error);
     });
 }
