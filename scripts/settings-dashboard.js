@@ -29,8 +29,14 @@ async function getWatchTypeComparisons() {
 
     // Calculates percentages and fixes them to 2 decimal places
     let totalTime = totalLongFormTime + totalShortFormTime;
-    let longFormPercentage = (totalLongFormTime / totalTime).toFixed(2);
-    let shortFormPercentage = (totalShortFormTime / totalTime).toFixed(2);
+    let longFormPercentage = 0;
+    let shortFormPercentage = 0;
+
+    // Prevents typeError: cannot read props of null
+    if (totalTime != 0) {
+      longFormPercentage = (totalLongFormTime / totalTime).toFixed(2);
+      shortFormPercentage = (totalShortFormTime / totalTime).toFixed(2);
+    }
 
     // Create object to be returned
     let watchTypeComparisons = {
@@ -43,8 +49,6 @@ async function getWatchTypeComparisons() {
     console.error(error);
   }
 }
-
-/** SECTION - FUNCTION DECLARATIONS */
 
 /** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
  *
@@ -69,8 +73,6 @@ async function insertCurrentWatchMode() {
     return false;
   }
 }
-
-/** !SECTION */
 
 /** FUNCTION: Create circular bar for the percentage of watched long-form and short-form videos
  *
@@ -115,18 +117,235 @@ function createProgressBar(selector, fromColor, toColor, fontSize) {
   bar.text.style.fontSize = fontSize;
   return bar;
 }
-
-/** TODO: FUNCTION: Determine if the chosen dates are valid as in the start date is before the end date
+/** ASYNC FUNCTION: Resets the watch times table back to default
  *
- * @param {null} null - null
+ * This function sends a message to the service worker to reset the "watch-times" table to its default state.
  *
- * @returns {null} Progress bar object to be animated
+ * @returns {null}
  *
- * @example const isValidated = validChartTimeFrame();
- *
+ * @example resetWatchTime();
  */
-function validChartTimeFrame(startDate, endDate) {
-  return new Date(startDate) < new Date(endDate);
+async function resetWatchTime() {
+  let result = await sendMessageToServiceWorker({
+    operation: "resetTable",
+    table: "watch-times",
+  });
+
+  return result;
+}
+
+/** FUNCTION: Calculate total watch time for a specific video type
+ *
+ * This function calculates the total watch time for a given video type from an array of watch time objects.
+ *
+ * @param {Array} watchTimes - Array of watch time objects.
+ * @param {string} videoType - The type of video watch time to calculate ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
+ *
+ * @returns {number} The total watch time for the specified video type.
+ *
+ * @example let totalWatchTime = getTotalWatchTime(watchTimes, "long-form-watch-time");
+ */
+function getTotalWatchTime(watchTimes, videoType) {
+  let totalTime = 0;
+
+  for (let index in watchTimes) {
+    totalTime += watchTimes[index][videoType];
+  }
+
+  return totalTime;
+}
+
+/** FUNCTION: Convert seconds to hours
+ *
+ * This function converts a given time in seconds to hours, formatted to 2 decimal places if necessary.
+ *
+ * @param {int} seconds - The time in seconds.
+ *
+ * @returns {float|int} The time in hours, formatted to 2 decimal places if necessary.
+ *
+ * @example let hours = convertSecondsToHours(3600); // returns 1
+ */
+function convertSecondsToHours(seconds) {
+  const hours = seconds / 3600;
+  const formattedHours = parseFloat(hours.toFixed(2));
+  return formattedHours % 1 === 0 ? Math.floor(formattedHours) : formattedHours;
+}
+
+/** ASYNC FUNCTION: Prepare watch times for chart
+ *
+ * This function retrieves all watch times, filters them within the specified timeframe, and returns the filtered watch times.
+ *
+ * @param {string} startDate - The start date in the format 'yyyy-mm-dd'.
+ * @param {string} endDate - The end date in the format 'yyyy-mm-dd'.
+ * @param {string} videoType - The type of video watch time to filter ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
+ *
+ * @returns {Array} The filtered watch times within the specified timeframe.
+ *
+ * @example let filteredWatchTimes = await prepareWatchTimesForChart("2024-11-04", "2024-11-06", "long-form-watch-time");
+ */
+async function prepareWatchTimesForChart(startDate, endDate, videoType) {
+  // Get all watch times
+  let allWatchTimes = await getAllWatchTimes();
+
+  // Get the watch times within the set timeframe
+  let filteredWatchTimes = filterWatchTimeFrame(
+    allWatchTimes,
+    startDate,
+    endDate,
+    videoType
+  );
+
+  return filteredWatchTimes;
+}
+
+/** FUNCTION: Filter watch times within the specified timeframe and keep only the chosen videoType
+ *
+ * @param {Array} allWatchTimes - array of watch time objects
+ * @param {string} startDate - start date in the format 'yyyy-mm-dd'
+ * @param {string} endDate - end date in the format 'yyyy-mm-dd'
+ * @param {string} videoType - the type of video watch time to keep ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time')
+ *
+ * @returns {Array} array of watch time objects within the specified timeframe and with only the chosen videoType
+ *
+ * @example let filteredWatchTimes = filterWatchTimeFrame(allWatchTimes, "2024-11-04", "2024-11-06", "long-form-watch-time");
+ */
+function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  return allWatchTimes
+    .filter((watchTime) => {
+      const watchDate = new Date(watchTime.date);
+      return watchDate >= start && watchDate <= end;
+    })
+    .map((watchTime) => {
+      return {
+        date: watchTime.date,
+        [videoType]: watchTime[videoType],
+        [`${videoType}-hours`]: convertSecondsToHours(watchTime[videoType]),
+      };
+    });
+}
+
+/** FUNCTION: Create watch time chart
+ *
+ * This function creates and returns a Chart.js line chart that displays watch times based on the provided data.
+ * It uses the provided watch times object and video type to generate the chart data and configuration.
+ *
+ * @param {Array} watchTimesObj - Array of watch time objects, each containing a date and watch time in hours.
+ * @param {string} videoType - The type of video watch time to display ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
+ *
+ * @returns {Object} The created Chart.js chart instance.
+ *
+ * @example const chart = createWatchTimeChart(filteredWatchTimes, "long-form-watch-time");
+ *
+ * @notes This function uses Chart.js to create the chart and assumes that the Chart.js library is already loaded.
+ */
+function createWatchTimeChart(watchTimesObj, videoType) {
+  chart = new Chart("chart", {
+    type: "line",
+    data: {
+      labels: watchTimesObj.map((day) => day.date),
+      datasets: [
+        {
+          label: `Watch Times (Hours)`,
+          data: watchTimesObj.map((day) => day[`${videoType}-hours`]),
+          borderColor: "#1e1f1f",
+          fill: true,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: "Date",
+            color: "#1e1f1f",
+            font: {
+              size: 12,
+              weight: "500",
+            },
+          },
+        },
+        y: {
+          min: 0,
+          title: {
+            display: true,
+            text: "Hour",
+            color: "#1e1f1f",
+            font: {
+              size: 12,
+              weight: "500",
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: { color: "#1e1f1f" },
+        },
+      },
+    },
+  });
+
+  return chart;
+}
+
+/** FUNCTION: Prepare watch time chart
+ *
+ * This function prepares and displays a watch time chart based on the selected date range and video type.
+ * It validates the chosen dates, retrieves the filtered watch times, calculates the total watch time,
+ * and creates a new chart with the filtered data.
+ *
+ * @returns {void}
+ *
+ * @example prepareWatchTimeChart();
+ *
+ * @notes This function is triggered by an event listener when the user selects a date range or video type.
+ *        It uses jQuery to manipulate the DOM elements and Chart.js to create the chart.
+ */
+function validateChartTimeFrame(startDate, endDate) {
+  return new Date(startDate) <= new Date(endDate);
+}
+
+/** FUNCTION: Prepare watch time chart */
+async function prepareWatchTimeChart() {
+  /** Main Body */
+  let startDate = $("#timeframe-start");
+  let endDate = $("#timeframe-end");
+  let videoType = $("#chart-timeframe").val();
+
+  if (validateChartTimeFrame(startDate.val(), endDate.val())) {
+    prepareWatchTimesForChart(startDate.val(), endDate.val(), videoType).then(
+      (filteredWatchTimes) => {
+        // Gets total watch time from chosen video form watch times
+        let totalWatchTime = getTotalWatchTime(
+          filteredWatchTimes,
+          `${videoType}`
+        );
+        $("#total-watch-time").html(convertTimeToText(totalWatchTime));
+
+        // Destroys existing chart to make room for new chart
+        if (chart) {
+          chart.destroy();
+        }
+
+        // Creates watch time chart using watch times associated with chosen video form
+        chart = createWatchTimeChart(filteredWatchTimes, videoType);
+      }
+    );
+  } else {
+    // TODO: change date input to invalid states
+    alert("bad");
+    startDate.css("border-color", "var(--surface-brand)");
+    endDate.css("border-color", "var(--surface-brand)");
+  }
 }
 
 /** FUNCTION: Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
@@ -135,13 +354,12 @@ function validChartTimeFrame(startDate, endDate) {
  *
  * @returns {string} the watch time date in format 'mmm dd yyyy, www'
  *
- * @example let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
- *
+ * @example let newDateFormat = reformatDateToText("2024-11-06");
  */
 function reformatDateToText(dateValue) {
-  let date = new Date(dateValue);
-  let dateSplit = date.toString().split(" ").slice(0, 4);
-  return `${dateSplit[1]} ${dateSplit[2]} ${dateSplit[3]}, ${dateSplit[0]}`;
+  let date = new Date(dateValue + "T00:00:00Z"); // Ensure the date is interpreted as UTC
+  let dateSplit = date.toUTCString().split(" ").slice(0, 4);
+  return ` ${dateSplit[0]} ${dateSplit[2]} ${dateSplit[1]} ${dateSplit[3]}`;
 }
 
 /** ASYNC FUNCTION: Gets all watch times from chrome local storage
@@ -311,25 +529,16 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
    * @param {Object} dateValue - holds the watch time date; could be three different formats depending on the timeframe
    * @param {int} watchTimeSeconds - the watch time in seconds that will be converted to text
    * @param {boolean} isLastItem - determines if a horizontal line is appended after an item
-   * @param {boolean} needsReformatting - only applies to reformatting the date to text for daily times; default is false
    *
    * @returns {null}
    *
    */
-  function appendWatchTimeItem(
-    dateValue,
-    watchTimeSeconds,
-    isLastItem,
-    needsReformatting = false
-  ) {
+  function appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem) {
     let watchTimeListElem = $("#watch-times-list > ul");
 
-    let newDateFormat = needsReformatting
-      ? reformatDateToText(dateValue)
-      : dateValue;
     let newTimeForamt = convertTimeToText(watchTimeSeconds, true);
     let watchTimeItem = $(`<li>
-                            <p>${newDateFormat}</p>
+                            <p>${dateValue}</p>
                             <p>${newTimeForamt}</p>
                           </li>`);
 
@@ -344,10 +553,16 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
   /** Main Body */
   if (timeframe === "daily-times") {
     for (let index in watchTimes) {
-      let dateValue = watchTimes[index]["date"];
-      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-      let isLastItem = index == watchTimes.length - 1;
-      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem, true);
+      if (watchTimes[index]["total-watch-time"] != 0) {
+        let dateValue = watchTimes[index]["date"];
+        let watchTimeSeconds = watchTimes[index]["total-watch-time"];
+        let isLastItem = index == watchTimes.length - 1;
+        appendWatchTimeItem(
+          reformatDateToText(dateValue),
+          watchTimeSeconds,
+          isLastItem
+        );
+      }
     }
   } else if (timeframe === "weekly-times") {
     for (let index in watchTimes) {
@@ -399,7 +614,11 @@ async function insertNotableWatchDays() {
       const data = await sortWatchTimesAsc();
 
       // Returns first element (least amount of watch time)
-      return data[0];
+      if (data[0]["total-watch-time"] != 0) {
+        return data[0];
+      } else if (data[1]) {
+        return data[1];
+      }
     } catch (error) {
       console.error(error);
     }
@@ -415,7 +634,12 @@ async function insertNotableWatchDays() {
       const data = await sortWatchTimesAsc();
 
       // Returns last element (most amount of watch time)
-      return data.pop();
+
+      if (data[0]["total-watch-time"] != 0) {
+        return data.pop();
+      } else {
+        return null;
+      }
     } catch (error) {
       console.error(error);
     }
@@ -464,97 +688,33 @@ async function insertNotableWatchDays() {
 
 /** !SECTION */
 
-/** Watch Times Chart */
-// TODO: encapsulate
-let currentDayOfMonth = new Date().getDate();
-
-const days = Array.from({ length: currentDayOfMonth }, (_, i) => i + 1);
-
-let total = Array.from({ length: 31 }, () => Math.floor(Math.random() * 24));
-
-new Chart("chart", {
-  type: "line",
-  data: {
-    labels: days,
-    datasets: [
-      {
-        label: "Total",
-        data: total,
-        borderColor: "#fbfbfb",
-        fill: false,
-      },
-      // {
-      //   label: "Regular Video",
-      //   data: pastMonthShorts,
-      //   borderColor: "#db2121",
-      //   fill: false
-      // }, {
-      //   label: "Shorts",
-      //   data: pastMonthRegular,
-      //   borderColor: "#137a23",
-      //   fill: false
-      // }
-    ],
-  },
-  options: {
-    scales: {
-      x: {
-        // Updated from 'xAxes' to 'x'
-        grid: {
-          display: false,
-        },
-        title: {
-          display: true,
-          text: "Days",
-          color: "#fbfbfb",
-          font: {
-            size: 12,
-            weight: "bold",
-          },
-        },
-      },
-      y: {
-        // Updated from 'yAxes' to 'y'
-        title: {
-          display: true,
-          text: "Hours",
-          color: "#fbfbfb",
-          font: {
-            size: 12,
-            weight: "bold",
-          },
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: true,
-        position: "bottom",
-        labels: { color: "#fbfbfb" },
-      },
-      title: {
-        display: false,
-        text: "YouTube Watch History over 30 Days",
-        color: "#fbfbfb",
-        position: "top",
-        font: {
-          size: 16,
-          weight: "bold",
-        },
-        padding: 15,
-        fullSize: true,
-      },
-    },
-  },
-});
-
 /** SECTION - ONLOAD FUNCTION CALLS */
 $(document).ready(async function () {
-  /** EVENT LISTENER: calculates and displays corresponding watch time chart  */
-  $("#chart-timeframe").on("change", function () {
-    let videoTypeValue = $(this).val();
-    console.log("Selected value:", videoTypeValue);
-    // You can add additional logic here to handle the selected value
+  // Set the value of the date inputs
+  const currentDate = new Date();
+  const weekBeforeDate = new Date();
+  weekBeforeDate.setDate(currentDate.getDate() - 7);
+
+  // Formats date for input date element
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  // Sets timeframe dates to a week ago to current date by default
+  $("#timeframe-start").val(formatDate(weekBeforeDate));
+  $("#timeframe-end").val(formatDate(currentDate));
+
+  /** EVENT LISTENER: Creates watch time chart with the chosen timeframe */
+  $(".timeframe-inputs button").on("click", async function () {
+    prepareWatchTimeChart();
+  });
+
+  /** EVENT LISTENER: Ensures the border colors are default grey (in case of previous invalid dates) */
+  $(".timeframe-inputs input").on("click", async function () {
+    $(this).css("border-color", "#1e1f1f4f");
   });
 
   /** EVENT LISTENER: calculates and displays corresponding watch time timeframes  */
@@ -579,6 +739,35 @@ $(document).ready(async function () {
 
       insertFilteredWatchTimes(monthlyWatchTimes, "monthly-times");
     }
+  });
+
+  /** EVENT LISTENER: Alerts users that resetting is irreversible and then resets watch times */
+  $("#reset-all-watch-times").on("click", function () {
+    if (
+      confirm(
+        "THIS IS A PERMANENT ACTION! Confirm to erase ALL your watch time."
+      )
+    ) {
+      resetWatchTime();
+
+      // Reloads window
+      location.reload();
+    }
+  });
+
+  // Create Watch Time Chart by default (both forms of videos)
+  prepareWatchTimesForChart(
+    weekBeforeDate,
+    currentDate,
+    "total-watch-time"
+  ).then((filteredWatchTimes) => {
+    // Creates chart with both forms on load
+    let videoType = "total-watch-time";
+    let chart = createWatchTimeChart(filteredWatchTimes, videoType);
+
+    // Inserts the watch time of both forms on load
+    let totalWatchTime = getTotalWatchTime(filteredWatchTimes, videoType);
+    $("#total-watch-time").html(convertTimeToText(totalWatchTime));
   });
 
   // Populates watch time list by default (daily)

@@ -478,7 +478,7 @@ select:focus-visible,
 input[type="text"]:focus-visible,
 input[type="url"]:focus-visible,
 select[type="text"]:focus-visible {
-  outline-color: var(--surface-brand);
+  outline-color: var(--surface-brand-2);
 }
 
 /* Checkbox Button Appearance */
@@ -1780,7 +1780,7 @@ nav {
   background: var(--surface-light);
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   flex: 1 0 0;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-width: 50rem;
 
   height: auto;
@@ -1869,6 +1869,8 @@ nav {
   ul {
     height: 100%;
     gap: 0.8rem;
+    max-height: 61rem;
+    overflow-y: auto;
   }
 
   li {

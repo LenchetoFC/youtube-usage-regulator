@@ -9,7 +9,7 @@
  * SECTION - DEFAULT DATABASE
  */
 const database = {
-  watchTimes: [
+  ["watch-times"]: [
     {
       id: 1,
       date: getCurrentDate(),
@@ -19,7 +19,7 @@ const database = {
     },
   ],
 
-  watchModes: [
+  ["watch-modes"]: [
     {
       id: 1,
       name: "Recreational",
@@ -49,9 +49,9 @@ const database = {
     },
   ],
 
-  preferredCreators: [],
+  ["preferred-creators"]: [],
 
-  miscSettings: [
+  ["misc-settings"]: [
     {
       "install-date": "",
     },
@@ -63,7 +63,7 @@ const database = {
     },
   ],
 
-  schedules: [
+  ["schedules"]: [
     { id: 1, name: "sunday", active: false, "all-day": false },
     { id: 2, name: "monday", active: false, "all-day": false },
     { id: 3, name: "tuesday", active: false, "all-day": false },
@@ -73,7 +73,7 @@ const database = {
     { id: 7, name: "saturday", active: false, "all-day": false },
   ],
 
-  youtubeLimitations: [
+  ["youtube-limitations"]: [
     {
       id: 1,
       name: "home-page",
@@ -153,7 +153,7 @@ const database = {
     },
   ],
 
-  additionalWebsites: [],
+  ["additional-websites"]: [],
 };
 
 /** Initializes default database in Chrome Storage Sync if doesn't exist */
@@ -170,35 +170,35 @@ chrome.storage.sync.get(
   (result) => {
     if (!result["misc-settings"]) {
       chrome.storage.sync.set({
-        "misc-settings": database.miscSettings,
+        "misc-settings": database["misc-settings"],
       });
     }
     if (!result["youtube-limitations"]) {
       chrome.storage.sync.set({
-        "youtube-limitations": database.youtubeLimitations,
+        "youtube-limitations": database["youtube-limitations"],
       });
     }
     if (!result["watch-modes"]) {
       chrome.storage.sync.set({
-        "watch-modes": database.watchModes,
+        "watch-modes": database["watch-modes"],
       });
     }
     if (!result["watch-times"]) {
       chrome.storage.sync.set({
-        "watch-times": database.watchTimes,
+        "watch-times": database["watch-times"],
       });
     }
-    if (!result.schedules) {
-      chrome.storage.sync.set({ schedules: database.schedules });
+    if (!result["schedules"]) {
+      chrome.storage.sync.set({ schedules: database["schedules"] });
     }
     if (!result["preferred-creators"]) {
       chrome.storage.sync.set({
-        "preferred-creators": database.preferredCreators,
+        "preferred-creators": database["preferred-creators"],
       });
     }
     if (!result["additional-websites"]) {
       chrome.storage.sync.set({
-        "additional-websites": database.additionalWebsites,
+        "additional-websites": database["additional-websites"],
       });
     }
   }
@@ -381,6 +381,53 @@ async function updateRecordByColumn(table, column, value, newRecords) {
     // console.log(`Record with ID ${id} updated successfully`);
   } catch (error) {
     throw error;
+  }
+}
+
+/** FUNCTION: Reset a table to its default state
+ *
+ * @param {string} table - table name i.e. "watch-times"
+ *
+ * @returns {Promise<void>} Returns a promise that resolves when the table is reset
+ *
+ * @example resetTable("watch-times");
+ */
+async function resetTable(table) {
+  try {
+    // Check if the table exists in the default database
+    if (!database[table]) {
+      throw new Error(`Table ${table} does not exist in the default database`);
+    }
+
+    // Delete the existing table
+    await new Promise((resolve, reject) => {
+      chrome.storage.sync.remove([table], () => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    // Replace it with the default table from the database object
+    const defaultTable = database[table];
+    const data = {};
+    data[table] = defaultTable;
+
+    await new Promise((resolve, reject) => {
+      chrome.storage.sync.set(data, () => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    console.log(`Table ${table} has been reset to its default state`);
+  } catch (error) {
+    console.error(`Error resetting table ${table}: ${error.message}`);
   }
 }
 
@@ -605,6 +652,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           )} into table ${request.table}: ${errorMsg}`,
         });
       });
+
+    return true;
+  } else if (request.operation === "resetTable") {
+    // Resets database table back to default
+    resetTable(request.table);
 
     return true;
   }

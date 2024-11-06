@@ -209,9 +209,11 @@
                 <h1>Watch Times Chart</h1>
 
                 <select name="video-form" id="chart-timeframe">
-                  <option value="both-forms">Both Forms of Videos</option>
-                  <option value="long-form">Long-Form Videos</option>
-                  <option value="short-form">Short-Form Videos</option>
+                  <option value="total-watch-time">Both Forms of Videos</option>
+                  <option value="long-form-watch-time">Long-Form Videos</option>
+                  <option value="short-form-watch-time">
+                    Short-Form Videos
+                  </option>
                 </select>
               </header>
 
@@ -219,7 +221,7 @@
                 <span class="material-symbols-rounded"
                   >nest_clock_farsight_analog
                 </span>
-                <span id="overall-watch-time">0 Seconds</span>
+                <span id="total-watch-time">0 Seconds</span>
               </div>
 
               <div class="timeframe-container">
@@ -234,7 +236,7 @@
 
               <canvas id="chart"></canvas>
 
-              <button class="misc-button" id="reset-combined">
+              <button class="misc-button" id="reset-all-watch-times">
                 Reset Watch Time
               </button>
             </span>
