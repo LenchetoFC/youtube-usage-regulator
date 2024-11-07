@@ -342,7 +342,12 @@ async function prepareWatchTimeChart() {
     );
   } else {
     // TODO: change date input to invalid states
-    alert("bad");
+    displayNotifications(
+      "Invalid Timeframe. Try Again Later.",
+      "#d92121",
+      "release_alert",
+      5000
+    );
     startDate.css("border-color", "var(--surface-brand)");
     endDate.css("border-color", "var(--surface-brand)");
   }
@@ -546,7 +551,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
 
     // Appends a horizontal line after every watch time except the final time
     if (!isLastItem) {
-      watchTimeListElem.append("<hr>");
+      watchTimeListElem.append("<hr class='horizontal-line'>");
     }
   }
 
@@ -609,6 +614,7 @@ async function insertNotableWatchDays() {
    * @returns {Object} Watch time object
    *
    */
+  // TODO: omit the current day
   async function getLeastWatchedDay() {
     try {
       const data = await sortWatchTimesAsc();

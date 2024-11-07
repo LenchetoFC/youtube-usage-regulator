@@ -10,6 +10,10 @@
  * chrome.storage.sync.get((result) => { console.log(result) });
  */
 
+/** NOTE: List of Imported Functions from global-functions.js
+ * - displayNotifications();
+ */
+
 /** SECTION - FUNCTION DECLARATIONS */
 
 /** FUNCTION: Get all active youtube limitations settings
@@ -55,6 +59,26 @@ async function getActiveQuickActivations() {
  */
 function getLimitationChoices() {
   return $("#limitation-settings fieldset input.changed")
+    .map(function () {
+      return {
+        name: this.name,
+        id: parseInt(this.value),
+        isActive: this.checked,
+        isQuickAdd: this.name.includes("quick"),
+      };
+    })
+    .get();
+}
+
+/** FUNCTION: Get all limitations settings that is used to clear all settings
+ *
+ * @returns {array} Returns an array converted from an object of changed settings properties
+ *                  necessary for updating storage
+ *
+ * @example const limitationInputs = getLimitationInputs();
+ */
+function getLimitationInputs() {
+  return $("#limitation-settings fieldset input")
     .map(function () {
       return {
         name: this.name,
@@ -149,25 +173,6 @@ async function isValidLimitations(limitationChoices) {
   }
 }
 
-/** FUNCTION: jQuery animation for displaying submit button statuses
- *
- * @param {string} statusMsgId - element ID of button message to show
- *
- * @param {int} delayTime - amount of time (in seconds) that the buttons shows before disappearing
- *
- * @returns {void} Returns nothing
- *
- * @example triggerSubmitStatusAnimation("#limitations-no-change-msg", 2500);
- */
-function triggerSubmitStatusAnimation(statusMsgId, delayTime) {
-  if ($(statusMsgId).css("display") !== "flex")
-    $(statusMsgId)
-      .fadeIn(1000)
-      .css("display", "flex")
-      .delay(delayTime)
-      .fadeOut(1000);
-}
-
 // NOTE: ADDITIONAL WEBSITES FUNCTIONS
 
 /** FUNCTION: Removes website from database and web page when delete button is pressed
@@ -195,7 +200,12 @@ function addDeleteWebsiteEventListener(websiteItemId, websiteType) {
 
           // Displays error message if deleting is unsuccessful
           if (deleteWebsite.error) {
-            triggerSubmitStatusAnimation("#website-failure-msg", 5000);
+            displayNotifications(
+              "Unsuccessfullly Deleted Website. Try Again Later.",
+              "#d92121",
+              "release_alert",
+              5000
+            );
 
             throw new Error(`${deleteWebsite.message}`);
           } else {
@@ -232,10 +242,12 @@ function isWebsiteTypeEmpty(websiteType) {
       $(`#${websiteType}`).remove();
 
       // Displays empty content if there is no websites left
-      if ($(`#block-websites .content`).children().length === 0) {
-        $(`#block-websites .content`).css("display", "none");
+      if ($(`#additional-websites .content`).children().length === 0) {
+        $(`#additional-websites .content`).css("display", "none");
 
-        $("#block-websites .empty-content").fadeIn().css("display", "flex");
+        $("#additional-websites .empty-content")
+          .fadeIn()
+          .css("display", "flex");
       }
     });
   }
@@ -276,8 +288,8 @@ async function insertWebsitesIntoDocument() {
 
   // If there are no websites in database, display the empty content HTML
   if (Object.keys(allWebsites).length === 0) {
-    $("#block-websites .content").css("display", "none");
-    $("#block-websites .empty-content").css("display", "flex");
+    $("#additional-websites .content").css("display", "none");
+    $("#additional-websites .empty-content").css("display", "flex");
 
     return; // Skip the rest of the code
   }
@@ -318,8 +330,10 @@ async function insertWebsitesIntoDocument() {
         </fieldset>`).html(`<legend>${reformattedType}</legend> <ul></ul>`);
 
       // Append new website type group and append new website item
-      // $("#block-websites .content").append(websiteTypeItem);
-      $("#block-websites .content").append(websiteTypeItem).append("<hr>");
+      // $("#additional-websites .content").append(websiteTypeItem);
+      $("#additional-websites .content")
+        .append(websiteTypeItem)
+        .append("<hr class='horizontal-line'>");
       $(`#website-${websiteObj.type} ul`).append(websiteItem);
       websiteItem.slideDown();
     } else {
@@ -336,240 +350,318 @@ async function insertWebsitesIntoDocument() {
 /** !SECTION */
 
 /** SECTION - ONLOAD FUNCTION CALLS */
+$(document).ready(function () {
+  /** ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example */
+  getActiveLimitations()
+    .then((data) => {
+      // console.log(data);
+      for (let index in data) {
+        // Auto-checks corresponding checkbox input
+        $(`#${data[index].name}`).attr("checked", true);
 
-/** ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example */
-getActiveLimitations()
-  .then((data) => {
-    console.log(data);
-    for (let index in data) {
-      // Auto-checks corresponding checkbox input
-      $(`#${data[index].name}`).attr("checked", true);
+        // Auto-updates YT UI example
+        $(`.limitation-demos .${data[index].name}`).slideToggle();
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
-      // Auto-updates YT UI example
-      $(`.limitation-demos .${data[index].name}`).slideToggle();
-    }
-  })
-  .catch((error) => {
-    console.error(error);
+  /** ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example */
+  getActiveQuickActivations()
+    .then((data) => {
+      for (let index in data) {
+        // Auto-checks corresponding checkbox input
+        $(`#${data[index].name}-quick`).attr("checked", true);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  /** ONLOAD FUNCTION CALL: Inserts all websites from database into DOM */
+  insertWebsitesIntoDocument();
+
+  /** !SECTION */
+
+  /** SECTION - EVENT LISTENERS */
+
+  /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
+  $(".cancel").on("click", function () {
+    const popoverId = $(this).attr("data-popover");
+    document.querySelector(`#${popoverId}`).togglePopover();
   });
 
-/** ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example */
-getActiveQuickActivations()
-  .then((data) => {
-    for (let index in data) {
-      // Auto-checks corresponding checkbox input
-      $(`#${data[index].name}-quick`).attr("checked", true);
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+  /** EVENT LISTENER: Warns user that there are unsaved changes for preferred creators */
+  $('#limitation-settings input[type="checkbox"]').on("click", function () {
+    // Toggle the "changed" class on the clicked checkbox
+    $(this).toggleClass("changed");
 
-/** ONLOAD FUNCTION CALL: Inserts all websites from database into DOM */
-insertWebsitesIntoDocument();
+    // Check if any inputs within #limitation-settings have the "changed" class
+    const hasChanged = $(
+      '#limitation-settings input[type="checkbox"]'
+    ).hasClass("changed");
 
-/** !SECTION */
-
-/** SECTION - EVENT LISTENERS */
-
-/** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
-$(".cancel").on("click", function () {
-  const popoverId = $(this).attr("data-popover");
-  document.querySelector(`#${popoverId}`).togglePopover();
-});
-
-/** EVENT LISTENER: Warns user that there are unsaved changes for preferred creators */
-$('#limitation-settings input[type="checkbox"]').on("click", function () {
-  // Toggle the "changed" class on the clicked checkbox
-  $(this).toggleClass("changed");
-
-  // Check if any inputs within #limitation-settings have the "changed" class
-  const hasChanged = $('#limitation-settings input[type="checkbox"]').hasClass(
-    "changed"
-  );
-
-  // Fade in or fade out the unsaved message based on the presence of the "changed" class
-  if (hasChanged) {
-    $("#limitations-unsaved-msg").fadeIn(1000).css("display", "flex");
-  } else {
-    $("#limitations-unsaved-msg").fadeOut(1000);
-  }
-});
-
-/** EVENT LISTENER: Saves restrictive settings and displays status message */
-$("#save-limitations").on("click", function () {
-  // Disable the save button
-  const $button = $(this);
-  $button.prop("disabled", true);
-  $button.parent().toggleClass("spin-animation");
-
-  // Hide unsaved message
-  $("#limitations-unsaved-msg").fadeOut();
-
-  console.log("saving limitations...");
-
-  // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
-  const limitationChoices = getLimitationChoices();
-
-  console.log(limitationChoices);
-
-  if (limitationChoices.length == 0) {
-    triggerSubmitStatusAnimation("#limitations-no-change-msg", 2500);
-
-    // Re-enable button after animation
-    $button.prop("disabled", false);
-    $button.parent().toggleClass("spin-animation");
-
-    return;
-  } else {
-    $('#limitation-settings input[type="checkbox"]').removeClass("changed");
-  }
-  console.log(limitationChoices);
-
-  // FIXME: isValid returns promise, not a boolean value
-  // replicate this by clearing storage, then trying to save to non-existant storage
-  // NOTE: possibly use .then()
-  let isValid = isValidLimitations(limitationChoices);
-
-  setTimeout(function () {
-    // Start animation on status message, depending saving outcome
-    if (isValid) {
-      triggerSubmitStatusAnimation("#limitations-success-msg", 1000);
-
-      // Updates the YouTube UI Demo all at once
-      $("#limitation-settings fieldset input").each(function () {
-        if (this.checked) {
-          $(`.limitation-demos .${this.name}`).slideUp();
-        } else {
-          $(`.limitation-demos .${this.name}`).slideDown();
-        }
-      });
+    // Fade in or fade out the unsaved message based on the presence of the "changed" class
+    if (hasChanged) {
+      displayNotifications(
+        "Ensure to Save your Changed Settings.",
+        "#fc0",
+        "warning",
+        0,
+        true
+      );
     } else {
-      triggerSubmitStatusAnimation("#limitations-failure-msg", 5000);
+      $("#notif-msg").fadeOut(1000);
     }
-    // Re-enable button after animation
-    $button.parent().toggleClass("spin-animation");
-    $button.prop("disabled", false);
-  }, 2000);
-});
+  });
 
-//
-/** EVENT LISTENER: Warns user that there are unsaved changes for preferred creators */
-$('#creators-list input[type="checkbox"]').on("click", function () {
-  // Toggle the "changed" class on the clicked checkbox
-  $(this).toggleClass("changed");
-
-  // Check if any inputs within #creators-list have the "changed" class
-  const hasChanged = $('#creators-list input[type="checkbox"]').hasClass(
-    "changed"
-  );
-
-  // Fade in or fade out the unsaved message based on the presence of the "changed" class
-  if (hasChanged) {
-    $("#creators-unsaved-msg").fadeIn(1000).css("display", "flex");
-  } else {
-    $("#creators-unsaved-msg").fadeOut(1000);
-  }
-});
-
-/** TODO: EVENT LISTENER: Saves preferred creators and displays status message */
-$("#save-creators").on("click", function () {
-  $('#creators-list input[type="checkbox"]').removeClass("changed");
-  $("#creators-unsaved-msg").fadeOut();
-
-  // TODO: change for creators
-  // if (limitationChoices.length == 0) {
-  //   triggerSubmitStatusAnimation("#limitations-no-change-msg", 5000);
-
-  //   // Re-enable button after animation
-  //   $button.parent().toggleClass("spin-animation");
-  //   $button.prop("disabled", false);
-  //   return;
-  // }
-
-  const $button = $(this);
-  $button.parent().toggleClass("spin-animation");
-  $button.prop("disabled", true);
-
-  // TODO: requires function to save all creators
-  // Call function to save all creators
-  // Return function status
-
-  setTimeout(function () {
-    //NOTE - temporary
-    const buttonSuccess = true; // Simulated save outcome
-
-    // Start animation on status message, depending saving outcome
-    buttonSuccess
-      ? triggerSubmitStatusAnimation("#creators-success-msg", 1000)
-      : triggerSubmitStatusAnimation("#creators-failure-msg", 5000);
-
-    $button.parent().toggleClass("spin-animation");
-    $button.prop("disabled", false); // Re-enable button after operation
-  }, 2000);
-});
-
-// NOTE: Additional Websites
-/** EVENT LISTENER: Saves new additional website to database */
-$("#block-website").on("click", async function (event) {
-  try {
-    // Disable default form submission event
-    event.preventDefault();
-
-    // Get the form element
-    const form = document.getElementById("new-blocked-website-form");
-
-    // Check if the form is valid
-    if (!form.checkValidity()) {
-      // Form is invalid, let the browser display the default validation messages
-      form.reportValidity();
-      return;
-    }
-
-    // Disable the submit button
+  /** EVENT LISTENER: Saves restrictive settings and displays status message */
+  $("#save-limitations").on("click", function () {
+    // Disable the save button
     const $button = $(this);
     $button.prop("disabled", true);
     $button.parent().toggleClass("spin-animation");
 
-    console.log("blocking new website...");
+    // Hide unsaved message
+    $("#notif-msg").fadeOut();
 
-    // Get form values
-    const websiteObj = {
-      name: $("#website-name").val(),
-      url: $("#website-url").val(),
-      type: $("#website-type").val(),
-    };
+    console.log("saving limitations...");
 
-    setTimeout(async function () {
+    // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
+    const limitationChoices = getLimitationChoices();
+
+    console.log(limitationChoices);
+
+    if (limitationChoices.length == 0) {
+      displayNotifications("No Changes to Save.", "#40a6ce", "info", 2500);
+
+      // Re-enable button after animation
+      $button.prop("disabled", false);
+      $button.parent().toggleClass("spin-animation");
+
+      return;
+    } else {
+      $('#limitation-settings input[type="checkbox"]').removeClass("changed");
+    }
+    console.log(limitationChoices);
+
+    // FIXME: isValid returns promise, not a boolean value
+    // replicate this by clearing storage, then trying to save to non-existant storage
+    // NOTE: possibly use .then()
+    let isValid = isValidLimitations(limitationChoices);
+
+    setTimeout(function () {
+      // Start animation on status message, depending saving outcome
+      if (isValid) {
+        displayNotifications("Saved Successfully", "#390", "verified", 2000);
+
+        // Updates the YouTube UI Demo all at once
+        $("#limitation-settings fieldset input").each(function () {
+          if (this.checked) {
+            $(`.limitation-demos .${this.name}`).slideUp();
+          } else {
+            $(`.limitation-demos .${this.name}`).slideDown();
+          }
+        });
+      } else {
+        displayNotifications(
+          "Unsuccessfully Saved. Try Again Later.",
+          "#d92121",
+          "release_alert",
+          5000
+        );
+      }
+
       // Re-enable button after animation
       $button.parent().toggleClass("spin-animation");
       $button.prop("disabled", false);
+    }, 2000);
+  });
 
-      // Inserts new website object into database
-      let insertNewWebsite = await sendMessageToServiceWorker({
-        operation: "insertRecords",
-        table: "additional-websites",
-        records: [websiteObj],
-      });
+  //
+  /** EVENT LISTENER: Warns user that there are unsaved changes for preferred creators */
+  $('#creators-list input[type="checkbox"]').on("click", function () {
+    // Toggle the "changed" class on the clicked checkbox
+    $(this).toggleClass("changed");
 
-      // Gets status message from insertion
-      if (insertNewWebsite.error) {
-        console.error("Error inserting new records:", insertNewWebsite.message);
-      } else {
-        console.log(insertNewWebsite.data);
+    // Check if any inputs within #creators-list have the "changed" class
+    const hasChanged = $('#creators-list input[type="checkbox"]').hasClass(
+      "changed"
+    );
+
+    // Fade in or fade out the unsaved message based on the presence of the "changed" class
+    if (hasChanged) {
+      displayNotifications(
+        "Ensure to Save your Changed Settings.",
+        "#fc0",
+        "warning",
+        0,
+        true
+      );
+    } else {
+      $("#notif-msg").fadeOut(1000);
+    }
+  });
+
+  /** TODO: EVENT LISTENER: Saves preferred creators and displays status message */
+  $("#save-creators").on("click", function () {
+    $('#creators-list input[type="checkbox"]').removeClass("changed");
+    $("#notif-msg").fadeOut();
+
+    // TODO: change for creators
+    // if (limitationChoices.length == 0) {
+    //   displayNotifications("No Changes to Save.", "#40a6ce", "info", 2500);
+
+    //   // Re-enable button after animation
+    //   $button.parent().toggleClass("spin-animation");
+    //   $button.prop("disabled", false);
+    //   return;
+    // }
+
+    const $button = $(this);
+    $button.parent().toggleClass("spin-animation");
+    $button.prop("disabled", true);
+
+    // TODO: requires function to save all creators
+    // Call function to save all creators
+    // Return function status
+
+    setTimeout(function () {
+      //NOTE - temporary
+      const buttonSuccess = true; // Simulated save outcome
+
+      // Start animation on status message, depending saving outcome
+      buttonSuccess
+        ? displayNotifications("Saved Successfully", "#390", "verified", 2000)
+        : displayNotifications(
+            "Unsuccessfully Saved. Try Again Later.",
+            "#d92121",
+            "release_alert",
+            5000
+          );
+
+      $button.parent().toggleClass("spin-animation");
+      $button.prop("disabled", false); // Re-enable button after operation
+    }, 2000);
+  });
+
+  // NOTE: Additional Websites
+  /** EVENT LISTENER: Saves new additional website to database */
+  $("#block-website").on("click", async function (event) {
+    try {
+      // Disable default form submission event
+      event.preventDefault();
+
+      // Get the form element
+      const form = document.getElementById("new-blocked-website-form");
+
+      // Check if the form is valid
+      if (!form.checkValidity()) {
+        // Form is invalid, let the browser display the default validation messages
+        form.reportValidity();
+        return;
       }
 
-      // Reload webpage to load in new website
-      location.reload();
-      // $("[id='popover-new-blocked-website']").hide();
+      // Disable the submit button
+      const $button = $(this);
+      $button.prop("disabled", true);
+      $button.parent().toggleClass("spin-animation");
 
-      return true;
-    }, 2000);
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
+      console.log("blocking new website...");
+
+      // Get form values
+      const websiteObj = {
+        name: $("#website-name").val(),
+        url: $("#website-url").val(),
+        type: $("#website-type").val(),
+      };
+
+      setTimeout(async function () {
+        // Re-enable button after animation
+        $button.parent().toggleClass("spin-animation");
+        $button.prop("disabled", false);
+
+        // Inserts new website object into database
+        let insertNewWebsite = await sendMessageToServiceWorker({
+          operation: "insertRecords",
+          table: "additional-websites",
+          records: [websiteObj],
+        });
+
+        // Gets status message from insertion
+        if (insertNewWebsite.error) {
+          console.error(
+            "Error inserting new records:",
+            insertNewWebsite.message
+          );
+        } else {
+          console.log(insertNewWebsite.data);
+        }
+
+        // Reload webpage to load in new website
+        location.reload();
+        // $("[id='popover-new-blocked-website']").hide();
+
+        return true;
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  });
+
+  $("#clear-settings").on("click", function () {
+    // Ask user to confirm choice
+    if (window.confirm("Confirm to reset ALL settings.")) {
+      // Sets all checkboxes to unchecked
+      clearLimitationInputs();
+
+      // Save settings
+      const limitationInputs = getLimitationInputs();
+
+      console.log(limitationInputs);
+
+      // FIXME: isValid returns promise, not a boolean value
+      // replicate this by clearing storage, then trying to save to non-existant storage
+      // NOTE: possibly use .then()
+      let isValid = isValidLimitations(limitationInputs);
+
+      console.log(isValid);
+
+      setTimeout(function () {
+        // Start animation on status message, depending saving outcome
+        if (isValid) {
+          displayNotifications("Saved Successfully", "#390", "verified", 2000);
+
+          // Updates the YouTube UI Demo all at once
+          $("#limitation-settings fieldset input").each(function () {
+            if (this.checked) {
+              $(`.limitation-demos .${this.name}`).slideUp();
+            } else {
+              $(`.limitation-demos .${this.name}`).slideDown();
+            }
+          });
+        } else {
+          displayNotifications(
+            "Unsuccessfully Saved. Try Again Later.",
+            "#d92121",
+            "release_alert",
+            5000
+          );
+        }
+      });
+    }
+  });
 });
+
+function clearLimitationInputs() {
+  let limitationInputs = $("#limitation-settings fieldset input");
+
+  limitationInputs.each(function (_, element) {
+    $(`#${element.name}`).prop("checked", false);
+  });
+}
 
 /** !SECTION */
 
@@ -796,4 +888,56 @@ $("#block-website").on("click", async function (event) {
 //   console.error("Error inserting new records:", insertNewWatchTimes.message);
 // } else {
 //   console.log(insertNewWatchTimes.data);
+// }
+
+/** CODE FROM SCRIPT TAG COPILOT CODE FROM SETTINGS.HTML */
+//   Inserts watch modes from database into DOM
+//   document.addEventListener('DOMContentLoaded', function() {
+//     // Example data fetched from the database
+//     const watchModes = [
+//       { id: 'watch-mode-1', name: 'Watch Mode 1', desc: 'Description 1', bgColor: 'cadetblue' },
+//       { id: 'watch-mode-2', name: 'Watch Mode 2', desc: 'Description 2', bgColor: 'aquamarine' }
+//     ];
+
+//     const watchModesList = document.getElementById('watch-modes-list');
+
+//     watchModes.forEach(mode => {
+//       const li = document.createElement('li');
+//       li.id = mode.id;
+//       li.style.setProperty('--wm-bg-color', mode.bgColor);
+
+//       li.innerHTML = `
+//         <header>
+//           <h1 id="watch-mode-name">${mode.name}</h1>
+//           <h2 id="watch-mode-desc">${mode.desc}</h2>
+//         </header>
+//         <fieldset id="${mode.id}-priority">
+//           <legend>Priority</legend>
+//           <ul>
+//             <li>Example Tag</li>
+//           </ul>
+//         </fieldset>
+//         <span class="group-of-buttons">
+//           <button>Edit</button>
+//           <button>Enable</button>
+//         </span>
+//       `;
+
+//       watchModesList.appendChild(li);
+//     });
+//   });
+
+//   Determines text color based on text
+//   var darkOrLight = function(red, green, blue) {
+//   var brightness;
+//   brightness = (red * 299) + (green * 587) + (blue * 114);
+//   brightness = brightness / 255000;
+
+//   // values range from 0 to 1
+//   // anything greater than 0.5 should be bright enough for dark text
+//   if (brightness >= 0.5) {
+//     return "dark-text";
+//   } else {
+//     return "light-text";
+//   }
 // }

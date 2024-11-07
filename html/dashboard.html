@@ -67,7 +67,7 @@
     <main>
       <!-- First Row -->
       <div class="widget-container widget-container-row">
-        <!-- Active Watch Mode Item -->
+        <!-- TODO: Active Watch Mode Item -->
         <section class="widget-item top-widget" id="watch-mode-top-widget">
           <header>
             <span>
@@ -75,7 +75,6 @@
               <h1>Active Watch Mode</h1>
             </span>
 
-            <!-- Button to settings -->
             <a href="/html/settings.html">
               <p>Switch Modes</p>
 
@@ -144,7 +143,7 @@
           </section>
         </section>
 
-        <!-- New Videos in Past Week Item -->
+        <!-- TODO: New Videos in Past Week Item -->
         <section class="widget-item top-widget" id="new-videos-top-widget">
           <header>
             <span>
@@ -152,7 +151,6 @@
               <h1>New Videos in Past Week</h1>
             </span>
 
-            <!-- Button to settings -->
             <a href="/html/settings.html">
               <p>See All</p>
               <span class="material-symbols-rounded"> arrow_right_alt </span>
@@ -800,6 +798,12 @@
         </section>
       </div>
 
+      <!-- ABSOLUTE POSITIONED Notification Container -->
+      <span id="notif-msg">
+        <span class="material-symbols-rounded">info</span>
+        <p>Message Text</p>
+      </span>
+
       <!-- New Schedule Overlay -->
       <div popover id="popover-new-schedule" class="popover">
         <!-- NOTE: old overlay code -->
@@ -814,7 +818,7 @@
               <h4>New Schedule</h4>
             </div>
           </div>
-
+  
           <form class="schedule-new">
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
@@ -822,21 +826,21 @@
                 <span>Sun</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input id="monday" name="monday" type="checkbox" value="1" />
                 <span>Mon</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input id="tuesday" name="tuesday" type="checkbox" value="1" />
                 <span>Tue</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input
@@ -848,7 +852,7 @@
                 <span>Wed</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input
@@ -860,14 +864,14 @@
                 <span>Thu</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input id="friday" name="friday" type="checkbox" value="1" />
                 <span>Fri</span>
               </label>
             </div>
-
+  
             <div class="checkbox-item checkbox-circle schedule-day">
               <label>
                 <input
@@ -880,7 +884,7 @@
               </label>
             </div>
           </form>
-
+  
           <div id="schedule-new-container" class="flex-col">
             <hr class="full-line" />
             <section class="schedule-header-btn">
@@ -895,7 +899,7 @@
                   <span>All Day</span>
                 </label>
               </div>
-
+  
               <button class="btn-text side-icon add-time-btn" value="new">
                 <img
                   class="icon-in-btn icon-white"
@@ -905,7 +909,7 @@
                 <div>Add Interval</div>
               </button>
             </section>
-
+  
             <div class="schedule-time-container">
               <section id="new-time-container" class="time-container flex-col">
                 <section
@@ -1027,7 +1031,7 @@
               />
             </button>
           </div>
-
+  
           <hr class="full-line" />
           <div id="schedule-new-container">
             <section class="schedule-header-btn">
@@ -1042,7 +1046,7 @@
                   <span>All Day</span>
                 </label>
               </div>
-
+  
               <button
                 class="btn-text side-icon"
                 id="add-time-btn"
@@ -1056,7 +1060,7 @@
                 <div>Add Interval</div>
               </button>
             </section>
-
+  
             <div class="schedule-time-container">
               <section
                 id="edit-time-container"
@@ -1079,7 +1083,7 @@
                     placeholder="End time"
                     type="time"
                   />
-
+  
                   <button class="btn">
                     <img
                       class="icon-delete"

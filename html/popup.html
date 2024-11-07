@@ -28,16 +28,6 @@
   </head>
 
   <body class="popup">
-    <!-- Popup Reminder to refresh page -->
-    <span
-      id="refresh-reminder-msg"
-      class="popup-button-msg"
-      style="display: none"
-    >
-      <span class="material-symbols-rounded">info</span>
-      <p>Refresh YouTube to apply this change</p>
-    </span>
-
     <!-- Popup Header with logo and settings buttons -->
     <nav>
       <span class="nav-logo">
@@ -99,6 +89,12 @@
         <h4>Quick Activations</h4>
         <form class="checkbox-form" id="quick-act-form"></form>
       </section>
+
+      <!-- ABSOLUTE POSITIONED Notification Container -->
+      <span id="notif-msg">
+        <span class="material-symbols-rounded">info</span>
+        <p>Message Text</p>
+      </span>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>

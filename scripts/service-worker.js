@@ -370,10 +370,10 @@ async function updateRecordByColumn(table, column, value, newRecords) {
 
     // Update the record's properties
     records[recordIndex] = { ...records[recordIndex], ...newRecords };
-    console.log(
-      `records for ${column} ${value} with ${JSON.stringify(newRecords)}\n`,
-      records
-    );
+    // console.log(
+    //   `records for ${column} ${value} with ${JSON.stringify(newRecords)}\n`,
+    //   records
+    // );
 
     // Save the updated records back to the table
     updateRecords(table, records);
@@ -425,7 +425,7 @@ async function resetTable(table) {
       });
     });
 
-    console.log(`Table ${table} has been reset to its default state`);
+    // console.log(`Table ${table} has been reset to its default state`);
   } catch (error) {
     console.error(`Error resetting table ${table}: ${error.message}`);
   }

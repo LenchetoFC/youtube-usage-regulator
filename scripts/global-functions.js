@@ -202,3 +202,42 @@ window.getTotalWatchTime = async () => {
     console.error(error);
   }
 };
+
+/** FUNCTION: jQuery animation for displaying submit button statuses
+ *
+ * @param {string} statusMsgId - element ID of button message to show
+ *
+ * @param {int} delayTime - amount of time (in seconds) that the buttons shows before disappearing
+ *
+ * @returns {void} Returns nothing
+ *
+ * @example displayNotifications("Saved Successfully", "#40a6ce", "verified", 2000);
+ *
+ */
+window.displayNotifications = (
+  msg,
+  hexColor,
+  iconName,
+  delayTime,
+  isPersistent = false
+) => {
+  // Prepare notification's message, color, and icon
+  $("#notif-msg .material-symbols-rounded")
+    .html(iconName)
+    .css("color", hexColor);
+
+  $("#notif-msg p").html(msg);
+
+  $("#notif-msg").css("--notif-before-background", hexColor);
+
+  // Trigger display animation
+  if (!isPersistent)
+    $("#notif-msg")
+      .fadeIn(1000)
+      .css("display", "flex")
+      .delay(delayTime)
+      .fadeOut(1000);
+  else {
+    $("#notif-msg").fadeIn(1000).css("display", "flex");
+  }
+};

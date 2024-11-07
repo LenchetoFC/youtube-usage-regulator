@@ -127,12 +127,19 @@ async function attachQuickActEvents() {
     });
 
     // Reminds user to refresh website
-    if ($("#refresh-reminder-msg").css("display") !== "flex")
-      $("#refresh-reminder-msg")
-        .fadeIn(1000)
-        .css("display", "flex")
-        .delay(2500)
-        .fadeOut(1000);
+    // if ($("#refresh-reminder-msg").css("display") !== "flex")
+    //   $("#refresh-reminder-msg")
+    //     .fadeIn(1000)
+    //     .css("display", "flex")
+    //     .delay(2500)
+    //     .fadeOut(1000);
+
+    displayNotifications(
+      "Refresh YouTube to Apply Changes",
+      "#7b3ed2",
+      "verified",
+      2500
+    );
   });
 }
 
