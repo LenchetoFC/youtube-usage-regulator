@@ -7,29 +7,6 @@
 
 /** SECTION - FUNCTION DECLARATIONS */
 
-/** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
- * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
- *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
- *
- * @param {object} message - holds the operation name and other properties to send to servicer worker
- *
- * @returns {various} - can return storage objects or status response messages
- *
- * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
- *
- */
-function sendMessageToServiceWorker(message) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(message, (response) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(response);
-      }
-    });
-  });
-}
-
 /** FUNCTION: Gets all additional blocked websites and redirects the user if the current website is blocked
  *
  * @returns {void}
@@ -37,14 +14,14 @@ function sendMessageToServiceWorker(message) {
  * @example checkBlockedWebsite()
  */
 async function checkBlockedWebsite() {
-  let blockedWebsites = await sendMessageToServiceWorker({
-    operation: "selectAll",
-    table: "additional-websites",
-  });
+  let allWebsites = await selectAllRecordsGlobal("additional-websites");
+
+  console.log("blockedWebsites");
+  console.log(allWebsites);
 
   // Iterates through each blocked website, removes 'https://', and checks if that is in the current URL
   // -- redirects user to dashboard page
-  blockedWebsites.forEach((element) => {
+  allWebsites.forEach((element) => {
     let baseURL = element.url.split("//");
     if (window.location.href.includes(baseURL[1])) {
       redirectUser();
@@ -386,12 +363,11 @@ function applyActiveLimitations() {
     setTimeout(async () => {
       try {
         // Get only active limitations from storage
-        let allActiveLimitations = await sendMessageToServiceWorker({
-          operation: "filterRecords",
-          table: "youtube-limitations",
-          property: "active",
-          value: true,
-        });
+        let allActiveLimitations = filterRecordsGlobal(
+          "youtube-limitations",
+          "active",
+          true
+        );
 
         // Iterate through active limitations to apply to current web page
         for (let index in allActiveLimitations) {
@@ -545,6 +521,7 @@ function getCurrentTime() {
  */
 
 // TODO: Get value of pause video on inactive and save to global variable
+// TODO: improve tracking by tracking pause/play button instead of window focus
 
 // Starts timer immediately, even if not focused at first
 let startTime = new Date();
@@ -552,13 +529,12 @@ console.log(`start time immediately ${startTime}`);
 
 // Save new watch times (total and video type) to current date's entry
 async function updateWatchTimes(newWatchTimesObj) {
-  let updateWatchTime = await sendMessageToServiceWorker({
-    operation: "updateRecordByColumn",
-    table: "watch-times",
-    column: "date",
-    value: getCurrentDate(),
-    newRecords: newWatchTimesObj,
-  });
+  let updateWatchTime = await updateRecordByPropertyGlobal(
+    "watch-times",
+    "date",
+    getCurrentDate(),
+    newWatchTimesObj
+  );
 
   return updateWatchTime;
 }
@@ -574,11 +550,7 @@ function addNewWatchTimeEntry() {
         "total-watch-time": 0,
       };
 
-      await sendMessageToServiceWorker({
-        operation: "insertRecords",
-        table: "watch-times",
-        records: [watchTimeObj],
-      });
+      await insertRecordsGlobal("watch-times", [watchTimeObj]);
     }
   });
 }

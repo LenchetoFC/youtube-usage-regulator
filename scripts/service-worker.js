@@ -341,37 +341,39 @@ function updateRecords(table, records) {
 }
 
 /** FUNCTION: Update a specific record by ID
- * NOTE: ideal to use a unique column identifier, because using a column with the same value among
+ * NOTE: ideal to use a unique property identifier, because using a property with the same value among
  *       multiple values will result in only the first record to be updated
  *
  * @param {string} table - table name i.e. "youtube-limitations"
  *
- * @param {int} column - any record column i.e. id or name or active
+ * @param {int} property - any record property i.e. id or name or active
  *
  * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
  *
  * @returns {void} Returns nothing
  *
- * @example updateRecordByColumn("youtube-limitations", "name", "home-button", { quick-add: true });
+ * @example updateRecordByProperty("youtube-limitations", "name", "home-button", { quick-add: true });
  */
-async function updateRecordByColumn(table, column, value, newRecords) {
+async function updateRecordByProperty(table, property, value, newRecords) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
 
     // Find the index of the record with the specified ID
-    const recordIndex = records.findIndex((record) => record[column] === value);
+    const recordIndex = records.findIndex(
+      (record) => record[property] === value
+    );
 
     if (recordIndex === -1) {
       throw new Error(
-        `Record with column ${column}, value ${value} not found in table ${table}`
+        `Record with property ${property}, value ${value} not found in table ${table}`
       );
     }
 
     // Update the record's properties
     records[recordIndex] = { ...records[recordIndex], ...newRecords };
     // console.log(
-    //   `records for ${column} ${value} with ${JSON.stringify(newRecords)}\n`,
+    //   `records for ${property} ${value} with ${JSON.stringify(newRecords)}\n`,
     //   records
     // );
 
@@ -446,15 +448,18 @@ async function deleteRecordById(table, id) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
+    console.log(records);
 
     // Ensure record exists
     const record = await selectRecordById(table, id);
+    console.log(record);
     if (!record) {
       throw new Error(`Record with ID ${id} not found in table ${table}`);
     }
 
     // Filter out the record with the specified ID
     const updatedRecords = records.filter((record) => record.id !== id);
+    console.log(updatedRecords);
 
     // Save the updated records back to the table
     updateRecords(table, updatedRecords);
@@ -515,7 +520,7 @@ async function deletePropertyInRecord(table, id, property) {
 // EVENT LISTENER: Listens for request to modify or select from chrome storage
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // Get value of settings
-  if (request.operation === "selectById") {
+  if (request.operation === "selectRecordById") {
     // Gets records by ID
     selectRecordById(request.table, request.index)
       .then((table) => sendResponse(table))
@@ -527,7 +532,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
 
     return true;
-  } else if (request.operation === "selectAll") {
+  } else if (request.operation === "selectAllRecords") {
     // Gets all records from a specified table
     selectAllRecords(request.table)
       .then((table) => sendResponse(table))
@@ -571,18 +576,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
 
     return true;
-  } else if (request.operation === "updateRecordByColumn") {
+  } else if (request.operation === "updateRecordByProperty") {
     // Updates record by ID
-    updateRecordByColumn(
+    updateRecordByProperty(
       request.table,
-      request.column,
+      request.property,
       request.value,
       request.newRecords
     )
       .then(() => {
         sendResponse({
-          data: `Successfully updated table ${request.table} by column ${
-            request.column
+          data: `Successfully updated table ${request.table} by property ${
+            request.property
           }, ${request.value} with new records ${JSON.stringify(
             request.newRecords
           )}.`,
@@ -591,8 +596,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       .catch((errorMsg) => {
         sendResponse({
           error: true,
-          message: `Error updating table ${request.table} by column ${
-            request.column
+          message: `Error updating table ${request.table} by property ${
+            request.property
           }, value ${request.value}, new records ${JSON.stringify(
             request.newRecords
           )}: ${errorMsg}.`,

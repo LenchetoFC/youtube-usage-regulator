@@ -98,12 +98,11 @@ async function insertCurrentWatchMode() {
  * @example let allQuickActiviations = getActiveQuickActivations();
  */
 async function getActiveQuickActivations() {
-  let allQuickActivations = await sendMessageToServiceWorker({
-    operation: "filterRecords",
-    table: "youtube-limitations",
-    property: "quick-add",
-    value: true,
-  });
+  let allQuickActivations = await filterRecordsGlobal(
+    "youtube-limitations",
+    "quick-add",
+    true
+  );
 
   return allQuickActivations;
 }
@@ -122,9 +121,14 @@ async function attachQuickActEvents() {
     };
 
     // Updates active status of limitation settings
-    await updateLimitationsDB(quickActInputObj.id, {
-      active: quickActInputObj.active,
-    });
+    await updateRecordByPropertyGlobal(
+      "youtube-limitations",
+      "id",
+      quickActInputObj.id,
+      {
+        active: quickActInputObj.isActive,
+      }
+    );
 
     // Reminds user to refresh website
     // if ($("#refresh-reminder-msg").css("display") !== "flex")

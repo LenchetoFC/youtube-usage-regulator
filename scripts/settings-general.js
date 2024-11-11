@@ -23,12 +23,11 @@
  * @example let allQuickActiviations = getActiveLimitations();
  */
 async function getActiveLimitations() {
-  let allActiveLimitations = await sendMessageToServiceWorker({
-    operation: "filterRecords",
-    table: "youtube-limitations",
-    property: "active",
-    value: true,
-  });
+  let allActiveLimitations = await filterRecordsGlobal(
+    "youtube-limitations",
+    "active",
+    true
+  );
 
   return allActiveLimitations;
 }
@@ -40,12 +39,11 @@ async function getActiveLimitations() {
  * @example let allQuickActiviations = getActiveQuickActivations();
  */
 async function getActiveQuickActivations() {
-  let allQuickActivations = await sendMessageToServiceWorker({
-    operation: "filterRecords",
-    table: "youtube-limitations",
-    property: "quick-add",
-    value: true,
-  });
+  let allQuickActivations = filterRecordsGlobal(
+    "youtube-limitations",
+    "quick-add",
+    true
+  );
 
   return allQuickActivations;
 }
@@ -90,52 +88,6 @@ function getLimitationInputs() {
     .get();
 }
 
-/** FUNCTION: Update a specific record by ID
- *
- * @param {int} id - record id i.e. 1
- *
- * @param {array} newRecords - records, can be some or all properties
- *        within an existing table  i.e. { allDay: true }
- *
- * @returns {boolean} Returns if the process was successful or not
- *
- * @example let isValid = updateLimitationsDB(3, { quick-add: true });
- */
-async function updateLimitationsDB(id, newRecords) {
-  console.log(
-    `Updating limitations DB for id: ${id} with new records: ${JSON.stringify(
-      newRecords
-    )}`
-  );
-  try {
-    let sendUpdatedRecords = await sendMessageToServiceWorker({
-      operation: "updateRecordByColumn",
-      table: "youtube-limitations",
-      column: "id",
-      value: id,
-      newRecords: newRecords,
-    });
-
-    if (sendUpdatedRecords.error) {
-      console.error(
-        `Error updating record for id: ${id}`,
-        sendUpdatedRecords.message
-      );
-      return false;
-    } else {
-      console.log(
-        `Record updated successfully for table youtube-limitations with column id, ${id} with new records ${JSON.stringify(
-          newRecords
-        )}.`
-      );
-      return true;
-    }
-  } catch (error) {
-    console.error(`Error updating limitations DB for id: ${id}`, error);
-    return false;
-  }
-}
-
 /** FUNCTION: Check if the checkbox form choices are valid (boolean and settings saved successfully)
  *
  * @param {array} id - array of settings records
@@ -143,30 +95,40 @@ async function updateLimitationsDB(id, newRecords) {
  * @returns {boolean} Returns validity value
  *
  * @example const settings = [{name: 'home-page-quick', id: 1, isActive: true, isQuickAdd: true}, {name: 'shorts-page-quick', id: 2, isActive: true, isQuickAdd: true}];
- *          let isValid = isValidLimitations(3, settings);
+ *          let isValid = updateLimitationsDB(settings);
  */
-async function isValidLimitations(limitationChoices) {
+async function updateLimitationsDB(limitationChoices) {
   let isValid = true;
   for (const limitation of limitationChoices) {
     let quick;
     limitation.isQuickAdd ? (quick = true) : (quick = false);
 
     if (limitation.isQuickAdd) {
-      isValid = await updateLimitationsDB(limitation.id, {
-        "quick-add": limitation.isActive,
-      });
+      isValid = await updateRecordByPropertyGlobal(
+        "youtube-limitations",
+        "id",
+        limitation.id,
+        {
+          "quick-add": limitation.isActive,
+        }
+      );
 
       if (!isValid) {
-        console.error("invalid");
+        console.error("invalid limitations");
         break;
       }
     } else {
-      isValid = await updateLimitationsDB(limitation.id, {
-        active: limitation.isActive,
-      });
+      isValid = await updateRecordByPropertyGlobal(
+        "youtube-limitations",
+        "id",
+        limitation.id,
+        {
+          active: limitation.isActive,
+        }
+      );
 
       if (!isValid) {
-        console.error("invalid");
+        console.error("invalid limitations");
         break;
       }
     }
@@ -179,13 +141,11 @@ async function isValidLimitations(limitationChoices) {
  *
  * @param {int} websiteItemId - website ID from database, just a number
  *
- * @param {string} websiteType - website type from database
- *
  * @returns {void}
  *
  * @example attachWebsiteEditEvent(2, "social-media");
  */
-function attachWebsiteEditEvent(websiteItemId, websiteType) {
+function attachWebsiteEditEvent(websiteItemId) {
   $(`[data-website-id='blocked-website-${websiteItemId}']`).on(
     "click",
     async function () {
@@ -197,11 +157,10 @@ function attachWebsiteEditEvent(websiteItemId, websiteType) {
          * type: string,
          * url: string
          */
-        let websiteObj = await sendMessageToServiceWorker({
-          operation: "selectById",
-          table: "additional-websites",
-          index: websiteItemId,
-        });
+        let websiteObj = await selectRecordByIdGlobal(
+          "additional-websites",
+          websiteItemId
+        );
 
         // Open edit website popup
         populateWebsitePopup(websiteObj, false);
@@ -230,12 +189,14 @@ function attachWebsiteEditEvent(websiteItemId, websiteType) {
 async function deleteAdditionalWebsite(websiteObj) {
   try {
     // Asks user to confirm deletion
+    console.log(websiteObj.id);
     if (window.confirm("Permanently delete this website?")) {
-      let deleteWebsite = await sendMessageToServiceWorker({
-        operation: "deleteRecordById",
-        table: "additional-websites",
-        id: parseInt(websiteObj.id),
-      });
+      let deleteWebsite = await deleteRecordByIdGlobal(
+        "additional-websites",
+        websiteObj.id
+      );
+
+      console.log(deleteWebsite);
 
       // Displays error message if deleting is unsuccessful
       if (deleteWebsite.error) {
@@ -430,10 +391,7 @@ async function insertAdditionalWebsites() {
   }
 
   // Retrieve all additional websites
-  let allWebsites = await sendMessageToServiceWorker({
-    operation: "selectAll",
-    table: "additional-websites",
-  });
+  let allWebsites = await selectAllRecordsGlobal("additional-websites");
 
   // If there are no websites in database, display the empty content HTML
   if (Object.keys(allWebsites).length === 0) {
@@ -475,23 +433,6 @@ async function insertAdditionalWebsites() {
   });
 }
 
-/** ASYNC FUNCTION: Resets the additional websites table back to default
- *
- * This function sends a message to the service worker to reset the "additional-websites" table to its default state.
- *
- * @returns {void}
- *
- * @example clearAllWebsites();
- */
-async function clearAllWebsites() {
-  let result = await sendMessageToServiceWorker({
-    operation: "resetTable",
-    table: "additional-websites",
-  });
-
-  return result;
-}
-
 /** FUNCTION: Populate website popup
  *
  * This function populates the website popup form with the provided website information.
@@ -509,7 +450,7 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
   // If adding new website, leave form blank,
   // --- hide delete website button, set submit button id to "block-website"
   if (isNewWebsite) {
-    $("#delete-website").hide();
+    $("#delete-website").hide().prop("disabled", true);
     $("#popover-new-blocked-website header h1").html("New Website");
     $("#new-blocked-website-form input").val("");
     $("#new-blocked-website-form select").val("");
@@ -520,7 +461,10 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
   } else {
     // If editing existing website, populate form with website info,
     // --- show delete website button and attach website id, set submit button id to "save-website"
-    $("#delete-website").show().attr("data-website-id", websiteObj.id);
+    $("#delete-website")
+      .show()
+      .attr("data-website-id", websiteObj.id)
+      .prop("disabled", false);
     $("#popover-new-blocked-website header h1").html("Edit Website");
     $("#website-name").val(websiteObj.name);
     $("#website-url").val(websiteObj.url);
@@ -610,12 +554,16 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     const form = document.getElementById("new-blocked-website-form");
 
     // Check if the form is valid
-    isFormValid(form);
+    let formValidity = isFormValid(form);
 
     // Get form values
-    const newWebsiteObj = getFormValues(buttonID);
+    if (formValidity) {
+      const newWebsiteObj = getFormValues(buttonID);
 
-    return newWebsiteObj;
+      return newWebsiteObj;
+    } else {
+      return false;
+    }
   }
 
   /** Saves new additional website to database */
@@ -634,22 +582,28 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       let saveWebsiteResult;
       let websiteObj = getWebsiteDetails(buttonID);
 
+      // If form is invalid, end function
+      if (!websiteObj) {
+        // Re-enable button after animation
+        $button.parent().toggleClass("spin-animation");
+        $button.prop("disabled", false);
+        return;
+      }
+
       if (isNewWebsite) {
         // Inserts new website object into database
-        saveWebsiteResult = await sendMessageToServiceWorker({
-          operation: "insertRecords",
-          table: "additional-websites",
-          records: [websiteObj],
-        });
+        saveWebsiteResult = await insertRecordsGlobal(
+          "additional-websites",
+          websiteObj
+        );
       } else {
         // Updates current website's data
-        saveWebsiteResult = await sendMessageToServiceWorker({
-          operation: "updateRecordByColumn",
-          table: "additional-websites",
-          column: "id",
-          value: websiteObj.id,
-          newRecords: websiteObj,
-        });
+        saveWebsiteResult = await updateRecordByPropertyGlobal(
+          "youtube-limitations",
+          "id",
+          websiteObj.id,
+          [websiteObj]
+        );
       }
 
       // Re-enable button after animation
@@ -659,17 +613,17 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       // Gets status message from insertion
       if (saveWebsiteResult.error) {
         displayNotifications(
-          "Could not update this website. Try again later.",
+          "Could not add or update this website. Try again later.",
           "#d92121",
           "release_alert",
           5000
         );
-        throw new Error(`${saveWebsiteResult.message}`);
+        throw new Error(saveWebsiteResult.message);
       } else {
         console.log(saveWebsiteResult.data);
 
         // Reload webpage to load in new website
-        location.reload();
+        // location.reload();
       }
 
       return true;
@@ -764,8 +718,6 @@ $(document).ready(function () {
     // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
     const limitationChoices = getLimitationChoices();
 
-    console.log(limitationChoices);
-
     if (limitationChoices.length == 0) {
       displayNotifications("No Changes to Save.", "#40a6ce", "info", 2500);
 
@@ -777,12 +729,11 @@ $(document).ready(function () {
     } else {
       $('#limitation-settings input[type="checkbox"]').removeClass("changed");
     }
-    console.log(limitationChoices);
 
     // FIXME: isValid returns promise, not a boolean value
     // replicate this by clearing storage, then trying to save to non-existant storage
     // NOTE: possibly use .then()
-    let isValid = isValidLimitations(limitationChoices);
+    let isValid = updateLimitationsDB(limitationChoices);
 
     setTimeout(function () {
       // Start animation on status message, depending saving outcome
@@ -921,11 +872,10 @@ $(document).ready(function () {
     event.preventDefault();
     let websiteItemId = $(this).attr("data-website-id");
 
-    let websiteObj = await sendMessageToServiceWorker({
-      operation: "selectById",
-      table: "additional-websites",
-      index: parseInt(websiteItemId),
-    });
+    let websiteObj = await selectRecordByIdGlobal(
+      "additional-websites",
+      parseInt(websiteItemId)
+    );
 
     deleteAdditionalWebsite(websiteObj);
   });
@@ -935,9 +885,11 @@ $(document).ready(function () {
    * This event listener triggers the resetTable function to reset the "additional-websites" table in the database.
    */
   $("#clear-websites").on("click", async function () {
-    clearAllWebsites();
+    if (window.confirm("Confirm to delete ALL blocked websites...")) {
+      resetTableGlobal("additional-websites");
 
-    location.reload();
+      insertAdditionalWebsites();
+    }
   });
 
   /** EVENT LISTENER: Clears all settings
@@ -949,21 +901,17 @@ $(document).ready(function () {
    */
   $("#clear-settings").on("click", function () {
     // Ask user to confirm choice
-    if (window.confirm("Confirm to reset ALL settings.")) {
+    if (window.confirm("Confirm to reset ALL settings...")) {
       // Sets all checkboxes to unchecked
       clearLimitationInputs();
 
       // Save settings
       const limitationInputs = getLimitationInputs();
 
-      console.log(limitationInputs);
-
       // FIXME: isValid returns promise, not a boolean value
       // replicate this by clearing storage, then trying to save to non-existant storage
       // NOTE: possibly use .then()
-      let isValid = isValidLimitations(limitationInputs);
-
-      console.log(isValid);
+      let isValid = updateLimitationsDB(limitationInputs);
 
       setTimeout(function () {
         // Start animation on status message, depending saving outcome

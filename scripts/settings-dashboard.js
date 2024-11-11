@@ -118,23 +118,6 @@ function createProgressBar(selector, fromColor, toColor, fontSize) {
   return bar;
 }
 
-/** ASYNC FUNCTION: Resets the watch times table back to default
- *
- * This function sends a message to the service worker to reset the "watch-times" table to its default state.
- *
- * @returns {void}
- *
- * @example resetWatchTime();
- */
-async function resetWatchTime() {
-  let result = await sendMessageToServiceWorker({
-    operation: "resetTable",
-    table: "watch-times",
-  });
-
-  return result;
-}
-
 /** FUNCTION: Calculate total watch time for a specific video type
  *
  * This function calculates the total watch time for a given video type from an array of watch time objects.
@@ -376,12 +359,9 @@ function reformatDateToText(dateValue) {
  *
  */
 async function getAllWatchTimes() {
-  let allRecords = await sendMessageToServiceWorker({
-    operation: "selectAll",
-    table: "watch-times",
-  });
+  let allWatchTimes = await selectAllRecordsGlobal("watch-times");
 
-  return allRecords;
+  return allWatchTimes;
 }
 
 /** ASYNC FUNCTION: Calculates all watch times combined by week
@@ -750,7 +730,7 @@ $(document).ready(async function () {
         "THIS IS A PERMANENT ACTION! Confirm to erase ALL your watch time."
       )
     ) {
-      resetWatchTime();
+      resetTableGlobal("watch-times");
 
       // Reloads window
       location.reload();

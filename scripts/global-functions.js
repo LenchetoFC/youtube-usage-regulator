@@ -6,14 +6,14 @@
  */
 
 /** FUNCTION: Sends message to service worker to fulfill specific requests, such as database changes
- * NOTE: all operations (subject to change): 'selectById', 'selectAll', 'filterRecords', 'updateRecords',
- *        'updateRecordByColumn', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
+ * NOTE: all operations (subject to change): 'selectRecordById', 'selectAllRecords', 'filterRecords', 'updateRecords',
+ *        'updateRecordByProperty', 'deleteRecordById', 'deletePropertyInRecord', and 'insertRecords'
  *
  * @param {object} message - holds the operation name and other properties to send to servicer worker
  *
  * @returns {various} - can return storage objects or status response messages
  *
- * @example let byIndex = await sendMessageToServiceWorker({operation: "selectById", table: "schedules", index: 1, });
+ * @example let byIndex = await sendMessageToServiceWorker({operation: "selectRecordById", table: "schedules", index: 1, });
  *
  */
 window.sendMessageToServiceWorker = (message) => {
@@ -39,31 +39,167 @@ window.sendMessageToServiceWorker = (message) => {
  *
  * @example await updateLimitationsDB(3, { quick-add: true });
  */
-window.updateLimitationsDB = async (id, newRecords) => {
-  console.log(
-    `Updating limitations DB for id: ${id} with new records: ${JSON.stringify(
-      newRecords
-    )}`
-  );
+// window.updateLimitationsDB = async (id, newRecords) => {
+//   console.log(
+//     `Updating limitations DB for id: ${id} with new records: ${JSON.stringify(
+//       newRecords
+//     )}`
+//   );
+//   try {
+//     let sendUpdatedRecords = await sendMessageToServiceWorker({
+//       operation: "updateRecordByProperty",
+//       table: "youtube-limitations",
+//       property: "id",
+//       value: id,
+//       newRecords: newRecords,
+//     });
+
+//     if (!sendUpdatedRecords.error) {
+//       console.log(
+//         `Record updated successfully for table youtube-limitations with property id, ${id} with new records ${JSON.stringify(
+//           newRecords
+//         )}.`
+//       );
+//       return true;
+//     } else {
+//       throw Error;
+//     }
+//   } catch (error) {
+//     console.error(`Error updating limitations DB for id: ${id}`, error);
+//     return false;
+//   }
+// };
+
+/**
+ * filterRecords x 4
+ * resetTable x 2
+ * selectAllRecords x 3
+ * selectRecordById x 2
+ * updateRecordByProperty x 3
+ * deleteRecordById
+ * insertRecords x 2
+ */
+window.filterRecordsGlobal = async (table, property, value) => {
+  try {
+    let filteredRecords = await sendMessageToServiceWorker({
+      operation: "filterRecords",
+      table: table,
+      property: property,
+      value: value,
+    });
+
+    return filteredRecords;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+window.resetTableGlobal = async (table) => {
+  try {
+    // let result = await sendMessageToServiceWorker({
+    await sendMessageToServiceWorker({
+      operation: "resetTable",
+      table: table,
+    });
+
+    // return result;
+  } catch (error) {
+    console.error(error);
+    // return false;
+  }
+};
+
+window.selectAllRecordsGlobal = async (table) => {
+  try {
+    let allRecordsInTable = await sendMessageToServiceWorker({
+      operation: "selectAllRecords",
+      table: table,
+    });
+
+    return allRecordsInTable;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+window.selectRecordByIdGlobal = async (table, id) => {
+  try {
+    let recordsWithId = await sendMessageToServiceWorker({
+      operation: "selectRecordById",
+      table: table,
+      index: id,
+    });
+
+    return recordsWithId;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+window.updateRecordByPropertyGlobal = async (
+  table,
+  property,
+  value,
+  newRecords
+) => {
   try {
     let sendUpdatedRecords = await sendMessageToServiceWorker({
-      operation: "updateRecordByColumn",
-      table: "youtube-limitations",
-      column: "id",
-      value: id,
+      operation: "updateRecordByProperty",
+      table: table,
+      property: property,
+      value: value,
       newRecords: newRecords,
     });
 
     if (!sendUpdatedRecords.error) {
       console.log(
-        `Record updated successfully for table youtube-limitations with column id, ${id} with new records ${JSON.stringify(
+        `Record updated successfully for table youtube-limitations with property id, ${value} with new records ${JSON.stringify(
           newRecords
         )}.`
       );
       return true;
+    } else {
+      throw Error;
     }
   } catch (error) {
-    console.error(`Error updating limitations DB for id: ${id}`, error);
+    console.error(`Error updating limitations DB for id: ${value}`, error);
+    return false;
+  }
+};
+
+window.deleteRecordByIdGlobal = async (table, id) => {
+  try {
+    console.log(table);
+    console.log(id);
+    let result = await sendMessageToServiceWorker({
+      operation: "deleteRecordById",
+      table: table,
+      id: id,
+    });
+
+    console.log(result);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+window.insertRecordsGlobal = async (table, newRecords) => {
+  try {
+    let result = await sendMessageToServiceWorker({
+      operation: "insertRecords",
+      table: table,
+      records: newRecords,
+    });
+
+    return result;
+  } catch (error) {
+    console.error(error);
     return false;
   }
 };
@@ -190,7 +326,7 @@ window.getTotalWatchTime = async () => {
     let totalTime = 0;
 
     let totalWatchTimes = await sendMessageToServiceWorker({
-      operation: "selectAll",
+      operation: "selectAllRecords",
       table: "watch-times",
     });
 
