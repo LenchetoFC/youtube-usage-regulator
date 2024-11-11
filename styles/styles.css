@@ -138,6 +138,7 @@ p {
 *:before,
 *:after {
   box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 html,
@@ -236,6 +237,7 @@ main {
 .general-body {
   padding: 0 4rem;
   width: 100%;
+  height: 100%;
   background: var(--surface-light);
   overflow-y: auto;
   transition: padding 0.25s;
@@ -291,13 +293,13 @@ main {
   }
 
   h1 {
-    font-size: 32px;
+    font-size: 3.2rem;
     color: var(--text-light);
   }
 
   h2 {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 600;
   }
 }
 
@@ -363,7 +365,7 @@ a:hover {
 }
 
 button {
-  transition: background, opacity 0.25s;
+  transition: background, background-color 0.25s;
   border: none;
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   user-select: none;
@@ -377,17 +379,21 @@ button {
   gap: 0.8rem;
   justify-content: center;
   align-items: center;
-  border-radius: 1.6rem;
+  border-radius: 2.4rem;
   background: var(--surface-dark);
   min-width: max-content;
 }
 
-button[type="submit"] {
-  background: var(--brand-2);
+button[type="submit"],
+.misc-button {
+  background: var(--surface-brand-2);
 }
 
-.misc-button {
-  background: var(--brand-1);
+.button-brand {
+  background: var(--surface-brand);
+}
+.button-brand:hover {
+  background: hsl(0, 74%, 40%);
 }
 
 button:hover {
@@ -395,18 +401,13 @@ button:hover {
   text-decoration: none;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+.misc-button:hover {
   background: hsl(125, 70%, 25%);
 }
-button[type="submit"]:active {
-  background: hsl(125, 70%, 20%);
-}
-
-.misc-button:hover {
-  background: hsl(0, 74%, 44%);
-}
+button[type="submit"]:active,
 .misc-button:active {
-  background: hsl(0, 74%, 39%);
+  background: hsl(125, 70%, 20%);
 }
 
 .underline-hover p {
@@ -436,7 +437,7 @@ button[type="submit"]:active {
 }
 
 .cancel p,
-#clear-settings p {
+.red-text-button p {
   color: var(--text-brand);
 }
 
@@ -466,8 +467,13 @@ button[type="submit"]:active {
   }
 }
 
-/* Typically for success messages */
-.button-with-msg {
+.button-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dual-buttons {
   display: flex;
   gap: 1.2rem;
   align-items: center;
@@ -477,35 +483,15 @@ button[type="submit"]:active {
     font-size: 2.8rem;
   }
 }
-.button-msg,
-.popup-button-msg {
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1.2rem;
-  position: absolute;
-  /* top: 6rem; */
-  background: var(--surface-light);
-  width: fit-content;
-  z-index: 3;
-  box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.1);
-  padding: 11px 16px;
-  border-radius: var(--radius-2xl);
 
-  p {
-    color: var(--text-dark);
-    width: max-content;
-  }
+button:is(.edit) {
+  padding: 0 2rem !important;
+  height: 4rem;
 }
 
-.button-msg {
-  right: 16rem;
+button:is(.edit):hover {
+  background: rgb(37, 37, 37);
 }
-
-.popup-button-msg {
-  right: 6rem;
-  top: 1.5rem;
-}
-
 /* 
   Inputs
 */
@@ -707,7 +693,7 @@ input[type="color"] {
 }
 
 span:has(> button[type="submit"]) {
-  border-radius: 1.8rem;
+  border-radius: 2.6rem;
   border: 3px solid transparent;
 }
 
@@ -867,7 +853,7 @@ nav {
     flex-wrap: wrap;
     justify-content: space-between;
     max-height: 100%;
-    height: 100%;
+    /* height: 100%; */
   }
 }
 
@@ -1562,8 +1548,9 @@ section:is(#watch-mode) {
 /* 
   BLOCK ADDITIONAL WEBSITES
 */
-#block-websites {
-  height: 90rem;
+#additional-websites {
+  /* height: 90rem; */
+  height: 100%;
 
   fieldset {
     width: 100%;
@@ -1573,8 +1560,8 @@ section:is(#watch-mode) {
     }
   }
   legend {
-    margin-bottom: 0.8rem;
-    font-size: 1.7rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.6rem;
   }
   ul {
     flex-direction: column;
@@ -1585,10 +1572,11 @@ section:is(#watch-mode) {
     width: 100%;
     justify-content: space-between;
   }
-  h1:not(.empty-content h1) {
+  h1:not(.empty-content h1):not(#additional-websites > header h1) {
     font-size: 1.6rem;
+    font-weight: 600;
   }
-  p:not(.button-with-msg p):not(.empty-content p) {
+  p:not(.dual-buttons p):not(.empty-content p) {
     color: var(--text-dark);
     width: 50ch;
     text-overflow: ellipsis;
@@ -1603,7 +1591,7 @@ section:is(#watch-mode) {
   }
 
   .content {
-    gap: 1.6rem;
+    gap: 1.2rem;
   }
 }
 
@@ -1623,7 +1611,7 @@ section:is(#watch-mode) {
   border: transparent;
 
   form {
-    gap: 1.2rem;
+    gap: 1.6rem;
   }
 
   header {
@@ -1631,7 +1619,7 @@ section:is(#watch-mode) {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
   }
 }

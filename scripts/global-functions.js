@@ -1,4 +1,5 @@
 // TODO: make a note for each function about which file its called and how many times its called
+// TODO: add all storage related functions (basically just the sendMessageToServiceWorker code that other files would do)
 
 /**
  * SECTION - STORAGE RELATED

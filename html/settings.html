@@ -4,6 +4,12 @@
                 YouTube Algorithm Regulator browser extension.
 -->
 
+<!-- TODO: add accessiblity to all html files 
+      -- role: add this attr to all generic or cutsom tags (only use from official role list)
+      -- aria-label: alternate to alt attr
+      -- aria-labeledby: use when text describes an image instead of using alt (NOTE: use alt="") 
+      -- 
+ -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -82,11 +88,11 @@
               <h2>Prioritize Creators</h2>
             </button>
           </li>
-          <li>
+          <!-- <li>
             <button id="watch-modes-tab" value="watch-modes">
               <h2>Watch Modes</h2>
             </button>
-          </li>
+          </li> -->
           <li>
             <button
               id="additional-websites-blocker-tab"
@@ -100,6 +106,49 @@
 
       <!-- Body -->
       <div class="general-body">
+        <section id="additional-websites">
+          <header>
+            <span>
+              <h1>Additional Website Blocker</h1>
+              <h2>Completely block other websites beyond YouTube.</h2>
+            </span>
+          </header>
+
+          <div class="empty-content">
+            <span class="material-symbols-rounded">block</span>
+            <h1>Add Websites to Block</h1>
+            <p>
+              Add websites to block completely, and categorize them by website
+              type using the dropdown list. You can add broad URL
+              <strong>(reddit.com)</strong> or specific URL
+              <strong>(reddit.com/?feed=home)</strong>.
+            </p>
+            <button class="misc-button add-new-website">
+              <span class="material-symbols-rounded">add</span>
+              Add Website
+            </button>
+          </div>
+
+          <div class="content"></div>
+
+          <!-- Add new website button -->
+          <span class="dual-buttons">
+            <span>
+              <button class="misc-button add-new-website">
+                <span class="material-symbols-rounded">add</span>
+                Add Website
+              </button>
+            </span>
+
+            <button
+              class="text-button underline-hover red-text-button"
+              id="clear-websites"
+            >
+              <p>Delete All Websites</p>
+            </button>
+          </span>
+        </section>
+
         <!-- YouTube Limitations -->
         <section id="youtube-limitations">
           <header>
@@ -816,20 +865,23 @@
             </section>
 
             <!-- Submission Button -->
-            <span class="button-with-msg">
+            <span class="dual-buttons">
               <span>
                 <button type="submit" id="save-limitations">
                   Save Settings
                 </button>
               </span>
-              <button class="text-button underline-hover" id="clear-settings">
+              <button
+                class="text-button underline-hover red-text-button"
+                id="clear-settings"
+              >
                 <p>Clear Settings</p>
               </button>
             </span>
           </div>
         </section>
 
-        <!-- YouTube Limitations -->
+        <!-- Prioritize Creators -->
         <section id="prioritize-creators">
           <header>
             <span>
@@ -841,7 +893,7 @@
             </span>
 
             <!-- Submission Button -->
-            <span class="button-with-msg">
+            <span class="dual-buttons">
               <span>
                 <button type="submit" id="save-creators">Save Creators</button>
                 <!-- <button type="submit" id="save-creators">
@@ -1376,8 +1428,8 @@
           </div>
         </section>
 
-        <!-- YouTube Limitations -->
-        <section id="watch-mode">
+        <!-- Watch Modes -->
+        <!-- <section id="watch-mode">
           <header>
             <span>
               <h1>Watch Modes</h1>
@@ -1394,7 +1446,6 @@
             </button>
           </header>
 
-          <!-- Content -->
           <div class="content">
             <ul id="watch-modes">
               <li id="watch-mode-0">
@@ -1491,53 +1542,9 @@
               </li>
             </ul>
           </div>
-        </section>
+        </section> -->
 
-        <!-- YouTube Limitations -->
-        <section id="additional-websites">
-          <header>
-            <span>
-              <h1>Block Additional Websites</h1>
-              <h2>
-                Completely block other websites that steal you away from your
-                own life.
-              </h2>
-            </span>
-            <span class="button-with-msg">
-              <span>
-                <button
-                  class="misc-button"
-                  id="add-new-website"
-                  popovertarget="popover-new-blocked-website"
-                >
-                  <span class="material-symbols-rounded">add</span>
-                  Add Website
-                </button>
-              </span>
-            </span>
-          </header>
-
-          <div class="empty-content">
-            <span class="material-symbols-rounded">block</span>
-            <h1>Add Websites to Block</h1>
-            <p>
-              Add websites to block completely, and categorize them by website
-              type using the dropdown list. You can add broad URL
-              <strong>(reddit.com)</strong> or specific URL
-              <strong>(reddit.com/?feed=home)</strong>.
-            </p>
-            <button
-              class="misc-button"
-              id="add-new-website"
-              popovertarget="popover-new-blocked-website"
-            >
-              <span class="material-symbols-rounded">add</span>
-              Add Website
-            </button>
-          </div>
-
-          <div class="content"></div>
-        </section>
+        <!-- Additional Website Blocker -->
       </div>
 
       <!-- ABSOLUTE POSITIONED Notification Container -->
@@ -1590,24 +1597,46 @@
             </select>
           </div>
 
-          <span class="group-of-buttons">
-            <button
-              class="text-button underline-hover cancel"
-              data-popover="popover-new-blocked-website"
-            >
-              <p>Cancel</p>
-            </button>
+          <div class="button-footer">
             <span>
               <button
-                type="submit"
                 value=""
                 popovertargetaction="toggle"
-                id="block-website"
+                id="delete-website"
+                class="button-brand"
               >
-                Block Website
+                Delete Website
               </button>
             </span>
-          </span>
+
+            <span class="dual-buttons">
+              <button
+                type="reset"
+                class="text-button underline-hover cancel"
+                data-popover="popover-new-blocked-website"
+              >
+                <p>Cancel</p>
+              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="block-new-website"
+                >
+                  Block Website
+                </button>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-website"
+                >
+                  Update Website
+                </button>
+              </span>
+            </span>
+          </div>
         </form>
       </div>
 

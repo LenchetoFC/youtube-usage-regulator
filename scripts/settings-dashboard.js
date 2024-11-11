@@ -52,7 +52,7 @@ async function getWatchTypeComparisons() {
 
 /** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
  *
- * @returns {null}
+ * @returns {void}
  *
  * @example insertCurrentWatchMode();
  */
@@ -117,11 +117,12 @@ function createProgressBar(selector, fromColor, toColor, fontSize) {
   bar.text.style.fontSize = fontSize;
   return bar;
 }
+
 /** ASYNC FUNCTION: Resets the watch times table back to default
  *
  * This function sends a message to the service worker to reset the "watch-times" table to its default state.
  *
- * @returns {null}
+ * @returns {void}
  *
  * @example resetWatchTime();
  */
@@ -523,7 +524,7 @@ async function getMonthlyWatchTimes() {
  * @param {Object} watchTimes - holds the watch time object that has the date and total amount of watch time in seconds
  * @param {string} timeframe - determines how the watch time list item is prepared for HTML insertion
  *
- * @returns {null}
+ * @returns {void}
  *
  * @notes convertTimeToText() is imported from global-functions.js
  *
@@ -535,7 +536,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
    * @param {int} watchTimeSeconds - the watch time in seconds that will be converted to text
    * @param {boolean} isLastItem - determines if a horizontal line is appended after an item
    *
-   * @returns {null}
+   * @returns {void}
    *
    */
   function appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem) {
@@ -588,7 +589,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
 
 /** FUNCTION: Gets and displays the relevant watch times for the "Notable Days" widget
  *
- * @returns {null}
+ * @returns {void}
  *
  * @example insertNotableWatchDays();
  *
@@ -640,12 +641,7 @@ async function insertNotableWatchDays() {
       const data = await sortWatchTimesAsc();
 
       // Returns last element (most amount of watch time)
-
-      if (data[0]["total-watch-time"] != 0) {
-        return data.pop();
-      } else {
-        return null;
-      }
+      return data.pop();
     } catch (error) {
       console.error(error);
     }
