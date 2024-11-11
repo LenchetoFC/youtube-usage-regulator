@@ -231,7 +231,7 @@ main {
   flex-direction: column;
 
   /* NOTE: a band-aid for the bottom content being cut off */
-  padding-bottom: 7rem;
+  /* padding-bottom: 7rem; */
 }
 
 .general-body {
@@ -861,6 +861,11 @@ nav {
   }
 }
 
+.general-body #additional-websites,
+.general-body #prioritize-creators {
+  display: none;
+}
+
 /* dashboard.html */
 .widget-item {
   min-width: 40rem;
@@ -1427,11 +1432,12 @@ nav {
 
   h1 {
     font-size: 2rem;
+    text-align: center;
   }
 
   p {
     color: var(--text-dark);
-    width: 44ch;
+    max-width: 44ch;
     text-align: center;
   }
 }

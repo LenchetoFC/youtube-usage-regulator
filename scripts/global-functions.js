@@ -97,16 +97,15 @@ window.filterRecordsGlobal = async (table, property, value) => {
 
 window.resetTableGlobal = async (table) => {
   try {
-    // let result = await sendMessageToServiceWorker({
-    await sendMessageToServiceWorker({
+    let result = await sendMessageToServiceWorker({
       operation: "resetTable",
       table: table,
     });
 
-    // return result;
+    return result;
   } catch (error) {
     console.error(error);
-    // return false;
+    return false;
   }
 };
 

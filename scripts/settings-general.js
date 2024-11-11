@@ -5,6 +5,8 @@
  *
  */
 
+// NOTE: TODO: Split feature functions into their own JS files
+
 /**
  * NOTE: to access storage from browser console, run this command...
  * chrome.storage.sync.get((result) => { console.log(result) });
@@ -201,7 +203,7 @@ async function deleteAdditionalWebsite(websiteObj) {
       // Displays error message if deleting is unsuccessful
       if (deleteWebsite.error) {
         displayNotifications(
-          "Unsuccessfullly Deleted Website. Try Again Later.",
+          "Unsuccessfully Deleted Website. Try Again Later.",
           "#d92121",
           "release_alert",
           5000
@@ -234,10 +236,10 @@ async function deleteAdditionalWebsite(websiteObj) {
         }
 
         displayNotifications(
-          "Successfullly Deleted Website.",
+          "successfully Deleted Website!",
           "#390",
           "verified",
-          1000
+          2000
         );
       }
     }
@@ -296,7 +298,6 @@ function reformatWebsiteType(websiteType) {
   return formattedType;
 }
 
-// NOTE: TODO: Split feature functions into their own JS files
 /** FUNCTION: Inserts all websites from database into DOM
  *
  * @returns {void}
@@ -390,8 +391,15 @@ async function insertAdditionalWebsites() {
     }, {});
   }
 
+  /** Main body */
+
+  // Ensures the container is empty
+  $("#additional-websites .content").html("");
+
   // Retrieve all additional websites
   let allWebsites = await selectAllRecordsGlobal("additional-websites");
+
+  console.log(allWebsites);
 
   // If there are no websites in database, display the empty content HTML
   if (Object.keys(allWebsites).length === 0) {
@@ -400,6 +408,10 @@ async function insertAdditionalWebsites() {
     $("#additional-websites .empty-content").css("display", "flex");
 
     return; // Skip the rest of the code
+  } else {
+    $("#additional-websites .content").css("display", "flex");
+    $("#additional-websites .dual-buttons").css("display", "flex");
+    $("#additional-websites .empty-content").css("display", "none");
   }
 
   let groupedByType = groupWebsitesByType(allWebsites);
@@ -592,10 +604,9 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
 
       if (isNewWebsite) {
         // Inserts new website object into database
-        saveWebsiteResult = await insertRecordsGlobal(
-          "additional-websites",
-          websiteObj
-        );
+        saveWebsiteResult = await insertRecordsGlobal("additional-websites", [
+          websiteObj,
+        ]);
       } else {
         // Updates current website's data
         saveWebsiteResult = await updateRecordByPropertyGlobal(
@@ -624,6 +635,14 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
 
         // Reload webpage to load in new website
         // location.reload();
+        insertAdditionalWebsites();
+        document.getElementById("popover-new-blocked-website").hidePopover();
+        displayNotifications(
+          "Successfully Added New Website!",
+          "#390",
+          "verified",
+          2000
+        );
       }
 
       return true;
@@ -738,7 +757,12 @@ $(document).ready(function () {
     setTimeout(function () {
       // Start animation on status message, depending saving outcome
       if (isValid) {
-        displayNotifications("Saved Successfully", "#390", "verified", 2000);
+        displayNotifications(
+          "Saved Settings Successfully!",
+          "#390",
+          "verified",
+          2000
+        );
 
         // Updates the YouTube UI Demo all at once
         $("#limitation-settings fieldset input").each(function () {
@@ -817,7 +841,12 @@ $(document).ready(function () {
 
       // Start animation on status message, depending saving outcome
       buttonSuccess
-        ? displayNotifications("Saved Successfully", "#390", "verified", 2000)
+        ? displayNotifications(
+            "Saved Creators Successfully!",
+            "#390",
+            "verified",
+            2000
+          )
         : displayNotifications(
             "Unsuccessfully Saved. Try Again Later.",
             "#d92121",
@@ -888,6 +917,13 @@ $(document).ready(function () {
     if (window.confirm("Confirm to delete ALL blocked websites...")) {
       resetTableGlobal("additional-websites");
 
+      displayNotifications(
+        "Cleared Websites Successfully!",
+        "#390",
+        "verified",
+        2000
+      );
+
       insertAdditionalWebsites();
     }
   });
@@ -916,7 +952,12 @@ $(document).ready(function () {
       setTimeout(function () {
         // Start animation on status message, depending saving outcome
         if (isValid) {
-          displayNotifications("Saved Successfully", "#390", "verified", 2000);
+          displayNotifications(
+            "Cleared Settings Successfully!",
+            "#390",
+            "verified",
+            2000
+          );
 
           // Updates the YouTube UI Demo all at once
           $("#limitation-settings fieldset input").each(function () {
@@ -951,6 +992,37 @@ function clearLimitationInputs() {
   limitationInputs.each(function (_, element) {
     $(`#${element.name}`).prop("checked", false);
   });
+}
+
+/** !SECTION */
+
+/** SECTION - TAB FUNCTIONALITY */
+$("#page-tabs button").on("click", function () {
+  const selectedTabId = $(this).val();
+
+  // Remove 'current-tab' class from all buttons and add it to the selected button
+  $("#page-tabs button").removeClass("current-tab");
+  $(this).addClass("current-tab");
+
+  // Fade out all sections except the selected one
+  switchSettingsTab(selectedTabId);
+});
+
+/** FUNCTION: Switch to the selected settings tab page
+ *
+ * This function hides all non-selected settings sections and fades in the selected section
+ *
+ * @returns {void}
+ */
+function switchSettingsTab(selectedTabId) {
+  $(".general-body > section")
+    .not(`#${selectedTabId}`)
+    .hide(function () {
+      // Ensure all sections are hidden before fading in the selected section
+      $(".general-body > section").hide();
+      // Fade in the selected section after the fade-out completes
+      $(`#${selectedTabId}`).fadeIn().css("display", "flex");
+    });
 }
 
 /** !SECTION */

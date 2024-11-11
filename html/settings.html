@@ -73,7 +73,7 @@
       <!-- Header with page buttons -->
       <header class="general-header">
         <h1>Settings</h1>
-        <ul>
+        <ul id="page-tabs">
           <li>
             <button
               class="current-tab"
@@ -94,10 +94,7 @@
             </button>
           </li> -->
           <li>
-            <button
-              id="additional-websites-blocker-tab"
-              value="additional-websites"
-            >
+            <button id="additional-websites-tab" value="additional-websites">
               <h2>Additional Website Blocker</h2>
             </button>
           </li>
@@ -120,7 +117,7 @@
             <p>
               Add websites to block completely, and categorize them by website
               type using the dropdown list. You can add broad URL
-              <strong>(reddit.com)</strong> or specific URL
+              <strong>(reddit.com)</strong> or specific URL<br />
               <strong>(reddit.com/?feed=home)</strong>.
             </p>
             <button class="misc-button add-new-website">
@@ -1641,7 +1638,7 @@
       </div>
 
       <!-- POPOVER New Watch Mode -->
-      <div popover id="popover-new-watch-mode" class="popover">
+      <!-- <div popover id="popover-new-watch-mode" class="popover">
         <header>
           <h1>New Watch Mode</h1>
         </header>
@@ -1720,7 +1717,7 @@
             </span>
           </span>
         </form>
-      </div>
+      </div> -->
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
