@@ -1,19 +1,24 @@
 /**
- * @LenchetoFC
- * @description This controls the youtube limitations feature on youtube pages
+ * @file settings-website-blocker.js
+ * @description Controls the youtube limitations feature on youtube pages
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.redirectUser} x4
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: hides the element with the given ID
+/**
+ * Hides the element with the given ID
+ *
+ * @name hideDOMContent
  *
  * @param {string} elementID - ID of the element to hide
- *
  * @param {string} elementName - Descriptive name of the element that's being hidden
  *
  * @returns {void}
@@ -49,13 +54,17 @@ function hideDOMContent(elementID, elementName) {
   }
 }
 
-/** FUNCTION: Hides all buttons that redirect user's to the YT home page
+/**
+ * Hides all buttons that redirect user's to the YT home page
+ *
+ * @name hideHomeButton
  *
  * @returns {void}
  *
  * @example hideHomeButton();
+ *
+ * FIXME: unreliable sometimes - needs further testing
  */
-// FIXME: unreliable sometimes - needs further testing
 function hideHomeButton() {
   // YouTube Logo
   hideDOMContent("#logo > a", "Home Button - YouTube Logo");
@@ -108,13 +117,17 @@ function hideHomeButton() {
   }
 }
 
-/** FUNCTION: Hides all buttons that leads to YT Shorts page
+/**
+ * Hides all buttons that leads to YT Shorts page
+ *
+ * @name hideShortsButton
  *
  * @returns {void}
  *
  * @example hideShortsButton();
+ *
+ * FIXME: unreliable sometimes - needs further testing
  */
-// FIXME: unreliable sometimes - needs further testing
 function hideShortsButton() {
   setTimeout(() => {
     // Side Shorts button
@@ -157,12 +170,16 @@ function hideShortsButton() {
   }
 }
 
-/** FUNCTION: Hides all Shorts videos and recommended Shorts
- *  NOTE: applies to home & playback pages
+/**
+ * Hides all Shorts videos and recommended Shorts
+ *
+ * @name hideShortsContent
  *
  * @returns {void}
  *
  * @example hideShortsContent();
+ *
+ * @notes applies to home & playback pages
  */
 function hideShortsContent() {
   // Hides shorts button as well
@@ -201,23 +218,31 @@ function hideShortsContent() {
   }
 }
 
-/** FUNCTION: Hides search at top middle of page
- *  NOTE: applies to home & playback pages
+/**
+ * Hides search at top middle of page
+ *
+ * @name hideSearchBar
  *
  * @returns {void}
  *
  * @example hideSearchBar();
+ *
+ * @notes applies to home & playback pages
  */
 function hideSearchBar() {
   hideDOMContent("#center:has(#search)", "Search Bar");
 }
 
-/** FUNCTION: Hides all video recommendations on home page and on side of videos
- *  NOTE: applies to home & playback pages
+/**
+ * Hides all video recommendations on home page and on side of videos
+ *
+ * @name hideVideoRecommendations
  *
  * @returns {void}
  *
  * @example hideVideoRecommendations();
+ *
+ * @notes applies to home & playback pages
  */
 function hideVideoRecommendations() {
   if (window.location.href.includes("/watch?")) {
@@ -260,12 +285,16 @@ function hideVideoRecommendations() {
   disableInfiniteRecommendations();
 }
 
-/** FUNCTION: Removes the element that loads another section of recommended videos
- *  NOTE: applies to home & playback pages
+/**
+ * Removes the element that loads another section of recommended videos
+ *
+ * @name disableInfiniteRecommendations
  *
  * @returns {void}
  *
  * @example disableInfiniteRecommendations();
+ *
+ * @notes applies to home & playback pages
  */
 function disableInfiniteRecommendations() {
   hideDOMContent(
@@ -274,7 +303,10 @@ function disableInfiniteRecommendations() {
   );
 }
 
-/** FUNCTION: Hides skip button on videos to avoid moving from video to video easily
+/**
+ * Hides skip button on videos to avoid moving from video to video easily
+ *
+ * @name hideSkipButton
  *
  * @returns {void}
  *
@@ -284,14 +316,19 @@ function hideSkipButton() {
   hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
 }
 
-/** FUNCTION: Hides all comment sections
- *  NOTE: applies to playback and shorts pages
+/**
+ * Hides all comment sections
+ *
+ * @name hideComments
  *
  * @returns {void}
  *
  * @example hideComments();
+ *
+ * @notes applies to playback and shorts pages
+ *
+ * FIXME: comments sometimes takes too long to load in
  */
-// FIXME: comments sometimes takes too long to load in
 function hideComments() {
   if (window.location.href.includes("watch")) {
     hideDOMContent("ytd-comments#comments", "Comments Section on videos");
@@ -312,7 +349,10 @@ function hideComments() {
   }
 }
 
-/** FUNCTION: Retrieves and applies all active limitations to current web page
+/**
+ * Retrieves and applies all active limitations to current web page
+ *
+ * @name applyActiveLimitations
  *
  * @returns {void}
  *
@@ -395,7 +435,9 @@ function applyActiveLimitations() {
 }
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
   // Removes any YouTube element that is current limited (only on YouTube site)
   applyActiveLimitations();

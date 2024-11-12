@@ -1,18 +1,26 @@
 /**
- * @LenchetoFC
- * @description This controls the youtube limitations section of the settings page
+ * @file settings-website-blocker.js
+ * @description Controls the youtube limitations section of the settings page
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.displayNotifications} x6
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal} x2
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: Get all active youtube limitations settings
+/**
+ * Get all active youtube limitations settings
  *
- * @returns {array} Returns array of records with active values
+ * @name getActiveLimitations
+ * @async
+ *
+ * @returns {Array} Returns array of records with active values
  *
  * @example let allQuickActiviations = getActiveLimitations();
  */
@@ -26,9 +34,13 @@ async function getActiveLimitations() {
   return allActiveLimitations;
 }
 
-/** FUNCTION: Get all active quick activations for youtube limitations
+/**
+ * Get all active quick activations for youtube limitations
  *
- * @returns {array} Returns array of records with active quick activations
+ * @name getActiveQuickActivations
+ * @async
+ *
+ * @returns {Array} Returns array of records with active quick activations
  *
  * @example let allQuickActiviations = getActiveQuickActivations();
  */
@@ -42,9 +54,12 @@ async function getActiveQuickActivations() {
   return allQuickActivations;
 }
 
-/** FUNCTION: Get all settings that have been changed in the form (class name)
+/**
+ * Get all settings that have been changed in the form (class name)
  *
- * @returns {array} Returns an array converted from an object of changed settings properties
+ * @name getLimitationChoices
+ *
+ * @returns {Array} Returns an array converted from an object of changed settings properties
  *                  necessary for updating storage
  *
  * @example const limitationChoices = getLimitationChoices();
@@ -62,9 +77,12 @@ function getLimitationChoices() {
     .get();
 }
 
-/** FUNCTION: Get all limitations settings that is used to clear all settings
+/**
+ * Get all limitations settings that is used to clear all settings
  *
- * @returns {array} Returns an array converted from an object of changed settings properties
+ * @name getLimitationInputs
+ *
+ * @returns {Array} Returns an array converted from an object of changed settings properties
  *                  necessary for updating storage
  *
  * @example const limitationInputs = getLimitationInputs();
@@ -82,9 +100,13 @@ function getLimitationInputs() {
     .get();
 }
 
-/** FUNCTION: Check if the checkbox form choices are valid (boolean and settings saved successfully)
+/**
+ * Check if the checkbox form choices are valid (boolean and settings saved successfully)
  *
- * @param {array} id - array of settings records
+ * @name updateLimitationsDB
+ * @async
+ *
+ * @param {Array} limitationChoices - array of settings records
  *
  * @returns {boolean} Returns validity value
  *
@@ -131,9 +153,18 @@ async function updateLimitationsDB(limitationChoices) {
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
-  /** ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example */
+  /**
+   * ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example
+   *
+   * @name getActiveLimitationsOnLoad
+   * @async
+   *
+   * @returns {void}
+   */
   getActiveLimitations()
     .then((data) => {
       // console.log(data);
@@ -149,7 +180,14 @@ $(document).ready(function () {
       console.error(error);
     });
 
-  /** ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example */
+  /**
+   * ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example
+   *
+   * @name getActiveQuickActivationsOnLoad
+   * @async
+   *
+   * @returns {void}
+   */
   getActiveQuickActivations()
     .then((data) => {
       for (let index in data) {
@@ -161,7 +199,17 @@ $(document).ready(function () {
       console.error(error);
     });
 
-  /** EVENT LISTENER: Warns user that there are unsaved changes for preferred creators */
+  /**
+   * Warns user that there are unsaved changes for preferred creators
+   *
+   * This event listener toggles the "changed" class on checkboxes and displays a notification if there are unsaved changes.
+   *
+   * @name warnUnsavedChangesEventListener
+   *
+   * @returns {void}
+   *
+   * @example $('#limitation-settings input[type="checkbox"]').on("click", warnUnsavedChangesEventListener);
+   */
   $('#limitation-settings input[type="checkbox"]').on("click", function () {
     // Toggle the "changed" class on the clicked checkbox
     $(this).toggleClass("changed");
@@ -185,7 +233,17 @@ $(document).ready(function () {
     }
   });
 
-  /** EVENT LISTENER: Saves restrictive settings and displays status message */
+  /**
+   * Saves restrictive settings and displays status message
+   *
+   * This event listener saves the restrictive settings and displays a status message based on the outcome.
+   *
+   * @name saveLimitationsEventListener
+   *
+   * @returns {void}
+   *
+   * @example $("#save-limitations").on("click", saveLimitationsEventListener);
+   */
   $("#save-limitations").on("click", function () {
     // Disable the save button
     const $button = $(this);
@@ -247,10 +305,13 @@ $(document).ready(function () {
     }, 2000);
   });
 
-  /** EVENT LISTENER: Clears all settings
+  /**
+   * Clears all settings
    *
    * This event listener clears all settings by resetting all checkboxes to unchecked and saving the settings.
    * It asks the user to confirm the action before proceeding.
+   *
+   * @name clearSettingsEventListener
    *
    * @param {Event} event - The form submission event.
    */
@@ -298,9 +359,12 @@ $(document).ready(function () {
     }
   });
 
-  /** FUNCTION: Clear limitation inputs
+  /**
+   * Clear limitation inputs
    *
    * This function clears all limitation inputs by setting their checked property to false.
+   *
+   * @name clearLimitationInputs
    *
    * @returns {void}
    */

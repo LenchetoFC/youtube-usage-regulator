@@ -1,16 +1,28 @@
 /**
- * @LenchetoFC
- * @description This controls the website blocker section of the settings page
+ * @file settings-website-blocker.js
+ * @description Controls the website blocker section of the settings page
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.displayNotifications} x5
+ * @see {@link module:global-functions.selectRecordByIdGlobal} x2
+ * @see {@link module:global-functions.deleteRecordByIdGlobal}
+ * @see {@link module:global-functions.selectAllRecordsGlobal}
+ * @see {@link module:global-functions.insertRecordsGlobal}
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal}
+ * @see {@link module:global-functions.resetTableGlobal}
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: Removes website from database and web page when delete button is pressed
+/**
+ * Removes website from database and web page when delete button is pressed
+ *
+ * @name attachWebsiteEditEvent
  *
  * @param {int} websiteItemId - website ID from database, just a number
  *
@@ -47,11 +59,15 @@ function attachWebsiteEditEvent(websiteItemId) {
   );
 }
 
-/** ASYNC FUNCTION: Delete an additional website
+/**
+ * Delete an additional website
  *
  * This function deletes a website from the "additional-websites" table in the service worker's storage.
  * It asks the user to confirm the deletion, sends a message to the service worker to delete the record,
  * and updates the DOM accordingly. If the deletion is unsuccessful, it displays an error message.
+ *
+ * @name deleteAdditionalWebsite
+ * @async
  *
  * @param {Object} websiteObj - The website object to be deleted, containing properties such as id and type.
  *
@@ -121,7 +137,10 @@ async function deleteAdditionalWebsite(websiteObj) {
   }
 }
 
-/** FUNCTION: Checks if any websites are still in the website type group; if so, remove group from DOM
+/**
+ * Checks if any websites are still in the website type group; if so, remove group from DOM
+ *
+ * @name isWebsiteTypeEmpty
  *
  * @param {string} websiteType - website type from database, but follows 'website-' string
  *
@@ -149,7 +168,10 @@ function isWebsiteTypeEmpty(websiteType) {
   }
 }
 
-/** FUNCTION: Reformts website type into a header. "social-media" -> "Social Media"
+/**
+ * Reformats website type into a header. "social-media" -> "Social Media"
+ *
+ * @name reformatWebsiteType
  *
  * @param {string} websiteType - website type from database - "social-media"
  *
@@ -169,19 +191,26 @@ function reformatWebsiteType(websiteType) {
   return formattedType;
 }
 
-/** FUNCTION: Inserts all websites from database into DOM
+/**
+ * Inserts all websites from database into DOM
+ *
+ * @name insertAdditionalWebsites
+ * @async
  *
  * @returns {void}
  *
  * @example insertAdditionalWebsites();
  */
 async function insertAdditionalWebsites() {
-  /** FUNCTION: Append website type
+  /**
+   * Append website type
    *
    * This function appends a new website type group to the content container in the DOM.
    * It reformats the website type with proper capitalization, creates a new fieldset element,
    * and appends it to the content container. If the website type is not the last item, it also
    * appends a horizontal line after the type group.
+   *
+   * @name appendWebsiteType
    *
    * @param {string} type - The website type to be appended.
    * @param {boolean} isLastItem - A boolean indicating whether this is the last item.
@@ -211,11 +240,14 @@ async function insertAdditionalWebsites() {
     }
   }
 
-  /** FUNCTION: Append website item
+  /**
+   * Append website item
    *
    * This function appends a new website item to its corresponding website type group in the DOM.
    * It creates a new list item element with the website's name and URL, and an edit button.
    * The new website item is then appended to the corresponding website type group and displayed with a slide-down effect.
+   *
+   * @name appendWebsiteItem
    *
    * @param {Object} websiteObj - The website object to be appended, containing properties such as id, name, url, and type.
    *
@@ -239,11 +271,14 @@ async function insertAdditionalWebsites() {
     websiteItem.slideDown();
   }
 
-  /** FUNCTION: Group websites by type
+  /**
+   * Group websites by type
    *
    * This function groups websites by their type for better DOM insertion.
    * It iterates over the array of websites and creates a new object where each key is a type
    * and the value is an array of websites that belong to that type.
+   *
+   * @name groupWebsitesByType
    *
    * @param {Array} websites - Array of website objects to be grouped.
    *
@@ -314,11 +349,14 @@ async function insertAdditionalWebsites() {
   });
 }
 
-/** FUNCTION: Populate website popup
+/**
+ * Populate website popup
  *
  * This function populates the website popup form with the provided website information.
  * If adding a new website, it leaves the form blank, hides the delete button, and sets the submit button for adding a new website.
  * If editing an existing website, it populates the form with the website's information, shows the delete button, and sets the submit button for saving the existing website.
+ *
+ * @name populateWebsitePopup
  *
  * @param {Object} websiteObj - The website object containing properties such as id, name, url, and type.
  * @param {boolean} isNewWebsite - A boolean indicating whether this is a new website (true) or an existing website (false).
@@ -359,11 +397,14 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
   document.getElementById("popover-new-blocked-website").showPopover();
 }
 
-/** FUNCTION: Save website to database
+/**
+ * Save website to database
  *
  * This function saves a website to the "additional-websites" table in the service worker's storage.
  * It validates the form, retrieves the form values, and either inserts a new website or updates an existing website.
  * It also handles form submission, button state, and displays notifications based on the result.
+ *
+ * @name saveWebsiteToDatabase
  *
  * @param {Event} formEvent - The form submission event.
  * @param {boolean} isNewWebsite - A boolean indicating whether this is a new website (true) or an existing website (false).
@@ -374,9 +415,12 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
  * @example saveWebsiteToDatabase(event, true, "block-new-website");
  */
 function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
-  /** FUNCTION: Check if form is valid
+  /**
+   * Check if form is valid
    *
    * This function checks if the form is valid and reports validity if not.
+   *
+   * @name isFormValid
    *
    * @param {HTMLFormElement} form - The form element to be validated.
    *
@@ -390,9 +434,12 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     return true;
   }
 
-  /** FUNCTION: Get data-website-id attribute
+  /**
+   * Get data-website-id attribute
    *
    * This function retrieves the data-website-id attribute from the submit button.
+   *
+   * @name getDataWebsiteID
    *
    * @param {string} buttonID - The ID of the submit button.
    *
@@ -405,9 +452,12 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     );
   }
 
-  /** FUNCTION: Get form values
+  /**
+   * Get form values
    *
    * This function retrieves the values from the form inputs.
+   *
+   * @name getFormValues
    *
    * @param {string} buttonID - The ID of the submit button.
    *
@@ -422,9 +472,12 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     };
   }
 
-  /** FUNCTION: Get website details
+  /**
+   * Get website details
    *
    * This function validates the form and retrieves the form values.
+   *
+   * @name getWebsiteDetails
    *
    * @param {string} buttonID - The ID of the submit button.
    *
@@ -524,15 +577,20 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
   /** ONLOAD FUNCTION CALL: Inserts all websites from database into DOM */
   insertAdditionalWebsites();
 
-  /** EVENT LISTENER: Saves new additional website to database
+  /**
+   * Saves new additional website to database
    *
    * This event listener triggers the saveWebsiteToDatabase function to save a new website to the database.
    * It passes the form submission event, a boolean indicating it's a new website, and the button ID to the function.
+   *
+   * @name saveNewWebsiteEventListener
    *
    * @param {Event} event - The form submission event.
    */
@@ -540,10 +598,13 @@ $(document).ready(function () {
     saveWebsiteToDatabase(event, true, event.target.id);
   });
 
-  /** EVENT LISTENER: Saves existing website to database
+  /**
+   * Saves existing website to database
    *
    * This event listener triggers the saveWebsiteToDatabase function to save an existing website to the database.
    * It passes the form submission event, a boolean indicating it's an existing website, and the button ID to the function.
+   *
+   * @name saveExistingWebsiteEventListener
    *
    * @param {Event} event - The form submission event.
    */
@@ -551,19 +612,25 @@ $(document).ready(function () {
     saveWebsiteToDatabase(event, false, event.target.id);
   });
 
-  /** EVENT LISTENER: Opens the website popup for adding a new website
+  /**
+   * Opens the website popup for adding a new website
    *
    * This event listener triggers the populateWebsitePopup function to open the website popup form for adding a new website.
    * It passes an empty object and a boolean indicating it's a new website to the function.
+   *
+   * @name openNewWebsitePopupEventListener
    */
   $(".add-new-website").on("click", function () {
     populateWebsitePopup({}, true);
   });
 
-  /** EVENT LISTENER: Deletes an existing website
+  /**
+   * Deletes an existing website
    *
    * This event listener triggers the deleteAdditionalWebsite function to delete an existing website from the database.
    * It retrieves the website ID from the data-website-id attribute and passes the website object to the function.
+   *
+   * @name deleteWebsiteEventListener
    *
    * @param {Event} event - The form submission event.
    */
@@ -579,9 +646,12 @@ $(document).ready(function () {
     deleteAdditionalWebsite(websiteObj);
   });
 
-  /** EVENT LISTENER: Resets the additional websites table
+  /**
+   * Resets the additional websites table
    *
    * This event listener triggers the resetTable function to reset the "additional-websites" table in the database.
+   *
+   * @name resetWebsitesTableEventListener
    */
   $("#clear-websites").on("click", async function () {
     if (window.confirm("Confirm to delete ALL blocked websites...")) {

@@ -1,16 +1,33 @@
 /**
- * @LenchetoFC
- * @description This controls the watch time tracking feature on youtube pages
+ * @file settings-watch-times.js
+ * @description Controls the watch time tracking feature on youtube pages
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.insertRecordsGlobal}
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal}
+ * @see {@link module:global-functions.getCurrentWatchTimes} x2
+ * @see {@link module:global-functions.getCurrentDate} x3
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-// Save new watch times (total and video type) to current date's entry
+/**
+ * Save new watch times (total and video type) to current date's entry
+ *
+ * @name updateWatchTimes
+ * @async
+ *
+ * @param {Object} newWatchTimesObj - The newly created watch time object from createNewWatchTimesObj()
+ *
+ * @returns {Object} The result of updating watch time in storage
+ *
+ * @example updateWatchTimes(newWatchTimeObj);
+ */
 async function updateWatchTimes(newWatchTimesObj) {
   let updateWatchTime = await updateRecordByPropertyGlobal(
     "watch-times",
@@ -22,7 +39,15 @@ async function updateWatchTimes(newWatchTimesObj) {
   return updateWatchTime;
 }
 
-// Adds new entry into watch times for the current date if !exists
+/**
+ * Adds a new watch time entry to the storage
+ *
+ * @name addNewWatchTimeEntry
+ *
+ * @returns {void}
+ *
+ * @example addNewWatchTimeEntry();
+ */
 function addNewWatchTimeEntry() {
   getCurrentWatchTimes().then(async (data) => {
     if (data.length === 0) {
@@ -38,7 +63,21 @@ function addNewWatchTimeEntry() {
   });
 }
 
-function prepareNewWatchTimesObj(
+/**
+ * Creates a new watch times object with updated watch times
+ *
+ * @name createNewWatchTimesObj
+ *
+ * @param {Object} currentWatchTimeObj - The current watch time object from storage
+ * @param {boolean} longForm - Indicates if the video is long-form
+ * @param {boolean} shortForm - Indicates if the video is short-form
+ * @param {number} elapsedTime - The elapsed time to add to the watch times
+ *
+ * @returns {Object} The new watch times object with updated values
+ *
+ * @example const newWatchTimes = createNewWatchTimesObj(currentWatchTimeObj, true, false, 300);
+ */
+function createNewWatchTimesObj(
   currentWatchTimeObj,
   elapsedTime,
   longForm,
@@ -59,9 +98,35 @@ function prepareNewWatchTimesObj(
   return newWatchTimesObj;
 }
 
+/**
+ * Starts tracking time when play button is active
+ * Gets current time when tracking starts
+ *
+ * @name startTrackingTime
+ *
+ * @returns {void}
+ *
+ * TODO: move code from onload to here, and change it to play button functionality
+ *
+ */
+function startTrackingTime() {}
+
+/**
+ * Stops tracking time and calculates elapsed time when play button is paused
+ *
+ * @name stopTrackingTime
+ *
+ * @returns {void}
+ *
+ * TODO: move code from onload to here, and change it to play button functionality
+ */
+function stopTrackingTime() {}
+
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
   /**
    * Starts tracking time when site is focused
@@ -107,7 +172,7 @@ $(document).ready(function () {
       getCurrentWatchTimes().then(async (data) => {
         let currentWatchTimeObj = data[0];
 
-        let newWatchTimeObj = prepareNewWatchTimesObj(
+        let newWatchTimeObj = createNewWatchTimesObj(
           currentWatchTimeObj,
           elapsedTime,
           activeLongForm,

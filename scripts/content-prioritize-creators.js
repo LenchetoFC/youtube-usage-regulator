@@ -1,17 +1,22 @@
 /**
- * @LenchetoFC
- * @description This controls the prioritize creators feature on youtube pages
+ * @file settings-prioritize-creators.js
+ * @description Controls the prioritize creators feature on youtube pages
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions...}
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
-
-/** SECTION - FUNCTION DECLARATIONS */
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {});
 /** !SECTION */

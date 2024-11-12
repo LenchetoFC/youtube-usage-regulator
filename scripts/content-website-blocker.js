@@ -1,16 +1,24 @@
 /**
- * @LenchetoFC
- * @description This controls the website blocker feature on webpages
+ * @file settings-website-blocker.js
+ * @description Controls the website blocker feature on webpages
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.selectAllRecordsGlobal}
+ * @see {@link module:global-functions.redirectUser}
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: Gets all additional blocked websites and redirects the user if the current website is blocked
+/**
+ * Gets all additional blocked websites and redirects the user if the current website is blocked
+ *
+ * @name checkBlockedWebsite
+ * @async
  *
  * @returns {void}
  *
@@ -34,7 +42,9 @@ async function checkBlockedWebsite() {
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
   // Redirects user from current website if it is in the blocked website list
   checkBlockedWebsite();

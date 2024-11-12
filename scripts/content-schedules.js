@@ -1,16 +1,22 @@
 /**
- * @LenchetoFC
- * @description This controls the scheduling feature on webpages
+ * @file settings-schedules.js
+ * @description Controls the scheduling feature on webpages
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions...}
  */
 
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+/**
+ * SECTION - FUNCTION DECLARATIONS
  */
 
-/** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: Gets current time as of execution
+/**
+ * Gets current time as of execution
+ *
+ * @name getCurrentTime
  *
  * @returns {string} Returns the current time in a string format
  *
@@ -24,11 +30,16 @@ function getCurrentTime() {
   return `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`;
 }
 
-/** TODO: FUNCTION: Checks stored schedule times and blocks YouTube accordingly
+/** 
+ * Checks stored schedule times and blocks YouTube accordingly
+ *
+ * @name checkSchedules
  *
  * @returns {void}
  *
  * @example checkSchedules();
+ * 
+ * TODO: implement fullcalendar.io libary
  */
 // function checkSchedules () {
 //   // console.log("CHECKING SCHEDULE TIMES...");
@@ -91,7 +102,9 @@ function getCurrentTime() {
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(function () {
   // Redirects user to dashboard from YouTube if a limited schedule is active
   // checkSchedules();

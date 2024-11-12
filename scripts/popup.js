@@ -1,22 +1,29 @@
-// Author: Lorenzo Ramirez
-// Date Created: 2023-09-05
-// Purpose: This file is the popup for the extension
 /**
- * @LenchetoFC
- * @description This is the standard popup on toolbar to show
- *  the user's YouTube usage, and the ability to enable any
- *  limitation they set to appear here
- */
-
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+ * @file settings-website-blocker.js
+ * @description Standard popup on toolbar to show the user's YouTube usage,
+ *  and the ability to enable any limitation they set to appear here.
+ *
+ * @version 1.0.0
+ * @date original: 2023-09-05
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.displayNotifications}
+ * @see {@link module:global-functions.getCurrentWatchMode}
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal}
+ * @see {@link module:global-functions.convertTimeToText} x2
+ * @see {@link module:global-functions.getCurrentWatchTimes}
+ * @see {@link module:global-functions.getTotalWatchTime}
  */
 
 /**
  * SECTION - FUNCTION DECLARATIONS
  */
 
-/** FUNCTION: Get total watch time and today's watch time, reformats them, and inserts them into DOM
+/**
+ * Get total watch time and today's watch time, reformats them, and inserts them into DOM
+ *
+ * @name insertWatchTimes
  *
  * @returns {null}
  *
@@ -46,7 +53,10 @@ function insertWatchTimes() {
     });
 }
 
-/** FUNCTION: Reformts website type into a header. "social-media" -> "Social Media"
+/**
+ * Reformats website type into a header. "social-media" -> "Social Media"
+ *
+ * @name reformatSettingName
  *
  * @param {string} name - website type from database - "social-media"
  *
@@ -72,7 +82,11 @@ function reformatSettingName(name) {
   return reformattedName;
 }
 
-/** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
+/**
+ * Get active watch mode and its properties and inserts it into DOM
+ *
+ * @name insertCurrentWatchMode
+ * @async
  *
  * @returns {null}
  *
@@ -95,7 +109,11 @@ async function insertCurrentWatchMode() {
   }
 }
 
-/** ASYNC FUNCTION: Get all active quick activations for youtube limitations
+/**
+ * Get all active quick activations for youtube limitations
+ *
+ * @name getActiveQuickActivations
+ * @async
  *
  * @returns {array} Returns array of objects with active quick activations
  *
@@ -111,7 +129,11 @@ async function getActiveQuickActivations() {
   return allQuickActivations;
 }
 
-/** ASYNC FUNCTION: Attach event listeners to every quick activation button on form
+/**
+ * Attach event listeners to every quick activation button on form
+ *
+ * @name attachQuickActEvents
+ * @async
  *
  * @returns {null}
  *

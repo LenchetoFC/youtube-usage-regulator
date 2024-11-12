@@ -1,18 +1,24 @@
-/** INFORMATION
- * @LenchetoFC
+/**
+ * @file settings-dashboard.js
  * @description Dashboard that shows user quick information regarding watch times, scheduling, and current watch modes
  *
- */
-
-/** TODO: NOTE: List of Imported Functions from global-functions.js
- * - displayNotifications();
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.displayNotifications}
+ * @see {@link module:global-functions.getCurrentWatchMode}
  */
 
 /**
  * SECTION - FUNCTION DECLARATIONS
  */
 
-/** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
+/**
+ * Get active watch mode and its properties and inserts it into DOM
+ *
+ * @name getWatchTypeComparisons
+ * @async
  *
  * @returns {Object} an object that holds the percentages of watch types
  *
@@ -54,7 +60,11 @@ async function getWatchTypeComparisons() {
   }
 }
 
-/** ASYNC FUNCTION: Get active watch mode and its properties and inserts it into DOM
+/**
+ * Get active watch mode and its properties and inserts it into DOM
+ *
+ * @name insertCurrentWatchMode
+ * @async
  *
  * @returns {void}
  *
@@ -78,7 +88,10 @@ async function insertCurrentWatchMode() {
   }
 }
 
-/** FUNCTION: Create circular bar for the percentage of watched long-form and short-form videos
+/**
+ * Create circular bar for the percentage of watched long-form and short-form videos
+ *
+ * @name createProgressBar
  *
  * @param {string} selector - the selector tag id to connect the bar with
  * @param {string} fromColor - the start color of the bar while it's animating to its set percentage
@@ -87,7 +100,8 @@ async function insertCurrentWatchMode() {
  *
  * @returns {Object} Progress bar object to be animated
  *
- * @example const longFormBar = createProgressBar("#progress-long-form", "#d92121", "#d92121", "2rem");
+ * @example
+ * const longFormBar = createProgressBar("#progress-long-form", "#d92121", "#d92121", "2rem");
  *
  * @notes progressbar.js@1.0.0 version is used
  * @notes Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
@@ -122,16 +136,18 @@ function createProgressBar(selector, fromColor, toColor, fontSize) {
   return bar;
 }
 
-/** FUNCTION: Calculate total watch time for a specific video type
+/**
+ * Calculate total watch time for a specific video type
  *
- * This function calculates the total watch time for a given video type from an array of watch time objects.
+ * @name getTotalWatchTime
  *
  * @param {Array} watchTimes - Array of watch time objects.
  * @param {string} videoType - The type of video watch time to calculate ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
  *
  * @returns {number} The total watch time for the specified video type.
  *
- * @example let totalWatchTime = getTotalWatchTime(watchTimes, "long-form-watch-time");
+ * @example
+ * let totalWatchTime = getTotalWatchTime(watchTimes, "long-form-watch-time");
  */
 function getTotalWatchTime(watchTimes, videoType) {
   let totalTime = 0;
@@ -143,15 +159,17 @@ function getTotalWatchTime(watchTimes, videoType) {
   return totalTime;
 }
 
-/** FUNCTION: Convert seconds to hours
+/**
+ * Convert seconds to hours
  *
- * This function converts a given time in seconds to hours, formatted to 2 decimal places if necessary.
+ * @name convertSecondsToHours
  *
  * @param {int} seconds - The time in seconds.
  *
  * @returns {float|int} The time in hours, formatted to 2 decimal places if necessary.
  *
- * @example let hours = convertSecondsToHours(3600); // returns 1
+ * @example
+ * let hours = convertSecondsToHours(3600); // returns 1
  */
 function convertSecondsToHours(seconds) {
   const hours = seconds / 3600;
@@ -159,9 +177,13 @@ function convertSecondsToHours(seconds) {
   return formattedHours % 1 === 0 ? Math.floor(formattedHours) : formattedHours;
 }
 
-/** ASYNC FUNCTION: Prepare watch times for chart
+/**
+ * Prepare watch times for chart
  *
  * This function retrieves all watch times, filters them within the specified timeframe, and returns the filtered watch times.
+ *
+ * @name prepareWatchTimesForChart
+ * @async
  *
  * @param {string} startDate - The start date in the format 'yyyy-mm-dd'.
  * @param {string} endDate - The end date in the format 'yyyy-mm-dd'.
@@ -169,7 +191,8 @@ function convertSecondsToHours(seconds) {
  *
  * @returns {Array} The filtered watch times within the specified timeframe.
  *
- * @example let filteredWatchTimes = await prepareWatchTimesForChart("2024-11-04", "2024-11-06", "long-form-watch-time");
+ * @example
+ * let filteredWatchTimes = await prepareWatchTimesForChart("2024-11-04", "2024-11-06", "long-form-watch-time");
  */
 async function prepareWatchTimesForChart(startDate, endDate, videoType) {
   // Get all watch times
@@ -186,7 +209,10 @@ async function prepareWatchTimesForChart(startDate, endDate, videoType) {
   return filteredWatchTimes;
 }
 
-/** FUNCTION: Filter watch times within the specified timeframe and keep only the chosen videoType
+/**
+ * Filter watch times within the specified timeframe and keep only the chosen videoType
+ *
+ * @name filterWatchTimeFrame
  *
  * @param {Array} allWatchTimes - array of watch time objects
  * @param {string} startDate - start date in the format 'yyyy-mm-dd'
@@ -195,7 +221,8 @@ async function prepareWatchTimesForChart(startDate, endDate, videoType) {
  *
  * @returns {Array} array of watch time objects within the specified timeframe and with only the chosen videoType
  *
- * @example let filteredWatchTimes = filterWatchTimeFrame(allWatchTimes, "2024-11-04", "2024-11-06", "long-form-watch-time");
+ * @example
+ * let filteredWatchTimes = filterWatchTimeFrame(allWatchTimes, "2024-11-04", "2024-11-06", "long-form-watch-time");
  */
 function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
   const start = new Date(startDate);
@@ -215,17 +242,21 @@ function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
     });
 }
 
-/** FUNCTION: Create watch time chart
+/**
+ * Create watch time chart
  *
  * This function creates and returns a Chart.js line chart that displays watch times based on the provided data.
  * It uses the provided watch times object and video type to generate the chart data and configuration.
+ *
+ * @name createWatchTimeChart
  *
  * @param {Array} watchTimesObj - Array of watch time objects, each containing a date and watch time in hours.
  * @param {string} videoType - The type of video watch time to display ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
  *
  * @returns {Object} The created Chart.js chart instance.
  *
- * @example const chart = createWatchTimeChart(filteredWatchTimes, "long-form-watch-time");
+ * @example
+ * const chart = createWatchTimeChart(filteredWatchTimes, "long-form-watch-time");
  *
  * @notes This function uses Chart.js to create the chart and assumes that the Chart.js library is already loaded.
  */
@@ -285,11 +316,32 @@ function createWatchTimeChart(watchTimesObj, videoType) {
   return chart;
 }
 
-/** FUNCTION: Prepare watch time chart
+/**
+ * Validates the chosen date range
+ *
+ * @name validateChartTimeFrame
+ *
+ * @param {string} startDate - The start date in the format 'yyyy-mm-dd'
+ * @param {string} endDate - The end date in the format 'yyyy-mm-dd'
+ *
+ * @returns {boolean} Returns true if the start date is before or equal to the end date, false otherwise
+ *
+ * @example
+ * validateChartTimeFrame($("#timeframe-start").val(), $("#timeframe-end").val())
+ */
+function validateChartTimeFrame(startDate, endDate) {
+  return new Date(startDate) <= new Date(endDate);
+}
+
+/**
+ * Prepare watch time chart
  *
  * This function prepares and displays a watch time chart based on the selected date range and video type.
  * It validates the chosen dates, retrieves the filtered watch times, calculates the total watch time,
  * and creates a new chart with the filtered data.
+ *
+ * @name prepareWatchTimeChart
+ * @async
  *
  * @returns {void}
  *
@@ -298,11 +350,6 @@ function createWatchTimeChart(watchTimesObj, videoType) {
  * @notes This function is triggered by an event listener when the user selects a date range or video type.
  *        It uses jQuery to manipulate the DOM elements and Chart.js to create the chart.
  */
-function validateChartTimeFrame(startDate, endDate) {
-  return new Date(startDate) <= new Date(endDate);
-}
-
-/** FUNCTION: Prepare watch time chart */
 async function prepareWatchTimeChart() {
   /** Main Body */
   let startDate = $("#timeframe-start");
@@ -341,13 +388,17 @@ async function prepareWatchTimeChart() {
   }
 }
 
-/** FUNCTION: Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+/**
+ * Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+ *
+ * @name reformatDateToText
  *
  * @param {string} dateValue - the watch time date in format 'yyyy-mm-dd'
  *
  * @returns {string} the watch time date in format 'mmm dd yyyy, www'
  *
- * @example let newDateFormat = reformatDateToText("2024-11-06");
+ * @example
+ * let newDateFormat = reformatDateToText("2024-11-06");
  */
 function reformatDateToText(dateValue) {
   let date = new Date(dateValue + "T00:00:00Z"); // Ensure the date is interpreted as UTC
@@ -355,12 +406,16 @@ function reformatDateToText(dateValue) {
   return ` ${dateSplit[0]} ${dateSplit[2]} ${dateSplit[1]} ${dateSplit[3]}`;
 }
 
-/** ASYNC FUNCTION: Gets all watch times from chrome local storage
+/**
+ * Gets all watch times from chrome local storage
  *
- * @returns {array} array of watch time objects
+ * @name getAllWatchTimes
+ * @async
  *
- * @example let allWatchTimes = getAllWatchTimes();
+ * @returns {Array} array of watch time objects
  *
+ * @example
+ * let allWatchTimes = getAllWatchTimes();
  */
 async function getAllWatchTimes() {
   let allWatchTimes = await selectAllRecordsGlobal("watch-times");
@@ -368,20 +423,26 @@ async function getAllWatchTimes() {
   return allWatchTimes;
 }
 
-/** ASYNC FUNCTION: Calculates all watch times combined by week
+/**
+ * Calculates all watch times combined by week
  *
- * @returns {array} array of watch time objects combined by week
+ * @name getWeeklyWatchTimes
+ * @async
  *
- * @example let weeklyWatchTimes = await getWeeklyWatchTimes();
+ * @returns {Array} array of watch time objects combined by week
  *
+ * @example
+ * let weeklyWatchTimes = await getWeeklyWatchTimes();
  */
 async function getWeeklyWatchTimes() {
-  /** ENCAPSULATED FUNCTION: Determines which week the current watch time is in
+  /**
+   * Determines which week the current watch time is in
+   *
+   * @name determineWeek
    *
    * @param {string} date - watch time date in the format of "yyyy-mm-dd"
    *
    * @returns {string} the week in the format of "mm/dd/yyyy - mm/dd/yyyy"
-   *
    */
   function determineWeek(date) {
     const [year, month, day] = date.split("-");
@@ -431,20 +492,26 @@ async function getWeeklyWatchTimes() {
   return weeklyWatchTimes;
 }
 
-/** ASYNC FUNCTION: Calculates all watch times combined by month
+/**
+ * Calculates all watch times combined by month
  *
- * @returns {array} array of watch time objects combined by month
+ * @name getMonthlyWatchTimes
+ * @async
  *
- * @example let monthlyWatchTimes = await getMonthlyWatchTimes();
+ * @returns {Array} array of watch time objects combined by month
  *
+ * @example
+ * let monthlyWatchTimes = await getMonthlyWatchTimes();
  */
 async function getMonthlyWatchTimes() {
-  /** ENCAPSULATED FUNCTION: Determines which month the current watch time is in
+  /**
+   * Determines which month the current watch time is in
+   *
+   * @name determineMonth
    *
    * @param {string} date - watch time date in the format of "yyyy-mm-dd"
    *
    * @returns {string} Capitalized month name
-   *
    */
   function determineMonth(date) {
     const months = [
@@ -503,25 +570,31 @@ async function getMonthlyWatchTimes() {
   return monthlyWatchTimes;
 }
 
-/** ASYNC FUNCTION: Inserts watch time list items depending on timeframe chosen
+/**
+ * Inserts watch time list items depending on timeframe chosen
+ *
+ * @name insertFilteredWatchTimes
+ * @async
  *
  * @param {Object} watchTimes - holds the watch time object that has the date and total amount of watch time in seconds
  * @param {string} timeframe - determines how the watch time list item is prepared for HTML insertion
  *
  * @returns {void}
  *
- * @notes convertTimeToText() is imported from global-functions.js
- *
+ * @notes
+ * convertTimeToText() is imported from global-functions.js
  */
 async function insertFilteredWatchTimes(watchTimes, timeframe) {
-  /** ENCAPSULATED FUNCTION: Appends watch time line into watch time list
+  /**
+   * Appends watch time line into watch time list
+   *
+   * @name appendWatchTimeItem
    *
    * @param {Object} dateValue - holds the watch time date; could be three different formats depending on the timeframe
    * @param {int} watchTimeSeconds - the watch time in seconds that will be converted to text
    * @param {boolean} isLastItem - determines if a horizontal line is appended after an item
    *
    * @returns {void}
-   *
    */
   function appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem) {
     let watchTimeListElem = $("#watch-times-list > ul");
@@ -571,20 +644,26 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
   }
 }
 
-/** FUNCTION: Gets and displays the relevant watch times for the "Notable Days" widget
+/**
+ * Gets and displays the relevant watch times for the "Notable Days" widget
+ *
+ * @name insertNotableWatchDays
+ * @async
  *
  * @returns {void}
  *
  * @example insertNotableWatchDays();
  *
- * @notes getCurrentWatchTimes() is imported from global-functions.js
- *
+ * @notes
+ * getCurrentWatchTimes() is imported from global-functions.js
  */
 async function insertNotableWatchDays() {
-  /** ENCAPSULATED FUNCTION: Sorts the watch times by ascending order
+  /**
+   * Sorts the watch times by ascending order
+   *
+   * @name sortWatchTimesAsc
    *
    * @returns {Array} An array of watch time objects
-   *
    */
   async function sortWatchTimesAsc() {
     let allWatchTimes = await getAllWatchTimes();
@@ -594,12 +673,13 @@ async function insertNotableWatchDays() {
     );
   }
 
-  /** ENCAPSULATED FUNCTION: Gets the day with the least amount of watch time
+  /**
+   * Gets the day with the least amount of watch time
+   *
+   * @name getLeastWatchedDay
    *
    * @returns {Object} Watch time object
-   *
    */
-  // TODO: omit the current day
   async function getLeastWatchedDay() {
     try {
       const data = await sortWatchTimesAsc();
@@ -615,10 +695,12 @@ async function insertNotableWatchDays() {
     }
   }
 
-  /** ENCAPSULATED FUNCTION: Gets the day with the most amount of watch time
+  /**
+   * Gets the day with the most amount of watch time
+   *
+   * @name getMostWatchedDay
    *
    * @returns {Object} Watch time object
-   *
    */
   async function getMostWatchedDay() {
     try {
@@ -674,20 +756,30 @@ async function insertNotableWatchDays() {
 
 /** !SECTION */
 
-/** SECTION - ONLOAD FUNCTION CALLS */
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
 $(document).ready(async function () {
-  // Set the value of the date inputs
-  const currentDate = new Date();
-  const weekBeforeDate = new Date();
-  weekBeforeDate.setDate(currentDate.getDate() - 7);
-
-  // Formats date for input date element
+  /**
+   * Formats date for input date element
+   *
+   * @name formatDate
+   *
+   * @param {Date} date - The date object to format
+   *
+   * @returns {string} The formatted date in 'yyyy-mm-dd' format
+   */
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
+  // Set the value of the date inputs
+  const currentDate = new Date();
+  const weekBeforeDate = new Date();
+  weekBeforeDate.setDate(currentDate.getDate() - 7);
 
   // Sets timeframe dates to a week ago to current date by default
   $("#timeframe-start").val(formatDate(weekBeforeDate));

@@ -1,9 +1,17 @@
-// TODO: look into adding function properties to storage objects for modifying them maybe?
-// Refer Fireship 100+ JavaScript concepts you need to know
-
-// TODO: add try catch to ALL async functions
-
-// Bundle project using Module Bundling
+/**
+ * @file sservice-worker.js
+ * @description Background script that bridges the gap between content scripts and settings scripts.
+ *  Handles storage reading and manipulating by listening to service worker messages from other scripts.
+ *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @requires module:global-functions
+ * @see {@link module:global-functions.getCurrentDate} x3
+ *
+ * TODO: add try catch to all functions
+ * TODO: bundle project using module bundling
+ */
 
 /**
  * SECTION - DEFAULT DATABASE
@@ -210,11 +218,14 @@ chrome.storage.sync.get(
  * SECTION - FUNCTION DECLARATIONS
  */
 
-/** FUNCTION: Get current date
+/**
+ * Get current date
+ *
+ * @name getCurrentDate
  *
  * @returns {string} Returns current date in ISO standard format (yyyy-MM-dd) "2024-10-15"
  *
- * @example let curretnDate = getCurrentDate();
+ * @example let currentDate = getCurrentDate();
  */
 function getCurrentDate() {
   const date = new Date();
@@ -224,7 +235,10 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
-/** FUNCTION: Get all records from a table
+/**
+ * Get all records from a table
+ *
+ * @name selectAllRecords
  *
  * @param {string} table - table name i.e. "youtube-limitations"
  *
@@ -244,10 +258,13 @@ function selectAllRecords(table) {
   });
 }
 
-/** FUNCTION: Get a record by its ID
+/**
+ * Get a record by its ID
+ *
+ * @name selectRecordById
+ * @async
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
  * @param {int} id - record id i.e. 1
  *
  * @returns {object} Returns the record(s) from the given table that have the given id
@@ -259,30 +276,39 @@ async function selectRecordById(table, id) {
   return records.find((record) => record.id === id);
 }
 
-/** FUNCTION: Get a record by property value
+/**
+ * Get a record by property value
+ *
+ * @name filterRecords
+ * @async
  *
  * @param {string} table - table name i.e. "youtube-limitations"
+ * @param {string} property - property name i.e. "active"
+ * @param {string|number|boolean} value - value of the property to filter by
  *
- * @returns {object} Returns the filters records from the given table that follows the given condition
+ * @returns {object} Returns the filtered records from the given table that follows the given condition
  *
- * @example filterRecords("youtube-limitations" (record) => record[id] === 1);
+ * @example filterRecords("youtube-limitations", "active", true);
  */
 async function filterRecords(table, property, value) {
   const records = await selectAllRecords(table);
   return records.filter((record) => record[property] === value);
 }
 
-/** FUNCTION: Insert new records into a table
+/**
+ * Insert new records into a table
+ *
+ * @name insertRecords
+ * @async
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
- * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
+ * @param {array} newRecords - records, can be some or all properties within an existing table i.e. { allDay: true }
  *
  * @returns {void} Returns nothing
  *
- * @example insertRecords("youtube-limitations", { quick-add: true });
+ * @example insertRecords("youtube-limitations", [{ quick-add: true }]);
  *
- * NOTE: omit id property when calling this as that is calculated in this function
+ * @notes omit id property when calling this as that is calculated in this function
  */
 async function insertRecords(table, newRecords) {
   try {
@@ -316,15 +342,17 @@ async function insertRecords(table, newRecords) {
   }
 }
 
-/** FUNCTION: Update records
+/**
+ * Update records
+ *
+ * @name updateRecords
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
- * @param {object} records - records, can be some or all properties within an existing table  i.e. { allDay: true }
+ * @param {object} records - records, can be some or all properties within an existing table i.e. { allDay: true }
  *
  * @returns {void} Returns nothing
  *
- * @example updateRecords("youtube-limitations", [{ id: 1, name: "sunday", active: true, allDay: false });
+ * @example updateRecords("youtube-limitations", [{ id: 1, name: "sunday", active: true, allDay: false }]);
  */
 function updateRecords(table, records) {
   return new Promise((resolve, reject) => {
@@ -340,19 +368,23 @@ function updateRecords(table, records) {
   });
 }
 
-/** FUNCTION: Update a specific record by ID
- * NOTE: ideal to use a unique property identifier, because using a property with the same value among
- *       multiple values will result in only the first record to be updated
+/**
+ * Update a specific record by ID
+ *
+ * @name updateRecordByProperty
+ * @async
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
- * @param {int} property - any record property i.e. id or name or active
- *
- * @param {array} newRecords - records, can be some or all properties within an existing table  i.e. { allDay: true }
+ * @param {string} property - any record property i.e. id or name or active
+ * @param {string|number|boolean} value - value of the property to filter by
+ * @param {array} newRecords - records, can be some or all properties within an existing table i.e. { allDay: true }
  *
  * @returns {void} Returns nothing
  *
  * @example updateRecordByProperty("youtube-limitations", "name", "home-button", { quick-add: true });
+ *
+ * @notes Ideal to use a unique property identifier, because using a property with the same value among
+ *  multiple values will result in only the first record to be updated
  */
 async function updateRecordByProperty(table, property, value, newRecords) {
   try {
@@ -386,7 +418,11 @@ async function updateRecordByProperty(table, property, value, newRecords) {
   }
 }
 
-/** FUNCTION: Reset a table to its default state
+/**
+ * Reset a table to its default state
+ *
+ * @name resetTable
+ * @async
  *
  * @param {string} table - table name i.e. "watch-times"
  *
@@ -433,16 +469,20 @@ async function resetTable(table) {
   }
 }
 
-/** FUNCTION: Delete a specific record by ID
- * NOTE: designed for deleting watch time and watch mode records
+/**
+ * Delete a specific record by ID
+ *
+ * @name deleteRecordById
+ * @async
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
  * @param {int} id - record id i.e. 1
  *
  * @returns {void} Returns nothing
  *
  * @example deleteRecordById("youtube-limitations", 1);
+ *
+ * @notes designed for deleting watch time and watch mode records
  */
 async function deleteRecordById(table, id) {
   try {
@@ -472,18 +512,20 @@ async function deleteRecordById(table, id) {
   }
 }
 
-/** FUNCTION: Delete a specific record by property name
- * NOTE: designed for deleting schedule intervals
+/**
+ * Delete a specific record by property name
+ *
+ * @name deletePropertyInRecord
  *
  * @param {string} table - table name i.e. "youtube-limitations"
- *
  * @param {int} id - record id i.e. 1
- *
  * @param {string} property - property name i.e. name or "restricted-tags"
  *
  * @returns {void} Returns nothing
  *
  * @example deletePropertyInRecord("youtube-limitations", 1, "restricted-tags");
+ *
+ * @notes designed for deleting schedule intervals
  */
 async function deletePropertyInRecord(table, id, property) {
   try {
@@ -517,7 +559,17 @@ async function deletePropertyInRecord(table, id, property) {
  * SECTION - MESSAGE LISTENERS
  */
 
-// EVENT LISTENER: Listens for request to modify or select from chrome storage
+/**
+ * Listens for request to modify or select from chrome storage
+ *
+ * @name chrome.runtime.onMessage.addListener
+ *
+ * @param {Object} request - The request object containing operation details
+ * @param {Object} sender - The sender object containing information about the message sender
+ * @param {Function} sendResponse - The function to call with the response
+ *
+ * @returns {boolean} Returns true to indicate that the response will be sent asynchronously
+ */
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // Get value of settings
   if (request.operation === "selectRecordById") {
