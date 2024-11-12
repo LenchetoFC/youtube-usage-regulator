@@ -33,9 +33,12 @@ function insertWatchTimes() {
   // Gets the total watch time for the current day
   getCurrentWatchTimes()
     .then(async (data) => {
-      let todayTime = data[0]["total-watch-time"];
-      console.log(todayTime);
-      $(`#today-watch-time`).html(convertTimeToText(todayTime));
+      if (data.length != 0) {
+        let todayTime = data[0]["total-watch-time"];
+        $(`#today-watch-time`).html(convertTimeToText(todayTime));
+      } else {
+        $(`#today-watch-time`).html("0 Seconds");
+      }
     })
     .catch((error) => {
       $(`#today-watch-time`).html(error);
