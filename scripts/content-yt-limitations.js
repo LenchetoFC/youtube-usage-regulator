@@ -1,33 +1,14 @@
 /**
- * Author: Lorenzo Ramirez
- * Purpose: This script is injected into the YouTube page
- *  and hides elements from the page
+ * @LenchetoFC
+ * @description This controls the youtube limitations feature on youtube pages
  *
+ */
+
+/** TODO: NOTE: List of Imported Functions from global-functions.js
+ * - displayNotifications();
  */
 
 /** SECTION - FUNCTION DECLARATIONS */
-
-/** FUNCTION: Gets all additional blocked websites and redirects the user if the current website is blocked
- *
- * @returns {void}
- *
- * @example checkBlockedWebsite()
- */
-async function checkBlockedWebsite() {
-  let allWebsites = await selectAllRecordsGlobal("additional-websites");
-
-  console.log("blockedWebsites");
-  console.log(allWebsites);
-
-  // Iterates through each blocked website, removes 'https://', and checks if that is in the current URL
-  // -- redirects user to dashboard page
-  allWebsites.forEach((element) => {
-    let baseURL = element.url.split("//");
-    if (window.location.href.includes(baseURL[1])) {
-      redirectUser();
-    }
-  });
-}
 
 /** FUNCTION: hides the element with the given ID
  *
@@ -66,27 +47,6 @@ function hideDOMContent(elementID, elementName) {
       `Error removing ${elementID} for ${elementName}: ${error.message}`
     );
   }
-}
-
-/** FUNCTION: Updates the HTML of the current web page with the specified HTML page
- *
- * @param {string} htmlPage - The path to the HTML page to be loaded
- *
- * @returns {void}
- *
- * @example redirectUser()
- */
-function redirectUser() {
-  chrome.runtime.sendMessage(
-    { redirect: "/html/dashboard.html" },
-    function (response) {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-      } else {
-        console.log(response);
-      }
-    }
-  );
 }
 
 /** FUNCTION: Hides all buttons that redirect user's to the YT home page
@@ -363,11 +323,13 @@ function applyActiveLimitations() {
     setTimeout(async () => {
       try {
         // Get only active limitations from storage
-        let allActiveLimitations = filterRecordsGlobal(
+        let allActiveLimitations = await filterRecordsGlobal(
           "youtube-limitations",
           "active",
           true
         );
+
+        console.log(allActiveLimitations);
 
         // Iterate through active limitations to apply to current web page
         for (let index in allActiveLimitations) {
@@ -431,234 +393,11 @@ function applyActiveLimitations() {
     }, 2000);
   }
 }
-
-/** FUNCTION: Gets current time as of execution
- *
- * @returns {string} Returns the current time in a string format
- *
- * @example let currentTime = getCurrentTime();
- */
-function getCurrentTime() {
-  let currentDateTime = new Date();
-  let currentHour = currentDateTime.getHours();
-  let currentMinute = currentDateTime.getMinutes();
-
-  return `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`;
-}
-
-/** TODO: FUNCTION: Checks stored schedule times and blocks YouTube accordingly
- *
- * @returns {void}
- *
- * @example checkSchedules();
- */
-// function checkSchedules () {
-//   // console.log("CHECKING SCHEDULE TIMES...");
-
-//   // Settings IDs
-//   let scheduleList = [
-//     "sunday", "monday", "tuesday",
-//     "wednesday", "thursday", "friday",
-//     "saturday"
-//   ];
-
-//   // Empty array to store the boolean values when the current time is checked with schedule times
-//   let blockYouTube = [];
-
-//   // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
-//   let currentTime = getCurrentTime();
-//   let currentDay = new Date().getDay();
-
-//   TODO: get current day of week, filter records for just that day instead of iterating through all days
-
-//   // Iterates through schedule days and only gets schedule times when it is the current day
-//   // FIXME: if there's any time scheduled that day, it will block youtube
-//   scheduleList.forEach(async (day, index) => {
-//     console.log(currentDay, index, day)
-//     if (currentDay === index) {
-//       console.log(currentDay)
-//       let times = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "schedule-days", key: day});
-
-//       console.log(`times: ${times}`)
-//       // Checking if current time is within schedule times
-//       if (times) { // All day schedule
-//         blockYouTube.push(true);
-//       } else if (times === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
-//         timesSelection = times.slice(1) // Only grabs the schedule intervals (array)
-
-//         // Iterates through each schedule interval
-//         timesSelection.forEach((time) => {
-//           // Adds true value to blockYoutube array if current time is between interval
-//           if (currentTime >= time[0] && currentTime <= time[1]) {
-//             blockYouTube.push(true);
-//           }
-
-//         })
-//       }
-//     }
-//     // Redirects user to blocked page if there is at least true value in blockYouTube array
-//     //  & sets youtube-site restriction setting to true
-//     if (blockYouTube.includes(true)) {
-//       // console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
-//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: true});
-//       //updateHTML("/html/blocked-page.html");
-//       return;
-//     } else {
-//       // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
-//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: false});
-//       // console.log("NOT WITHIN SCHEDULE TIMES");
-//     }
-//   })
-// }
-
-/** !SECTION */
-
-/** SECTION - EVENT LISTENERS */
-
-/**
- * Starts tracking time when site is focused
- * Gets current time when tracking starts
- */
-
-// TODO: Get value of pause video on inactive and save to global variable
-// TODO: improve tracking by tracking pause/play button instead of window focus
-
-// Starts timer immediately, even if not focused at first
-let startTime = new Date();
-console.log(`start time immediately ${startTime}`);
-
-// Save new watch times (total and video type) to current date's entry
-async function updateWatchTimes(newWatchTimesObj) {
-  let updateWatchTime = await updateRecordByPropertyGlobal(
-    "watch-times",
-    "date",
-    getCurrentDate(),
-    newWatchTimesObj
-  );
-
-  return updateWatchTime;
-}
-
-// Adds new entry into watch times for the current date if !exists
-function addNewWatchTimeEntry() {
-  getCurrentWatchTimes().then(async (data) => {
-    if (data.length === 0) {
-      let watchTimeObj = {
-        date: getCurrentDate(),
-        "long-form-watch-time": 0,
-        "short-form-watch-time": 0,
-        "total-watch-time": 0,
-      };
-
-      await insertRecordsGlobal("watch-times", [watchTimeObj]);
-    }
-  });
-}
-
-function prepareNewWatchTimesObj(
-  currentWatchTimeObj,
-  elapsedTime,
-  longForm,
-  shortForm
-) {
-  let newWatchTimesObj = {
-    date: getCurrentDate(),
-    "long-form-watch-time":
-      parseInt(currentWatchTimeObj["long-form-watch-time"]) +
-      (longForm ? elapsedTime : 0),
-    "short-form-watch-time":
-      parseInt(currentWatchTimeObj["short-form-watch-time"]) +
-      (shortForm ? elapsedTime : 0),
-    "total-watch-time":
-      parseInt(currentWatchTimeObj["total-watch-time"]) + elapsedTime,
-  };
-
-  return newWatchTimesObj;
-}
-
-// Starts timer when YouTube site is focused
-// TODO: add youtube limitation checks to make sure the elements do not appear
-// -- even if the page never "officially" refreshes
-window.addEventListener("focus", (event) => {
-  startTime = new Date();
-  // console.log(`start time on focus ${startTime}`);
-
-  // Checks schedule every time the page is focused
-  //  to make sure any new schedules are applied without
-  //  the need to reload page
-  // checkSchedules();
-});
-
-// Stops tracking and updates time tracking storage values
-// Get current time when tracking ends & compares that with time when tracking started
-window.addEventListener("blur", async (event) => {
-  // Get type of video (short-form or long-form)
-  let activeLongForm = window.location.href.includes("/watch?");
-  let activeShortForm = window.location.href.includes("/shorts/");
-
-  // Updates watch times for the current day in storage
-  if (activeLongForm || activeShortForm) {
-    // Calculates elapsed time
-    const endTime = new Date();
-    const elapsedTime = Math.floor((endTime - startTime) / 1000);
-
-    // Gets current day's watch times and updates with new watch times
-    getCurrentWatchTimes().then(async (data) => {
-      let currentWatchTimeObj = data[0];
-
-      let newWatchTimeObj = prepareNewWatchTimesObj(
-        currentWatchTimeObj,
-        elapsedTime,
-        activeLongForm,
-        activeShortForm
-      );
-
-      updateWatchTimes(newWatchTimeObj);
-    });
-
-    // Save new watch times (total and video type) to current date's entry
-    console.log(`elapsed time on blur ${elapsedTime}`);
-  } else {
-    console.log("Not on playback page.");
-  }
-
-  // TODO: depends on pause on inactive global variable, activate this
-  // Gets video's play/pause button to simulate a mouse click on it
-  // const playButton = document
-  //   .getElementsByClassName("ytp-play-button ytp-button")
-  //   .item(0);
-
-  // Pause video if it is playing
-  // Effectively keeps accurate tracking for when the user is *watching* YouTube
-  // if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-  //   playButton.click();
-  // }
-});
-
-// hides ability to refresh recommendations every time the window is resized.
-// That tag is reset when the window is resized, so this is the workaround
-// window.addEventListener("resize", () => {
-//   setTimeout(() => {
-//     hideDOMContent(
-//       "ytd-continuation-item-renderer",
-//       "Continuous Recommendations"
-//     );
-//   }, 1000);
-// });
-
 /** !SECTION */
 
 /** SECTION - ONLOAD FUNCTION CALLS */
-
-addNewWatchTimeEntry();
-
-// Removes any YouTube element that is current limited (only on YouTube site)
-applyActiveLimitations();
-
-// Redirects user from current website if it is in the blocked website list
-checkBlockedWebsite();
-
-// Redirects user to dashboard from YouTube if a limited schedule is active
-// checkSchedules();
-
+$(document).ready(function () {
+  // Removes any YouTube element that is current limited (only on YouTube site)
+  applyActiveLimitations();
+});
 /** !SECTION */

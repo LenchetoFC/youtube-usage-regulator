@@ -203,6 +203,27 @@ window.insertRecordsGlobal = async (table, newRecords) => {
   }
 };
 
+/** FUNCTION: Updates the HTML of the current web page with the specified HTML page
+ *
+ * @param {string} htmlPage - The path to the HTML page to be loaded
+ *
+ * @returns {void}
+ *
+ * @example redirectUser()
+ */
+window.redirectUser = () => {
+  chrome.runtime.sendMessage(
+    { redirect: "/html/dashboard.html" },
+    function (response) {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+};
+
 /**!SECTION */
 
 /**

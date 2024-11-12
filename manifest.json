@@ -23,7 +23,9 @@
       "js": [
         "/scripts/jquery-3.7.1.min.js",
         "/scripts/global-functions.js",
-        "/scripts/content.js"
+        "/scripts/content-website-blocker.js",
+        "/scripts/content-yt-limitations.js",
+        "/scripts/content-prioritize-creators.js"
       ],
       "matches": ["<all_urls>"],
       "runAt": "document_end"
