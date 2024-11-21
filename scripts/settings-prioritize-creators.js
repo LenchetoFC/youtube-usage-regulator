@@ -78,9 +78,7 @@ $(document).ready(function () {
     //   return;
     // }
 
-    const $button = $(this);
-    $button.parent().toggleClass("spin-animation");
-    $button.prop("disabled", true);
+    toggleButtonAnimation(`#save-creators`, true);
 
     // TODO: requires function to save all creators
     // Call function to save all creators
@@ -105,8 +103,7 @@ $(document).ready(function () {
             5000
           );
 
-      $button.parent().toggleClass("spin-animation");
-      $button.prop("disabled", false); // Re-enable button after operation
+      toggleButtonAnimation(`#save-creators`, false);
     }, 2000);
   });
 });

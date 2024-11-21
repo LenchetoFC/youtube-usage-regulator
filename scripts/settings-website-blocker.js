@@ -20,6 +20,10 @@
  */
 
 /**
+ * TODO: convert error messages to be same as settings-schedules.js
+ */
+
+/**
  * Removes website from database and web page when delete button is pressed
  *
  * @name attachWebsiteEditEvent
@@ -506,9 +510,10 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     formEvent.preventDefault();
 
     // Disable the submit button
-    const $button = $(`#${buttonID}`);
-    $button.prop("disabled", true);
-    $button.parent().toggleClass("spin-animation");
+    // const $button = $(`#${buttonID}`);
+    // $button.prop("disabled", true);
+    // $button.parent().toggleClass("spin-animation");
+    toggleButtonAnimation(`#${buttonID}`, true);
 
     // Saves website to database
     // -- new site will create a new website id; existing site will use the ID to update website data
@@ -519,8 +524,10 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       // If form is invalid, end function
       if (!websiteObj) {
         // Re-enable button after animation
-        $button.parent().toggleClass("spin-animation");
-        $button.prop("disabled", false);
+        // $button.parent().toggleClass("spin-animation");
+        // $button.prop("disabled", false);
+        toggleButtonAnimation(`#${buttonID}`, false);
+
         return;
       }
 
@@ -531,17 +538,19 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
         ]);
       } else {
         // Updates current website's data
+        // FIXME: doesn't actually update
         saveWebsiteResult = await updateRecordByPropertyGlobal(
           "youtube-limitations",
           "id",
-          websiteObj.id,
-          [websiteObj]
+          parseInt(websiteObj.id),
+          websiteObj
         );
       }
 
       // Re-enable button after animation
-      $button.parent().toggleClass("spin-animation");
-      $button.prop("disabled", false);
+      // $button.parent().toggleClass("spin-animation");
+      // $button.prop("disabled", false);
+      toggleButtonAnimation(`#${buttonID}`, false);
 
       // Gets status message from insertion
       if (saveWebsiteResult.error) {
@@ -553,7 +562,7 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
         );
         throw new Error(saveWebsiteResult.message);
       } else {
-        console.log(saveWebsiteResult.data);
+        console.log(saveWebsiteResult.message);
 
         // Reload webpage to load in new website
         // location.reload();

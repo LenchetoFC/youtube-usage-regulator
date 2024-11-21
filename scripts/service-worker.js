@@ -71,14 +71,170 @@ const database = {
     },
   ],
 
-  ["schedules"]: [
-    { id: 1, name: "sunday", active: false, "all-day": false },
-    { id: 2, name: "monday", active: false, "all-day": false },
-    { id: 3, name: "tuesday", active: false, "all-day": false },
-    { id: 4, name: "wednesday", active: false, "all-day": false },
-    { id: 5, name: "thursday", active: false, "all-day": false },
-    { id: 6, name: "friday", active: false, "all-day": false },
-    { id: 7, name: "saturday", active: false, "all-day": false },
+  // NOTE: for testing
+  // ["schedule-events"]: [
+  //   {
+  //     id: 0,
+  //     dayId: 6,
+  //     startTime: "08:00:00",
+  //     endTime: "12:00:00",
+  //     additionalSites: true,
+  //   },
+  //   {
+  //     id: 1,
+  //     dayId: 3,
+  //     startTime: "09:00:00",
+  //     endTime: "12:59:15",
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     dayId: 6,
+  //     startTime: "12:30:00",
+  //     endTime: "20:00:00",
+  //     additionalSites: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     dayId: 3,
+  //     startTime: "10:00:00",
+  //     endTime: "18:00:00",
+  //     additionalSites: true,
+  //   },
+  //   {
+  //     id: 4,
+  //     dayId: 4,
+  //     startTime: "11:00:00",
+  //     endTime: "19:00:00",
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     dayId: 0,
+  //     startTime: "14:00:00",
+  //     endTime: "22:00:00",
+  //     additionalSites: false,
+  //   },
+  // ],
+
+  // ["schedule-days"]: [
+  //   {
+  //     id: 0,
+  //     dayId: 0,
+  //     name: "sunday",
+  //     active: true,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 1,
+  //     dayId: 1,
+  //     name: "monday",
+  //     active: true,
+  //     "all-day": true,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     dayId: 2,
+  //     name: "tuesday",
+  //     active: true,
+  //     "all-day": true,
+  //     additionalSites: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     dayId: 3,
+  //     name: "wednesday",
+  //     active: true,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     dayId: 4,
+  //     name: "thursday",
+  //     active: true,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     dayId: 5,
+  //     name: "friday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 6,
+  //     dayId: 6,
+  //     name: "saturday",
+  //     active: true,
+  //     "all-day": true,
+  //     additionalSites: false,
+  //   },
+  // ],
+
+  ["schedule-events"]: [],
+
+  ["schedule-days"]: [
+    {
+      id: 0,
+      dayId: 0,
+      name: "sunday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 1,
+      dayId: 1,
+      name: "monday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 2,
+      dayId: 2,
+      name: "tuesday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 3,
+      dayId: 3,
+      name: "wednesday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 4,
+      dayId: 4,
+      name: "thursday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 5,
+      dayId: 5,
+      name: "friday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
+    {
+      id: 6,
+      dayId: 6,
+      name: "saturday",
+      active: false,
+      "all-day": false,
+      additionalSites: false,
+    },
   ],
 
   ["youtube-limitations"]: [
@@ -273,7 +429,7 @@ function selectAllRecords(table) {
  */
 async function selectRecordById(table, id) {
   const records = await selectAllRecords(table);
-  return records.find((record) => record.id === id);
+  return records.find((record) => record.id === parseInt(id));
 }
 
 /**
@@ -391,6 +547,8 @@ async function updateRecordByProperty(table, property, value, newRecords) {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
 
+    // console.log(records);
+
     // Find the index of the record with the specified ID
     const recordIndex = records.findIndex(
       (record) => record[property] === value
@@ -414,7 +572,7 @@ async function updateRecordByProperty(table, property, value, newRecords) {
 
     // console.log(`Record with ID ${id} updated successfully`);
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 
@@ -488,7 +646,9 @@ async function deleteRecordById(table, id) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
-    console.log(records);
+    // console.log(records);
+    // console.log(table);
+    // console.log(id);
 
     // Ensure record exists
     const record = await selectRecordById(table, id);
@@ -498,7 +658,9 @@ async function deleteRecordById(table, id) {
     }
 
     // Filter out the record with the specified ID
-    const updatedRecords = records.filter((record) => record.id !== id);
+    const updatedRecords = records.filter(
+      (record) => record.id !== parseInt(id)
+    );
     console.log(updatedRecords);
 
     // Save the updated records back to the table
@@ -508,7 +670,7 @@ async function deleteRecordById(table, id) {
     //   `Record with ID ${id} deleted successfully from table ${table}`
     // );
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 
@@ -549,7 +711,7 @@ async function deletePropertyInRecord(table, id, property) {
     // Save the updated records back to the table
     updateRecords(table, records);
   } catch (error) {
-    throw error;
+    error;
   }
 }
 
@@ -613,7 +775,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     updateRecords(request.table, request.newRecords)
       .then((records) => {
         sendResponse({
-          data: `Successful updated table ${
+          error: false,
+          message: `Successful updated table ${
             request.table
           }, new records ${JSON.stringify(records)}`,
         });
@@ -638,7 +801,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     )
       .then(() => {
         sendResponse({
-          data: `Successfully updated table ${request.table} by property ${
+          error: false,
+          message: `Successfully updated table ${request.table} by property ${
             request.property
           }, ${request.value} with new records ${JSON.stringify(
             request.newRecords
@@ -662,13 +826,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     deleteRecordById(request.table, request.id)
       .then(() => {
         sendResponse({
-          data: `Successfully deleted of table ${request.table}, id ${request.id}`,
+          error: false,
+          message: `Successfully deleted of table ${request.table}, id ${request.id}`,
         });
       })
       .catch((errorMsg) => {
         sendResponse({
           error: true,
-          message: `Error deleting table ${request.table}, id ${request.id}: ${errorMsg}.`,
+          message: errorMsg,
         });
       });
 
@@ -677,16 +842,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // Deletes properties within specific records
     deletePropertyInRecord(request.table, request.id, request.property)
       .then(() => {
-        console.log(
-          sendResponse({
-            data: `Successfully deleted of table ${request.table}, property ${request.property}, id ${request.id}.`,
-          })
-        );
+        sendResponse({
+          error: false,
+          message: `Successfully deleted of table ${request.table}, property ${request.property}, id ${request.id}.`,
+        });
       })
       .catch((errorMsg) => {
         sendResponse({
           error: true,
-          message: `Error deleting table ${request.table}, property ${request.property}, id ${request.id} table ${request.table}: ${errorMsg}.`,
+          message: errorMsg,
         });
       });
 
@@ -696,7 +860,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     insertRecords(request.table, request.records)
       .then(() => {
         sendResponse({
-          data: `Successfuly inserted records ${JSON.stringify(
+          error: false,
+          message: `Successfuly inserted records ${JSON.stringify(
             request.records
           )} into table ${request.table}.`,
         });
@@ -704,9 +869,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       .catch((errorMsg) => {
         sendResponse({
           error: true,
-          message: `Error inserting records ${JSON.stringify(
-            request.records
-          )} into table ${request.table}: ${errorMsg}`,
+          message: errorMsg,
         });
       });
 
@@ -723,7 +886,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     chrome.tabs.update(sender.tab.id, {
       url: chrome.runtime.getURL(request.redirect),
     });
-    sendResponse({ status: "success" });
+    sendResponse({ error: false });
   }
   return true;
 });

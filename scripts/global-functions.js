@@ -5,22 +5,24 @@
  * @version 1.0.0
  * @author LenchetoFC
  *
- * @notes
- * Functions
- * - selectRecordByIdGlobal
- * - deleteRecordByIdGlobal
- * - selectAllRecordsGlobal
- * - insertRecordsGlobal
- * - updateRecordByPropertyGlobal
- * - resetTableGlobal
- * - displayNotifications
- * - getCurrentWatchMode
- * - convertTimeToText
- * - getCurrentWatchTimes
- * - getCurrentDate
- * - getTotalWatchTime
- * - redirectUser
+ * @notes Functions
+ * @see {@link module:global-functions.selectRecordByIdGlobal}
+ * @see {@link module:global-functions.deleteRecordByIdGlobal}
+ * @see {@link module:global-functions.selectAllRecordsGlobal}
+ * @see {@link module:global-functions.insertRecordsGlobal}
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal}
+ * @see {@link module:global-functions.resetTableGlobal}
+ * @see {@link module:global-functions.displayNotifications}
+ * @see {@link module:global-functions.getCurrentWatchMode}
+ * @see {@link module:global-functions.convertTimeToText}
+ * @see {@link module:global-functions.getCurrentWatchTimes}
+ * @see {@link module:global-functions.getCurrentDate}
+ * @see {@link module:global-functions.getTotalWatchTime}
+ * @see {@link module:global-functions.redirectUser}
+ * @see {@link module:global-functions.toggleButtonAnimation}
+ *
  */
+
 /**
  * SECTION - STORAGE RELATED
  */
@@ -108,10 +110,15 @@ window.filterRecordsGlobal = async (table, property, value) => {
       value: value,
     });
 
-    return filteredRecords;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!filteredRecords.error) {
+      // console.log(filteredRecords);
+      return filteredRecords;
+    } else {
+      throw new Error(filteredRecords);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -133,15 +140,20 @@ window.filterRecordsGlobal = async (table, property, value) => {
  */
 window.resetTableGlobal = async (table) => {
   try {
-    let result = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "resetTable",
       table: table,
     });
 
-    return result;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!results.error) {
+      console.log("Table reset.");
+      return true;
+    } else {
+      throw new Error(results);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -163,15 +175,19 @@ window.resetTableGlobal = async (table) => {
  */
 window.selectAllRecordsGlobal = async (table) => {
   try {
-    let allRecordsInTable = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "selectAllRecords",
       table: table,
     });
 
-    return allRecordsInTable;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!results.error) {
+      return results;
+    } else {
+      throw new Error(results);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -194,16 +210,20 @@ window.selectAllRecordsGlobal = async (table) => {
  */
 window.selectRecordByIdGlobal = async (table, id) => {
   try {
-    let recordsWithId = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "selectRecordById",
       table: table,
       index: id,
     });
 
-    return recordsWithId;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!results.error || results != null) {
+      return results;
+    } else {
+      throw new Error(results);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -233,7 +253,7 @@ window.updateRecordByPropertyGlobal = async (
   newRecords
 ) => {
   try {
-    let sendUpdatedRecords = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "updateRecordByProperty",
       table: table,
       property: property,
@@ -241,19 +261,14 @@ window.updateRecordByPropertyGlobal = async (
       newRecords: newRecords,
     });
 
-    if (!sendUpdatedRecords.error) {
-      console.log(
-        `Record updated successfully for table youtube-limitations with property id, ${value} with new records ${JSON.stringify(
-          newRecords
-        )}.`
-      );
-      return true;
+    if (!results.error) {
+      return results;
     } else {
-      throw Error;
+      throw new Error(results);
     }
-  } catch (error) {
-    console.error(`Error updating limitations DB for id: ${value}`, error);
-    return false;
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -276,20 +291,20 @@ window.updateRecordByPropertyGlobal = async (
  */
 window.deleteRecordByIdGlobal = async (table, id) => {
   try {
-    console.log(table);
-    console.log(id);
-    let result = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "deleteRecordById",
       table: table,
       id: id,
     });
 
-    console.log(result);
-
-    return result;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!results.error) {
+      return results;
+    } else {
+      throw new Error(results);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -312,16 +327,20 @@ window.deleteRecordByIdGlobal = async (table, id) => {
  */
 window.insertRecordsGlobal = async (table, newRecords) => {
   try {
-    let result = await sendMessageToServiceWorker({
+    let results = await sendMessageToServiceWorker({
       operation: "insertRecords",
       table: table,
       records: newRecords,
     });
 
-    return result;
-  } catch (error) {
-    console.error(error);
-    return false;
+    if (!results.error) {
+      return results;
+    } else {
+      throw new Error(results);
+    }
+  } catch (results) {
+    console.error(results.message);
+    return results;
   }
 };
 
@@ -575,4 +594,30 @@ window.redirectUser = () => {
   );
 };
 
+/**
+ * Triggers an animation on any button when there's a process in the background
+ *
+ * @name toggleButtonAnimation
+ * @global
+ *
+ * @param {string} buttonID - the element ID of the button for the animation to play on
+ * @param {boolean} playAnimation - determines if the animation starts or stops
+ *
+ * @returns {void}
+ *
+ * @example
+ * toggleButtonAnimation(`#save-schedule`, true);
+ *
+ */
+window.toggleButtonAnimation = (buttonID, playAnimation) => {
+  const $button = $(buttonID);
+
+  $button.parent().toggleClass("spin-animation");
+  $button.prop("disabled", playAnimation);
+};
+
 /**!SECTION */
+
+$("#overlay").on("click", function () {
+  $(this).css("display", "none");
+});

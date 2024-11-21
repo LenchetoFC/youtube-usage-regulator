@@ -122,7 +122,8 @@ h4 {
 }
 
 a,
-p {
+p,
+.fc .fc-toolbar-title {
   margin: 0;
   color: var(--text-light);
 }
@@ -260,12 +261,12 @@ main {
 
 #dashboard {
   padding: 0 2rem 2rem;
+  overflow-y: auto;
 
   main {
     padding-bottom: 1.6rem;
     gap: 1.6rem;
-    overflow-y: hidden;
-    height: 100dvh;
+    /* height: 100dvh; */
   }
 }
 
@@ -365,6 +366,7 @@ a:hover {
   cursor: pointer;
 }
 
+.fc .fc-button-primary,
 button {
   transition: background, background-color 0.25s;
   border: none;
@@ -386,6 +388,7 @@ button {
 }
 
 button[type="submit"],
+.fc .fc-button-primary,
 .misc-button {
   background: var(--surface-brand-2);
 }
@@ -403,12 +406,15 @@ button:hover {
 }
 
 button[type="submit"]:hover,
+.fc .fc-button-primary:hover,
 .misc-button:hover {
   background: hsl(125, 70%, 25%);
 }
 button[type="submit"]:active,
-.misc-button:active {
-  background: hsl(125, 70%, 20%);
+.misc-button:active,
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: hsl(125, 50%, 20%);
 }
 
 .underline-hover p {
@@ -462,10 +468,10 @@ button[type="submit"]:active,
   flex-direction: row;
   width: 100%;
 
-  p {
-    /* color: var(--wm-text-color); */
+  /* p {
+    color: var(--wm-text-color);
     color: black;
-  }
+  } */
 }
 
 .button-footer {
@@ -538,13 +544,18 @@ input[type="checkbox"] {
 /* Custom Time input */
 input[type="time" i] {
   padding: 1rem;
-  background: var(--surface-dark);
-  border: 1.25px solid var(--border-dark);
-  border-radius: 1rem;
+  background: var(--surface-light);
+  border: none;
+  border-bottom: 1.5px solid var(--border-dark);
   color: var(--text-text);
   font-size: 1.5rem;
+  transition: 0.25s;
+}
+input[type="time" i]:hover {
   cursor: pointer;
-  /* width: 12.5rem; */
+  background: #ebebeb;
+  border-bottom: 1.5px solid transparent;
+  border-radius: 1rem;
 }
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(25%) sepia(0%) saturate(30%) hue-rotate(193deg) brightness(93%)
@@ -649,7 +660,7 @@ input[type="color"] {
 
   background: var(--surface-light);
   width: fit-content;
-  z-index: 3;
+  z-index: 4;
   box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.1);
   padding: 1.6rem 1.6rem 1.6rem 4rem;
 
@@ -957,17 +968,17 @@ nav {
   }
 }
 
-.overlay {
+#overlay {
   display: none;
   position: fixed;
   width: 100%;
   height: 100%;
-  top: 7.2rem;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 /* 
@@ -1145,7 +1156,8 @@ nav {
 
 .side-checkbox-container input:focus:checked ~ .checkbox-label,
 .side-checkbox-container input:focus ~ .checkbox-label {
-  font-weight: 700;
+  font-weight: 600;
+  /* text-decoration: underline; */
 }
 
 .side-checkbox-container input:checked ~ .checkmark {
@@ -1624,26 +1636,26 @@ section:is(#watch-mode) {
 .popover {
   /* display: flex; */
   flex-direction: column;
-  width: 60rem;
-  padding: 1.6rem;
+  width: 64rem;
+  padding: 2.4rem;
   align-items: flex-start;
   gap: 1.2rem;
   border-radius: var(--radius-more-rounded);
-  /* background: var(--surface-light); */
+  background: var(--surface-light);
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   border: transparent;
 
   form {
-    gap: 1.6rem;
+    gap: 2rem;
   }
 
   header {
-    margin-bottom: 1.2rem;
-  }
+    margin-bottom: 2rem;
 
-  h1 {
-    font-size: 1.6rem;
-    font-weight: 600;
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
   }
 }
 
@@ -1690,6 +1702,24 @@ section:is(#watch-mode) {
     font-size: 1.4rem;
     line-height: 200%;
   }
+}
+
+/* 
+  New Schedule Overlay
+*/
+.overlay-buttons {
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    width: max-content;
+  }
+}
+.schedule-new-time,
+.time-container {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
 }
 
 /* 
@@ -2019,8 +2049,59 @@ body:is(.popup) {
 
 .horizontal-line {
   width: 100%;
-  border: 1px solid var(--border-dark);
+  border: 0.75px solid var(--border-dark);
   margin: 0.4rem 0;
+}
+
+/* 
+  Calendar 
+*/
+.fc {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.fc-v-event,
+.fc-h-event {
+  background-color: var(--surface-brand);
+  border-color: var(--border-brand);
+}
+.fc .fc-view-harness-active > .fc-view {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--surface-light);
+  box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+}
+.fc .fc-toolbar-title {
+  font-size: 2.4rem;
+}
+.fc .fc-col-header-cell-cushion {
+  color: var(--text-dark);
+}
+.fc-timegrid-event-harness-inset .fc-timegrid-event {
+  height: -webkit-fill-available;
+}
+
+.schedule-options {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1.2rem;
+}
+
+.fc .fc-bg-event {
+  background: var(--surface-brand);
+}
+
+/* Calendar Now Indicator */
+.fc-direction-ltr .fc-timegrid-now-indicator-arrow {
+  border-bottom-color: transparent !important;
+  border-top-color: transparent !important;
+}
+.fc .fc-timegrid-now-indicator-arrow,
+.fc .fc-timegrid-now-indicator-line {
+  border-color: var(--border-dark);
+}
+.fc .fc-timegrid-now-indicator-line {
+  border-width: 1.5px;
 }
 
 @media screen and (min-width: 900px) {

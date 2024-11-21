@@ -11,6 +11,10 @@
  */
 
 /**
+ * TODO: convert error messages to be same as settings-schedules.js
+ */
+
+/**
  * SECTION - FUNCTION DECLARATIONS
  */
 
@@ -244,11 +248,10 @@ $(document).ready(function () {
    *
    * @example $("#save-limitations").on("click", saveLimitationsEventListener);
    */
+  // FIXME: doesn't save - props need to parseInt where update function is called
   $("#save-limitations").on("click", function () {
     // Disable the save button
-    const $button = $(this);
-    $button.prop("disabled", true);
-    $button.parent().toggleClass("spin-animation");
+    toggleButtonAnimation("#save-limitations", true);
 
     // Hide unsaved message
     $("#notif-msg").fadeOut();
@@ -262,8 +265,7 @@ $(document).ready(function () {
       displayNotifications("No Changes to Save.", "#40a6ce", "info", 2500);
 
       // Re-enable button after animation
-      $button.prop("disabled", false);
-      $button.parent().toggleClass("spin-animation");
+      toggleButtonAnimation("#save-limitations", false);
 
       return;
     } else {
@@ -300,8 +302,7 @@ $(document).ready(function () {
       }
 
       // Re-enable button after animation
-      $button.parent().toggleClass("spin-animation");
-      $button.prop("disabled", false);
+      toggleButtonAnimation("#save-limitations", false);
     }, 2000);
   });
 

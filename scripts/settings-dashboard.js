@@ -15,6 +15,10 @@
  */
 
 /**
+ * TODO: convert error messages to be same as settings-schedules.js
+ */
+
+/**
  * Get active watch mode and its properties and inserts it into DOM
  *
  * @name getWatchTypeComparisons
@@ -716,13 +720,15 @@ async function insertNotableWatchDays() {
   /** Main Body */
   try {
     // Gets total watch time for the current day and inserts the date and time into "Today" column
+    // FIXME: doesn't get time or display it correctly
     const currentWatchTimes = await getCurrentWatchTimes();
-    let todayTime = currentWatchTimes[0]["total-watch-time"];
-    $(`#today-day #watch-time`).html(convertTimeToText(todayTime, true));
-
-    // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
-    let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
-    $(`#today-day #date`).html(newDateFormat);
+    if (currentWatchTimes.length != 0) {
+      let todayTime = currentWatchTimes[0]["total-watch-time"];
+      $(`#today-watch-time #watch-time`).html(convertTimeToText(todayTime));
+      // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+      let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
+      $(`#today-day #date`).html(newDateFormat);
+    }
 
     // Gets least watched day and inserts the date and time into "Least Watched Day" column
     const leastWatchedObj = await getLeastWatchedDay();
