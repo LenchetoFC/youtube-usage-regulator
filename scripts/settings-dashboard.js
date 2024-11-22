@@ -20,8 +20,7 @@
  */
 
 /**
- * TODO: convert error messages to be same as settings-schedules.js
- * TODO: make better chart for single day selections
+ * TODO: add average watch times to chart and watch ratio widget
  */
 
 /**
@@ -262,6 +261,7 @@ function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
  *
  * @param {Array} watchTimesObj - Array of watch time objects, each containing a date and watch time in hours.
  * @param {string} videoType - The type of video watch time to display ('long-form-watch-time', 'short-form-watch-time', 'total-watch-time').
+ * @param {string} chartType - The type of chart to display; default is "line"
  *
  * @returns {Object} The created Chart.js chart instance.
  *
@@ -272,15 +272,11 @@ function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
  */
 let chart;
 
-function createWatchTimeChart(watchTimesObj, videoType) {
+function createWatchTimeChart(watchTimesObj, videoType, chartType = "line") {
   const ctx = document.getElementById("chart").getContext("2d");
 
-  if (chart) {
-    chart.destroy();
-  }
-
   chart = new Chart(ctx, {
-    type: "line",
+    type: chartType,
     data: {
       labels: watchTimesObj.map((day) => day.date),
       datasets: [
@@ -289,6 +285,8 @@ function createWatchTimeChart(watchTimesObj, videoType) {
           data: watchTimesObj.map((day) => day[`${videoType}-hours`]),
           borderColor: "#1e1f1f",
           fill: true,
+          tension: 0.25,
+          backgroundColor: "#b80f0a99",
         },
       ],
     },
@@ -303,11 +301,14 @@ function createWatchTimeChart(watchTimesObj, videoType) {
           title: {
             display: true,
             text: "Date",
-            color: "#1e1f1f",
+            color: "#000",
             font: {
               size: 12,
               weight: "500",
             },
+          },
+          ticks: {
+            color: "#000",
           },
         },
         y: {
@@ -315,11 +316,14 @@ function createWatchTimeChart(watchTimesObj, videoType) {
           title: {
             display: true,
             text: "Hour",
-            color: "#1e1f1f",
+            color: "#000",
             font: {
               size: 12,
               weight: "500",
             },
+          },
+          ticks: {
+            color: "#000",
           },
         },
       },
@@ -327,7 +331,7 @@ function createWatchTimeChart(watchTimesObj, videoType) {
         legend: {
           display: true,
           position: "bottom",
-          labels: { color: "#1e1f1f" },
+          labels: { color: "#000" },
         },
       },
     },
@@ -379,6 +383,9 @@ async function prepareWatchTimeChart() {
   if (validateChartTimeFrame(startDate.val(), endDate.val())) {
     prepareWatchTimesForChart(startDate.val(), endDate.val(), videoType).then(
       (filteredWatchTimes) => {
+        let chartType =
+          Object.keys(filteredWatchTimes).length == 1 ? "bar" : "line";
+
         // Gets total watch time from chosen video form watch times
         let totalWatchTime = getTotalWatchTime(
           filteredWatchTimes,
@@ -392,7 +399,7 @@ async function prepareWatchTimeChart() {
         }
 
         // Creates watch time chart using watch times associated with chosen video form
-        chart = createWatchTimeChart(filteredWatchTimes, videoType);
+        chart = createWatchTimeChart(filteredWatchTimes, videoType, chartType);
       }
     );
   } else {
@@ -638,7 +645,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
       if (watchTimes[index]["total-watch-time"] != 0) {
         let dateValue = watchTimes[index]["date"];
         let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-        let isLastItem = parseInt(index) + 1 == watchTimes.length - 1;
+        let isLastItem = index == watchTimes.length - 1;
         appendWatchTimeItem(
           reformatDateToText(dateValue),
           watchTimeSeconds,
@@ -857,16 +864,18 @@ $(document).ready(async function () {
   });
 
   // Create Watch Time Chart by default (both forms of videos)
-  prepareWatchTimesForChart(
-    weekBeforeDate,
-    currentDate,
-    "total-watch-time"
-  ).then((filteredWatchTimes) => {
-    let videoType = "total-watch-time";
-    chart = createWatchTimeChart(filteredWatchTimes, videoType);
-    let totalWatchTime = getTotalWatchTime(filteredWatchTimes, videoType);
-    $("#total-watch-time").html(convertTimeToText(totalWatchTime));
-  });
+  prepareWatchTimeChart();
+  // prepareWatchTimesForChart(
+  //   weekBeforeDate,
+  //   currentDate,
+  //   "total-watch-time"
+  // ).then((filteredWatchTimes) => {
+  //   let videoType = "total-watch-time";
+
+  //   chart = createWatchTimeChart(filteredWatchTimes, videoType);
+  //   let totalWatchTime = getTotalWatchTime(filteredWatchTimes, videoType);
+  //   $("#total-watch-time").html(convertTimeToText(totalWatchTime));
+  // });
 
   // Populates watch time list by default (daily)
   let dailyWatchTimes = await getAllWatchTimes();

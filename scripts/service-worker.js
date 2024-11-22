@@ -664,9 +664,7 @@ async function deleteRecordById(table, id) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
-    // console.log(records);
-    // console.log(table);
-    // console.log(id);
+    console.log(records);
 
     // Ensure record exists
     const record = await selectRecordById(table, id);

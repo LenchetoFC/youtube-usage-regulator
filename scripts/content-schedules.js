@@ -30,7 +30,7 @@ function getCurrentTime() {
   return `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`;
 }
 
-/** 
+/**
  * Checks stored schedule times and blocks YouTube accordingly
  *
  * @name checkSchedules
@@ -38,7 +38,7 @@ function getCurrentTime() {
  * @returns {void}
  *
  * @example checkSchedules();
- * 
+ *
  * TODO: implement fullcalendar.io libary
  */
 // function checkSchedules () {

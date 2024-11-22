@@ -164,8 +164,6 @@ async function updateYouTubeUIDemo() {
   // Gets active limitation settings
   let activeLimitations = await getActiveLimitations();
 
-  console.log(activeLimitations);
-
   // Updates the YouTube UI Demo
   for (let limitation of activeLimitations) {
     $("#limitation-settings fieldset input").each(function () {

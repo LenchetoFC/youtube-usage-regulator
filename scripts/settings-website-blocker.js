@@ -20,7 +20,7 @@
  */
 
 /**
- * TODO: convert error messages to be same as settings-schedules.js
+ * TODO
  */
 
 /**
@@ -533,9 +533,8 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
         ]);
       } else {
         // Updates current website's data
-        // FIXME: doesn't actually update
         saveWebsiteResult = await updateRecordByPropertyGlobal(
-          "youtube-limitations",
+          "additional-websites",
           "id",
           parseInt(websiteObj.id),
           websiteObj
@@ -560,6 +559,7 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
         // Loads in new websites
         insertAdditionalWebsites();
         document.getElementById("popover-new-blocked-website").hidePopover();
+
         displayNotifications(
           "Successfully Added New Website!",
           "#390",
