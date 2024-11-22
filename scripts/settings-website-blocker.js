@@ -510,9 +510,6 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
     formEvent.preventDefault();
 
     // Disable the submit button
-    // const $button = $(`#${buttonID}`);
-    // $button.prop("disabled", true);
-    // $button.parent().toggleClass("spin-animation");
     toggleButtonAnimation(`#${buttonID}`, true);
 
     // Saves website to database
@@ -524,8 +521,6 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       // If form is invalid, end function
       if (!websiteObj) {
         // Re-enable button after animation
-        // $button.parent().toggleClass("spin-animation");
-        // $button.prop("disabled", false);
         toggleButtonAnimation(`#${buttonID}`, false);
 
         return;
@@ -548,8 +543,6 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       }
 
       // Re-enable button after animation
-      // $button.parent().toggleClass("spin-animation");
-      // $button.prop("disabled", false);
       toggleButtonAnimation(`#${buttonID}`, false);
 
       // Gets status message from insertion
@@ -564,8 +557,7 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       } else {
         console.log(saveWebsiteResult.message);
 
-        // Reload webpage to load in new website
-        // location.reload();
+        // Loads in new websites
         insertAdditionalWebsites();
         document.getElementById("popover-new-blocked-website").hidePopover();
         displayNotifications(
@@ -663,17 +655,29 @@ $(document).ready(function () {
    * @name resetWebsitesTableEventListener
    */
   $("#clear-websites").on("click", async function () {
-    if (window.confirm("Confirm to delete ALL blocked websites...")) {
-      let result = resetTableGlobal("additional-websites");
+    try {
+      // Ask user to confirm choice
+      if (window.confirm("Confirm to delete ALL blocked websites...")) {
+        // Sets all checkboxes to unchecked
+        clearLimitationInputs();
 
-      displayNotifications(
-        "Deleted Websites Successfully!",
-        "#390",
-        "verified",
-        2000
-      );
+        const result = await resetTableGlobal("additional-websites");
 
-      insertAdditionalWebsites();
+        if (!result.error) {
+          displayNotifications(
+            "Deleted Websites Successfully!",
+            "#390",
+            "verified",
+            2000
+          );
+
+          insertAdditionalWebsites();
+        } else {
+          displayNotifications(result.message, "#d92121", "error", 5000);
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 });

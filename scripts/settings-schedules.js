@@ -12,7 +12,7 @@
  * @see {@link module:global-functions.insertRecordsGlobal}
  * @see {@link module:global-functions.updateRecordByPropertyGlobal} x 6
  * @see {@link module:global-functions.resetTableGlobal} x 2
- * @see {@link module:global-functions.displayNotifications} x 8
+ * @see {@link module:global-functions.displayNotifications} x 10
  * @see {@link module:global-functions.toggleButtonAnimation} x 4
  *
  *
@@ -935,11 +935,27 @@ async function renderCalendar() {
       },
       resetCalendar: {
         text: "Clear Calendar",
-        click: function () {
+        click: async function () {
           if (window.confirm("Confirm to clear the entire calendar...")) {
-            resetTableGlobal("schedule-days");
-            resetTableGlobal("schedule-events");
-            renderCalendar();
+            let resultDays = await resetTableGlobal("schedule-days");
+            resultEvents = await resetTableGlobal("schedule-events");
+            if (!resultDays.error && !resultEvents.error) {
+              displayNotifications(
+                "Cleared Calendar Successfully!",
+                "#390",
+                "verified",
+                2000
+              );
+
+              renderCalendar();
+            } else {
+              displayNotifications(
+                resultEvents.message,
+                "#d92121",
+                "error",
+                5000
+              );
+            }
           }
         },
       },
@@ -1058,6 +1074,13 @@ $(document).ready(async function () {
       } else {
         await deleteScheduleEvent();
       }
+
+      displayNotifications(
+        "Successfully deleted event!",
+        "#390",
+        "verified",
+        2000
+      );
 
       // Closes popover
       closePopover();

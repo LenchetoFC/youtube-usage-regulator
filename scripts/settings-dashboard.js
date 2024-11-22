@@ -6,8 +6,13 @@
  * @author LenchetoFC
  *
  * @requires module:global-functions
+ * @see {@link module:global-functions.selectAllRecordsGlobal}
+ * @see {@link module:global-functions.resetTableGlobal}
  * @see {@link module:global-functions.displayNotifications}
  * @see {@link module:global-functions.getCurrentWatchMode}
+ * @see {@link module:global-functions.convertTimeToText} x 7
+ * @see {@link module:global-functions.getCurrentWatchTimes} x 2
+ * @see {@link module:global-functions.getTotalWatchTime} x 5
  */
 
 /**
@@ -380,7 +385,6 @@ async function prepareWatchTimeChart() {
       }
     );
   } else {
-    // TODO: change date input to invalid states
     displayNotifications(
       "Invalid Timeframe. Try Again Later.",
       "#d92121",

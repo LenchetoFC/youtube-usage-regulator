@@ -6,12 +6,10 @@
  * @author LenchetoFC
  *
  * @requires module:global-functions
- * @see {@link module:global-functions.displayNotifications} x6
- * @see {@link module:global-functions.updateRecordByPropertyGlobal} x2
- */
-
-/**
- * TODO: convert error messages to be same as settings-schedules.js
+ * @see {@link module:global-functions.updateRecordByPropertyGlobal}
+ * @see {@link module:global-functions.resetTableGlobal}
+ * @see {@link module:global-functions.displayNotifications} x 6
+ * @see {@link module:global-functions.toggleButtonAnimation} x 3
  */
 
 /**
@@ -104,10 +102,31 @@ function getLimitationInputs() {
     .get();
 }
 
+//
+async function updateLimitationsDB(limitation, isQuickAdd) {
+  try {
+    let property = isQuickAdd ? "quick-add" : "active";
+    let result = await updateRecordByPropertyGlobal(
+      "youtube-limitations",
+      "id",
+      limitation.id,
+      {
+        [property]: limitation.isActive,
+      }
+    );
+
+    console.log(result);
+
+    return result;
+  } catch (error) {
+    return { error: true, message: error };
+  }
+}
+
 /**
- * Check if the checkbox form choices are valid (boolean and settings saved successfully)
+ * Iterates through all changes limitation choices and then calls function to update database
  *
- * @name updateLimitationsDB
+ * @name updateSettingsDB
  * @async
  *
  * @param {Array} limitationChoices - array of settings records
@@ -115,43 +134,47 @@ function getLimitationInputs() {
  * @returns {boolean} Returns validity value
  *
  * @example const settings = [{name: 'home-page-quick', id: 1, isActive: true, isQuickAdd: true}, {name: 'shorts-page-quick', id: 2, isActive: true, isQuickAdd: true}];
- *          let isValid = updateLimitationsDB(settings);
+ *          let isValid = updateSettingsDB(settings);
  */
-async function updateLimitationsDB(limitationChoices) {
-  let isValid = true;
-  for (const limitation of limitationChoices) {
-    let quick;
-    limitation.isQuickAdd ? (quick = true) : (quick = false);
+async function updateSettingsDB(limitationChoices) {
+  try {
+    let updateLimitationsResult;
 
-    if (limitation.isQuickAdd) {
-      isValid = await updateRecordByPropertyGlobal(
-        "youtube-limitations",
-        "id",
-        limitation.id,
-        {
-          "quick-add": limitation.isActive,
-        }
+    for (const limitation of limitationChoices) {
+      // Updates limitations in database
+      updateLimitationsResult = await updateLimitationsDB(
+        limitation,
+        limitation.isQuickAdd
       );
 
-      if (!isValid) {
-        console.error("invalid limitations");
-        break;
+      // Throws error if there are any problems updating
+      if (updateLimitationsResult.error) {
+        throw { error: true, message: updateLimitationsResult.message };
       }
-    } else {
-      isValid = await updateRecordByPropertyGlobal(
-        "youtube-limitations",
-        "id",
-        limitation.id,
-        {
-          active: limitation.isActive,
-        }
-      );
 
-      if (!isValid) {
-        console.error("invalid limitations");
-        break;
-      }
+      return updateLimitationsResult;
     }
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+async function updateYouTubeUIDemo() {
+  // Gets active limitation settings
+  let activeLimitations = await getActiveLimitations();
+
+  console.log(activeLimitations);
+
+  // Updates the YouTube UI Demo
+  for (let limitation of activeLimitations) {
+    $("#limitation-settings fieldset input").each(function () {
+      if (limitation.active) {
+        $(`#limitation-demos .${limitation.name}`).slideUp();
+      } else {
+        $(`#limitation-demos .${limitation.name}`).slideDown();
+      }
+    });
   }
 }
 
@@ -169,20 +192,7 @@ $(document).ready(function () {
    *
    * @returns {void}
    */
-  getActiveLimitations()
-    .then((data) => {
-      // console.log(data);
-      for (let index in data) {
-        // Auto-checks corresponding checkbox input
-        $(`#${data[index].name}`).attr("checked", true);
-
-        // Auto-updates YT UI example
-        $(`.limitation-demos .${data[index].name}`).slideToggle();
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  updateYouTubeUIDemo();
 
   /**
    * ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example
@@ -248,7 +258,6 @@ $(document).ready(function () {
    *
    * @example $("#save-limitations").on("click", saveLimitationsEventListener);
    */
-  // FIXME: doesn't save - props need to parseInt where update function is called
   $("#save-limitations").on("click", function () {
     // Disable the save button
     toggleButtonAnimation("#save-limitations", true);
@@ -272,29 +281,25 @@ $(document).ready(function () {
       $('#limitation-settings input[type="checkbox"]').removeClass("changed");
     }
 
-    let isValid = updateLimitationsDB(limitationChoices);
+    setTimeout(async function () {
+      // Iterates through changed settings to update accordingly
+      let updateSettingsResults = await updateSettingsDB(limitationChoices);
 
-    setTimeout(function () {
+      // Updates YouTube UI demos according to new settings
+      updateYouTubeUIDemo();
+
       // Start animation on status message, depending saving outcome
-      if (isValid) {
+      if (!updateSettingsResults.error) {
         displayNotifications(
           "Saved Settings Successfully!",
           "#390",
           "verified",
           2000
         );
-
-        // Updates the YouTube UI Demo all at once
-        $("#limitation-settings fieldset input").each(function () {
-          if (this.checked) {
-            $(`.limitation-demos .${this.name}`).slideUp();
-          } else {
-            $(`.limitation-demos .${this.name}`).slideDown();
-          }
-        });
       } else {
         displayNotifications(
-          "Unsuccessfully Saved. Try Again Later.",
+          // "Unsuccessfully Saved. Try Again Later.",
+          updateSettingsResults.message,
           "#d92121",
           "release_alert",
           5000
@@ -316,23 +321,16 @@ $(document).ready(function () {
    *
    * @param {Event} event - The form submission event.
    */
-  $("#clear-settings").on("click", function () {
-    // Ask user to confirm choice
-    if (window.confirm("Confirm to reset ALL settings...")) {
-      // Sets all checkboxes to unchecked
-      clearLimitationInputs();
+  $("#clear-settings").on("click", async function () {
+    try {
+      // Ask user to confirm choice
+      if (window.confirm("Confirm to reset ALL settings...")) {
+        // Sets all checkboxes to unchecked
+        clearLimitationInputs();
 
-      // Save settings
-      const limitationInputs = getLimitationInputs();
+        const result = await resetTableGlobal("youtube-limitations");
 
-      // FIXME: isValid returns promise, not a boolean value
-      // replicate this by clearing storage, then trying to save to non-existant storage
-      // NOTE: possibly use .then()
-      let isValid = updateLimitationsDB(limitationInputs);
-
-      setTimeout(function () {
-        // Start animation on status message, depending saving outcome
-        if (isValid) {
+        if (!result.error) {
           displayNotifications(
             "Cleared Settings Successfully!",
             "#390",
@@ -341,22 +339,13 @@ $(document).ready(function () {
           );
 
           // Updates the YouTube UI Demo all at once
-          $("#limitation-settings fieldset input").each(function () {
-            if (this.checked) {
-              $(`.limitation-demos .${this.name}`).slideUp();
-            } else {
-              $(`.limitation-demos .${this.name}`).slideDown();
-            }
-          });
+          updateYouTubeUIDemo();
         } else {
-          displayNotifications(
-            "Unsuccessfully Saved. Try Again Later.",
-            "#d92121",
-            "release_alert",
-            5000
-          );
+          displayNotifications(result.message, "#d92121", "error", 5000);
         }
-      });
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 

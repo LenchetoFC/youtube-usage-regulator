@@ -570,9 +570,12 @@ async function updateRecordByProperty(table, property, value, newRecords) {
     // Save the updated records back to the table
     updateRecords(table, records);
 
-    // console.log(`Record with ID ${id} updated successfully`);
+    return {
+      error: false,
+      message: `Record updated successfully in table ${table}.`,
+    };
   } catch (error) {
-    return error;
+    return { error: true, message: error.message };
   }
 }
 
@@ -599,7 +602,11 @@ async function resetTable(table) {
     await new Promise((resolve, reject) => {
       chrome.storage.sync.remove([table], () => {
         if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
+          reject(
+            new Error(
+              `Error removing table ${table}: ${chrome.runtime.lastError.message}`
+            )
+          );
         } else {
           resolve();
         }
@@ -614,16 +621,27 @@ async function resetTable(table) {
     await new Promise((resolve, reject) => {
       chrome.storage.sync.set(data, () => {
         if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
+          reject(
+            new Error(
+              `Error setting table ${table}: ${chrome.runtime.lastError.message}`
+            )
+          );
         } else {
-          resolve();
+          resolve(`Table ${table} has been reset to its default state`);
         }
       });
     });
 
-    // console.log(`Table ${table} has been reset to its default state`);
+    return {
+      error: false,
+      message: `Table ${table} has been reset to its default state`,
+    };
   } catch (error) {
-    console.error(`Error resetting table ${table}: ${error.message}`);
+    console.error(`Error resetting table ${table}:`, error);
+    return {
+      error: true,
+      message: `Error resetting table ${table}: ${error.message}`,
+    };
   }
 }
 
@@ -652,7 +670,9 @@ async function deleteRecordById(table, id) {
 
     // Ensure record exists
     const record = await selectRecordById(table, id);
-    console.log(record);
+
+    // console.log(record);
+
     if (!record) {
       throw new Error(`Record with ID ${id} not found in table ${table}`);
     }
@@ -792,31 +812,20 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     return true;
   } else if (request.operation === "updateRecordByProperty") {
-    // Updates record by ID
+    // Updates record by property
     updateRecordByProperty(
       request.table,
       request.property,
       request.value,
       request.newRecords
     )
-      .then(() => {
-        sendResponse({
-          error: false,
-          message: `Successfully updated table ${request.table} by property ${
-            request.property
-          }, ${request.value} with new records ${JSON.stringify(
-            request.newRecords
-          )}.`,
-        });
+      .then((result) => {
+        sendResponse(result);
       })
-      .catch((errorMsg) => {
+      .catch((error) => {
         sendResponse({
           error: true,
-          message: `Error updating table ${request.table} by property ${
-            request.property
-          }, value ${request.value}, new records ${JSON.stringify(
-            request.newRecords
-          )}: ${errorMsg}.`,
+          message: error.message,
         });
       });
 
@@ -876,7 +885,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     return true;
   } else if (request.operation === "resetTable") {
     // Resets database table back to default
-    resetTable(request.table);
+    resetTable(request.table).then(sendResponse);
 
     return true;
   }

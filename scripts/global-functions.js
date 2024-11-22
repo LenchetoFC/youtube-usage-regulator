@@ -147,13 +147,13 @@ window.resetTableGlobal = async (table) => {
 
     if (!results.error) {
       console.log("Table reset.");
-      return true;
+      return results;
     } else {
-      throw new Error(results);
+      throw new Error(results.message);
     }
-  } catch (results) {
-    console.error(results.message);
-    return results;
+  } catch (error) {
+    console.error(error.message);
+    return { error: true, message: error.message };
   }
 };
 
@@ -264,11 +264,10 @@ window.updateRecordByPropertyGlobal = async (
     if (!results.error) {
       return results;
     } else {
-      throw new Error(results);
+      throw { error: true, message: results.message };
     }
-  } catch (results) {
-    console.error(results.message);
-    return results;
+  } catch (error) {
+    return error;
   }
 };
 
