@@ -12,7 +12,7 @@
  * @see {@link module:global-functions.insertRecordsGlobal}
  * @see {@link module:global-functions.updateRecordByPropertyGlobal} x 6
  * @see {@link module:global-functions.resetTableGlobal} x 2
- * @see {@link module:global-functions.displayNotifications} x 10
+ * @see {@link module:global-functions.displayNotifications} x 11
  * @see {@link module:global-functions.toggleButtonAnimation} x 4
  *
  *

@@ -33,9 +33,7 @@
 function switchSettingsTab(selectedTabId) {
   $(".general-body > section")
     .not(`#${selectedTabId}`)
-    .hide(function () {
-      // Ensure all sections are hidden before fading in the selected section
-      $(".general-body > section").hide();
+    .fadeOut(function () {
       // Fade in the selected section after the fade-out completes
       $(`#${selectedTabId}`).fadeIn().css("display", "flex");
     });

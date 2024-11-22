@@ -270,8 +270,16 @@ function filterWatchTimeFrame(allWatchTimes, startDate, endDate, videoType) {
  *
  * @notes This function uses Chart.js to create the chart and assumes that the Chart.js library is already loaded.
  */
+let chart;
+
 function createWatchTimeChart(watchTimesObj, videoType) {
-  chart = new Chart("chart", {
+  const ctx = document.getElementById("chart").getContext("2d");
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  chart = new Chart(ctx, {
     type: "line",
     data: {
       labels: watchTimesObj.map((day) => day.date),
@@ -285,6 +293,8 @@ function createWatchTimeChart(watchTimesObj, videoType) {
       ],
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         x: {
           grid: {
@@ -628,7 +638,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
       if (watchTimes[index]["total-watch-time"] != 0) {
         let dateValue = watchTimes[index]["date"];
         let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-        let isLastItem = index == watchTimes.length - 1;
+        let isLastItem = parseInt(index) + 1 == watchTimes.length - 1;
         appendWatchTimeItem(
           reformatDateToText(dateValue),
           watchTimeSeconds,
@@ -852,11 +862,8 @@ $(document).ready(async function () {
     currentDate,
     "total-watch-time"
   ).then((filteredWatchTimes) => {
-    // Creates chart with both forms on load
     let videoType = "total-watch-time";
-    let chart = createWatchTimeChart(filteredWatchTimes, videoType);
-
-    // Inserts the watch time of both forms on load
+    chart = createWatchTimeChart(filteredWatchTimes, videoType);
     let totalWatchTime = getTotalWatchTime(filteredWatchTimes, videoType);
     $("#total-watch-time").html(convertTimeToText(totalWatchTime));
   });
@@ -895,3 +902,9 @@ $(document).ready(async function () {
 });
 
 /** !SECTION */
+// Resize the chart when the window is resized
+window.addEventListener("resize", () => {
+  if (chart) {
+    chart.resize();
+  }
+});
