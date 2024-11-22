@@ -349,6 +349,7 @@ window.insertRecordsGlobal = async (table, newRecords) => {
  * SECTION - WATCH TIME RELATED
  *
  */
+
 /**
  * Converts time usage into an accurate time statement.
  * Time statements are dynamic meaning depending on the amount of time, they will include
@@ -357,7 +358,7 @@ window.insertRecordsGlobal = async (table, newRecords) => {
  * @name convertTimeToText
  * @global
  *
- * @param {int} timeUsage - The value of the time usage storage value.
+ * @param {int} timeUsage - The value of the time usage in seconds.
  * @param {boolean} [abbrActive=false] - A boolean indicating whether to use abbreviated time units.
  *
  * @returns {string} Returns time usage in a statement that is accurate to the amount of time given.
@@ -366,30 +367,62 @@ window.insertRecordsGlobal = async (table, newRecords) => {
  * let usageStatement = convertTimeToText(timeUsage);
  */
 window.convertTimeToText = (timeUsage, abbrActive = false) => {
-  // if time usage is below a minute
   if (timeUsage < 60) {
-    return `${timeUsage} seconds`;
-  } else if (timeUsage >= 60) {
-    // if time usage is above a minute
-    let min = Math.floor(timeUsage / 60);
-    let sec = Math.floor(timeUsage - min * 60);
-
-    // if time usage is between a minute and an hour
-    if (timeUsage < 3600) {
-      let timeText = abbrActive
-        ? `${min} ${min === 1 ? "Min" : "Mins"} ${sec} Sec`
-        : `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
-      return timeText;
-    } else if (timeUsage >= 3600) {
-      // if time usage is above an hour
-      let hours = Math.floor(timeUsage / 3600);
-      let remainingMinutes = Math.floor((timeUsage - hours * 3600) / 60);
-      return `${hours} Hr${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
-        remainingMinutes === 1 ? "Min" : "Mins"
-      }`;
-    }
+    return formatSeconds(timeUsage, abbrActive);
+  } else if (timeUsage < 3600) {
+    return formatMinutesAndSeconds(timeUsage, abbrActive);
+  } else {
+    return formatHoursAndMinutes(timeUsage, abbrActive);
   }
 };
+
+/**
+ * Formats time usage in seconds.
+ *
+ * @param {int} timeUsage - The value of the time usage in seconds.
+ * @param {boolean} abbrActive - A boolean indicating whether to use abbreviated time units.
+ *
+ * @returns {string} Returns time usage in seconds.
+ */
+function formatSeconds(timeUsage, abbrActive) {
+  return abbrActive ? `${timeUsage} Sec` : `${timeUsage} seconds`;
+}
+
+/**
+ * Formats time usage in minutes and seconds.
+ *
+ * @param {int} timeUsage - The value of the time usage in seconds.
+ * @param {boolean} abbrActive - A boolean indicating whether to use abbreviated time units.
+ *
+ * @returns {string} Returns time usage in minutes and seconds.
+ */
+function formatMinutesAndSeconds(timeUsage, abbrActive) {
+  let min = Math.floor(timeUsage / 60);
+  let sec = Math.floor(timeUsage - min * 60);
+  return abbrActive
+    ? `${min} ${min === 1 ? "Min" : "Mins"} ${sec} Sec`
+    : `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
+}
+
+/**
+ * Formats time usage in hours and minutes.
+ *
+ * @param {int} timeUsage - The value of the time usage in seconds.
+ * @param {boolean} abbrActive - A boolean indicating whether to use abbreviated time units.
+ *
+ * @returns {string} Returns time usage in hours and minutes.
+ */
+function formatHoursAndMinutes(timeUsage, abbrActive) {
+  let hours = Math.floor(timeUsage / 3600);
+  let remainingMinutes = Math.floor((timeUsage - hours * 3600) / 60);
+  return abbrActive
+    ? `${hours} Hr${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
+        remainingMinutes === 1 ? "Min" : "Mins"
+      }`
+    : `${hours} Hour${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
+        remainingMinutes === 1 ? "Minute" : "Minutes"
+      }`;
+}
 
 /**
  * Sends a message to the service worker to filter records from the "watch-times" table

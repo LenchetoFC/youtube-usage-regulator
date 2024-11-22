@@ -19,10 +19,10 @@
  * @notes
  */
 
-/** TODO:
- * - add editability via dragging (eventDrop) and resizing events (eventResize)
- * - group schedules to change all at the same time
- * - active all day event will darken the whole day to signify
+/**
+ * TODO: add editability via dragging (eventDrop) and resizing events (eventResize)
+ * TODO: group schedules to change all at the same time
+ * TODO: make active all day event darken the whole day
  */
 
 /** FIXME:

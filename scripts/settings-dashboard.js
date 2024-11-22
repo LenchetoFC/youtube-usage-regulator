@@ -21,6 +21,7 @@
 
 /**
  * TODO: convert error messages to be same as settings-schedules.js
+ * TODO: make better chart for single day selections
  */
 
 /**
@@ -607,7 +608,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
   function appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem) {
     let watchTimeListElem = $("#watch-times-list > ul");
 
-    let newTimeForamt = convertTimeToText(watchTimeSeconds, true);
+    let newTimeForamt = convertTimeToText(watchTimeSeconds);
     let watchTimeItem = $(`<li>
                             <p>${dateValue}</p>
                             <p>${newTimeForamt}</p>
@@ -724,14 +725,16 @@ async function insertNotableWatchDays() {
   /** Main Body */
   try {
     // Gets total watch time for the current day and inserts the date and time into "Today" column
-    // FIXME: doesn't get time or display it correctly
     const currentWatchTimes = await getCurrentWatchTimes();
     if (currentWatchTimes.length != 0) {
       let todayTime = currentWatchTimes[0]["total-watch-time"];
-      $(`#today-watch-time #watch-time`).html(convertTimeToText(todayTime));
+      $(`#today-watch-time #watch-time`).html(
+        convertTimeToText(todayTime, true)
+      );
+
       // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
       let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
-      $(`#today-day #date`).html(newDateFormat);
+      $(`#today-watch-time #date`).html(newDateFormat);
     }
 
     // Gets least watched day and inserts the date and time into "Least Watched Day" column
