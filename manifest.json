@@ -13,7 +13,12 @@
     "default_popup": "/html/popup.html",
     "default_icon": "/images/icon-logo-ext.png"
   },
-  "author": "lenchetoramirez16@gmail.com",
+  "author": {
+    "author": {
+      "name": "Lencheto Ramirez",
+      "email": "lenchetoramirez16@gmail.com"
+    }
+  },
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
@@ -28,6 +33,16 @@
         "/scripts/content-watch-times.js",
         "/scripts/content-website-blocker.js",
         "/scripts/content-yt-limitations.js"
+      ],
+      "css": ["/styles/youtube-styles.css"],
+      "matches": ["https://www.youtube.com/*"],
+      "runAt": "document_end"
+    },
+    {
+      "js": [
+        "/scripts/jquery-3.7.1.min.js",
+        "/scripts/global-functions.js",
+        "/scripts/content-website-blocker.js"
       ],
       "matches": ["<all_urls>"],
       "runAt": "document_end"

@@ -185,7 +185,7 @@ $(document).ready(function () {
   /**
    * ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example
    *
-   * @name getActiveLimitationsOnLoad
+   * @name getActiveLimitations
    * @async
    *
    * @returns {void}
@@ -193,9 +193,8 @@ $(document).ready(function () {
   updateYouTubeUIDemo();
 
   /**
-   * ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes, and update YT UI example
-   *
-   * @name getActiveQuickActivationsOnLoad
+   * ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes
+   * @name getActiveQuickActivations
    * @async
    *
    * @returns {void}
@@ -212,15 +211,30 @@ $(document).ready(function () {
     });
 
   /**
+   * ONLOAD FUNCTION CALL: Get all active limitation records, toggle active limitation checkboxes, and update YT UI example
+   *
+   * @name getActiveLimitations
+   * @async
+   *
+   * @returns {void}
+   */
+  getActiveLimitations()
+    .then((data) => {
+      for (let index in data) {
+        // Auto-checks corresponding checkbox input
+        $(`#${data[index].name}`).attr("checked", true);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  // TODO: get active misc settings
+
+  /**
    * Warns user that there are unsaved changes for preferred creators
    *
    * This event listener toggles the "changed" class on checkboxes and displays a notification if there are unsaved changes.
-   *
-   * @name warnUnsavedChangesEventListener
-   *
-   * @returns {void}
-   *
-   * @example $('#limitation-settings input[type="checkbox"]').on("click", warnUnsavedChangesEventListener);
    */
   $('#limitation-settings input[type="checkbox"]').on("click", function () {
     // Toggle the "changed" class on the clicked checkbox
@@ -249,12 +263,6 @@ $(document).ready(function () {
    * Saves restrictive settings and displays status message
    *
    * This event listener saves the restrictive settings and displays a status message based on the outcome.
-   *
-   * @name saveLimitationsEventListener
-   *
-   * @returns {void}
-   *
-   * @example $("#save-limitations").on("click", saveLimitationsEventListener);
    */
   $("#save-limitations").on("click", function () {
     // Disable the save button
@@ -314,10 +322,6 @@ $(document).ready(function () {
    *
    * This event listener clears all settings by resetting all checkboxes to unchecked and saving the settings.
    * It asks the user to confirm the action before proceeding.
-   *
-   * @name clearSettingsEventListener
-   *
-   * @param {Event} event - The form submission event.
    */
   $("#clear-settings").on("click", async function () {
     try {
@@ -351,10 +355,6 @@ $(document).ready(function () {
    * Clear limitation inputs
    *
    * This function clears all limitation inputs by setting their checked property to false.
-   *
-   * @name clearLimitationInputs
-   *
-   * @returns {void}
    */
   function clearLimitationInputs() {
     let limitationInputs = $("#limitation-settings fieldset input");

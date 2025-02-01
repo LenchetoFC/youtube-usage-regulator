@@ -23,6 +23,7 @@
  * TODO: add editability via dragging (eventDrop) and resizing events (eventResize)
  * TODO: group schedules to change all at the same time
  * TODO: make active all day event darken the whole day
+ * TODO: put schedule form anchored right to the time selected on calendar
  */
 
 /** FIXME:

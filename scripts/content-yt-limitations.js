@@ -7,6 +7,36 @@
  *
  * @requires module:global-functions
  * @see {@link module:global-functions.redirectUser} x4
+ * 
+ * @notes
+ * 
+    * ---YOUTUBE ELEMENT IDENTIFIERS---
+    * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
+    * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
+    * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
+    * SHORTS BUTTON: .ytd-mini-guide-renderer[role="tab"]:has([title="Shorts"])
+    * SHORTS BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has([title="Shorts"])
+    * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
+    * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
+    * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
+    * SEARCH BAR: #center:has(#search)
+    * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
+    * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
+    * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
+    * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
+    * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
+    * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
+    * SKIP VIDEO BUTTON: .ytp-next-button
+    * COMMENTS SECTION on PLAYBACK: #comments
+    * COMMENTS SECTION on SHORTS: #comments-button
+    * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+    * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+
+    * ---LIMITATION RESTRICTIONS---
+    * VIDEO RECOMMENDATIONS: Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
+
+    * ---LIMITATION SPECIAL CASES---
+    * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
  */
 
 /**
@@ -25,31 +55,44 @@
  *
  * @example hideDOMContent("#guide-inner-content [title='Home']", "Home Button - Drawer Event Listener")
  */
-function hideDOMContent(elementID, elementName) {
+function hideDOMContent(className, elementName) {
   try {
     // Ensure the DOM is fully loaded before running the script
     $(document).ready(function () {
-      const contentItems = $(elementID);
+      const contentItems = $(className);
 
-      // NOTE: Doesn't throw error if drawer is closed since it's rechecked when it's opened
-      if (contentItems.length === 0) {
-        throw new Error(
-          `${elementName}: Element with ID ${elementID} not found.`
-        );
-      }
+      console.log(className, $(className));
 
-      // Iterate through all found elements to remove them
-      // contentItems.forEach((_, item) => {
-      contentItems.each((_, item) => {
-        // $(item).css("display", "none");
-        // $(item).slideUp();
-        $(item).remove();
-        console.log(`Hides ${elementName}: ${elementID}`);
+      // Adds hidden class to elements
+      $(className).addClass("hidden", function (index) {
+        console.log(`Hides ${elementName}: ${index}`);
+      });
+
+      // Create a style element
+      const style = document.createElement("style");
+      style.innerHTML = `.hidden { display: none !important; }`;
+      document.getElementsByTagName("head")[0].appendChild(style);
+
+      // Use MutationObserver to watch for changes in the DOM
+      const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          // console.log(mutation.addedNodes);
+          if (mutation.addedNodes.length) {
+            $(className).addClass("hidden");
+            console.log("hidden");
+          }
+        });
+      });
+
+      // Start observing the document for changes
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
       });
     });
   } catch (error) {
     console.log(
-      `Error removing ${elementID} for ${elementName}: ${error.message}`
+      `Error removing ${className} for ${elementName}: ${error.message}`
     );
   }
 }
@@ -63,58 +106,74 @@ function hideDOMContent(elementID, elementName) {
  *
  * @example hideHomeButton();
  *
+ * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
+ * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
+ * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
+ *
  * FIXME: unreliable sometimes - needs further testing
  */
 function hideHomeButton() {
-  // YouTube Logo
-  hideDOMContent("#logo > a", "Home Button - YouTube Logo");
+  // Home button as YouTube logo
+  hideDOMContent("ytd-topbar-logo-renderer", "Home Button - YouTube Logo");
 
-  setTimeout(() => {
-    // Side Home Button
-    hideDOMContent(
-      "ytd-mini-guide-entry-renderer a[title='Home']",
-      "Side Home Button - timeout 500"
-    );
-  }, 500);
+  // Home Button in side panel
+  hideDOMContent(
+    'ytd-guide-entry-renderer:has(a[title="Home"])',
+    "Home Button - Side Panel"
+  );
 
-  // Drawer home button - will not show if the side drawer haven't been opened yet
-  $("ytd-masthead #guide-button").on("click", function () {
-    setTimeout(() => {
-      // Home Button
-      hideDOMContent(
-        "#guide-inner-content [title='Home']",
-        "Home Button - Drawer Event Listener"
-      );
-      // Home Button as YT Logo
-      hideDOMContent(
-        "ytd-topbar-logo-renderer [title='YouTube Home']",
-        "Home Button - YouTube Logo on guide button click"
-      );
+  // Home button
+  hideDOMContent(
+    '.ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])',
+    "Home Button"
+  );
 
-      // Side Home Button
-      hideDOMContent(
-        "ytd-mini-guide-entry-renderer a[title='Home']",
-        "Side Home Button - on guide button click"
-      );
-    }, 500);
-  });
+  // setTimeout(() => {
+  //   // Side Home Button
+  //   hideDOMContent(
+  //     "ytd-mini-guide-entry-renderer a[title='Home']",
+  //     "Side Home Button - timeout 500"
+  //   );
+  // }, 500);
 
-  // Drawer home button - drawer is already opened
-  if ($("tp-yt-app-drawer").opened) {
-    console.log("drawer opened");
-    hideDOMContent(
-      "#guide-inner-content [title='Home']",
-      "Home Button - Drawer Opened"
-    );
-  }
+  // // Drawer home button - will not show if the side drawer haven't been opened yet
+  // $("ytd-masthead #guide-button").on("click", function () {
+  //   setTimeout(() => {
+  //     // Home Button
+  //     hideDOMContent(
+  //       "#guide-inner-content [title='Home']",
+  //       "Home Button - Drawer Event Listener"
+  //     );
+  //     // Home Button as YT Logo
+  //     hideDOMContent(
+  //       "ytd-topbar-logo-renderer [title='YouTube Home']",
+  //       "Home Button - YouTube Logo on guide button click"
+  //     );
 
-  // Side home button home page (only exists on home page)
-  if (!window.location.href.includes("/watch?")) {
-    hideDOMContent(
-      "ytd-mini-guide-renderer [title='Home']",
-      "Side Home Button - home page"
-    );
-  }
+  //     // Side Home Button
+  //     hideDOMContent(
+  //       "ytd-mini-guide-entry-renderer a[title='Home']",
+  //       "Side Home Button - on guide button click"
+  //     );
+  //   }, 500);
+  // });
+
+  // // Drawer home button - drawer is already opened
+  // if ($("tp-yt-app-drawer").opened) {
+  //   console.log("drawer opened");
+  //   hideDOMContent(
+  //     "#guide-inner-content [title='Home']",
+  //     "Home Button - Drawer Opened"
+  //   );
+  // }
+
+  // // Side home button home page (only exists on home page)
+  // if (!window.location.href.includes("/watch?")) {
+  //   hideDOMContent(
+  //     "ytd-mini-guide-renderer [title='Home']",
+  //     "Side Home Button - home page"
+  //   );
+  // }
 }
 
 /**
@@ -125,6 +184,9 @@ function hideHomeButton() {
  * @returns {void}
  *
  * @example hideShortsButton();
+ *
+ * SHORTS BUTTON: .ytd-mini-guide-renderer[role="tab"]:has([title="Shorts"])
+ * SHORTS BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has([title="Shorts"])
  *
  * FIXME: unreliable sometimes - needs further testing
  */
@@ -180,6 +242,10 @@ function hideShortsButton() {
  * @example hideShortsContent();
  *
  * @notes applies to home & playback pages
+ *
+ * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
+ * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
+ * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
  */
 function hideShortsContent() {
   // Hides shorts button as well
@@ -228,6 +294,8 @@ function hideShortsContent() {
  * @example hideSearchBar();
  *
  * @notes applies to home & playback pages
+ *
+ * SEARCH BAR: #center:has(#search)
  */
 function hideSearchBar() {
   hideDOMContent("#center:has(#search)", "Search Bar");
@@ -243,6 +311,15 @@ function hideSearchBar() {
  * @example hideVideoRecommendations();
  *
  * @notes applies to home & playback pages
+ *
+ * Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
+ *
+ * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
+ * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
+ * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
+ * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
+ * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
+ * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
  */
 function hideVideoRecommendations() {
   if (window.location.href.includes("/watch?")) {
@@ -295,8 +372,14 @@ function hideVideoRecommendations() {
  * @example disableInfiniteRecommendations();
  *
  * @notes applies to home & playback pages
+ *
+ * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+ * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  */
 function disableInfiniteRecommendations() {
+  if (true) {
+    let;
+  }
   hideDOMContent(
     "#primary ytd-continuation-item-renderer",
     "Infinite Video Recommendations"
@@ -311,6 +394,8 @@ function disableInfiniteRecommendations() {
  * @returns {void}
  *
  * @example hideSkipButton();
+ *
+ * SKIP VIDEO BUTTON: .ytp-next-button
  */
 function hideSkipButton() {
   hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
@@ -327,6 +412,8 @@ function hideSkipButton() {
  *
  * @notes applies to playback and shorts pages
  *
+ * COMMENTS SECTION on PLAYBACK: #comments
+ * COMMENTS SECTION on SHORTS: #comments-button
  * FIXME: comments sometimes takes too long to load in
  */
 function hideComments() {
@@ -350,6 +437,19 @@ function hideComments() {
 }
 
 /**
+ * Checks if both the shorts content and video recommendations settings are active
+ *
+ * @name isShortsAndRecommDisabled
+ *
+ * @returns {boolean}
+ *
+ * @example isShortsAndRecommDisabled();
+ *
+ * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
+ */
+async function isShortsAndRecommDisabled() {}
+
+/**
  * Retrieves and applies all active limitations to current web page
  *
  * @name applyActiveLimitations
@@ -358,79 +458,75 @@ function hideComments() {
  *
  * @example applyActiveLimitations();
  */
-function applyActiveLimitations() {
+async function applyActiveLimitations() {
   if (window.location.href.includes("youtube.com")) {
-    setTimeout(async () => {
-      try {
-        // Get only active limitations from storage
-        let allActiveLimitations = await filterRecordsGlobal(
-          "youtube-limitations",
-          "active",
-          true
-        );
+    // setTimeout(async () => {
+    try {
+      // Get only active limitations from storage
+      let allActiveLimitations = await filterRecordsGlobal(
+        "youtube-limitations",
+        "active",
+        true
+      );
 
-        console.log(allActiveLimitations);
+      console.log(allActiveLimitations);
 
-        // Iterate through active limitations to apply to current web page
-        for (let index in allActiveLimitations) {
-          // Limitation name property from storage
-          const currentLimitation = allActiveLimitations[index].name;
+      // Iterate through active limitations to apply to current web page
+      for (let index in allActiveLimitations) {
+        // Limitation name property from storage
+        const currentLimitation = allActiveLimitations[index].name;
 
-          // Run hide/disable function that corresponds with the current limitation name
-          switch (currentLimitation) {
-            case "all-pages":
-              if (window.location.href.includes("youtube.com/")) {
-                redirectUser();
-              }
-              break;
-            case "home-page":
+        // Run hide/disable function that corresponds with the current limitation name
+        switch (currentLimitation) {
+          case "all-pages":
+            if (window.location.href.includes("youtube.com/")) {
+              redirectUser();
+            }
+            break;
+          case "home-page":
+            if (window.location.href === "https://www.youtube.com/") {
+              redirectUser();
+            } else {
               hideHomeButton();
-
-              if (window.location.href === "https://www.youtube.com/") {
-                redirectUser();
-              }
-              break;
-            case "shorts-page":
+            }
+            break;
+          case "shorts-page":
+            if (window.location.href.includes("youtube.com/shorts")) {
+              redirectUser();
+            } else {
               hideShortsButton();
-
-              if (window.location.href.includes("youtube.com/shorts")) {
-                redirectUser();
-              }
-              break;
-            case "home-button":
-              hideHomeButton();
-              break;
-            case "shorts-button":
-              hideShortsButton();
-              break;
-            case "shorts-content":
-              hideShortsContent();
-              break;
-            case "search-bar":
-              hideSearchBar();
-              break;
-            case "infinite-recommendations":
-              disableInfiniteRecommendations();
-              break;
-            case "video-recommendations":
-              hideVideoRecommendations();
-              break;
-            case "skip-button":
-              if (window.location.href.includes("/watch?")) {
-                hideSkipButton();
-              }
-              break;
-            case "comments-section":
-              if (window.location.href.includes("/watch?")) {
-                hideComments();
-              }
-              break;
-          }
+            }
+            break;
+          case "home-button":
+            hideHomeButton();
+            break;
+          case "shorts-button":
+            hideShortsButton();
+            break;
+          case "shorts-content":
+            hideShortsContent();
+            break;
+          case "search-bar":
+            hideSearchBar();
+            break;
+          case "infinite-recommendations":
+            disableInfiniteRecommendations();
+            break;
+          case "video-recommendations":
+            hideVideoRecommendations();
+            break;
+          case "skip-button":
+            hideSkipButton();
+            break;
+          case "comments-section":
+            hideComments();
+            break;
         }
-      } catch (error) {
-        console.error(error.message);
       }
-    }, 2000);
+    } catch (error) {
+      console.error(error.message);
+    }
+    // }, 2000);
   }
 }
 /** !SECTION */

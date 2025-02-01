@@ -189,6 +189,11 @@ $(document).ready(function () {
     }
 
     // TODO: depends on pause on inactive global variable, activate this
+    // let activePauseOnBlur = await filterRecordsGlobal(
+    //   "misc-settings",
+    //   "pause-video-on-blur",
+    //   true
+    // );
     // Gets video's play/pause button to simulate a mouse click on it
     // const playButton = document
     //   .getElementsByClassName("ytp-play-button ytp-button")
