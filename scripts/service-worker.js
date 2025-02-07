@@ -57,6 +57,17 @@ const database = {
     },
   ],
 
+  ["spoiler-free"]: [
+    {
+      id: 1,
+      name: "Marvel Spoiler Free",
+      desc: "Tom Holland can't spoiler now.",
+      active: true,
+      keywords: ["Marvel", "Avengers", "Captain America", "Secret Wars"],
+      color: "#178220",
+    },
+  ],
+
   ["preferred-creators"]: [],
 
   ["misc-settings"]: [
@@ -242,78 +253,78 @@ const database = {
       id: 1,
       name: "home-page",
       active: false,
-      type: "block",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 2,
       name: "shorts-page",
       active: false,
-      type: "block",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 3,
       name: "home-button",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 4,
       name: "shorts-button",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 5,
-      name: "shorts-content",
+      name: "shorts-recom",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 6,
       name: "search-bar",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 7,
-      name: "video-recommendations",
+      name: "video-recom",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 8,
-      name: "infinite-recommendations",
+      name: "video-recom",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 9,
       name: "skip-button",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 10,
       name: "comments-section",
       active: false,
-      type: "hide",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
     {
       id: 11,
       name: "all-pages",
       active: false,
-      type: "block",
-      "quick-add": false,
+      popup: false,
+      followSchedule: false,
     },
   ],
 
@@ -330,6 +341,7 @@ chrome.storage.sync.get(
     "schedules",
     "preferred-creators",
     "additional-websites",
+    "spoiler-free",
   ],
   (result) => {
     if (!result["misc-settings"]) {
@@ -345,6 +357,11 @@ chrome.storage.sync.get(
     if (!result["watch-modes"]) {
       chrome.storage.sync.set({
         "watch-modes": database["watch-modes"],
+      });
+    }
+    if (!result["spoiler-free"]) {
+      chrome.storage.sync.set({
+        "spoiler-free": database["spoiler-free"],
       });
     }
     if (!result["watch-times"]) {
@@ -462,7 +479,7 @@ async function filterRecords(table, property, value) {
  *
  * @returns {void} Returns nothing
  *
- * @example insertRecords("youtube-limitations", [{ quick-add: true }]);
+ * @example insertRecords("youtube-limitations", [{ popup: true }]);
  *
  * @notes omit id property when calling this as that is calculated in this function
  */
@@ -537,7 +554,7 @@ function updateRecords(table, records) {
  *
  * @returns {void} Returns nothing
  *
- * @example updateRecordByProperty("youtube-limitations", "name", "home-button", { quick-add: true });
+ * @example updateRecordByProperty("youtube-limitations", "name", "home-button", { popup: true });
  *
  * @notes Ideal to use a unique property identifier, because using a property with the same value among
  *  multiple values will result in only the first record to be updated

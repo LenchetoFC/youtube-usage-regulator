@@ -19,210 +19,168 @@
 /**
  * Get all active youtube limitations settings
  *
- * @name getActiveLimitations
+ * @name getActiveSettings
  * @async
  *
  * @returns {Array} Returns array of records with active values
  *
- * @example let allQuickActiviations = getActiveLimitations();
+ * @example const allQuickActiviations = getActiveSettings();
  */
-async function getActiveLimitations() {
-  let allActiveLimitations = await filterRecordsGlobal(
-    "youtube-limitations",
-    "active",
-    true
-  );
+async function getActiveSettings() {
+  // Define the properties to check
+  const propertiesToCheck = ["active", "followSchedule", "popup"];
 
-  return allActiveLimitations;
-}
+  // Create a Set to store unique active records
+  const uniqueActiveRecords = new Set();
 
-/**
- * Get all active quick activations for youtube limitations
- *
- * @name getActiveQuickActivations
- * @async
- *
- * @returns {Array} Returns array of records with active quick activations
- *
- * @example let allQuickActiviations = getActiveQuickActivations();
- */
-async function getActiveQuickActivations() {
-  let allQuickActivations = filterRecordsGlobal(
-    "youtube-limitations",
-    "quick-add",
-    true
-  );
+  for (const property of propertiesToCheck) {
+    const activeRecords = await filterRecordsGlobal(
+      "youtube-limitations",
+      property,
+      true
+    );
 
-  return allQuickActivations;
+    // Add each active record to the Set
+    activeRecords.forEach((record) => uniqueActiveRecords.add(record));
+  }
+
+  // Convert the Set to an array to return the records
+  return Array.from(uniqueActiveRecords);
 }
 
 /**
  * Get all settings that have been changed in the form (class name)
+ * and groups all related settings by name to fit the database schema
+ * and be more efficient
  *
- * @name getLimitationChoices
+ * @name getChangedSettings
  *
  * @returns {Array} Returns an array converted from an object of changed settings properties
  *                  necessary for updating storage
  *
- * @example const limitationChoices = getLimitationChoices();
+ * @example const limitationChoices = getChangedSettings();
  */
-function getLimitationChoices() {
-  return $("#limitation-settings fieldset input.changed")
-    .map(function () {
-      return {
-        name: this.name,
-        id: parseInt(this.value),
-        isActive: this.checked,
-        isQuickAdd: this.name.includes("quick"),
-      };
-    })
-    .get();
+function getChangedSettings() {
+  const $changedInputs = $("#youtube-limitations fieldset input.changed");
+
+  let groupedByName = {};
+
+  for (const limitation of $changedInputs) {
+    const $id = $(limitation).val();
+    const $option = $(limitation).attr("data-option");
+    const $name = $(limitation).attr("data-name");
+    const $isChecked = $(limitation).is(":checked");
+
+    if (!groupedByName[$name]) {
+      groupedByName[$name] = {};
+    }
+
+    groupedByName[$name]["id"] = parseInt($id);
+    groupedByName[$name][$option] = $isChecked;
+  }
+
+  return groupedByName;
 }
 
 /**
- * Get all limitations settings that is used to clear all settings
+ * Updates limitations in local chrome database
  *
- * @name getLimitationInputs
+ * @name updateDatabase
+ * @async
  *
- * @returns {Array} Returns an array converted from an object of changed settings properties
- *                  necessary for updating storage
+ * @param {Array} newRecord - object of new setting record
  *
- * @example const limitationInputs = getLimitationInputs();
+ * @returns {boolean} Returns validity value
+ *
+ * @example const newRecord = {name: 'home-page-popup', id: 1, isActive: true,
+ *                              isQuickAdd: true};
+ *          let result = updateDatabase(newRecord);
  */
-function getLimitationInputs() {
-  return $("#limitation-settings fieldset input")
-    .map(function () {
-      return {
-        name: this.name,
-        id: parseInt(this.value),
-        isActive: this.checked,
-        isQuickAdd: this.name.includes("quick"),
-      };
-    })
-    .get();
-}
-
-//
-async function updateLimitationsDB(limitation, isQuickAdd) {
+async function updateDatabase(newRecord) {
   try {
-    let property = isQuickAdd ? "quick-add" : "active";
-    let result = await updateRecordByPropertyGlobal(
+    const result = await updateRecordByPropertyGlobal(
       "youtube-limitations",
       "id",
-      limitation.id,
-      {
-        [property]: limitation.isActive,
-      }
+      newRecord.id,
+      newRecord
     );
-
-    console.log(result);
 
     return result;
   } catch (error) {
-    return { error: true, message: error };
+    console.log(error);
+    return { error: true, message: error.message };
   }
 }
 
 /**
  * Iterates through all changes limitation choices and then calls function to update database
  *
- * @name updateSettingsDB
+ * @name prepareDatabaseUpdate
  * @async
  *
- * @param {Array} limitationChoices - array of settings records
+ * @param {Array} newRecords - array of settings records
  *
  * @returns {boolean} Returns validity value
  *
- * @example const settings = [{name: 'home-page-quick', id: 1, isActive: true, isQuickAdd: true}, {name: 'shorts-page-quick', id: 2, isActive: true, isQuickAdd: true}];
- *          let isValid = updateSettingsDB(settings);
+ * @example const newRecords = [{name: 'home-page-popup', id: 1, isActive: true,
+ *                              isQuickAdd: true}, {name: 'shorts-page-popup',
+ *                              id: 2, isActive: true, isQuickAdd: true
+ *                            }];
+ *          let isValid = prepareDatabaseUpdate(newRecords);
  */
-async function updateSettingsDB(limitationChoices) {
+async function prepareDatabaseUpdate(newRecords) {
   try {
-    let updateLimitationsResult;
+    let updateResult;
 
-    for (const limitation of limitationChoices) {
+    console.log(newRecords);
+
+    for (const key in newRecords) {
       // Updates limitations in database
-      updateLimitationsResult = await updateLimitationsDB(
-        limitation,
-        limitation.isQuickAdd
-      );
+      const newRecord = newRecords[key];
+      updateResult = await updateDatabase(newRecord);
 
       // Throws error if there are any problems updating
-      if (updateLimitationsResult.error) {
-        throw { error: true, message: updateLimitationsResult.message };
+      if (updateResult.error) {
+        throw { error: true, message: updateResult.message };
       }
-
-      return updateLimitationsResult;
     }
+
+    return updateResult;
   } catch (error) {
-    console.error(error);
-    return error;
+    console.error(error.message);
+
+    return { error: true, message: error.message };
   }
 }
-
-async function updateYouTubeUIDemo() {
-  // Gets active limitation settings
-  let activeLimitations = await getActiveLimitations();
-
-  // Updates the YouTube UI Demo
-  for (let limitation of activeLimitations) {
-    $("#limitation-settings fieldset input").each(function () {
-      if (limitation.active) {
-        $(`#limitation-demos .${limitation.name}`).slideUp();
-      } else {
-        $(`#limitation-demos .${limitation.name}`).slideDown();
-      }
-    });
-  }
-}
-
-/** !SECTION */
 
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
-  /**
-   * ONLOAD FUNCTION CALL: Get all active youtube limitation records, toggle active checkboxes, and update YT UI example
-   *
-   * @name getActiveLimitations
-   * @async
-   *
-   * @returns {void}
-   */
-  updateYouTubeUIDemo();
-
-  /**
-   * ONLOAD FUNCTION CALL: Get all active quick activations records, toggle active quick activation checkboxes
-   * @name getActiveQuickActivations
-   * @async
-   *
-   * @returns {void}
-   */
-  getActiveQuickActivations()
-    .then((data) => {
-      for (let index in data) {
-        // Auto-checks corresponding checkbox input
-        $(`#${data[index].name}-quick`).attr("checked", true);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  // updateYouTubeUIDemo();
 
   /**
    * ONLOAD FUNCTION CALL: Get all active limitation records, toggle active limitation checkboxes, and update YT UI example
    *
-   * @name getActiveLimitations
+   * @name getActiveSettings
    * @async
    *
    * @returns {void}
    */
-  getActiveLimitations()
+  getActiveSettings()
     .then((data) => {
-      for (let index in data) {
+      for (const index in data) {
+        const followScheduleVal = data[index].followSchedule;
+        const activeVal = data[index].active;
+        const popupVal = data[index].popup;
+        console.log(data[index]);
         // Auto-checks corresponding checkbox input
-        $(`#${data[index].name}`).attr("checked", true);
+        $(`input[name=${data[index].name}-active]`).attr("checked", activeVal);
+        $(`input[name=${data[index].name}-followSchedule]`).attr(
+          "checked",
+          followScheduleVal
+        );
+        $(`input[name=${data[index].name}-popup]`).attr("checked", popupVal);
       }
     })
     .catch((error) => {
@@ -236,17 +194,17 @@ $(document).ready(function () {
    *
    * This event listener toggles the "changed" class on checkboxes and displays a notification if there are unsaved changes.
    */
-  $('#limitation-settings input[type="checkbox"]').on("click", function () {
+  $('#youtube-limitations input[type="checkbox"]').on("click", function () {
     // Toggle the "changed" class on the clicked checkbox
     $(this).toggleClass("changed");
 
-    // Check if any inputs within #limitation-settings have the "changed" class
-    const hasChanged = $(
-      '#limitation-settings input[type="checkbox"]'
+    // Check if any inputs within #youtube-limitations have the "changed" class
+    const $changedCheckbox = $(
+      '#youtube-limitations input[type="checkbox"]'
     ).hasClass("changed");
 
     // Fade in or fade out the unsaved message based on the presence of the "changed" class
-    if (hasChanged) {
+    if ($changedCheckbox) {
       displayNotifications(
         "Ensure to Save your Changed Settings.",
         "#fc0",
@@ -264,19 +222,21 @@ $(document).ready(function () {
    *
    * This event listener saves the restrictive settings and displays a status message based on the outcome.
    */
-  $("#save-limitations").on("click", function () {
+  $("#save-limitations").on("click", function (event) {
+    event.preventDefault();
+
     // Disable the save button
     toggleButtonAnimation("#save-limitations", true);
 
     // Hide unsaved message
     $("#notif-msg").fadeOut();
 
-    console.log("saving limitations...");
+    console.log("Saving Limitations...");
 
     // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
-    const limitationChoices = getLimitationChoices();
+    const newRecords = getChangedSettings();
 
-    if (limitationChoices.length == 0) {
+    if (Object.keys(newRecords).length == 0) {
       displayNotifications("No Changes to Save.", "#40a6ce", "info", 2500);
 
       // Re-enable button after animation
@@ -284,18 +244,18 @@ $(document).ready(function () {
 
       return;
     } else {
-      $('#limitation-settings input[type="checkbox"]').removeClass("changed");
+      $('#youtube-limitations input[type="checkbox"]').removeClass("changed");
     }
 
     setTimeout(async function () {
       // Iterates through changed settings to update accordingly
-      let updateSettingsResults = await updateSettingsDB(limitationChoices);
+      const updateResult = await prepareDatabaseUpdate(newRecords);
 
       // Updates YouTube UI demos according to new settings
-      updateYouTubeUIDemo();
+      // updateYouTubeUIDemo();
 
       // Start animation on status message, depending saving outcome
-      if (!updateSettingsResults.error) {
+      if (!updateResult.error) {
         displayNotifications(
           "Saved Settings Successfully!",
           "#390",
@@ -304,8 +264,8 @@ $(document).ready(function () {
         );
       } else {
         displayNotifications(
-          // "Unsuccessfully Saved. Try Again Later.",
-          updateSettingsResults.message,
+          "Unsuccessfully Saved. Check Error Logs.",
+          // updateSettingsResults.message,
           "#d92121",
           "release_alert",
           5000
@@ -324,15 +284,28 @@ $(document).ready(function () {
    * It asks the user to confirm the action before proceeding.
    */
   $("#clear-settings").on("click", async function () {
+    /**
+     * Unchecks limitation inputs
+     *
+     * This function unchecks all limitation inputs by setting their checked property to false.
+     */
+    function uncheckLimitationBoxes() {
+      const $limitationCheckboxes = $("#youtube-limitations fieldset input");
+
+      $limitationCheckboxes.each(function (_, element) {
+        $(`#${element.name}`).prop("checked", false);
+      });
+    }
+
     try {
       // Ask user to confirm choice
       if (window.confirm("Confirm to reset ALL settings...")) {
         // Sets all checkboxes to unchecked
-        clearLimitationInputs();
+        uncheckLimitationBoxes();
 
-        const result = await resetTableGlobal("youtube-limitations");
+        const resetResult = await resetTableGlobal("youtube-limitations");
 
-        if (!result.error) {
+        if (!resetResult.error) {
           displayNotifications(
             "Cleared Settings Successfully!",
             "#390",
@@ -341,9 +314,9 @@ $(document).ready(function () {
           );
 
           // Updates the YouTube UI Demo all at once
-          updateYouTubeUIDemo();
+          // updateYouTubeUIDemo();
         } else {
-          displayNotifications(result.message, "#d92121", "error", 5000);
+          displayNotifications(resetResult.message, "#d92121", "error", 5000);
         }
       }
     } catch (error) {
@@ -352,16 +325,87 @@ $(document).ready(function () {
   });
 
   /**
-   * Clear limitation inputs
+   * Controls 'see more' options button
    *
-   * This function clears all limitation inputs by setting their checked property to false.
+   * This event listener expands and collapse the see-more-container, updates see-more text,
+   * and switches icon for the limitation settings
    */
-  function clearLimitationInputs() {
-    let limitationInputs = $("#limitation-settings fieldset input");
+  $(".see-more-button").on("click", function (event) {
+    // Prevent standard button behavior
+    event.preventDefault();
 
-    limitationInputs.each(function (_, element) {
-      $(`#${element.name}`).prop("checked", false);
+    const $button = $(this);
+    const $container = $button.siblings(".see-more-container");
+    const $seeMoreTextElement = $button.find("span#see-more-text");
+    const $icon = $button.find(".material-symbols-rounded");
+
+    // Check if the container is expanded
+    const isExpanded = $container.attr("aria-expanded") === "true";
+
+    // Toggle text and icon
+    $seeMoreTextElement.text(isExpanded ? "more" : "less");
+    $icon.toggle();
+
+    // Toggle container visibility
+    $container.slideToggle({
+      duration: 300,
+      easing: "swing",
+      complete: function () {
+        $container.attr("aria-expanded", !isExpanded);
+      },
     });
-  }
+  });
 });
 /** !SECTION */
+
+/** SECTION - DISABLED CODE */
+// /**
+//  * updateYouTubeUIDemo()
+//  * Gets the most up-to-date active limitations and then removes any corresponding
+//  * UI element according to active settings
+//  *
+//  * NOTE: Working, but disabled while the demo UI is still being reworked
+//  */
+// // async function updateYouTubeUIDemo() {
+// //   // Gets active limitation settings
+// //   const activeLimitations = await getActiveSettings();
+
+// //   // Updates the YouTube UI Demo
+// //   for (const limitation of activeLimitations) {
+// //     $("#youtube-limitations fieldset input").each(function () {
+// //       if (limitation.active) {
+// //         $(`#limitation-demos .${limitation.name}`).slideUp();
+// //       } else {
+// //         $(`#limitation-demos .${limitation.name}`).slideDown();
+// //       }
+// //     });
+// //   }
+// // }
+
+// /**
+//  * loadLayoutDemos()
+//  * Loads youtube layout demo html from separate files to save space
+//  * and maintain readability on settings-yt-limitations.html
+//  *
+//  * NOTE: Working, but disabled while the demo UI is still being reworked
+//  */
+// // function loadLayoutDemos() {
+// //   const demoNames = ["homepage", "playback"];
+
+// //   for (const name of demoNames) {
+// //     const target = document.querySelector(`#yt-demo-${name}`);
+
+// //     fetch(`/html/yt-demo-${name}.html`)
+// //       .then((res) => {
+// //         if (res.ok) {
+// //           return res.text();
+// //         }
+// //       })
+// //       .then((demoLayout) => {
+// //         target.innerHTML = demoLayout;
+// //       });
+// //   }
+// // }
+// // loadLayoutDemos();
+
+// /** !SECTION */

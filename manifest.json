@@ -10,7 +10,7 @@
     "128": "/images/icon-logo-ext-128.png"
   },
   "action": {
-    "default_popup": "/html/popup.html",
+    "default_popup": "/popup.html",
     "default_icon": "/images/icon-logo-ext.png"
   },
   "author": {
