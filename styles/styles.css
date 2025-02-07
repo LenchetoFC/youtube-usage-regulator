@@ -127,7 +127,7 @@ body {
   overflow: hidden;
 }
 
-main > * {
+main > *:not(.widget-container) {
   padding: 0rem 2rem;
   width: 100%;
   max-width: 125rem;
@@ -279,17 +279,6 @@ main {
 
   /* width: 100%; */
   height: inherit;
-}
-
-#dashboard {
-  padding: 0 2rem 2rem;
-  overflow-y: auto;
-
-  main {
-    padding-bottom: 1.6rem;
-    gap: 1.6rem;
-    /* height: 100dvh; */
-  }
 }
 
 header.page-header {
@@ -904,7 +893,7 @@ legend {
   padding: 0;
 }
 
-form#youtube-limitations {
+form.settings-form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -912,14 +901,14 @@ form#youtube-limitations {
   align-items: flex-start;
 }
 
-form#youtube-limitations fieldset {
+form.settings-form fieldset {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
   align-items: flex-start;
 }
 
-form#youtube-limitations fieldset legend {
+form.settings-form fieldset legend {
   margin-bottom: 1.2rem;
 }
 
@@ -1221,6 +1210,7 @@ button[type="submit"]:disabled:hover {
   min-width: 50rem;
   flex-direction: column;
   /* flex: 1 0 0; */
+  padding: 0 1.2rem;
 }
 
 /* dashboard.html & settings.html */
@@ -2198,7 +2188,7 @@ body:is(.popup) {
 }
 
 @media screen and (min-width: 1300px) {
-  section:has(> #youtube-limitations) {
+  section:has(> .settings-form) {
     flex-wrap: nowrap;
   }
 }

@@ -14,16 +14,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
+      content="Review important information regarding your YouTube usage, restriction schedules, and more!"
     />
-    <title>Restrict the Tube Dashboard</title>
+    <title>Dashboard | RTT</title>
 
     <link rel="stylesheet" href="/styles/styles.css" />
-    <!-- <link rel="stylesheet" href="/styles/jquery-confirm.min.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Lunasima:wght@400;700&family=Outfit:wght@100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
       rel="stylesheet"
     />
     <link
@@ -32,38 +35,263 @@
     />
   </head>
 
-  <body class="settings" id="dashboard">
+  <body id="dashboard">
     <div id="overlay"></div>
-    <nav>
-      <span class="nav-logo">
-        <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
+    <!-- Notification Container - ABSOLUTE POSITIONED-->
+    <span id="notif-msg">
+      <span class="material-symbols-rounded">info</span>
+      <p>Message Text</p>
+    </span>
+
+    <!-- Schedule Event Overlay -->
+    <div popover id="popover-schedule-event" class="popover">
+      <header>
+        <h1>YouTube Restricted</h1>
+      </header>
+
+      <form action="" method="" class="content" id="schedule-form">
+        <span class="overlay-buttons" id="schedule-day-options">
+          <!-- Sunday -->
+          <label class="side-checkbox-container" for="sunday">
+            <input id="sunday" name="sunday" type="checkbox" value="0" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Sun</h1>
+          </label>
+
+          <!-- Monday -->
+          <label class="side-checkbox-container" for="monday">
+            <input id="monday" name="monday" type="checkbox" value="1" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Mon</h1>
+          </label>
+
+          <!-- Tuesday -->
+          <label class="side-checkbox-container" for="tuesday">
+            <input id="tuesday" name="tuesday" type="checkbox" value="2" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Tue</h1>
+          </label>
+
+          <!-- Wednesday -->
+          <label class="side-checkbox-container" for="wednesday">
+            <input id="wednesday" name="wednesday" type="checkbox" value="3" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Wed</h1>
+          </label>
+
+          <!-- Thursday -->
+          <label class="side-checkbox-container" for="thursday">
+            <input id="thursday" name="thursday" type="checkbox" value="4" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Thu</h1>
+          </label>
+
+          <!-- Friday -->
+          <label class="side-checkbox-container" for="friday">
+            <input id="friday" name="friday" type="checkbox" value="5" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Fri</h1>
+          </label>
+
+          <!-- Saturday -->
+          <label class="side-checkbox-container" for="saturday">
+            <input id="saturday" name="saturday" type="checkbox" value="6" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Sat</h1>
+          </label>
+        </span>
+
+        <hr class="horizontal-line" />
+
+        <span class="schedule-options" id="schedule-options">
+          <label class="side-checkbox-container" for="all-day">
+            <input
+              id="all-day"
+              name="all-day"
+              type="checkbox"
+              value="all-day"
+            />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">All Day</h1>
+          </label>
+
+          <label class="side-checkbox-container" for="additionalSites">
+            <input
+              id="additionalSites"
+              name="additionalSites"
+              type="checkbox"
+              value="1"
+            />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+            <h1 class="checkbox-label">Include Additional Websites</h1>
+          </label>
+        </span>
+
+        <div id="new-time-container" class="time-container">
+          <div class="schedule-new-time" id="first-time-selection-new">
+            <input
+              id="startTime"
+              name="startTime"
+              placeholder="Start time"
+              type="time"
+              required
+            />
+            <div>-</div>
+            <input
+              id="endTime"
+              name="endTime"
+              placeholder="End time"
+              type="time"
+              required
+            />
+          </div>
+        </div>
+
+        <hr class="horizontal-line" />
+
+        <span class="overlay-buttons">
+          <button
+            class="text-button underline-hover cancel"
+            id="delete-schedule"
+          >
+            <p>Delete Schedule</p>
+          </button>
+
+          <span class="group-of-buttons">
+            <button
+              class="text-button underline-hover cancel"
+              data-popover="popover-schedule-event"
+              id="cancel-schedule"
+            >
+              <p>Cancel</p>
+            </button>
+            <span>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="save-schedule"
+              >
+                Save Schedule
+              </button>
+            </span>
+            <span>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="update-schedule"
+              >
+                Update Schedule
+              </button>
+            </span>
+          </span>
+        </span>
+      </form>
+    </div>
+
+    <!-- Side Nav Bar -->
+    <aside>
+      <div class="nav-logo">
+        <img
+          src="/images/icon-logo-ext-128.png"
+          alt="YouTube Extension logo"
+          class="medium-img"
+        />
         <p>Restrict the Tube</p>
-      </span>
+      </div>
 
-      <ul>
-        <li>
-          <a href="dashboard.html" class="underline-hover current-page">
-            <span
-              class="material-symbols-rounded"
-              alt="Icon for widget dashboard page"
-              >dashboard</span
-            >
-            <p>Dashboard</p>
-          </a>
-        </li>
+      <!-- YouTube Account -->
+      <div class="flex-col eight-spacing dead-center max-width">
+        <span class="material-symbols-rounded large-icon">account_circle</span>
 
-        <li>
-          <a class="underline-hover" href="settings.html">
-            <span
-              class="material-symbols-rounded"
-              alt="Gear icon for settings page"
-              >settings</span
-            >
-            <p>Settings</p>
-          </a>
-        </li>
-      </ul>
-    </nav>
+        <div class="flex-col dead-center">
+          <p>Account Name</p>
+          <p class="subtext">@accountName</p>
+        </div>
+      </div>
+
+      <button id="connect-account" class="button-brand">
+        <span class="material-symbols-rounded">person</span>
+        <p>Connect Account</p>
+      </button>
+
+      <!-- Nav List -->
+      <nav>
+        <ul>
+          <!-- Dashboard Link -->
+          <li>
+            <a href="#" class="current-page">
+              <span class="material-symbols-rounded">dashboard</span>
+              <p>Dashboard</p>
+            </a>
+          </li>
+
+          <!-- Youtube Limitations Link -->
+          <li>
+            <a href="/settings/settings-yt-limitations.html">
+              <span class="material-symbols-rounded">block</span>
+              <p>YouTube Limitations</p>
+            </a>
+          </li>
+
+          <!-- General Website Blocker Link -->
+          <li>
+            <a href="/settings/settings-gen-website-blocker.html">
+              <span class="material-symbols-rounded">do_not_disturb_on</span>
+              <p>Gen. Website Blocker</p>
+            </a>
+          </li>
+
+          <!-- Spoiler Free YouTube Link -->
+          <li>
+            <a href="/settings/settings-spoiler-free.html">
+              <span class="material-symbols-rounded">visibility_off</span>
+              <p>Spoiler Free YouTube</p>
+            </a>
+          </li>
+
+          <!-- Watch Modes Link -->
+          <li>
+            <a href="/settings/settings-watch-modes.html">
+              <span class="material-symbols-rounded">live_tv</span>
+              <p>Watch Modes</p>
+            </a>
+          </li>
+
+          <!-- Prioritzed Subscriptions Link -->
+          <li>
+            <a href="/settings/settings-prioritized-subscriptions.html">
+              <span class="material-symbols-rounded">subscriptions</span>
+              <p>Prioritized Subscriptions</p>
+            </a>
+          </li>
+        </ul>
+
+        <a href="#">
+          <span class="material-symbols-rounded">help</span>
+          <p>Found a Bug?</p>
+        </a>
+      </nav>
+    </aside>
 
     <main>
       <!-- First Row -->
@@ -266,182 +494,6 @@
           <!-- FullCalendar Library Calendar -->
           <div id="calendar"></div>
         </section>
-      </div>
-
-      <!-- ABSOLUTE POSITIONED Notification Container -->
-      <span id="notif-msg">
-        <span class="material-symbols-rounded">info</span>
-        <p>Message Text</p>
-      </span>
-
-      <!-- Schedule Event Overlay -->
-      <div popover id="popover-schedule-event" class="popover">
-        <header>
-          <h1>YouTube Restricted</h1>
-        </header>
-
-        <form action="" method="" class="content" id="schedule-form">
-          <span class="overlay-buttons" id="schedule-day-options">
-            <!-- Sunday -->
-            <label class="side-checkbox-container" for="sunday">
-              <input id="sunday" name="sunday" type="checkbox" value="0" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Sun</h1>
-            </label>
-
-            <!-- Monday -->
-            <label class="side-checkbox-container" for="monday">
-              <input id="monday" name="monday" type="checkbox" value="1" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Mon</h1>
-            </label>
-
-            <!-- Tuesday -->
-            <label class="side-checkbox-container" for="tuesday">
-              <input id="tuesday" name="tuesday" type="checkbox" value="2" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Tue</h1>
-            </label>
-
-            <!-- Wednesday -->
-            <label class="side-checkbox-container" for="wednesday">
-              <input
-                id="wednesday"
-                name="wednesday"
-                type="checkbox"
-                value="3"
-              />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Wed</h1>
-            </label>
-
-            <!-- Thursday -->
-            <label class="side-checkbox-container" for="thursday">
-              <input id="thursday" name="thursday" type="checkbox" value="4" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Thu</h1>
-            </label>
-
-            <!-- Friday -->
-            <label class="side-checkbox-container" for="friday">
-              <input id="friday" name="friday" type="checkbox" value="5" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Fri</h1>
-            </label>
-
-            <!-- Saturday -->
-            <label class="side-checkbox-container" for="saturday">
-              <input id="saturday" name="saturday" type="checkbox" value="6" />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Sat</h1>
-            </label>
-          </span>
-
-          <hr class="horizontal-line" />
-
-          <span class="schedule-options" id="schedule-options">
-            <label class="side-checkbox-container" for="all-day">
-              <input
-                id="all-day"
-                name="all-day"
-                type="checkbox"
-                value="all-day"
-              />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">All Day</h1>
-            </label>
-
-            <label class="side-checkbox-container" for="additionalSites">
-              <input
-                id="additionalSites"
-                name="additionalSites"
-                type="checkbox"
-                value="1"
-              />
-              <span class="checkmark">
-                <span class="material-symbols-rounded">check</span>
-              </span>
-              <h1 class="checkbox-label">Include Additional Websites</h1>
-            </label>
-          </span>
-
-          <div id="new-time-container" class="time-container">
-            <div class="schedule-new-time" id="first-time-selection-new">
-              <input
-                id="startTime"
-                name="startTime"
-                placeholder="Start time"
-                type="time"
-                required
-              />
-              <div>-</div>
-              <input
-                id="endTime"
-                name="endTime"
-                placeholder="End time"
-                type="time"
-                required
-              />
-            </div>
-          </div>
-
-          <hr class="horizontal-line" />
-
-          <span class="overlay-buttons">
-            <button
-              class="text-button underline-hover cancel"
-              id="delete-schedule"
-            >
-              <p>Delete Schedule</p>
-            </button>
-
-            <span class="group-of-buttons">
-              <button
-                class="text-button underline-hover cancel"
-                data-popover="popover-schedule-event"
-                id="cancel-schedule"
-              >
-                <p>Cancel</p>
-              </button>
-              <span>
-                <button
-                  type="submit"
-                  value=""
-                  popovertargetaction="toggle"
-                  id="save-schedule"
-                >
-                  Save Schedule
-                </button>
-              </span>
-              <span>
-                <button
-                  type="submit"
-                  value=""
-                  popovertargetaction="toggle"
-                  id="update-schedule"
-                >
-                  Update Schedule
-                </button>
-              </span>
-            </span>
-          </span>
-        </form>
       </div>
     </main>
 

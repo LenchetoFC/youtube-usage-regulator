@@ -655,49 +655,4 @@ $("#overlay").on("click", function () {
   $(this).css("display", "none");
 });
 
-/** SECTION - SEARCH BAR */
-// Focuses on search bar input when the parent container is pressed since input box is invisible
-$(".search-bar").on("click", function () {
-  $("#search-input").trigger("focus");
-});
-
-// Filters all .search-item according to current search bar input
-$("#search-input").on("input", function () {
-  // .search-item is the parent container of each setting option
-  function filterSearchItems() {
-    const inputVal = $(this).val();
-
-    // Hide search items if it does not container search bar input value
-    $(".search-item").each(function () {
-      if (
-        $(this)
-          .find(".fieldset-header")
-          .text()
-          .toLowerCase()
-          .includes(inputVal.toLowerCase())
-      ) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-
-      // If all options in a fieldset are set to display: none, hide the fieldset title as well
-      const $fieldset = $(this).closest("fieldset");
-      if ($(this).css("display") !== "none") {
-        $fieldset.show();
-      } else {
-        const allItemsHidden =
-          $fieldset.find(".search-item").filter(function () {
-            return $(this).css("display") !== "none";
-          }).length === 0;
-        if (allItemsHidden) {
-          $fieldset.hide();
-        }
-      }
-    });
-  }
-
-  filterSearchItems();
-});
-
 /**!SECTION */
