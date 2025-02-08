@@ -18,6 +18,36 @@
  */
 
 /**
+ * loadNavBar()
+ * Loads nav bar layout html from separate files to more easily
+ * update the nav bar whenever all at once for all settings and
+ * dashboard pages
+ *
+ * NOTE: Working, but disabled while the demo UI is still being reworked
+ */
+function loadNavBar() {
+  const $pageId = $("nav.fetch-nav").attr("id");
+  const $navTarget = $(`nav.fetch-nav`);
+
+  fetch(`/modules/nav-bar.html`)
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then((navBarLayout) => {
+      $navTarget.html(navBarLayout);
+    })
+    .then(() => {
+      // Adds current-page styles to nav bar anchor and
+      $("nav")
+        .find(`a[data-id="${$pageId}"]`)
+        .addClass("current-page")
+        .attr("href", "#");
+    });
+}
+
+/**
  * Switch to the selected settings tab page
  *
  * This function hides all non-selected settings sections and fades in the selected section.
@@ -44,6 +74,9 @@ function switchSettingsTab(selectedTabId) {
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
+  // Fetch nav bar from nav-bar.html and insert into page
+  loadNavBar();
+
   /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
   $(".cancel").on("click", function () {
     const popoverId = $(this).attr("data-popover");

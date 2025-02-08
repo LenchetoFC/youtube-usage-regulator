@@ -395,7 +395,7 @@ $(document).ready(function () {
 // //   for (const name of demoNames) {
 // //     const target = document.querySelector(`#yt-demo-${name}`);
 
-// //     fetch(`/html/yt-demo-${name}.html`)
+// //     fetch(`/modules/yt-demo-${name}.html`)
 // //       .then((res) => {
 // //         if (res.ok) {
 // //           return res.text();

@@ -16,7 +16,7 @@
       name="description"
       content="Review important information regarding your YouTube usage, restriction schedules, and more!"
     />
-    <title>Dashboard | RTT</title>
+    <title>Calendar | RTT</title>
 
     <link rel="stylesheet" href="/styles/styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -235,193 +235,24 @@
       </button>
 
       <!-- Nav List -->
-      <nav class="fetch-nav" id="nav-dashboard"></nav>
+      <nav class="fetch-nav" id="nav-schedules"></nav>
     </aside>
 
     <main>
-      <!-- Quick Info -->
-      <div class="widget-container widget-container-row">
-        <!-- TODO: Active Watch Mode Item -->
-        <section class="widget-item top-widget" id="watch-mode-top-widget">
-          <header>
-            <span>
-              <span class="material-symbols-rounded">live_tv</span>
-              <h1>Active Watch Mode</h1>
-            </span>
-
-            <a href="/html/settings.html">
-              <p>Switch Modes</p>
-
-              <span class="material-symbols-rounded"> arrow_right_alt </span>
-            </a>
-          </header>
-
-          <section class="content" id="db-current-watch-mode">
-            <div>
-              <p class="medium-text"></p>
-              <p class="small-text"></p>
-            </div>
-          </section>
-        </section>
-
-        <!-- Video Type Comparisons Item -->
-        <section
-          class="widget-item top-widget"
-          id="video-comparison-top-widget"
-        >
-          <header>
-            <span>
-              <span class="material-symbols-rounded">percent</span>
-              <h1>Watch Percentages</h1>
-            </span>
-          </header>
-
-          <div class="content-container">
-            <section class="content">
-              <p class="medium-text">Long-Form</p>
-              <div class="progress" id="progress-long-form"></div>
-              <!-- <span class="progress-container">
-                <h1>Long-Form</h1>
-                <div class="progress" id="progress-long-form"></div>
-              </span> -->
-            </section>
-
-            <section class="content">
-              <p class="medium-text">Short-Form</p>
-              <div class="progress" id="progress-short-form"></div>
-              <!-- <span class="progress-container">
-                <h1>Short-Form</h1>
-                <div class="progress" id="progress-short-form"></div>
-              </span> -->
-            </section>
-          </div>
-        </section>
-
-        <!-- Notable Days Item -->
-        <section class="widget-item top-widget" id="notable-days-top-widget">
-          <header>
-            <span>
-              <span class="material-symbols-rounded">calendar_today</span>
-              <h1>Notable Days</h1>
-            </span>
-          </header>
-
-          <section class="content-container">
-            <section class="content">
-              <!-- TODO: update this to be average watch time -->
-              <span id="today-watch-time">
-                <p class="medium-text">Average</p>
-                <p class="large-text" id="watch-time">0 Seconds</p>
-                <p class="medium-text" id="date">No Date</p>
-              </span>
-            </section>
-
-            <section class="content">
-              <span id="most-watch-day">
-                <p class="medium-text">Most Watched Day</p>
-                <p class="large-text" id="watch-time">0 Seconds</p>
-                <p class="medium-text" id="date">No Date</p>
-              </span>
-            </section>
-          </section>
-        </section>
-
-        <!-- TODO: New Videos in Past Week Item -->
-        <section class="widget-item top-widget" id="new-videos-top-widget">
-          <header>
-            <span>
-              <span class="material-symbols-rounded">video_library</span>
-              <h1>New Videos in Past Week</h1>
-            </span>
-
-            <a href="/html/settings.html">
-              <p>See All</p>
-              <span class="material-symbols-rounded"> arrow_right_alt </span>
-            </a>
-          </header>
-
-          <section class="content">
-            <ul>
-              <li>
-                <a href="https://www.youtube.com">
-                  <span>
-                    <img src="" />
-                    <p class="medium-text">Channel Name</p>
-                  </span>
-                  <p class="medium-text">#</p>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </section>
-      </div>
-
-      <!-- Watch Times -->
+      <!-- Schedule Widget -->
       <div class="widget-container">
-        <!-- Watch Times -->
-        <section id="watch-times" class="widget-item">
-          <header>
+        <!-- Preferred Creators -->
+        <section id="schedule" class="widget-item">
+          <!-- <header>
             <span>
-              <h1>Watch Times</h1>
-              <h2>Manage you tracked YouTube usage times.</h2>
-            </span>
-          </header>
-
-          <!-- Content -->
-          <section>
-            <!-- List of Watch Times -->
-            <span class="watch-time-span" id="watch-times-list">
-              <header>
-                <h1>Watch Times</h1>
-
-                <select name="days" id="list-timeframe">
-                  <option value="daily-times">Daily</option>
-                  <option value="weekly-times">Weekly</option>
-                  <option value="monthly-times">Monthly</option>
-                </select>
-              </header>
-
-              <ul></ul>
+              <h1>YouTube Restriction Schedules</h1>
+              <h2>Schedule the times and days for when YouTube is blocked.</h2>
             </span>
 
-            <!-- Charts -->
-            <span id="charts" class="watch-time-span">
-              <header>
-                <h1>Watch Times Chart</h1>
+          </header> -->
 
-                <select name="video-form" id="chart-timeframe">
-                  <option value="total-watch-time">Both Forms of Videos</option>
-                  <option value="long-form-watch-time">Long-Form Videos</option>
-                  <option value="short-form-watch-time">
-                    Short-Form Videos
-                  </option>
-                </select>
-              </header>
-
-              <div class="total-time-container">
-                <span class="material-symbols-rounded"
-                  >nest_clock_farsight_analog
-                </span>
-                <span id="total-watch-time">0 Seconds</span>
-              </div>
-
-              <div class="timeframe-container">
-                <label for="timeframe">Timeframe</label>
-                <span class="timeframe-inputs">
-                  <input type="date" id="timeframe-start" name="timeframe" />
-                  <p>-</p>
-                  <input type="date" id="timeframe-end" />
-                  <button class="misc-button">Get Watch Times</button>
-                </span>
-              </div>
-
-              <canvas id="chart"></canvas>
-
-              <button class="button-brand" id="reset-all-watch-times">
-                Reset Watch Time
-              </button>
-            </span>
-          </section>
+          <!-- FullCalendar Library Calendar -->
+          <div id="calendar"></div>
         </section>
       </div>
     </main>
@@ -435,8 +266,7 @@
     <script src=""></script>
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
-    <script type="module" src="/scripts/settings-general.js"></script>
     <script type="module" src="/scripts/settings-schedules.js"></script>
-    <script src="/scripts/settings-dashboard.js"></script>
+    <script src="/scripts/settings-general.js"></script>
   </body>
 </html>

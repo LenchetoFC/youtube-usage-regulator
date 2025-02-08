@@ -1017,6 +1017,7 @@ aside nav {
   justify-content: space-between;
   /* align-items: flex-start; */
   flex: 1 0 0;
+  gap: 0.8rem;
 }
 aside nav ul {
   display: flex;
@@ -1117,19 +1118,24 @@ button[type="submit"]:disabled:hover {
     overflow-y: auto;
     background: var(--surface-light);
 
-    h1 {
-      font-size: 1.6rem;
+    /* p.medium-text {
+      font-size: 1.4rem;
       font-weight: 500;
-    }
+    } */
 
-    h2 {
-      font-size: 2rem;
+    p.large-text {
+      font-size: 1.8rem;
       font-weight: 600;
     }
 
-    p {
+    p.medium-text {
       color: var(--text-dark);
-      font-weight: 400;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+
+    p.small-text {
+      font-size: 1.2rem;
     }
   }
 }
@@ -1137,7 +1143,8 @@ button[type="submit"]:disabled:hover {
 #watch-mode-top-widget {
   /* NOTE: Temp, until watch mode feature is done */
   /* display: none; */
-  min-width: 40rem;
+  min-width: fit-content;
+
   * {
     color: var(--text-light);
   }
@@ -1147,6 +1154,8 @@ button[type="submit"]:disabled:hover {
   background: var(--surface-light);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
 }
 
 /* #notable-days-top-widget {
@@ -1173,6 +1182,10 @@ button[type="submit"]:disabled:hover {
   align-items: center;
   width: 100%;
   gap: 1.2rem;
+  max-height: 12.7rem;
+  align-self: flex-start;
+  overflow: auto;
+  height: 100%;
 
   > li {
     display: flex;
@@ -1213,6 +1226,10 @@ button[type="submit"]:disabled:hover {
   padding: 0 1.2rem;
 }
 
+.widget-container:has(#calendar) {
+  height: 100%;
+}
+
 /* dashboard.html & settings.html */
 .widget-item {
   display: flex;
@@ -1233,7 +1250,7 @@ button[type="submit"]:disabled:hover {
   .content {
     border-radius: var(--radius-xl);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     align-content: space-around;
     gap: 1.6rem;
     align-self: stretch;
@@ -1248,29 +1265,36 @@ button[type="submit"]:disabled:hover {
   min-width: 24rem;
   align-items: flex-start;
   gap: 1.2rem;
-  flex: 1 0 0;
+  flex: 1 0 fit-content;
 
   > header {
     color: var(--text-light);
+    gap: 1.2rem;
 
     h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
+      font-size: 1.4rem;
+      font-weight: 500;
     }
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 400;
+    }
+    > a p {
+      font-size: 1.2rem;
     }
   }
 
   .content {
     height: 100%;
+    width: 100%;
+    min-width: fit-content;
   }
 }
 
 #dashboard .widget-container-row {
   flex-direction: row;
   flex: 0;
+  flex-wrap: wrap;
 
   .widget-item header > span {
     display: flex;
@@ -2066,9 +2090,10 @@ body:is(.popup) {
   text-align: center;
 }
 .progress {
-  margin: 1.2rem;
-  width: 10rem;
-  height: 10rem;
+  --size: 9rem;
+  /* margin: 1.2rem; */
+  width: var(--size);
+  height: var(--size);
   position: relative;
 }
 
@@ -2119,7 +2144,8 @@ body:is(.popup) {
 /* -------- */
 .fc {
   width: 100%;
-  margin-bottom: 3rem;
+  height: 100%;
+  /* margin-bottom: 3rem; */
 }
 .fc-v-event,
 .fc-h-event {
@@ -2281,3 +2307,16 @@ button:is(.edit) {
 button:is(.edit):hover {
   background: rgb(37, 37, 37);
 } */
+
+.widget-item .content-container {
+  display: flex;
+  /* flex-wrap: wrap; */
+  gap: 1.2rem;
+  height: 100%;
+  width: 100%;
+}
+
+.content-container .content {
+  flex: 1 1 22rem;
+  flex-direction: column;
+}

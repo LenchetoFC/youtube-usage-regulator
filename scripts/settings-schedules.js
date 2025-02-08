@@ -902,7 +902,7 @@ function clearEventForm() {
 async function renderCalendar() {
   var calendarElement = document.getElementById("calendar");
   var calendarOptions = {
-    contentHeight: "75dvh",
+    contentHeight: "100%",
     customButtons: {
       // Add new schedule event via top-right button
       addNewEvent: {
@@ -964,9 +964,9 @@ async function renderCalendar() {
     initialView: "timeGridWeek",
     nowIndicator: true,
     headerToolbar: {
-      left: "timeGridWeek,timeGridDay prev,navToCurrentDay,next",
-      center: "title",
-      right: "addNewEvent,resetCalendar",
+      left: "title",
+      right:
+        "timeGridWeek,timeGridDay prev,navToCurrentDay,next,addNewEvent,resetCalendar",
     },
     buttonText: {
       prev: "<",
