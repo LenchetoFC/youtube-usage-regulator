@@ -1118,6 +1118,10 @@ button[type="submit"]:disabled:hover {
     overflow-y: auto;
     background: var(--surface-light);
 
+    p {
+      align-self: center;
+    }
+
     /* p.medium-text {
       font-size: 1.4rem;
       font-weight: 500;
@@ -1140,14 +1144,22 @@ button[type="submit"]:disabled:hover {
   }
 }
 
-#watch-mode-top-widget {
+#watch-mode-top-widget,
+#new-videos-top-widget {
   /* NOTE: Temp, until watch mode feature is done */
   /* display: none; */
+}
+
+#watch-mode-top-widget {
   min-width: fit-content;
 
-  * {
+  p {
     color: var(--text-light);
   }
+}
+
+.top-widget header * {
+  color: var(--text-light);
 }
 
 #db-current-watch-mode {
@@ -1192,12 +1204,13 @@ button[type="submit"]:disabled:hover {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
+    border-radius: 12px;
+    padding: 1.2rem;
+    transition: 0.3s;
   }
 
   a {
     color: var(--text-dark);
-    border-radius: 12px;
-    padding: 1.2rem;
     width: 100%;
     gap: 1.2rem;
     justify-content: space-between;
@@ -1208,8 +1221,8 @@ button[type="submit"]:disabled:hover {
     }
   }
 
-  a:hover {
-    box-shadow: 2px 3px 8px 0px rgba(0, 0, 0, 0.1);
+  li:has(a:hover) {
+    background: #98c1d9;
   }
 }
 
@@ -1316,7 +1329,7 @@ button[type="submit"]:disabled:hover {
     }
   }
 
-  a:hover {
+  header a:hover {
     span {
       transform: translateX(2px);
     }
@@ -2107,6 +2120,8 @@ body:is(.popup) {
 }
 
 #watch-times-list {
+  max-height: 100dvh;
+
   ul,
   li {
     display: flex;

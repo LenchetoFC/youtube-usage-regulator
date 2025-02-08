@@ -249,7 +249,7 @@
               <h1>Active Watch Mode</h1>
             </span>
 
-            <a href="/html/settings.html">
+            <a href="/settings/settings-watch-modes.html">
               <p>Switch Modes</p>
 
               <span class="material-symbols-rounded"> arrow_right_alt </span>
@@ -297,22 +297,21 @@
           </div>
         </section>
 
-        <!-- Notable Days Item -->
+        <!-- Notable Times Item -->
         <section class="widget-item top-widget" id="notable-days-top-widget">
           <header>
             <span>
               <span class="material-symbols-rounded">calendar_today</span>
-              <h1>Notable Days</h1>
+              <h1>Notable Times</h1>
             </span>
           </header>
 
           <section class="content-container">
             <section class="content">
-              <!-- TODO: update this to be average watch time -->
-              <span id="today-watch-time">
-                <p class="medium-text">Average</p>
+              <span id="average-watch-time">
+                <p class="medium-text">Average Watch Time</p>
                 <p class="large-text" id="watch-time">0 Seconds</p>
-                <p class="medium-text" id="date">No Date</p>
+                <p class="medium-text" id="date">out of 0 days</p>
               </span>
             </section>
 
@@ -334,7 +333,7 @@
               <h1>New Videos in Past Week</h1>
             </span>
 
-            <a href="/html/settings.html">
+            <a href="/settings/settings-prioritized-subscriptions.html">
               <p>See All</p>
               <span class="material-symbols-rounded"> arrow_right_alt </span>
             </a>
@@ -342,13 +341,14 @@
 
           <section class="content">
             <ul>
-              <li>
+              <li class="channel-item">
                 <a href="https://www.youtube.com">
                   <span>
-                    <img src="" />
+                    <!-- <img src="" /> -->
+                    <span class="material-symbols-rounded">person</span>
                     <p class="medium-text">Channel Name</p>
                   </span>
-                  <p class="medium-text">#</p>
+                  <p class="large-text">#</p>
                 </a>
               </li>
             </ul>
@@ -372,7 +372,7 @@
             <!-- List of Watch Times -->
             <span class="watch-time-span" id="watch-times-list">
               <header>
-                <h1>Watch Times</h1>
+                <h1>Table</h1>
 
                 <select name="days" id="list-timeframe">
                   <option value="daily-times">Daily</option>
@@ -387,7 +387,7 @@
             <!-- Charts -->
             <span id="charts" class="watch-time-span">
               <header>
-                <h1>Watch Times Chart</h1>
+                <h1>Graph</h1>
 
                 <select name="video-form" id="chart-timeframe">
                   <option value="total-watch-time">Both Forms of Videos</option>
@@ -411,7 +411,7 @@
                   <input type="date" id="timeframe-start" name="timeframe" />
                   <p>-</p>
                   <input type="date" id="timeframe-end" />
-                  <button class="misc-button">Get Watch Times</button>
+                  <button class="misc-button">Get Notable Times</button>
                 </span>
               </div>
 
@@ -436,7 +436,6 @@
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
-    <script type="module" src="/scripts/settings-schedules.js"></script>
     <script src="/scripts/settings-dashboard.js"></script>
   </body>
 </html>

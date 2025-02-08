@@ -1,6 +1,6 @@
 /**
  * @file settings-dashboard.js
- * @description Dashboard that shows user quick information regarding watch times, scheduling, and current watch modes
+ * @description Dashboard that shows user quick information regarding notable times, scheduling, and current watch modes
  *
  * @version 1.0.0
  * @author LenchetoFC
@@ -20,11 +20,7 @@
  */
 
 /**
- * TODO: add average watch times to chart and watch ratio widget
- */
-
-/**
- * Get active watch mode and its properties and inserts it into DOM
+ * Calculate watch time comparisons and its properties and inserts it into DOM
  *
  * @name getWatchTypeComparisons
  * @async
@@ -83,8 +79,8 @@ async function insertCurrentWatchMode() {
   try {
     getCurrentWatchMode()
       .then((data) => {
-        $("#db-current-watch-mode h1").html(data.name);
-        $("#db-current-watch-mode p").html(data.desc);
+        $("#db-current-watch-mode p.medium-text").html(data.name);
+        $("#db-current-watch-mode p.small-text").html(data.desc);
         $("#db-current-watch-mode").css("background-color", data.color);
       })
       .catch((error) => {
@@ -671,21 +667,21 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
 }
 
 /**
- * Gets and displays the relevant watch times for the "Notable Days" widget
+ * Gets and displays the relevant notable times for the "notable times" widget
  *
- * @name insertNotableWatchDays
+ * @name insertNotableTimes
  * @async
  *
  * @returns {void}
  *
- * @example insertNotableWatchDays();
+ * @example insertNotableTimes();
  *
  * @notes
  * getCurrentWatchTimes() is imported from global-functions.js
  */
-async function insertNotableWatchDays() {
+async function insertNotableTimes() {
   /**
-   * Sorts the watch times by ascending order
+   * Sorts the notable times by ascending order
    *
    * @name sortWatchTimesAsc
    *
@@ -700,22 +696,32 @@ async function insertNotableWatchDays() {
   }
 
   /**
-   * Gets the day with the least amount of watch time
+   * Calculates average watch time
    *
-   * @name getLeastWatchedDay
+   * @name getAvgWatchTime
    *
    * @returns {Object} Watch time object
    */
-  async function getLeastWatchedDay() {
+  async function getAvgWatchTime() {
     try {
-      const data = await sortWatchTimesAsc();
+      // returns [int totalWatchTime, int amtOfDays]
+      const data = await getAllWatchTimes();
 
-      // Returns first element (least amount of watch time)
-      if (data[0]["total-watch-time"] != 0) {
-        return data[0];
-      } else if (data[1]) {
-        return data[1];
+      const amtOfDays = Object.values(data).length;
+      let totalWatchTime = 0;
+
+      // Calculates sum of all watch times and divides by length (amt of days)
+      for (let watchTimeObj in data) {
+        totalWatchTime += data[watchTimeObj]["total-watch-time"];
       }
+
+      const avgTime = totalWatchTime / amtOfDays;
+
+      return {
+        avgTime: Math.floor(avgTime),
+        amtOfDays: amtOfDays,
+        totalWatchTime: totalWatchTime,
+      };
     } catch (error) {
       console.error(error);
     }
@@ -741,42 +747,33 @@ async function insertNotableWatchDays() {
 
   /** Main Body */
   try {
-    // Gets total watch time for the current day and inserts the date and time into "Today" column
-    const currentWatchTimes = await getCurrentWatchTimes();
-    if (currentWatchTimes.length != 0) {
-      let todayTime = currentWatchTimes[0]["total-watch-time"];
-      $(`#today-watch-time #watch-time`).html(
-        convertTimeToText(todayTime, true)
-      );
-
-      // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
-      let newDateFormat = reformatDateToText(currentWatchTimes[0]["date"]);
-      $(`#today-watch-time #date`).html(newDateFormat);
-    }
-
     // Gets least watched day and inserts the date and time into "Least Watched Day" column
-    const leastWatchedObj = await getLeastWatchedDay();
-    if (leastWatchedObj) {
-      let leastDayTime = leastWatchedObj["total-watch-time"];
-      $(`#least-watch-day #watch-time`).html(
-        convertTimeToText(leastDayTime, true)
+    const avgWatchTime = await getAvgWatchTime();
+    if (avgWatchTime) {
+      const avgTime = avgWatchTime["avgTime"];
+      const amtOfDays = avgWatchTime["amtOfDays"];
+
+      console.log(avgTime);
+      console.log(amtOfDays);
+
+      $(`#average-watch-time #watch-time`).html(
+        convertTimeToText(avgTime, true)
       );
 
-      // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
-      let leastDayNewDate = reformatDateToText(leastWatchedObj["date"]);
-      $(`#least-watch-day #date`).html(leastDayNewDate);
+      // Inserts total days into .date tag
+      $(`#average-watch-time #date`).html(`out of ${amtOfDays} days`);
     }
 
     // Gets most watched day and inserts the date and time into "Most Watched Day" column
     const mostWatchedObj = await getMostWatchedDay();
     if (mostWatchedObj) {
-      let mostDayTime = mostWatchedObj["total-watch-time"];
+      const mostDayTime = mostWatchedObj["total-watch-time"];
       $(`#most-watch-day #watch-time`).html(
         convertTimeToText(mostDayTime, true)
       );
 
       // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
-      let mostDayNewDate = reformatDateToText(mostWatchedObj["date"]);
+      const mostDayNewDate = reformatDateToText(mostWatchedObj["date"]);
       $(`#most-watch-day #date`).html(mostDayNewDate);
     }
   } catch (error) {
@@ -881,8 +878,8 @@ $(document).ready(async function () {
   let dailyWatchTimes = await getAllWatchTimes();
   insertFilteredWatchTimes(dailyWatchTimes, "daily-times");
 
-  // Gets and displays the relevant watch times for the "Notable Days" widget
-  insertNotableWatchDays();
+  // Gets and displays the notable times for the "notable times" widget
+  insertNotableTimes();
 
   // Gets and displays the current watch mode in the corresponding widget
   insertCurrentWatchMode();
@@ -890,16 +887,16 @@ $(document).ready(async function () {
   // Creates the circular bar for the relative percentage of short form video watch time
   const shortFormBar = createProgressBar(
     "#progress-short-form",
-    "#47935b",
-    "#47935b",
+    "#98C1D9",
+    "#98C1D9",
     "2rem"
   );
 
   // Creates the circular bar for the relative percentage of long form video watch time
   const longFormBar = createProgressBar(
     "#progress-long-form",
-    "#d92121",
-    "#d92121",
+    "#3D5A80",
+    "#3D5A80",
     "2rem"
   );
 
