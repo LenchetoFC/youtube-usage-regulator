@@ -313,6 +313,10 @@ header h2 {
   filter: brightness(85%);
 }
 
+.extra-medium-text {
+  font-size: 1.5rem;
+}
+
 .current-tab {
   border-bottom-color: var(--border-brand) !important;
 }
@@ -2225,7 +2229,7 @@ table.basic {
 
   th p,
   tfoot td:first-child {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 600;
   }
 
