@@ -173,7 +173,7 @@ $(document).ready(function () {
         const followScheduleVal = data[index].followSchedule;
         const activeVal = data[index].active;
         const popupVal = data[index].popup;
-        console.log(data[index]);
+
         // Auto-checks corresponding checkbox input
         $(`input[name=${data[index].name}-active]`).attr("checked", activeVal);
         $(`input[name=${data[index].name}-followSchedule]`).attr(

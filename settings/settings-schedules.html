@@ -57,7 +57,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Sun</h1>
+            <p>Sun</p>
           </label>
 
           <!-- Monday -->
@@ -66,7 +66,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Mon</h1>
+            <p>Mon</p>
           </label>
 
           <!-- Tuesday -->
@@ -75,7 +75,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Tue</h1>
+            <p>Tue</p>
           </label>
 
           <!-- Wednesday -->
@@ -84,7 +84,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Wed</h1>
+            <p>Wed</p>
           </label>
 
           <!-- Thursday -->
@@ -93,7 +93,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Thu</h1>
+            <p>Thu</p>
           </label>
 
           <!-- Friday -->
@@ -102,7 +102,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Fri</h1>
+            <p>Fri</p>
           </label>
 
           <!-- Saturday -->
@@ -111,7 +111,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Sat</h1>
+            <p>Sat</p>
           </label>
         </span>
 
@@ -128,7 +128,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">All Day</h1>
+            <p>All Day</p>
           </label>
 
           <label class="side-checkbox-container" for="additionalSites">
@@ -141,7 +141,7 @@
             <span class="checkmark">
               <span class="material-symbols-rounded">check</span>
             </span>
-            <h1 class="checkbox-label">Include Additional Websites</h1>
+            <p>Include Additional Websites</p>
           </label>
         </span>
 
@@ -165,19 +165,14 @@
           </div>
         </div>
 
-        <hr class="horizontal-line" />
-
         <span class="overlay-buttons">
-          <button
-            class="text-button underline-hover cancel"
-            id="delete-schedule"
-          >
+          <button class="text-button cancel" id="delete-schedule">
             <p>Delete Schedule</p>
           </button>
 
           <span class="group-of-buttons">
             <button
-              class="text-button underline-hover cancel"
+              class="text-button cancel"
               data-popover="popover-schedule-event"
               id="cancel-schedule"
             >
@@ -243,13 +238,15 @@
       <div class="widget-container">
         <!-- Preferred Creators -->
         <section id="schedule" class="widget-item">
-          <!-- <header>
+          <header>
             <span>
-              <h1>YouTube Restriction Schedules</h1>
-              <h2>Schedule the times and days for when YouTube is blocked.</h2>
+              <h1>Restriction Schedules</h1>
+              <h2>
+                Schedule the times and days for when YouTube and other sites are
+                blocked.
+              </h2>
             </span>
-
-          </header> -->
+          </header>
 
           <!-- FullCalendar Library Calendar -->
           <div id="calendar"></div>

@@ -829,8 +829,6 @@ async function getTableTotalWatchTimes(videoType) {
     `${videoType}-watch-time`
   );
 
-  console.log(totalWatchTime);
-
   $(`#watch-times-table tfoot #${videoType}`).html(
     convertTimeToText(totalWatchTime)
   );

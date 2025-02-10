@@ -512,7 +512,7 @@ a:hover {
 /* ---------------- */
 /* SPECIFIC BUTTONS */
 /* ---------------- */
-.fc .fc-button-primary,
+
 button {
   transition: background, background-color, filter 0.25s;
   border: none;
@@ -534,8 +534,33 @@ button {
   min-width: max-content;
 }
 
+.light-button,
+.fc .fc-button-primary {
+  transition: background, background-color, filter 0.25s;
+
+  background: var(--surface-light);
+  border-radius: 0.8rem;
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  border: solid 0.7px #5f6767;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:hover {
+  background-color: var(--surface-brand);
+  border-color: var(--surface-brand);
+}
+
+.fc .fc-button-primary:focus {
+  box-shadow: #5f6767 0px 0px 0px 0.2rem;
+}
+.fc .fc-button:focus {
+  box-shadow: #5f6767 0px 0px 0px 0.2rem;
+  outline: 0px;
+}
+
 button[type="submit"],
-.fc .fc-button-primary,
 .misc-button {
   background: var(--surface-brand-2);
 }
@@ -599,9 +624,7 @@ button[type="submit"]:active,
 }
 
 .cancel:hover,
-.red-text-button:hover,
-.cancel:focus-visible,
-.red-text-button:focus-visible {
+.red-text-button:hover {
   filter: brightness(50%);
 }
 
@@ -618,8 +641,10 @@ button[type="submit"]:active,
   color: var(--text-dark);
 }
 
-.text-button:focus-visible {
-  outline: none;
+.text-button:focus-visible,
+.cancel:focus-visible,
+.red-text-button:focus-visible {
+  outline: 2px solid var(--border-brand);
 }
 
 .group-of-buttons {
@@ -741,19 +766,19 @@ input[type="checkbox"] {
 /* TIME INPUT */
 /* ---------- */
 input[type="time" i] {
+  display: block;
   padding: 1rem;
   background: var(--surface-light);
   border: none;
-  border-bottom: 1.5px solid var(--border-dark);
+  border-bottom: 1.6px solid hsl(180, 4%, 60%);
   color: var(--text-text);
-  font-size: 1.5rem;
-  transition: 0.25s;
+  font-size: 1.4rem;
+  transition: border 0.25s;
+  width: 12rem;
 }
 input[type="time" i]:hover {
   cursor: pointer;
-  background: #ebebeb;
-  border-bottom: 1.5px solid transparent;
-  border-radius: 1rem;
+  border-bottom: 1.6px solid hsl(180, 4%, 20%);
 }
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(25%) sepia(0%) saturate(30%) hue-rotate(193deg) brightness(93%)
@@ -1153,11 +1178,11 @@ p.small-text {
   font-size: 1.2rem;
 }
 
-#watch-mode-top-widget,
+/* NOTE: Temp, until watch mode feature is done */
+/* #watch-mode-top-widget,
 #new-videos-top-widget {
-  /* NOTE: Temp, until watch mode feature is done */
-  /* display: none; */
-}
+  display: none;
+} */
 
 #watch-mode-top-widget {
   min-width: fit-content;
@@ -1288,29 +1313,43 @@ p.small-text {
   align-items: flex-start;
   gap: 1.2rem;
   flex: 1 0 fit-content;
+}
 
-  > header {
-    color: var(--text-light);
-    gap: 1.2rem;
+.widget-item > header {
+  color: var(--text-light);
+  gap: 1.2rem;
+}
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 500;
-    }
-    h2 {
-      font-size: 1.3rem;
-      font-weight: 400;
-    }
-    > a p {
-      font-size: 1.2rem;
-    }
-  }
+.widget-item.top-widget h1 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
 
-  .content {
-    height: 100%;
-    width: 100%;
-    min-width: fit-content;
-  }
+.widget-item.top-widget h2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.widget-item h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.widget-item h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #5f6767;
+  filter: brightness(3);
+}
+
+.widget-item header > a p {
+  font-size: 1.2rem;
+}
+
+.widget-item .content {
+  height: 100%;
+  width: 100%;
+  min-width: fit-content;
 }
 
 #dashboard .widget-container-row {
@@ -1839,11 +1878,10 @@ section:is(#watch-mode) {
   }
 
   header {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
 
     h1 {
       font-size: 1.6rem;
-      font-weight: 500;
     }
   }
 
@@ -2243,6 +2281,9 @@ table#watch-times-table tbody {
 }
 .fc .fc-toolbar-title {
   font-size: 2.4rem;
+}
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 1em;
 }
 .fc .fc-col-header-cell-cushion {
   color: var(--text-dark);

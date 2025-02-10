@@ -786,6 +786,10 @@ function determineFormFooterButtons(eventObj) {
   if (eventObj.isNewEvent) {
     // Hides delete and update buttons, and shows save button
     $("span:has(> #save-schedule)").css("display", "flex");
+    $(".overlay-buttons:has(#delete-schedule)").css(
+      "justify-content",
+      "flex-end"
+    );
     $("#delete-schedule").css("display", "none");
     $("span:has(> #update-schedule)").css("display", "none");
   } else {
@@ -798,6 +802,10 @@ function determineFormFooterButtons(eventObj) {
     $("#update-schedule").attr("data-event-id", eventObj.eventId);
 
     // Shows delete and update buttons, and hides save button
+    $(".overlay-buttons:has(#delete-schedule)").css(
+      "justify-content",
+      "space-between"
+    );
     $("#delete-schedule").css("display", "flex");
     $("span:has(> #update-schedule)").css("display", "flex");
     $("span:has(> #save-schedule)").css("display", "none");
@@ -903,6 +911,7 @@ async function renderCalendar() {
   var calendarElement = document.getElementById("calendar");
   var calendarOptions = {
     contentHeight: "100%",
+    scrollTime: determineInitialScrollTime(),
     customButtons: {
       // Add new schedule event via top-right button
       addNewEvent: {
@@ -964,9 +973,9 @@ async function renderCalendar() {
     initialView: "timeGridWeek",
     nowIndicator: true,
     headerToolbar: {
-      left: "title",
-      right:
-        "timeGridWeek,timeGridDay prev,navToCurrentDay,next,addNewEvent,resetCalendar",
+      left: "timeGridWeek,timeGridDay addNewEvent",
+      center: "title",
+      right: "navToCurrentDay prev,next",
     },
     buttonText: {
       prev: "<",
@@ -1002,6 +1011,21 @@ async function renderCalendar() {
 
   calendar = new FullCalendar.Calendar(calendarElement, calendarOptions);
   calendar.render();
+}
+
+/**
+ * Subtracts two from current time to get load calendar around the current hour.
+ *
+ * @name determineInitialScrollTime
+ *
+ * @returns {string} Time in military hours.
+ */
+function determineInitialScrollTime() {
+  const currentTime = new Date().getHours();
+
+  const scrollTime = `${currentTime - 2}:00`;
+
+  return scrollTime;
 }
 
 /** !SECTION */
