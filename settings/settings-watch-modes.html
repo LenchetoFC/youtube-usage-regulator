@@ -47,6 +47,88 @@
       <p>Message Text</p>
     </span>
 
+    <!-- POPOVER New Watch Mode -->
+    <div popover id="popover-new-watch-mode" class="popover">
+      <header>
+        <h1>New Watch Mode</h1>
+      </header>
+
+      <form action="" method="" class="content">
+        <div class="text-input-container">
+          <label for="watch-mode-name">Watch Mode Name</label>
+          <input
+            type="text"
+            name="watch-mode-name-input"
+            id="watch-mode-name"
+            placeholder="Educational Mode"
+            minlength="1"
+            maxlength="50"
+            required
+          />
+        </div>
+
+        <div class="text-input-container">
+          <label for="watch-mode-desc">Description</label>
+          <input
+            type="text"
+            name="watch-mode-desc-input"
+            id="watch-mode-desc"
+            placeholder="Remove all non-educational materials"
+            minlength="1"
+            maxlength="100"
+            required
+          />
+        </div>
+
+        <fieldset>
+          <legend>Priority</legend>
+          <ul>
+            <li class="tag-button-item">
+              <button class="text-button underline-hover">
+                <span class="material-symbols-rounded">add</span>
+                <p>Add priority tag</p>
+              </button>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset>
+          <legend>Restricted</legend>
+          <ul>
+            <li class="tag-button-item">
+              <button class="text-button underline-hover">
+                <span class="material-symbols-rounded">add</span>
+                <p>Add restricted tag</p>
+              </button>
+            </li>
+          </ul>
+        </fieldset>
+
+        <div class="color-input-container">
+          <input
+            type="color"
+            id="watch-mode-bg"
+            name="watch-mode-bg"
+            value="#000000"
+            required
+          />
+          <label for="watch-mode-bg">Background Color</label>
+        </div>
+
+        <span class="group-of-buttons">
+          <button
+            class="text-button underline-hover cancel"
+            data-popover="popover-new-watch-mode"
+          >
+            <p>Cancel</p>
+          </button>
+          <span>
+            <button type="submit" value="">Save Watch Mode</button>
+          </span>
+        </span>
+      </form>
+    </div>
+
     <!-- Side Nav Bar -->
     <aside>
       <div class="nav-logo">
@@ -95,7 +177,114 @@
         </div>
       </header>
 
-      <section class="flex-row flex-wrap thirty-two-spacing"></section>
+      <!-- Watch Modes -->
+      <section class="flex-col thirty-two-spacing" id="watch-mode">
+        <div class="content">
+          <ul id="watch-modes">
+            <li id="watch-mode-0">
+              <header>
+                <h1 id="watch-mode-name">Watch Mode Name</h1>
+                <h2 id="watch-mode-desc">Watch mode description.</h2>
+              </header>
+
+              <fieldset id="watch-mode-1-priority">
+                <legend>Priority</legend>
+                <ul>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <span class="group-of-buttons">
+                <a class="underline-hover"><p>Edit</p></a>
+                <button class="watch-mode-disabled" disabled>Enable</button>
+              </span>
+            </li>
+
+            <li id="watch-mode-1">
+              <header>
+                <h1 id="watch-mode-name">Watch Mode Name</h1>
+                <h2 id="watch-mode-desc">Watch mode description.</h2>
+              </header>
+
+              <fieldset id="watch-mode-1-restricted">
+                <legend>Restricted</legend>
+                <ul>
+                  <li>Example Tag</li>
+                  <li>Example Tag</li>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <span class="group-of-buttons">
+                <a class="underline-hover"><p>Edit</p></a>
+                <button>Enable</button>
+              </span>
+            </li>
+
+            <li id="watch-mode-2">
+              <header>
+                <h1 id="watch-mode-name">Watch Mode Name</h1>
+                <h2 id="watch-mode-desc">Watch mode description.</h2>
+              </header>
+
+              <fieldset id="watch-mode-2-priority">
+                <legend>Priority</legend>
+                <ul>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <fieldset id="watch-mode-2-restricted">
+                <legend>Restricted</legend>
+                <ul>
+                  <li>Example Tag</li>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <span class="group-of-buttons">
+                <a class="underline-hover"><p>Edit</p></a>
+                <button>Enable</button>
+              </span>
+            </li>
+
+            <li id="watch-mode-3">
+              <header>
+                <h1 id="watch-mode-name">Watch Mode Name</h1>
+                <h2 id="watch-mode-desc">Watch mode description.</h2>
+              </header>
+
+              <fieldset id="watch-mode-3-priority">
+                <legend>Priority</legend>
+                <ul>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <fieldset id="watch-mode-3-restricted">
+                <legend>Restricted</legend>
+                <ul>
+                  <li>Example Tag</li>
+                </ul>
+              </fieldset>
+
+              <span class="group-of-buttons">
+                <a class="underline-hover"><p>Edit</p></a>
+                <button>Enable</button>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          class="misc-button"
+          id="watch-mode-add"
+          popovertarget="popover-new-watch-mode"
+        >
+          <span class="material-symbols-rounded">add</span>
+          Add Watch Mode
+        </button>
+      </section>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>

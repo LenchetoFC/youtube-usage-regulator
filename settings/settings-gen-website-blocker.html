@@ -47,6 +47,93 @@
       <p>Message Text</p>
     </span>
 
+    <!-- POPOVER New Blocked Website -->
+    <div popover id="popover-new-blocked-website" class="popover">
+      <header>
+        <h1>New Blocked Website</h1>
+      </header>
+
+      <form action="" method="" class="content" id="new-blocked-website-form">
+        <div class="text-input-container">
+          <label for="website-name">Website Name</label>
+          <input
+            type="text"
+            name="website-name"
+            id="website-name"
+            placeholder="Reddit"
+            minlength="1"
+            maxlength="50"
+            required
+          />
+        </div>
+
+        <div class="text-input-container">
+          <label for="website-url">URL Address</label>
+          <input
+            type="url"
+            name="website-url"
+            id="website-url"
+            placeholder="https://reddit.com"
+            minlength="7"
+            required
+          />
+        </div>
+
+        <div class="text-input-container">
+          <label for="website-type">Website Type</label>
+          <select type="text" name="website-type" id="website-type" required>
+            <option value="">Choose a Website Type</option>
+            <option value="social-media">Social Media</option>
+            <option value="shopping">Shopping</option>
+            <option value="streaming">Streaming Content</option>
+            <option value="adult-content">Adult Content</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="button-footer">
+          <span>
+            <button
+              value=""
+              popovertargetaction="toggle"
+              id="delete-website"
+              class="button-brand"
+            >
+              Delete Website
+            </button>
+          </span>
+
+          <span class="dual-buttons">
+            <button
+              type="reset"
+              class="text-button underline-hover cancel"
+              data-popover="popover-new-blocked-website"
+            >
+              <p>Cancel</p>
+            </button>
+            <span>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="block-new-website"
+              >
+                Block Website
+              </button>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="update-website"
+              >
+                Update Website
+              </button>
+            </span>
+          </span>
+        </div>
+      </form>
+    </div>
+
     <!-- Side Nav Bar -->
     <aside>
       <div class="nav-logo">
@@ -95,7 +182,41 @@
         </div>
       </header>
 
-      <section class="flex-row flex-wrap thirty-two-spacing"></section>
+      <section class="flex-col thirty-two-spacing" id="additional-websites">
+        <div class="empty-content">
+          <span class="material-symbols-rounded">block</span>
+          <h1>Add Websites to Block</h1>
+          <p>
+            Add websites to block completely, and categorize them by website
+            type using the dropdown list. You can add broad URL
+            <strong>(reddit.com)</strong> or specific URL<br />
+            <strong>(reddit.com/?feed=home)</strong>.
+          </p>
+          <button class="misc-button add-new-website">
+            <span class="material-symbols-rounded">add</span>
+            Add Website
+          </button>
+        </div>
+
+        <div class="content"></div>
+
+        <!-- Add new website button -->
+        <span class="dual-buttons">
+          <span>
+            <button class="misc-button add-new-website">
+              <span class="material-symbols-rounded">add</span>
+              Add Website
+            </button>
+          </span>
+
+          <button
+            class="text-button underline-hover red-text-button"
+            id="clear-websites"
+          >
+            <p>Delete All Websites</p>
+          </button>
+        </span>
+      </section>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>

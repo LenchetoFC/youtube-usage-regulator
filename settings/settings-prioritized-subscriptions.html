@@ -95,7 +95,50 @@
         </div>
       </header>
 
-      <section class="flex-row flex-wrap thirty-two-spacing"></section>
+      <section class="flex-col thirty-two-spacing" id="prioritize-creators">
+        <div class="empty-content">
+          <span class="material-symbols-rounded">account_circle</span>
+          <h1>Link your YouTube Account</h1>
+          <p>
+            Link your account to personalize your feed with chosen creators.
+            Your subscriptions will be displayed here, allowing you to select
+            your favorites.
+          </p>
+          <button class="misc-button" id="youtube-login-button">
+            <span class="material-symbols-rounded">youtube_activity</span>
+            Connect Account
+          </button>
+        </div>
+
+        <div class="content">
+          <ul class="selectable-list" id="creators-list">
+            <li>
+              <label class="full-width-checkbox-container" for="channel-#">
+                <span>
+                  <img id="channel-profile-img" />
+                  <h1 class="checkbox-label" id="channel-name">Creator Name</h1>
+                </span>
+
+                <input
+                  id="channel-#"
+                  name="channel-#"
+                  type="checkbox"
+                  value="channel-#"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <span class="dual-buttons">
+          <span>
+            <button type="submit" id="save-creators">Save Creators</button>
+          </span>
+        </span>
+      </section>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
