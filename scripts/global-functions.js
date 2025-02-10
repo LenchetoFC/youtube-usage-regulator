@@ -359,20 +359,19 @@ window.insertRecordsGlobal = async (table, newRecords) => {
  * @global
  *
  * @param {int} timeUsage - The value of the time usage in seconds.
- * @param {boolean} [abbrActive=false] - A boolean indicating whether to use abbreviated time units.
  *
  * @returns {string} Returns time usage in a statement that is accurate to the amount of time given.
  *
  * @example
  * let usageStatement = convertTimeToText(timeUsage);
  */
-window.convertTimeToText = (timeUsage, abbrActive = false) => {
+window.convertTimeToText = (timeUsage) => {
   if (timeUsage < 60) {
-    return formatSeconds(timeUsage, abbrActive);
+    return formatSeconds(timeUsage);
   } else if (timeUsage < 3600) {
-    return formatMinutesAndSeconds(timeUsage, abbrActive);
+    return formatMinutesAndSeconds(timeUsage);
   } else {
-    return formatHoursAndMinutes(timeUsage, abbrActive);
+    return formatHoursAndMinutes(timeUsage);
   }
 };
 
@@ -380,12 +379,11 @@ window.convertTimeToText = (timeUsage, abbrActive = false) => {
  * Formats time usage in seconds.
  *
  * @param {int} timeUsage - The value of the time usage in seconds.
- * @param {boolean} abbrActive - A boolean indicating whether to use abbreviated time units.
  *
  * @returns {string} Returns time usage in seconds.
  */
-function formatSeconds(timeUsage, abbrActive) {
-  return abbrActive ? `${timeUsage} Sec` : `${timeUsage} seconds`;
+function formatSeconds(timeUsage) {
+  return `0m ${timeUsage}s`;
 }
 
 /**
@@ -399,29 +397,20 @@ function formatSeconds(timeUsage, abbrActive) {
 function formatMinutesAndSeconds(timeUsage, abbrActive) {
   let min = Math.floor(timeUsage / 60);
   let sec = Math.floor(timeUsage - min * 60);
-  return abbrActive
-    ? `${min} ${min === 1 ? "Min" : "Mins"} ${sec} Sec`
-    : `${min} ${min === 1 ? "Minute" : "Minutes"} ${sec} Seconds`;
+  return `${min}m ${sec}s`;
 }
 
 /**
  * Formats time usage in hours and minutes.
  *
  * @param {int} timeUsage - The value of the time usage in seconds.
- * @param {boolean} abbrActive - A boolean indicating whether to use abbreviated time units.
  *
  * @returns {string} Returns time usage in hours and minutes.
  */
-function formatHoursAndMinutes(timeUsage, abbrActive) {
+function formatHoursAndMinutes(timeUsage) {
   let hours = Math.floor(timeUsage / 3600);
   let remainingMinutes = Math.floor((timeUsage - hours * 3600) / 60);
-  return abbrActive
-    ? `${hours} Hr${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
-        remainingMinutes === 1 ? "Min" : "Mins"
-      }`
-    : `${hours} Hour${hours !== 1 ? "s" : ""} ${remainingMinutes} ${
-        remainingMinutes === 1 ? "Minute" : "Minutes"
-      }`;
+  return `${hours}hr ${remainingMinutes}m`;
 }
 
 /**

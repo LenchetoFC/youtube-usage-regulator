@@ -282,7 +282,7 @@ function createWatchTimeChart(watchTimesObj, videoType, chartType = "line") {
           borderColor: "#1e1f1f",
           fill: true,
           tension: 0.25,
-          backgroundColor: "#b80f0a99",
+          backgroundColor: "#ac3232",
         },
       ],
     },
@@ -387,7 +387,7 @@ async function prepareWatchTimeChart() {
           filteredWatchTimes,
           `${videoType}`
         );
-        $("#total-watch-time").html(convertTimeToText(totalWatchTime));
+        $("#charts #total-watch-time").html(convertTimeToText(totalWatchTime));
 
         // Destroys existing chart to make room for new chart
         if (chart) {
@@ -411,21 +411,30 @@ async function prepareWatchTimeChart() {
 }
 
 /**
- * Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
+ * Reformats 'yyyy-mm-dd' to 'mm.dd.yyyy, www'
  *
  * @name reformatDateToText
  *
  * @param {string} dateValue - the watch time date in format 'yyyy-mm-dd'
  *
- * @returns {string} the watch time date in format 'mmm dd yyyy, www'
+ * @returns {string} the watch time date in format 'mm.dd.yyy, www' i.e. 6.24.2012, Sun
  *
  * @example
  * let newDateFormat = reformatDateToText("2024-11-06");
  */
 function reformatDateToText(dateValue) {
-  let date = new Date(dateValue + "T00:00:00Z"); // Ensure the date is interpreted as UTC
-  let dateSplit = date.toUTCString().split(" ").slice(0, 4);
-  return ` ${dateSplit[0]} ${dateSplit[2]} ${dateSplit[1]} ${dateSplit[3]}`;
+  let date = new Date(dateValue);
+
+  let dateObj = {
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear(),
+
+    // Gets 3-letter day of week text, removes comma from end
+    dayOfWeek: date.toUTCString().split(" ").slice(0, 1)[0].replace(/,/g, ""),
+  };
+
+  return ` ${dateObj.month}.${dateObj.day}.${dateObj.year}, ${dateObj.dayOfWeek}`;
 }
 
 /**
@@ -473,6 +482,7 @@ async function getWeeklyWatchTimes() {
     let last = first + 6; // last day is the first day + 6
 
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+
     let firstDay = new Date(curr.setDate(first)).toLocaleDateString(
       "en-US",
       options
@@ -481,6 +491,16 @@ async function getWeeklyWatchTimes() {
       "en-US",
       options
     );
+
+    // Function to rearrange the date format
+    function formatToMMDDYYYY(dateStr) {
+      let [month, day, year] = dateStr.split("/");
+      return `${month}.${day}.${year}`;
+    }
+
+    // Convert firstDay and lastDay to mm.dd.yyyy format
+    firstDay = formatToMMDDYYYY(firstDay);
+    lastDay = formatToMMDDYYYY(lastDay);
 
     return `${firstDay} - ${lastDay}`;
   }
@@ -503,10 +523,19 @@ async function getWeeklyWatchTimes() {
       // If the week exists, add the current watch time to the existing total
       existingWeek["total-watch-time"] +=
         allWatchTimes[index]["total-watch-time"];
+
+      existingWeek["long-form-watch-time"] +=
+        allWatchTimes[index]["long-form-watch-time"];
+      existingWeek["short-form-watch-time"] +=
+        allWatchTimes[index]["short-form-watch-time"];
     } else {
       // If the week doesn't exist, create a new entry
       weeklyItem.date = week;
       weeklyItem["total-watch-time"] = allWatchTimes[index]["total-watch-time"];
+      weeklyItem["long-form-watch-time"] =
+        allWatchTimes[index]["long-form-watch-time"];
+      weeklyItem["short-form-watch-time"] =
+        allWatchTimes[index]["short-form-watch-time"];
       weeklyWatchTimes.push(weeklyItem);
     }
   }
@@ -580,11 +609,21 @@ async function getMonthlyWatchTimes() {
       // If the month exists, add the current watch time to the existing total
       existingMonth["total-watch-time"] +=
         allWatchTimes[index]["total-watch-time"];
+
+      existingMonth["long-form-watch-time"] +=
+        allWatchTimes[index]["long-form-watch-time"];
+      existingMonth["short-form-watch-time"] +=
+        allWatchTimes[index]["short-form-watch-time"];
     } else {
       // If the month doesn't exist, create a new entry
       monthlyItem.date = month;
       monthlyItem["total-watch-time"] =
         allWatchTimes[index]["total-watch-time"];
+      monthlyItem["long-form-watch-time"] =
+        allWatchTimes[index]["long-form-watch-time"];
+      monthlyItem["short-form-watch-time"] =
+        allWatchTimes[index]["short-form-watch-time"];
+
       monthlyWatchTimes.push(monthlyItem);
     }
   }
@@ -614,25 +653,24 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
    *
    * @param {Object} dateValue - holds the watch time date; could be three different formats depending on the timeframe
    * @param {int} watchTimeSeconds - the watch time in seconds that will be converted to text
-   * @param {boolean} isLastItem - determines if a horizontal line is appended after an item
    *
    * @returns {void}
    */
-  function appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem) {
-    let watchTimeListElem = $("#watch-times-list > ul");
+  function appendWatchTimeItem(dateValue, watchTimeObj) {
+    let watchTimeListElem = $("#watch-times-table");
 
-    let newTimeForamt = convertTimeToText(watchTimeSeconds);
-    let watchTimeItem = $(`<li>
-                            <p>${dateValue}</p>
-                            <p>${newTimeForamt}</p>
-                          </li>`);
+    let totalTime = convertTimeToText(watchTimeObj["total-time"]);
+    let longFormTime = convertTimeToText(watchTimeObj["long-form"]);
+    let shortFormTime = convertTimeToText(watchTimeObj["short-form"]);
 
-    watchTimeListElem.append(watchTimeItem);
+    let watchTimeItem = $(`<tr>
+                            <td>${dateValue}</td>
+                            <td>${totalTime}</td>
+                            <td>${longFormTime}</td>
+                            <td>${shortFormTime}</td>
+                          </tr>`);
 
-    // Appends a horizontal line after every watch time except the final time
-    if (!isLastItem) {
-      watchTimeListElem.append("<hr class='horizontal-line'>");
-    }
+    watchTimeListElem.prepend(watchTimeItem);
   }
 
   /** Main Body */
@@ -640,28 +678,36 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
     for (let index in watchTimes) {
       if (watchTimes[index]["total-watch-time"] != 0) {
         let dateValue = watchTimes[index]["date"];
-        let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-        let isLastItem = index == watchTimes.length - 1;
-        appendWatchTimeItem(
-          reformatDateToText(dateValue),
-          watchTimeSeconds,
-          isLastItem
-        );
+        let watchTimeObj = {
+          "total-time": watchTimes[index]["total-watch-time"],
+          "long-form": watchTimes[index]["long-form-watch-time"],
+          "short-form": watchTimes[index]["short-form-watch-time"],
+        };
+
+        appendWatchTimeItem(reformatDateToText(dateValue), watchTimeObj);
       }
     }
   } else if (timeframe === "weekly-times") {
     for (let index in watchTimes) {
       let dateValue = watchTimes[index]["date"];
-      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-      let isLastItem = index == watchTimes.length - 1;
-      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem);
+      let watchTimeObj = {
+        "total-time": watchTimes[index]["total-watch-time"],
+        "long-form": watchTimes[index]["long-form-watch-time"],
+        "short-form": watchTimes[index]["short-form-watch-time"],
+      };
+
+      appendWatchTimeItem(dateValue, watchTimeObj);
     }
   } else if (timeframe === "monthly-times") {
     for (let index in watchTimes) {
       let dateValue = watchTimes[index]["date"];
-      let watchTimeSeconds = watchTimes[index]["total-watch-time"];
-      let isLastItem = index == watchTimes.length - 1;
-      appendWatchTimeItem(dateValue, watchTimeSeconds, isLastItem);
+      let watchTimeObj = {
+        "total-time": watchTimes[index]["total-watch-time"],
+        "long-form": watchTimes[index]["long-form-watch-time"],
+        "short-form": watchTimes[index]["short-form-watch-time"],
+      };
+
+      appendWatchTimeItem(dateValue, watchTimeObj);
     }
   }
 }
@@ -753,12 +799,7 @@ async function insertNotableTimes() {
       const avgTime = avgWatchTime["avgTime"];
       const amtOfDays = avgWatchTime["amtOfDays"];
 
-      console.log(avgTime);
-      console.log(amtOfDays);
-
-      $(`#average-watch-time #watch-time`).html(
-        convertTimeToText(avgTime, true)
-      );
+      $(`#average-watch-time #watch-time`).html(convertTimeToText(avgTime));
 
       // Inserts total days into .date tag
       $(`#average-watch-time #date`).html(`out of ${amtOfDays} days`);
@@ -768,9 +809,7 @@ async function insertNotableTimes() {
     const mostWatchedObj = await getMostWatchedDay();
     if (mostWatchedObj) {
       const mostDayTime = mostWatchedObj["total-watch-time"];
-      $(`#most-watch-day #watch-time`).html(
-        convertTimeToText(mostDayTime, true)
-      );
+      $(`#most-watch-day #watch-time`).html(convertTimeToText(mostDayTime));
 
       // Reformats 'yyyy-mm-dd' to 'mmm dd yyyy, www'
       const mostDayNewDate = reformatDateToText(mostWatchedObj["date"]);
@@ -779,6 +818,22 @@ async function insertNotableTimes() {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Gets all watch times to interate through
+async function getTableTotalWatchTimes(videoType) {
+  let allWatchTimes = await getAllWatchTimes();
+
+  let totalWatchTime = getTotalWatchTime(
+    allWatchTimes,
+    `${videoType}-watch-time`
+  );
+
+  console.log(totalWatchTime);
+
+  $(`#watch-times-table tfoot #${videoType}`).html(
+    convertTimeToText(totalWatchTime)
+  );
 }
 
 /** !SECTION */
@@ -825,7 +880,7 @@ $(document).ready(async function () {
   /** EVENT LISTENER: calculates and displays corresponding watch time timeframes  */
   $("#list-timeframe").on("change", async function () {
     // Deletes any existing list to be replaced by upcoming list
-    $("#watch-times-list > ul").html("");
+    $("#watch-times-table tbody").html("");
 
     // Timeframe value for determining which times to display
     let timeframeValue = $(this).val();
@@ -846,6 +901,11 @@ $(document).ready(async function () {
     }
   });
 
+  // Gets total watch times for all three properties and inserts them into table footer
+  await getTableTotalWatchTimes("total");
+  await getTableTotalWatchTimes("long-form");
+  await getTableTotalWatchTimes("short-form");
+
   /** EVENT LISTENER: Alerts users that resetting is irreversible and then resets watch times */
   $("#reset-all-watch-times").on("click", function () {
     if (
@@ -862,17 +922,6 @@ $(document).ready(async function () {
 
   // Create Watch Time Chart by default (both forms of videos)
   prepareWatchTimeChart();
-  // prepareWatchTimesForChart(
-  //   weekBeforeDate,
-  //   currentDate,
-  //   "total-watch-time"
-  // ).then((filteredWatchTimes) => {
-  //   let videoType = "total-watch-time";
-
-  //   chart = createWatchTimeChart(filteredWatchTimes, videoType);
-  //   let totalWatchTime = getTotalWatchTime(filteredWatchTimes, videoType);
-  //   $("#total-watch-time").html(convertTimeToText(totalWatchTime));
-  // });
 
   // Populates watch time list by default (daily)
   let dailyWatchTimes = await getAllWatchTimes();

@@ -241,7 +241,6 @@
     <main>
       <!-- Quick Info -->
       <div class="widget-container widget-container-row">
-        <!-- TODO: Active Watch Mode Item -->
         <section class="widget-item top-widget" id="watch-mode-top-widget">
           <header>
             <span>
@@ -370,18 +369,116 @@
           <!-- Content -->
           <section>
             <!-- List of Watch Times -->
-            <span class="watch-time-span" id="watch-times-list">
+            <!-- TODO: FUTURE FEATURE - SORTING -->
+            <span class="watch-time-span">
               <header>
                 <h1>Table</h1>
 
-                <select name="days" id="list-timeframe">
-                  <option value="daily-times">Daily</option>
-                  <option value="weekly-times">Weekly</option>
-                  <option value="monthly-times">Monthly</option>
-                </select>
+                <div class="flex-row eight-spacing">
+                  <button class="button-brand" id="reset-all-watch-times">
+                    Reset All Times
+                  </button>
+
+                  <select name="days" id="list-timeframe">
+                    <option value="daily-times">Daily</option>
+                    <option value="weekly-times">Weekly</option>
+                    <option value="monthly-times">Monthly</option>
+                  </select>
+                </div>
               </header>
 
-              <ul></ul>
+              <!-- Watch Times Table -->
+              <table id="watch-times-table">
+                <thead>
+                  <tr>
+                    <th
+                      data-sort-id="date"
+                      data-current-sort-dir="desc"
+                      data-active-sort="true"
+                    >
+                      <span class="flex-row align-center">
+                        <p>Date</p>
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_up</span
+                        >
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_down</span
+                        >
+                      </span>
+                    </th>
+                    <th
+                      data-sort-id="total-time"
+                      data-current-sort-dir="desc"
+                      data-active-sort="false"
+                    >
+                      <span class="flex-row align-center justify-cont-center">
+                        <p>Total Time</p>
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_up</span
+                        >
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_down</span
+                        >
+                      </span>
+                    </th>
+                    <th
+                      data-sort-id="long-form"
+                      data-current-sort-dir="desc"
+                      data-active-sort="false"
+                    >
+                      <span class="flex-row align-center justify-cont-center">
+                        <p>Long Form</p>
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_up</span
+                        ><span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_down</span
+                        >
+                      </span>
+                    </th>
+                    <th
+                      data-sort-id="short-form"
+                      data-current-sort-dir="desc"
+                      data-active-sort="false"
+                    >
+                      <span class="flex-row align-center justify-cont-center">
+                        <p>Short Form</p>
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_up</span
+                        ><span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_down</span
+                        >
+                      </span>
+                    </th>
+                    <!-- <th
+                      data-sort-id="restricted"
+                      data-current-sort-dir="desc"
+                      data-active-sort="false"
+                    >
+                      <span class="flex-row align-center justify-cont-center">
+                        <p>Restricted</p>
+                        <span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_up</span
+                        ><span class="material-symbols-rounded hidden"
+                          >keyboard_arrow_down</span
+                        >
+                      </span>
+                    </th> -->
+                  </tr>
+                </thead>
+
+                <!-- Where the watch times are inserted -->
+                <tbody></tbody>
+
+                <tfoot>
+                  <tr>
+                    <td>Total Times</td>
+                    <td id="total">0hr 0m</td>
+                    <td id="long-form">0hr 0m</td>
+                    <td id="short-form">0hr 0m</td>
+                    <!-- <td></td> -->
+                  </tr>
+                </tfoot>
+              </table>
             </span>
 
             <!-- Charts -->
@@ -390,7 +487,9 @@
                 <h1>Graph</h1>
 
                 <select name="video-form" id="chart-timeframe">
-                  <option value="total-watch-time">Both Forms of Videos</option>
+                  <option value="total-watch-time">
+                    Short-Form + Long-Form
+                  </option>
                   <option value="long-form-watch-time">Long-Form Videos</option>
                   <option value="short-form-watch-time">
                     Short-Form Videos
@@ -398,28 +497,32 @@
                 </select>
               </header>
 
-              <div class="total-time-container">
-                <span class="material-symbols-rounded"
-                  >nest_clock_farsight_analog
-                </span>
-                <span id="total-watch-time">0 Seconds</span>
+              <div class="flex-col eight-spacing">
+                <p class="medium-text">Total Time</p>
+
+                <div class="flex-row eight-spacing">
+                  <span class="material-symbols-rounded"
+                    >nest_clock_farsight_analog
+                  </span>
+                  <span id="total-watch-time">0 Seconds</span>
+                </div>
               </div>
 
-              <div class="timeframe-container">
-                <label for="timeframe">Timeframe</label>
+              <div class="flex-col eight-spacing">
+                <label for="timeframe" class="medium-text">Timeframe</label>
                 <span class="timeframe-inputs">
                   <input type="date" id="timeframe-start" name="timeframe" />
                   <p>-</p>
                   <input type="date" id="timeframe-end" />
-                  <button class="misc-button">Get Notable Times</button>
+                  <button class="misc-button">
+                    <span class="material-symbols-rounded"
+                      >arrow_right_alt
+                    </span>
+                  </button>
                 </span>
               </div>
 
               <canvas id="chart"></canvas>
-
-              <button class="button-brand" id="reset-all-watch-times">
-                Reset Watch Time
-              </button>
             </span>
           </section>
         </section>
@@ -427,12 +530,7 @@
     </main>
 
     <script src="/node_modules/progressbar.js/dist/progressbar.js"></script>
-    <script
-      nonce="123456"
-      src="/scripts/fullcalendar-6.1.15/dist/index.global.js"
-    ></script>
     <script src="/scripts/chart.js"></script>
-    <script src=""></script>
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
