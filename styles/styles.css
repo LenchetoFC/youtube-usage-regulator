@@ -400,7 +400,10 @@ main p {
 /* ----------- */
 /* FONT COLORS */
 /* ----------- */
-
+.highlighted-text {
+  color: var(--brand-active);
+  font-weight: 800;
+}
 /* --------- */
 /* FONT SIZE */
 /* --------- */

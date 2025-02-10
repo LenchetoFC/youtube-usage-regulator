@@ -79,37 +79,52 @@ $(document).ready(function () {
   });
 
   // Filters all .search-item according to current search bar input
+  // NOTE: for transparency, most of this, especially the highlighting, is A.I. generated.
   $("#search-input").on("input", function () {
-    // .search-item is the parent container of each setting option
     function filterSearchItems(searchBarElem) {
-      const inputVal = $(searchBarElem).val();
+      const inputVal = $(searchBarElem).val().toLowerCase();
+      const regex = new RegExp(inputVal, "gi");
 
-      // Hide search items if it does not container search bar input value
       $(".search-item").each(function () {
-        if (
-          $(this)
-            .find("p, td")
-            .text()
-            .toLowerCase()
-            .includes(inputVal.toLowerCase())
-        ) {
-          $(this).show();
+        const $item = $(this);
+        const $textElems = $item.find("p, td");
+
+        // Restore the original text and remove the highlight class
+        $textElems.each(function () {
+          const originalText = $(this).data("original-text") || $(this).text();
+          $(this).data("original-text", originalText);
+          $(this).html(originalText);
+        });
+
+        const matches = $textElems.filter(function () {
+          return regex.test($(this).text().toLowerCase());
+        });
+
+        if (matches.length > 0) {
+          $item.show();
+
+          matches.each(function () {
+            const $textElem = $(this);
+            const text = $textElem.text();
+            const highlightedText = text.replace(regex, function (match) {
+              return `<span class="highlighted-text">${match}</span>`;
+            });
+            $textElem.html(highlightedText);
+          });
         } else {
-          $(this).hide();
+          $item.hide();
         }
 
-        // If all options in a fieldset are set to display: none, hide the fieldset title as well
-        const $fieldset = $(this).closest("fieldset");
-        if ($(this).css("display") !== "none") {
+        const $fieldset = $item.closest("fieldset");
+        const allItemsHidden =
+          $fieldset.find(".search-item").filter(function () {
+            return $(this).css("display") !== "none";
+          }).length === 0;
+
+        if (!allItemsHidden) {
           $fieldset.show();
         } else {
-          const allItemsHidden =
-            $fieldset.find(".search-item").filter(function () {
-              return $(this).css("display") !== "none";
-            }).length === 0;
-          if (allItemsHidden) {
-            $fieldset.hide();
-          }
+          $fieldset.hide();
         }
       });
     }
