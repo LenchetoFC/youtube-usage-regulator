@@ -6,8 +6,8 @@
  * @author LenchetoFC
  *
  * @requires module:global-functions
- * @see {@link module:global-functions.displayNotifications} x5
- * @see {@link module:global-functions.selectRecordByIdGlobal} x2
+ * @see {@link module:global-functions.displayNotifications}
+ * @see {@link module:global-functions.selectRecordByIdGlobal}
  * @see {@link module:global-functions.deleteRecordByIdGlobal}
  * @see {@link module:global-functions.selectAllRecordsGlobal}
  * @see {@link module:global-functions.insertRecordsGlobal}
@@ -26,16 +26,16 @@
 /**
  * Removes website from database and web page when delete button is pressed
  *
- * @name attachWebsiteEditEvent
+ * @name attachEditEvents
  *
  * @param {int} websiteItemId - website ID from database, just a number
  *
  * @returns {void}
  *
- * @example attachWebsiteEditEvent(2, "social-media");
+ * @example attachEditEvents(2, "social-media");
  */
-function attachWebsiteEditEvent(websiteItemId) {
-  $(`[data-website-id='blocked-website-${websiteItemId}']`).on(
+function attachEditEvents(websiteItemId) {
+  $(`button[data-website-id='blocked-website-${websiteItemId}']`).on(
     "click",
     async function () {
       try {
@@ -53,6 +53,56 @@ function attachWebsiteEditEvent(websiteItemId) {
 
         // Open edit website popup
         populateWebsitePopup(websiteObj, false);
+
+        return true;
+      } catch (error) {
+        console.error(error);
+        // Optionally, you can display an error message to the user here
+      }
+    }
+  );
+
+  $(`input[data-website-id='blocked-website-${websiteItemId}']`).on(
+    "click",
+    async function () {
+      try {
+        const $isActive = $(this).is(":checked");
+
+        // Get website data from storage using ID
+        /**
+         * active: boolean
+         */
+        // Updates current website's data
+        const updateResult = await updateRecordByPropertyGlobal(
+          "additional-websites",
+          "id",
+          parseInt(websiteItemId),
+          { active: $isActive }
+        );
+
+        // Gets status message from update
+        if (updateResult.error) {
+          displayNotifications(
+            "Could not update this website. Try again later.",
+            "#d92121",
+            "release_alert",
+            5000
+          );
+          throw new Error(updateResult.message);
+        } else {
+          console.log(updateResult.message);
+
+          // Loads in new websites
+          // insertAdditionalWebsites();
+          // document.getElementById("popover-new-blocked-website").hidePopover();
+
+          displayNotifications(
+            `Successfully ${$isActive ? "enabled" : "disabled"} website!`,
+            "#390",
+            "verified",
+            2000
+          );
+        }
 
         return true;
       } catch (error) {
@@ -89,12 +139,10 @@ async function deleteAdditionalWebsite(websiteObj) {
         websiteObj.id
       );
 
-      console.log(deleteWebsite);
-
       // Displays error message if deleting is unsuccessful
       if (deleteWebsite.error) {
         displayNotifications(
-          "Unsuccessfully Deleted Website. Try Again Later.",
+          "Unsuccessfully deleted website. Try again later.",
           "#d92121",
           "release_alert",
           5000
@@ -104,30 +152,8 @@ async function deleteAdditionalWebsite(websiteObj) {
       } else {
         document.getElementById("popover-new-blocked-website").hidePopover();
 
-        // Removes website from DOM if deleting is successful
-        let isWebsiteTypeEmpty =
-          $(`#website-${websiteObj.type} li`).length === 1;
-
-        if (!isWebsiteTypeEmpty) {
-          $(`#blocked-website-${websiteObj.id}`).remove();
-        } else {
-          $(`#website-${websiteObj.type} + hr`).remove();
-          $(`#website-${websiteObj.type}`).remove();
-
-          // Displays empty content if there is no websites left
-          if ($(`#additional-websites .content`).children().length === 0) {
-            $(`#additional-websites .content`).css("display", "none");
-
-            $("#additional-websites .empty-content")
-              .fadeIn()
-              .css("display", "flex");
-
-            $("#additional-websites .dual-buttons").css("display", "none");
-          }
-        }
-
         displayNotifications(
-          "successfully Deleted Website!",
+          "Successfully deleted website!",
           "#390",
           "verified",
           2000
@@ -138,37 +164,8 @@ async function deleteAdditionalWebsite(websiteObj) {
   } catch (error) {
     console.error(error);
     // Optionally, you can display an error message to the user here
-  }
-}
 
-/**
- * Checks if any websites are still in the website type group; if so, remove group from DOM
- *
- * @name isWebsiteTypeEmpty
- *
- * @param {string} websiteType - website type from database, but follows 'website-' string
- *
- * @returns {void}
- *
- * @example isWebsiteTypeEmpty(`website-shopping`);
- */
-function isWebsiteTypeEmpty(websiteType) {
-  console.log($(`#${websiteType} li`).length);
-  if ($(`#${websiteType} li`).length === 1) {
-    $(`#${websiteType}`).slideUp(function () {
-      // Removes the horizontal line below the website type group, then removes the group element
-      $(`#${websiteType} + hr`).remove();
-      $(`#${websiteType}`).remove();
-
-      // Displays empty content if there is no websites left
-      if ($(`#additional-websites .content`).children().length === 0) {
-        $(`#additional-websites .content`).css("display", "none");
-
-        $("#additional-websites .empty-content")
-          .fadeIn()
-          .css("display", "flex");
-      }
-    });
+    return false;
   }
 }
 
@@ -207,49 +204,10 @@ function reformatWebsiteType(websiteType) {
  */
 async function insertAdditionalWebsites() {
   /**
-   * Append website type
-   *
-   * This function appends a new website type group to the content container in the DOM.
-   * It reformats the website type with proper capitalization, creates a new fieldset element,
-   * and appends it to the content container. If the website type is not the last item, it also
-   * appends a horizontal line after the type group.
-   *
-   * @name appendWebsiteType
-   *
-   * @param {string} type - The website type to be appended.
-   * @param {boolean} isLastItem - A boolean indicating whether this is the last item.
-   *
-   * @returns {void}
-   *
-   * @example appendWebsiteType("social", false);
-   */
-  function appendWebsiteType(type, isLastItem) {
-    // Website list container
-    let websiteListElem = $("#additional-websites .content");
-
-    // Reformats website type from database with proper capitalization
-    let reformattedType = reformatWebsiteType(type);
-
-    // Website Type Group Item
-    let websiteTypeItem = $(`
-      <fieldset id="website-${type}">
-      </fieldset>`).append(`<legend>${reformattedType}</legend> <ul></ul>`);
-
-    // Append new website type group into content container
-    websiteListElem.append(websiteTypeItem);
-
-    // Appends horizontal lines after each type besides the last one
-    if (!isLastItem) {
-      websiteListElem.append("<hr class='horizontal-line'>");
-    }
-  }
-
-  /**
    * Append website item
    *
-   * This function appends a new website item to its corresponding website type group in the DOM.
-   * It creates a new list item element with the website's name and URL, and an edit button.
-   * The new website item is then appended to the corresponding website type group and displayed with a slide-down effect.
+   * This function appends a new website item to the website table.
+   * It creates a new table row element with the website's name, URL, type, and a button to edit item.
    *
    * @name appendWebsiteItem
    *
@@ -257,99 +215,66 @@ async function insertAdditionalWebsites() {
    *
    * @returns {void}
    *
-   * @example appendWebsiteItem({ id: 1, name: "Example Site", url: "https://example.com", type: "social" });
+   * @example appendWebsiteItem({ id: 1, name: "Example Site", url: "https://example.com", type: "social-media" });
    */
   function appendWebsiteItem(websiteObj) {
-    // Website Item and it's children elements
-    let websiteItem = $(`<li id="blocked-website-${websiteObj.id}"></li>`);
-    websiteItem.append(`<span>
-                          <h1>${websiteObj.name}</h1>
-                          <p>${websiteObj.url}</p>
-                        </span>`);
-    websiteItem.append(`<button class="edit" data-website-id="blocked-website-${websiteObj.id}">
-                          Edit
-                        </button>`);
+    const websiteListElem = $("#website-table tbody");
 
-    // Append new website item to its corresponding website type group
-    $(`#website-${websiteObj.type} ul`).append(websiteItem);
-    websiteItem.slideDown();
-  }
+    let watchTimeItem = $(`<tr class="search-item">
+                            <td>${websiteObj.name}</td>
+                            <td>${websiteObj.url}</td>
+                            <td>${reformatWebsiteType(websiteObj.type)}</td>
+                            
+                            <td>
+                              <label class="side-checkbox-container">
+                                <input ${websiteObj.active ? "checked" : ""}
+                                  data-website-id="blocked-website-${
+                                    websiteObj.id
+                                  }" type="checkbox">
+                                <span class="checkmark">
+                                  <span class="material-symbols-rounded" >check</span>
+                                </span>
+                              </label>
+                            </td>
+                            <td>
+                              <button class="button-brand edit" data-website-id="blocked-website-${
+                                websiteObj.id
+                              }">
+                                Edit
+                              </button>
+                            </td>
+                          </tr>`);
 
-  /**
-   * Group websites by type
-   *
-   * This function groups websites by their type for better DOM insertion.
-   * It iterates over the array of websites and creates a new object where each key is a type
-   * and the value is an array of websites that belong to that type.
-   *
-   * @name groupWebsitesByType
-   *
-   * @param {Array} websites - Array of website objects to be grouped.
-   *
-   * @returns {Object} An object where each key is a type and the value is an array of websites that belong to that type.
-   *
-   * @example let groupedWebsites = groupWebsitesByType([{ id: 1, name: "Example Site", url: "https://example.com", type: "social" }]);
-   */
-  function groupWebsitesByType(websites) {
-    return websites.reduce((acc, currentWebsite) => {
-      const { type, ...rest } = currentWebsite;
-      if (!acc[type]) {
-        acc[type] = [];
-      }
-      acc[type].push(rest);
-      return acc;
-    }, {});
+    websiteListElem.prepend(watchTimeItem);
   }
 
   /** Main body */
-
   // Ensures the container is empty
-  $("#additional-websites .content").html("");
+  $("#website-table tbody").html("");
 
   // Retrieve all additional websites
   let allWebsites = await selectAllRecordsGlobal("additional-websites");
 
   // If there are no websites in database, display the empty content HTML
   if (Object.keys(allWebsites).length === 0) {
-    $("#additional-websites .content").css("display", "none");
-    $("#additional-websites .dual-buttons").css("display", "none");
+    $("#website-table").css("display", "none");
+    $("#additional-websites #website-buttons").css("display", "none");
     $("#additional-websites .empty-content").css("display", "flex");
 
     return; // Skip the rest of the code
   } else {
-    $("#additional-websites .content").css("display", "flex");
-    $("#additional-websites .dual-buttons").css("display", "flex");
+    $("#website-table").css("display", "block");
+    $("#additional-websites #website-buttons").css("display", "flex");
     $("#additional-websites .empty-content").css("display", "none");
   }
 
-  let groupedByType = groupWebsitesByType(allWebsites);
+  // Inserts each website item into table, sorted by added date
+  allWebsites.forEach((websiteObj) => {
+    // Creates website items and inserts it into the fieldset
+    appendWebsiteItem(websiteObj);
 
-  // Get the keys of the grouped object
-  let types = Object.keys(groupedByType);
-
-  // Iterates through each website and inserts the website data into DOM
-  types.forEach((type, index) => {
-    // Creates new fieldset for the website type
-    let isLastItem = index === types.length - 1;
-    appendWebsiteType(type, isLastItem);
-
-    // Puts each website in the current website type in the recently created fieldset
-    let websitesOfType = groupedByType[type];
-    websitesOfType.forEach((currentWebsite) => {
-      // Puts website data into its own object
-      const websiteObj = {
-        id: currentWebsite.id,
-        name: currentWebsite.name,
-        url: currentWebsite.url,
-        type: type,
-      };
-
-      // Creates website items and inserts it into the fieldset
-      appendWebsiteItem(websiteObj, isLastItem);
-
-      // Adds an event listener to website item to be able delete them from DOM and database
-      attachWebsiteEditEvent(websiteObj.id, websiteObj.type);
-    });
+    // Adds an event listener to website item to be able delete them from DOM and database
+    attachEditEvents(websiteObj.id, websiteObj.type);
   });
 }
 
@@ -373,7 +298,7 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
   // If adding new website, leave form blank,
   // --- hide delete website button, set submit button id to "block-website"
   if (isNewWebsite) {
-    $("#delete-website").hide().prop("disabled", true);
+    $("#delete-website, label:has(input)").hide().prop("disabled", true);
     $("#popover-new-blocked-website header h1").html("New Website");
     $("#new-blocked-website-form input").val("");
     $("#new-blocked-website-form select").val("");
@@ -396,6 +321,8 @@ function populateWebsitePopup(websiteObj, isNewWebsite) {
     $("#new-blocked-website-form #update-website")
       .show()
       .attr("data-website-id", websiteObj.id);
+
+    $("#enabled-website").prop("checked", websiteObj.active);
   }
 
   document.getElementById("popover-new-blocked-website").showPopover();
@@ -469,9 +396,11 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
    */
   function getFormValues(buttonID) {
     return {
+      active: true,
       name: $("#website-name").val(),
       url: $("#website-url").val(),
       type: $("#website-type").val(),
+      active: $("#enabled-website").is(":checked"),
       id: parseInt(getDataWebsiteID(buttonID)),
     };
   }
@@ -547,7 +476,9 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
       // Gets status message from insertion
       if (saveWebsiteResult.error) {
         displayNotifications(
-          "Could not add or update this website. Try again later.",
+          `Could not ${
+            isNewWebsite ? "add" : "update"
+          } this website. Try again later.`,
           "#d92121",
           "release_alert",
           5000
@@ -561,7 +492,7 @@ function saveWebsiteToDatabase(formEvent, isNewWebsite, buttonID) {
         document.getElementById("popover-new-blocked-website").hidePopover();
 
         displayNotifications(
-          "Successfully Added New Website!",
+          `Successfully ${isNewWebsite ? "added" : "updated"} new website!`,
           "#390",
           "verified",
           2000
@@ -644,7 +575,21 @@ $(document).ready(function () {
       parseInt(websiteItemId)
     );
 
-    deleteAdditionalWebsite(websiteObj);
+    let isSuccessful = await deleteAdditionalWebsite(websiteObj);
+
+    if (isSuccessful) {
+      insertAdditionalWebsites();
+
+      if ($(`#website-table`).children().length === 0) {
+        $(`#website-table`).css("display", "none");
+
+        $("#additional-websites .empty-content")
+          .fadeIn()
+          .css("display", "flex");
+
+        $("#additional-websites #website-buttons").css("display", "none");
+      }
+    }
   });
 
   /**
@@ -658,14 +603,11 @@ $(document).ready(function () {
     try {
       // Ask user to confirm choice
       if (window.confirm("Confirm to delete ALL blocked websites...")) {
-        // Sets all checkboxes to unchecked
-        clearLimitationInputs();
-
         const result = await resetTableGlobal("additional-websites");
 
         if (!result.error) {
           displayNotifications(
-            "Deleted Websites Successfully!",
+            "Deleted websites successfully!",
             "#390",
             "verified",
             2000

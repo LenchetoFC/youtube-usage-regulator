@@ -48,29 +48,6 @@ function loadNavBar() {
 }
 
 /**
- * Switch to the selected settings tab page
- *
- * This function hides all non-selected settings sections and fades in the selected section.
- *
- * @name switchSettingsTab
- *
- * @param {string} selectedTabId - The ID of the selected tab to switch to.
- *
- * @returns {void}
- *
- * @example switchSettingsTab("general-settings");
- */
-function switchSettingsTab(selectedTabId) {
-  $(".general-body > section")
-    .not(`#${selectedTabId}`)
-    .fadeOut(function () {
-      // Fade in the selected section after the fade-out completes
-      $(`#${selectedTabId}`).fadeIn().css("display", "flex");
-    });
-}
-/** !SECTION */
-
-/**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
@@ -78,7 +55,7 @@ $(document).ready(function () {
   loadNavBar();
 
   /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
-  $(".cancel").on("click", function () {
+  $("button[type='reset'].cancel").on("click", function () {
     const popoverId = $(this).attr("data-popover");
     document.querySelector(`#${popoverId}`).togglePopover();
   });
@@ -111,7 +88,7 @@ $(document).ready(function () {
       $(".search-item").each(function () {
         if (
           $(this)
-            .find("p")
+            .find("p, td")
             .text()
             .toLowerCase()
             .includes(inputVal.toLowerCase())

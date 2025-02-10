@@ -58,6 +58,7 @@
           <label for="website-name">Website Name</label>
           <input
             type="text"
+            class="input-border-bottom"
             name="website-name"
             id="website-name"
             placeholder="Reddit"
@@ -71,6 +72,7 @@
           <label for="website-url">URL Address</label>
           <input
             type="url"
+            class="input-border-bottom"
             name="website-url"
             id="website-url"
             placeholder="https://reddit.com"
@@ -81,7 +83,13 @@
 
         <div class="text-input-container">
           <label for="website-type">Website Type</label>
-          <select type="text" name="website-type" id="website-type" required>
+          <select
+            class="input-full-border"
+            type="text"
+            name="website-type"
+            id="website-type"
+            required
+          >
             <option value="">Choose a Website Type</option>
             <option value="social-media">Social Media</option>
             <option value="shopping">Shopping</option>
@@ -91,22 +99,26 @@
           </select>
         </div>
 
+        <label class="side-checkbox-container">
+          <input id="enabled-website" type="checkbox" />
+          <span class="checkmark">
+            <span class="material-symbols-rounded">check</span>
+          </span>
+
+          <p>Enable</p>
+        </label>
+
         <div class="button-footer">
           <span>
-            <button
-              value=""
-              popovertargetaction="toggle"
-              id="delete-website"
-              class="button-brand"
-            >
-              Delete Website
+            <button value="" class="text-button cancel" id="delete-website">
+              <p>Delete Website</p>
             </button>
           </span>
 
-          <span class="dual-buttons">
+          <span class="group-of-buttons">
             <button
               type="reset"
-              class="text-button underline-hover cancel"
+              class="text-button cancel"
               data-popover="popover-new-blocked-website"
             >
               <p>Cancel</p>
@@ -170,19 +182,27 @@
         <form>
           <div class="search-bar">
             <span class="material-symbols-rounded">search</span>
-            <input type="text" id="search-input" placeholder="Search..." />
+            <input
+              type="text"
+              id="search-input"
+              class="input-full-border"
+              placeholder="Search..."
+            />
           </div>
         </form>
         <div class="flex-col">
           <h1>General Website Blocker</h1>
           <h2>
             Completely block more websites beyond YouTube, such as social media,
-            shopping, adult content, and more kinds of websites!
+            shopping, adult content, and more!
           </h2>
         </div>
       </header>
 
-      <section class="flex-col thirty-two-spacing" id="additional-websites">
+      <section
+        class="flex-col twenty-four-spacing max-height"
+        id="additional-websites"
+      >
         <div class="empty-content">
           <span class="material-symbols-rounded">block</span>
           <h1>Add Websites to Block</h1>
@@ -198,10 +218,85 @@
           </button>
         </div>
 
-        <div class="content"></div>
+        <!-- <div class="content"></div> -->
+
+        <!-- Watch Times Table -->
+        <!-- TODO: FUTURE FEATURE - SORTING -->
+        <table id="website-table">
+          <thead>
+            <tr>
+              <th
+                data-sort-id="website-name"
+                data-current-sort-dir="desc"
+                data-active-sort="true"
+              >
+                <span class="flex-row align-center">
+                  <p>Website Name</p>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  >
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="url-address"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <p>URL Address</p>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  >
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="website-type"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <p>Website Type</p>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  ><span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="enabled"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <p>Enabled</p>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  ><span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th>
+                <span class="flex-row align-center justify-cont-center">
+                  <p>Update</p>
+                </span>
+              </th>
+            </tr>
+          </thead>
+
+          <!-- Where the watch times are inserted -->
+          <tbody></tbody>
+        </table>
 
         <!-- Add new website button -->
-        <span class="dual-buttons">
+        <span class="group-of-buttons" id="website-buttons">
           <span>
             <button class="misc-button add-new-website">
               <span class="material-symbols-rounded">add</span>
@@ -209,10 +304,7 @@
             </button>
           </span>
 
-          <button
-            class="text-button underline-hover red-text-button"
-            id="clear-websites"
-          >
+          <button class="text-button red-text-button" id="clear-websites">
             <p>Delete All Websites</p>
           </button>
         </span>
@@ -223,6 +315,6 @@
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
-    <script type="module" src="/scripts/settings-yt-limitations.js"></script>
+    <script type="module" src="/scripts/settings-website-blocker.js"></script>
   </body>
 </html>
