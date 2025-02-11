@@ -836,6 +836,18 @@ async function getTableTotalWatchTimes(videoType) {
 
 /** !SECTION */
 
+/** SECTION - REDIRECTED POPOVER */
+function isUserRedirected() {
+  // Checks if the user was redirected from blocked site
+  const currentUrl = window.location.href;
+  const url = new URL(currentUrl);
+
+  const isRedirected = url.searchParams.get("redirected");
+
+  return isRedirected;
+}
+/** !SECTION */
+
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
@@ -952,6 +964,11 @@ $(document).ready(async function () {
     shortFormBar.animate(percentages["short-form-percentage"]);
     longFormBar.animate(percentages["long-form-percentage"]);
   });
+
+  // Checks if the user was redirected from blocked site
+  if (isUserRedirected()) {
+    document.querySelector("#popover-restricted-details").showPopover();
+  }
 });
 
 /** !SECTION */

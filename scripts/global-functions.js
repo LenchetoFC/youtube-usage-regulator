@@ -604,7 +604,7 @@ window.displayNotifications = (
  */
 window.redirectUser = () => {
   chrome.runtime.sendMessage(
-    { redirect: "/html/dashboard.html" },
+    { redirect: "/dashboard.html?redirected=true" },
     function (response) {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError.message);
