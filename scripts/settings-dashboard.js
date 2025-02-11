@@ -837,6 +837,13 @@ async function getTableTotalWatchTimes(videoType) {
 /** !SECTION */
 
 /** SECTION - REDIRECTED POPOVER */
+/**
+ * Gets value of redirected parameter from dashboard url
+ *
+ * @name isUserRedirected
+ *
+ * @returns {boolean} whether parameter 'redirected' is present (true or null)
+ */
 function isUserRedirected() {
   // Checks if the user was redirected from blocked site
   const currentUrl = window.location.href;
@@ -846,6 +853,39 @@ function isUserRedirected() {
 
   return isRedirected;
 }
+
+/**
+ * Chooses one out of 11 gifs and return path and corresponding alt text
+ *
+ * @name isUserRedirected
+ *
+ * @returns {boolean} whether parameter 'redirected' is present (true or null)
+ */
+function chooseRandomGif() {
+  const rand = Math.floor(Math.random() * 12);
+  let altTexts = [
+    "A toddler slips and smacks her face into her birthday cake",
+    "A skater does trick off top of staircase to fail the landing",
+    "A man on a mini-gold course hitting a ball off a wooden wall that returns to hit him in the face",
+    "An orange and black-spotted cat clawing at a sock-covered foot and aggresively shaking head",
+    "A toddler in a robot costume falling backwards",
+    "First penguin of four in a row shaking its head aggressively",
+    "A woman belly flopping into a very clean, blue lake",
+    "An orange cat attempting to jump from a snow-covered car to then slip and fall down hood",
+    "A toddler riding a toy motorcycle into his backyard fence",
+    "A Lakers player prematurely celebrating while he missing his basketball shot",
+    "A soldier on his knees screaming 'NO' to the heavens",
+    "A helldiver from Helldivers 2 is melted by Bile Spewer creature",
+  ];
+
+  const gifObj = {
+    src: `/images/blocked-page-gifs/bg-gif-${rand}.gif`,
+    alt: altTexts[rand],
+  };
+
+  return gifObj;
+}
+
 /** !SECTION */
 
 /**
@@ -967,6 +1007,10 @@ $(document).ready(async function () {
 
   // Checks if the user was redirected from blocked site
   if (isUserRedirected()) {
+    const gifObj = chooseRandomGif();
+    $("#random-popover-gif").attr("src", gifObj["src"]);
+    $("#random-popover-gif").attr("alt", gifObj["alt"]);
+
     document.querySelector("#popover-restricted-details").showPopover();
   }
 });
