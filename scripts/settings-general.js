@@ -131,6 +131,14 @@ $(document).ready(function () {
 
     filterSearchItems($(this));
   });
+
+  /** !SECTION */
+
+  // Closes restriction details popover
+  $("#popover-restricted-details #close-popover").on("click", function () {
+    document.getElementById("popover-restricted-details").hidePopover();
+    console.log("should close");
+  });
 });
 
 /** !SECTION */

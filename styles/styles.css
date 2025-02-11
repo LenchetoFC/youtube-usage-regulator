@@ -1867,6 +1867,7 @@ section:is(#watch-mode) {
   background: var(--surface-light);
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
   border: transparent;
+  z-index: 1;
 
   form {
     gap: 1.6rem;
@@ -1918,6 +1919,57 @@ section:is(#watch-mode) {
     /* font-weight: 500; */
     line-height: 200%;
   }
+}
+
+/* Dashboard Restriction Details Popover */
+
+#popover-restricted-details {
+  /* display: flex; */
+  padding: 0;
+}
+
+#popover-restricted-details .large-text {
+  color: var(--text-dark);
+}
+
+#popover-restricted-details img {
+  width: 100%;
+  height: 100%;
+}
+
+div#popover-restricted-details > *:not(img) {
+  padding: 2rem;
+  margin: 0;
+}
+
+#popover-restricted-details h1,
+#popover-restricted-details .large-text {
+  font-size: 2rem;
+}
+
+#popover-restricted-details h2,
+#popover-restricted-details .medium-text {
+  font-size: 1.6rem;
+}
+
+#popover-restricted-details .content-container {
+  display: flex;
+  /* flex-wrap: wrap; */
+  gap: 1.2rem;
+  height: 100%;
+  width: 100%;
+}
+
+#popover-restricted-details .content > span {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+#popover-restricted-details .overlay-buttons {
+  width: 100%;
+  justify-content: flex-end;
 }
 
 /* ------------- */

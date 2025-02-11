@@ -37,11 +37,49 @@
 
   <body id="dashboard">
     <div id="overlay"></div>
+
     <!-- Notification Container - ABSOLUTE POSITIONED-->
     <span id="notif-msg">
       <span class="material-symbols-rounded">info</span>
       <p>Message Text</p>
     </span>
+
+    <!-- Restriction Details - ABSOLUTE POSITIONED-->
+    <div popover id="popover-restricted-details" class="popover">
+      <img src="/images/blocked-page-gifs/bg-gif-1.gif" />
+
+      <header>
+        <h1>
+          Sorry, <span id="random-name">Pal</span>! You set restrictions for a
+          reason.
+        </h1>
+        <h2>Ponder your screen time... That's plenty, right?</h2>
+      </header>
+
+      <section class="content-container">
+        <section class="content">
+          <span id="average-watch-time">
+            <p class="medium-text">Average Watch Time</p>
+            <p class="large-text" id="watch-time">0 Seconds</p>
+            <p class="medium-text" id="date">out of 0 days</p>
+          </span>
+        </section>
+
+        <section class="content">
+          <span id="most-watch-day">
+            <p class="medium-text">Most Watched Day</p>
+            <p class="large-text" id="watch-time">0 Seconds</p>
+            <p class="medium-text" id="date">No Date</p>
+          </span>
+        </section>
+      </section>
+
+      <span class="overlay-buttons">
+        <button class="button-brand" id="close-popover">
+          <p>Accept</p>
+        </button>
+      </span>
+    </div>
 
     <!-- Side Nav Bar -->
     <aside>
