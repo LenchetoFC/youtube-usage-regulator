@@ -75,7 +75,11 @@
       </section>
 
       <span class="overlay-buttons">
-        <button class="button-brand" id="close-popover">
+        <button
+          class="button-brand"
+          popovertarget="popover-restricted-details"
+          popovertargetaction="hide"
+        >
           <p>Accept</p>
         </button>
       </span>
@@ -113,6 +117,16 @@
 
     <main>
       <!-- Quick Info -->
+      <span class="overlay-buttons">
+        <button
+          class="button-brand"
+          id="open-popover"
+          popovertarget="popover-restricted-details"
+          popovertargetaction="show"
+        >
+          <p>Accept</p>
+        </button>
+      </span>
       <div class="widget-container widget-container-row">
         <section class="widget-item top-widget" id="watch-mode-top-widget">
           <header>
