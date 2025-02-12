@@ -27,11 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Lunasima:wght@400;700&family=Outfit:wght@100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap"
       rel="stylesheet"
     />
     <link
@@ -53,12 +49,13 @@
         <h1>New Watch Mode</h1>
       </header>
 
-      <form action="" method="" class="content">
+      <form action="" method="" class="content" id="new-watch-mode">
         <div class="text-input-container">
-          <label for="watch-mode-name">Watch Mode Name</label>
+          <label for="watch-mode-name">Mode Name</label>
           <input
             type="text"
-            name="watch-mode-name-input"
+            class="input-border-bottom"
+            name="watch-mode-name"
             id="watch-mode-name"
             placeholder="Educational Mode"
             minlength="1"
@@ -70,8 +67,9 @@
         <div class="text-input-container">
           <label for="watch-mode-desc">Description</label>
           <input
-            type="text"
-            name="watch-mode-desc-input"
+            type="url"
+            class="input-border-bottom"
+            name="watch-mode-desc"
             id="watch-mode-desc"
             placeholder="Remove all non-educational materials"
             minlength="1"
@@ -80,52 +78,155 @@
           />
         </div>
 
-        <fieldset>
-          <legend>Priority</legend>
-          <ul>
-            <li class="tag-button-item">
-              <button class="text-button underline-hover">
-                <span class="material-symbols-rounded">add</span>
-                <p>Add priority tag</p>
-              </button>
-            </li>
-          </ul>
-        </fieldset>
-
-        <fieldset>
-          <legend>Restricted</legend>
-          <ul>
-            <li class="tag-button-item">
-              <button class="text-button underline-hover">
-                <span class="material-symbols-rounded">add</span>
-                <p>Add restricted tag</p>
-              </button>
-            </li>
-          </ul>
-        </fieldset>
-
-        <div class="color-input-container">
+        <div class="text-input-container">
+          <label for="allowed-tags">Allowed Tags</label>
           <input
-            type="color"
-            id="watch-mode-bg"
-            name="watch-mode-bg"
-            value="#000000"
+            type="url"
+            class="input-border-bottom"
+            name="allowed-tags"
+            id="allowed-tags"
+            placeholder="School, learning, study, etc."
+            minlength="1"
             required
           />
-          <label for="watch-mode-bg">Background Color</label>
         </div>
 
-        <span class="group-of-buttons">
-          <button
-            class="text-button underline-hover cancel"
-            data-popover="popover-new-watch-mode"
-          >
-            <p>Cancel</p>
-          </button>
+        <div class="text-input-container">
+          <label for="restricted-tags">Restricted Tags</label>
+          <input
+            type="url"
+            class="input-border-bottom"
+            name="restricted-tags"
+            id="restricted-tags"
+            placeholder="Games, movies, fun, etc."
+            minlength="1"
+            required
+          />
+        </div>
+
+        <div class="max-width space-between">
+          <div class="text-input-container">
+            <label for="watch-mode-color">Widget Color</label>
+
+            <div class="flex-row eight-spacing">
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-marian-blue"
+                value="#3c4672"
+                title="Marian Blue"
+                class="color-scheme"
+                tabindex="0"
+                checked
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-royal-purple"
+                value="#724B9C"
+                title="Royal Purple"
+                class="color-scheme"
+                tabindex="0"
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-chestnut"
+                value="#974F30"
+                title="Chestnut"
+                class="color-scheme"
+                tabindex="0"
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-dartmouth-green"
+                value="#256B55"
+                title="Dartmouth Green"
+                class="color-scheme"
+                tabindex="0"
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-byzantium"
+                value="#862760"
+                title="Byzantium"
+                class="color-scheme"
+                tabindex="0"
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-redwood"
+                value="#b04040"
+                title="redwood"
+                class="color-scheme"
+                tabindex="0"
+              />
+
+              <input
+                type="radio"
+                name="watch-mode-color"
+                id="watch-mode-color-lapis-lazuli"
+                value="#336786"
+                title="Lapis Lazuli"
+                class="color-scheme"
+                tabindex="0"
+              />
+            </div>
+          </div>
+
+          <label class="side-checkbox-container">
+            <input id="enabled-website" type="checkbox" />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+
+            <p>Enable</p>
+          </label>
+        </div>
+
+        <div class="button-footer">
           <span>
-            <button type="submit" value="">Save Watch Mode</button>
+            <button value="" class="text-button cancel" id="delete-watch-mode">
+              <p>Delete Mode</p>
+            </button>
           </span>
-        </span>
+
+          <span class="group-of-buttons">
+            <button
+              type="reset"
+              class="text-button cancel"
+              data-popover="popover-new-watch-mode"
+            >
+              <p>Cancel</p>
+            </button>
+            <span>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="add-watch-mode"
+              >
+                Add Mode
+              </button>
+              <button
+                type="submit"
+                value=""
+                popovertargetaction="toggle"
+                id="update-watch-mode"
+              >
+                Update Mode
+              </button>
+            </span>
+          </span>
+        </div>
       </form>
     </div>
 
@@ -174,106 +275,291 @@
             Control what kind of content is recommended to you by allowing or
             restricted specific video tags.
           </h2>
+          <h3>You're not supposed to be here...</h3>
         </div>
       </header>
 
       <!-- Watch Modes -->
-      <section class="flex-col thirty-two-spacing" id="watch-mode">
-        <div class="content">
-          <ul id="watch-modes">
-            <li id="watch-mode-0">
-              <header>
-                <h1 id="watch-mode-name">Watch Mode Name</h1>
-                <h2 id="watch-mode-desc">Watch mode description.</h2>
-              </header>
+      <section class="flex-col thirty-two-spacing" id="watch-modes">
+        <div class="keyword-widget-container">
+          <article class="keyword-widget" id="watch-mode-0">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
 
-              <fieldset id="watch-mode-1-priority">
-                <legend>Priority</legend>
-                <ul>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+            <div class="keyword-group" id="priority-keywords" data-mode-id="0">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
 
-              <span class="group-of-buttons">
-                <a class="underline-hover"><p>Edit</p></a>
-                <button class="watch-mode-disabled" disabled>Enable</button>
-              </span>
-            </li>
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="0"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
 
-            <li id="watch-mode-1">
-              <header>
-                <h1 id="watch-mode-name">Watch Mode Name</h1>
-                <h2 id="watch-mode-desc">Watch mode description.</h2>
-              </header>
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
 
-              <fieldset id="watch-mode-1-restricted">
-                <legend>Restricted</legend>
-                <ul>
-                  <li>Example Tag</li>
-                  <li>Example Tag</li>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+          <article class="keyword-widget" id="watch-mode-1">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
 
-              <span class="group-of-buttons">
-                <a class="underline-hover"><p>Edit</p></a>
-                <button>Enable</button>
-              </span>
-            </li>
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="1"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+                <li>Example Tag</li>
+                <li>Example Tag</li>
+              </ul>
+            </div>
 
-            <li id="watch-mode-2">
-              <header>
-                <h1 id="watch-mode-name">Watch Mode Name</h1>
-                <h2 id="watch-mode-desc">Watch mode description.</h2>
-              </header>
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="1"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
 
-              <fieldset id="watch-mode-2-priority">
-                <legend>Priority</legend>
-                <ul>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
 
-              <fieldset id="watch-mode-2-restricted">
-                <legend>Restricted</legend>
-                <ul>
-                  <li>Example Tag</li>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+          <article class="keyword-widget" id="watch-mode-2">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
 
-              <span class="group-of-buttons">
-                <a class="underline-hover"><p>Edit</p></a>
-                <button>Enable</button>
-              </span>
-            </li>
+            <div class="keyword-group" id="priority-keywords" data-mode-id="2">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
 
-            <li id="watch-mode-3">
-              <header>
-                <h1 id="watch-mode-name">Watch Mode Name</h1>
-                <h2 id="watch-mode-desc">Watch mode description.</h2>
-              </header>
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="2"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+                <li>Example Tag</li>
+              </ul>
+            </div>
 
-              <fieldset id="watch-mode-3-priority">
-                <legend>Priority</legend>
-                <ul>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="2"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
 
-              <fieldset id="watch-mode-3-restricted">
-                <legend>Restricted</legend>
-                <ul>
-                  <li>Example Tag</li>
-                </ul>
-              </fieldset>
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
 
-              <span class="group-of-buttons">
-                <a class="underline-hover"><p>Edit</p></a>
-                <button>Enable</button>
-              </span>
-            </li>
-          </ul>
+          <article class="keyword-widget" id="watch-mode-3">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
+
+            <div class="keyword-group" id="priority-keywords" data-mode-id="3">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="3"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="3"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
+
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
+
+          <article class="keyword-widget" id="watch-mode-4">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
+
+            <div class="keyword-group" id="priority-keywords" data-mode-id="4">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="4"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="4"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
+
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
+
+          <article class="keyword-widget" id="watch-mode-5">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
+
+            <div class="keyword-group" id="priority-keywords" data-mode-id="5">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="5"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="5"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
+
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
+
+          <article class="keyword-widget" id="watch-mode-6">
+            <header>
+              <h1 id="watch-mode-name">Watch Mode Name</h1>
+              <h2 id="watch-mode-desc">Watch mode description.</h2>
+            </header>
+
+            <div class="keyword-group" id="priority-keywords" data-mode-id="6">
+              <p>Prioritized</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <div
+              class="keyword-group"
+              id="restricted-keywords"
+              data-mode-id="6"
+            >
+              <p>Restricted</p>
+              <ul>
+                <li>Example Tag</li>
+              </ul>
+            </div>
+
+            <!-- Footer Buttons -->
+            <span class="max-width space-between">
+              <a><p>Edit</p></a>
+              <label class="side-checkbox-container">
+                <input
+                  id="enable-watch-mode"
+                  data-mode-id="6"
+                  type="checkbox"
+                />
+                <span class="checkmark">
+                  <span class="material-symbols-rounded">check</span>
+                </span>
+
+                <p>Enable</p>
+              </label>
+            </span>
+          </article>
         </div>
 
         <button
@@ -291,6 +577,6 @@
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
-    <script type="module" src="/scripts/settings-yt-limitations.js"></script>
+    <script type="module" src="/scripts/settings-watch-modes.js"></script>
   </body>
 </html>

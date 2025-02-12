@@ -35,7 +35,7 @@ const database = {
       active: true,
       restrictedTags: [],
       priorityTags: [],
-      color: "#178220",
+      color: "#3c4672",
     },
     {
       id: 2,
@@ -44,7 +44,7 @@ const database = {
       active: false,
       restrictedTags: ["Violence", "Nudity"],
       priorityTags: [],
-      color: "#173282",
+      color: "#724b9c",
     },
     {
       id: 3,
@@ -53,7 +53,7 @@ const database = {
       active: false,
       restrictedTags: ["Game", "Movie"],
       priorityTags: ["School", "Learning", "Study"],
-      color: "#178279",
+      color: "#974f30",
     },
   ],
 
@@ -64,7 +64,7 @@ const database = {
       desc: "Tom Holland can't spoiler now.",
       active: true,
       keywords: ["Marvel", "Avengers", "Captain America", "Secret Wars"],
-      color: "#178220",
+      color: "#3c4672",
     },
   ],
 

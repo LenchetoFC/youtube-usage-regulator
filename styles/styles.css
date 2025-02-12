@@ -116,7 +116,8 @@ html:has(:popover-open) {
 
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Schibsted Grotesk", sans-serif;
+  /* font-family: "Inter", sans-serif; */
   font-size: 1.6rem; /* 10px * 1.6rem = 16px bc of 62.5% */
   line-height: 1.4;
   background: var(--surface-dark);
@@ -528,7 +529,7 @@ button {
   font-weight: 500;
   line-height: 150%;
   display: flex;
-  padding: 0.6rem 1.2rem;
+  padding: 1rem 1.2rem;
   /* padding: 1.2rem; */
   gap: 0.8rem;
   justify-content: center;
@@ -754,10 +755,10 @@ input[type="checkbox"] {
   --size: 2rem;
   height: var(--size);
   width: var(--size);
-  border: #1e1f1f7d solid 1.4px;
+  border: #1e1f1f solid 1.8px;
   transition: 0.4s background-color;
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
+  border-radius: 4px;
 
   display: flex;
 
@@ -808,6 +809,15 @@ input[type="color"] {
   p {
     color: var(--text-dark);
   }
+}
+
+.timeframe-inputs .misc-button {
+  height: 100%;
+  padding: 0 1.2rem;
+}
+
+.watch-time-span .button-brand {
+  padding: 0 1.2rem;
 }
 
 /* --------------------------- */
@@ -882,7 +892,7 @@ input[type="color"] {
 .side-checkbox-container {
   display: flex;
   align-items: center;
-  background-color: var(--surface-light);
+  /* background-color: var(--surface-light); */
   gap: 0.8rem;
   position: relative;
   align-content: center;
@@ -1688,116 +1698,107 @@ p.small-text {
   }
 }
 
-/* ---------- */
-/* WATCH MODE */
-/* ---------- */
-section:is(#watch-mode) {
-  /* NOTE: temporary, until watch mode feature is implemented */
-  /* display: none; */
+/* --------------- */
+/* KEYWORD WIDGETS */
+/* --------------- */
+/* Watch Mode and Spoiler Free Widgets */
+.keyword-widget-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem;
 
-  .content {
-    > #watch-modes {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.2rem;
+  h1,
+  h2,
+  legend,
+  p {
+    color: var(--text-light);
+  }
 
-      h1,
-      h2,
-      legend,
-      fieldset li {
-        color: black;
-      }
+  p {
+    font-size: 1.4rem;
+  }
 
-      /* Watch Mode Item */
-      > li {
-        display: flex;
-        flex-direction: column;
-        padding: 1.2rem;
-        background: var(--wm-bg-color);
-        min-width: 24rem;
-        max-width: 28rem;
-        gap: 1.6rem;
-        flex: 1 0 0;
-        border-radius: var(--radius-more-rounded);
-        color: var(--text-light);
+  div li {
+    color: var(--text-dark);
+    width: 100%;
+  }
 
-        h1 {
-          font-size: 1.6rem;
-        }
+  /* Widget Items */
+  > article {
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem;
+    background: var(--wm-bg-color);
+    /* min-width: 24rem; */
+    /* max-width: 28rem; */
+    gap: 1.6rem;
+    flex: 1 0 fit-content;
+    border-radius: var(--radius-more-rounded);
+    color: var(--text-light);
 
-        h2 {
-          font-size: 1.4rem;
-          font-weight: 400;
-        }
-      }
+    h1 {
+      font-size: 1.6rem;
+    }
 
-      > li:first-child {
-        --wm-bg-color: lightcoral;
-        /* --wm-bg-color: #000;
-        --wm-bg-color: #333333;
-        --wm-bg-color: #333366;
-        --wm-bg-color: #330066; */
-      }
-
-      > li:nth-child(2) {
-        --wm-bg-color: lightblue;
-        /* --wm-bg-color: rgb(0, 51, 0);
-        --wm-bg-color: #003333;
-        --wm-bg-color: #006600;
-        --wm-bg-color: #006633; */
-      }
-
-      > li:nth-child(3) {
-        --wm-bg-color: cadetblue;
-        /* --wm-bg-color: #000033;
-        --wm-bg-color: #330033;
-        --wm-bg-color: #000066;
-        --wm-bg-color: #003366; */
-      }
-
-      > li:last-child {
-        --wm-bg-color: peachpuff;
-        /* --wm-bg-color: #330000;
-        --wm-bg-color: #333300;
-        --wm-bg-color: #660000;
-        --wm-bg-color: #660033; */
-      }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
     }
   }
-}
-.watch-mode-enabled {
-  /* background-color: #636363; */
-  opacity: 75%;
 
-  &:hover {
-    cursor: not-allowed;
+  /* NOTE: For testing purposes only */
+  > article:first-child {
+    --wm-bg-color: #3c4672;
   }
-}
-#watch-mode,
-#popover-new-watch-mode {
-  fieldset {
-    legend {
-      font-size: 1.4rem;
-      margin-bottom: 0.8rem;
-    }
+  > article:nth-child(2) {
+    --wm-bg-color: #724b9c;
+  }
+  > article:nth-child(3) {
+    --wm-bg-color: #974f30;
+  }
+  > article:nth-child(4) {
+    --wm-bg-color: #3e7a67;
+  }
+  > article:nth-child(5) {
+    --wm-bg-color: #862760;
+  }
+  > article:nth-child(6) {
+    --wm-bg-color: #b04040;
+  }
+  > article:last-child {
+    --wm-bg-color: #407899;
+  }
 
-    ul {
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+  ul {
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
 
-    li:not(.tag-button-item) {
-      display: flex;
-      align-items: center;
-      align-self: stretch;
-      padding: 1rem;
-      border-radius: 0.8rem;
-      background: var(--surface-light);
-      box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
-      font-size: 1.4rem;
-    }
+  li {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    padding: 1rem;
+    border-radius: 0.8rem;
+    background: var(--surface-light);
+    box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+    font-size: 1.4rem;
+    font-weight: 500;
+    flex: 1 0 fit-content;
+    min-width: 25rem;
+  }
+
+  .keyword-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    height: 100%;
+  }
+
+  .checkmark {
+    border-width: 2px;
   }
 }
 
@@ -2144,6 +2145,54 @@ body:is(.popup) {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
+}
+
+input[type="radio"] {
+  --size: 2rem;
+  height: var(--size);
+  width: var(--size);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 50%;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+  padding: 0;
+}
+input[type="radio"]:not(:checked) {
+  background-color: var(--color);
+}
+input[type="radio"]:checked {
+  background-color: var(--color);
+  outline: 2px solid var(--color);
+  border: 2px solid var(--border-light);
+}
+input[type="radio"]:focus-visible {
+  outline: 2px solid var(--border-dark);
+}
+
+.color-scheme[value="#3c4672"] {
+  --color: #3c4672;
+}
+.color-scheme[value="#724B9C"] {
+  --color: #724b9c;
+}
+.color-scheme[value="#974F30"] {
+  --color: #974f30;
+}
+.color-scheme[value="#256B55"] {
+  --color: #256b55;
+}
+.color-scheme[value="#862760"] {
+  --color: #862760;
+}
+.color-scheme[value="#b04040"] {
+  --color: #b04040;
+}
+.color-scheme[value="#336786"] {
+  --color: #336786;
 }
 
 /* #watch-times select {
