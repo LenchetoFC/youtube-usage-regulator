@@ -87,6 +87,8 @@
   --radius-rounded: var(--radius-md);
   --radius-more-rounded: var(--radius-xl);
   --radius-full: var(--radius-3xl);
+
+  --font-family: "Schibsted Grotesk", sans-serif;
 }
 
 /* SECTION - GENERAL STYLES */
@@ -116,7 +118,7 @@ html:has(:popover-open) {
 
 body {
   margin: 0;
-  font-family: "Schibsted Grotesk", sans-serif;
+  font-family: var(--font-family);
   /* font-family: "Inter", sans-serif; */
   font-size: 1.6rem; /* 10px * 1.6rem = 16px bc of 62.5% */
   line-height: 1.4;
@@ -142,8 +144,8 @@ main > *:not(.widget-container) {
 .hidden,
 nav.hidden,
 span.hidden {
-  opacity: 0%;
-  display: none;
+  opacity: 0% !important;
+  display: none !important;
 }
 
 /* --------------------- */
@@ -668,11 +670,20 @@ button[type="submit"]:active,
 /* GENERAL INPUT */
 /* ------------- */
 input,
-select {
+select,
+textarea {
   display: flex;
   align-items: center;
   background: transparent;
   padding: 0.8rem 0.4rem;
+}
+
+textarea {
+  field-sizing: content;
+  resize: vertical;
+  min-height: fit-content;
+  max-height: 25rem;
+  font-family: var(--font-family);
 }
 
 .input-full-border {
@@ -986,7 +997,7 @@ form.settings-form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  flex: 1 0 0;
+  /* flex: 1 0 0; */
   align-items: flex-start;
 }
 
@@ -1665,10 +1676,7 @@ p.small-text {
 }
 
 .empty-content {
-  /* NOTE: this temporary */
-  display: none;
-
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -1749,7 +1757,7 @@ p.small-text {
   }
 
   /* NOTE: For testing purposes only */
-  > article:first-child {
+  /* > article:first-child {
     --wm-bg-color: #3c4672;
   }
   > article:nth-child(2) {
@@ -1769,7 +1777,7 @@ p.small-text {
   }
   > article:last-child {
     --wm-bg-color: #407899;
-  }
+  } */
 
   ul {
     gap: 0.8rem;

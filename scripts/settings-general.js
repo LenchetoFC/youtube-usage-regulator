@@ -60,18 +60,6 @@ $(document).ready(function () {
     document.querySelector(`#${popoverId}`).togglePopover();
   });
 
-  /** EVENT LISTENER: Tab Functionality */
-  $("#page-tabs button").on("click", function () {
-    const selectedTabId = $(this).val();
-
-    // Remove 'current-tab' class from all buttons and add it to the selected button
-    $("#page-tabs button").removeClass("current-tab");
-    $(this).addClass("current-tab");
-
-    // Fade out all sections except the selected one
-    switchSettingsTab(selectedTabId);
-  });
-
   /** SECTION - SEARCH BAR */
   // Focuses on search bar input when the parent container is pressed since input box is invisible
   $(".search-bar").on("click", function () {
@@ -81,54 +69,37 @@ $(document).ready(function () {
   // Filters all .search-item according to current search bar input
   // NOTE: for transparency, most of this, especially the highlighting, is A.I. generated.
   $("#search-input").on("input", function () {
+    // .search-item is the parent container of each setting option
     function filterSearchItems(searchBarElem) {
-      const inputVal = $(searchBarElem).val().toLowerCase();
-      const regex = new RegExp(inputVal, "gi");
-
+      const inputVal = $(searchBarElem).val();
+      // Hide search items if it does not container search bar input value
       $(".search-item").each(function () {
-        const $item = $(this);
-        const $textElems = $item.find("p, td");
-
-        // Restore the original text and remove the highlight class
-        $textElems.each(function () {
-          const originalText = $(this).data("original-text") || $(this).text();
-          $(this).data("original-text", originalText);
-          $(this).html(originalText);
-        });
-
-        const matches = $textElems.filter(function () {
-          return regex.test($(this).text().toLowerCase());
-        });
-
-        if (matches.length > 0) {
-          $item.show();
-
-          matches.each(function () {
-            const $textElem = $(this);
-            const text = $textElem.text();
-            const highlightedText = text.replace(regex, function (match) {
-              return `<span class="highlighted-text">${match}</span>`;
-            });
-            $textElem.html(highlightedText);
-          });
+        if (
+          $(this)
+            .find("p, td, h1, h2, li")
+            .text()
+            .toLowerCase()
+            .includes(inputVal.toLowerCase())
+        ) {
+          $(this).show();
         } else {
-          $item.hide();
+          $(this).hide();
         }
-
-        const $fieldset = $item.closest("fieldset");
-        const allItemsHidden =
-          $fieldset.find(".search-item").filter(function () {
-            return $(this).css("display") !== "none";
-          }).length === 0;
-
-        if (!allItemsHidden) {
+        // If all options in a fieldset are set to display: none, hide the fieldset title as well
+        const $fieldset = $(this).closest("fieldset");
+        if ($(this).css("display") !== "none") {
           $fieldset.show();
         } else {
-          $fieldset.hide();
+          const allItemsHidden =
+            $fieldset.find(".search-item").filter(function () {
+              return $(this).css("display") !== "none";
+            }).length === 0;
+          if (allItemsHidden) {
+            $fieldset.hide();
+          }
         }
       });
     }
-
     filterSearchItems($(this));
   });
 

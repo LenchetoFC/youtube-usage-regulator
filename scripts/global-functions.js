@@ -23,6 +23,8 @@
  *
  */
 
+// TODO: split functions into separate respective javascript files
+
 /**
  * SECTION - STORAGE RELATED
  */

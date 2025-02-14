@@ -57,28 +57,42 @@ const database = {
     },
   ],
 
-  ["spoiler-free"]: [
-    {
-      id: 1,
-      name: "Marvel Spoiler Free",
-      desc: "Tom Holland can't spoiler now.",
-      active: true,
-      keywords: ["Marvel", "Avengers", "Captain America", "Secret Wars"],
-      color: "#3c4672",
-    },
+  ["spoiler-groups"]: [
+    // {
+    //   id: 1,
+    //   name: "Marvel Spoiler Free",
+    //   desc: "Tom Holland can't spoiler now.",
+    //   active: true,
+    //   keywords: ["Marvel", "Avengers", "Captain America", "Secret Wars"],
+    //   color: "#3c4672",
+    // },
   ],
 
   ["preferred-creators"]: [],
 
   ["misc-settings"]: [
     {
-      "install-date": "",
+      id: 1,
+      name: "install-date",
+      installDate: "",
     },
     {
-      "last-used-date": "",
+      id: 2,
+      name: "pause-on-blur",
+      active: false,
+    },
+  ],
+
+  ["spoiler-free"]: [
+    {
+      id: 1,
+      name: "obscure-all-with-spoiler",
+      active: false,
     },
     {
-      "pause-video-on-blur": false,
+      id: 2,
+      name: "replace-thumbnail",
+      active: false,
     },
   ],
 
@@ -342,6 +356,7 @@ chrome.storage.sync.get(
     "preferred-creators",
     "additional-websites",
     "spoiler-free",
+    "spoiler-groups",
   ],
   (result) => {
     if (!result["misc-settings"]) {
@@ -362,6 +377,11 @@ chrome.storage.sync.get(
     if (!result["spoiler-free"]) {
       chrome.storage.sync.set({
         "spoiler-free": database["spoiler-free"],
+      });
+    }
+    if (!result["spoiler-groups"]) {
+      chrome.storage.sync.set({
+        "spoiler-groups": database["spoiler-groups"],
       });
     }
     if (!result["watch-times"]) {
