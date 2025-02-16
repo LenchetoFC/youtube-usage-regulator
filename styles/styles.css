@@ -1214,6 +1214,25 @@ button[type="submit"]:disabled:hover {
 /* ------- */
 /* WIDGETS */
 /* ------- */
+#spoiler-groups-top-widget .content > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 13rem;
+  overflow: auto;
+  padding-right: 0.8rem;
+  justify-content: flex-start;
+  height: 100%;
+}
+#spoiler-groups-top-widget .group-item {
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 1rem;
+}
+#spoiler-groups-top-widget .group-item p {
+  color: var(--text-light);
+}
 
 .top-widget {
   /* height: 22.4rem; */

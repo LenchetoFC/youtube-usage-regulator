@@ -17,7 +17,7 @@
  *
  * @returns {Array} Returns array of records with active values
  *
- * @example const allActiveSettings = getActiveSettings();
+ * @example const allActiveSettings = getActiveSettings("youtube-limitations", ["active", "followSchedules"]);
  */
 async function getActiveSettings(tableName, propertiesToCheck) {
   // Create a Set to store unique active records

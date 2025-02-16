@@ -114,10 +114,26 @@
 
     <main>
       <!-- Quick Info -->
-      <!-- TODO: add active spoiler-group widget in dashboard -->
-      <!-- TODO: hide watch modes and new videos in past week widgets -->
       <div class="widget-container widget-container-row">
-        <section class="widget-item top-widget" id="watch-mode-top-widget">
+        <!-- Active Spoiler Groups -->
+        <section class="widget-item top-widget" id="spoiler-groups-top-widget">
+          <header>
+            <span>
+              <span class="material-symbols-rounded">visibility_off</span>
+              <h1>Active Spoiler Groups</h1>
+            </span>
+          </header>
+
+          <section class="content">
+            <div></div>
+          </section>
+        </section>
+
+        <!-- TODO: Active Watch Mode - HIDDEN -->
+        <section
+          class="widget-item top-widget hidden"
+          id="watch-mode-top-widget"
+        >
           <header>
             <span>
               <span class="material-symbols-rounded">live_tv</span>
@@ -200,8 +216,11 @@
           </section>
         </section>
 
-        <!-- TODO: New Videos in Past Week Item -->
-        <section class="widget-item top-widget" id="new-videos-top-widget">
+        <!-- TODO: New Videos in Past Week Item - HIDDEN -->
+        <section
+          class="widget-item top-widget hidden"
+          id="new-videos-top-widget"
+        >
           <header>
             <span>
               <span class="material-symbols-rounded">subscriptions</span>
@@ -429,6 +448,7 @@
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
     <script src="/scripts/settings-dashboard.js"></script>
   </body>
 </html>

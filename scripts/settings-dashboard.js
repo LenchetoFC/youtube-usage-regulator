@@ -836,6 +836,51 @@ async function getTableTotalWatchTimes(videoType) {
 
 /** !SECTION */
 
+/** SECTION - ACTIVE SPOILER GROUPS */
+/**
+ * Retrieves all active spoiler groups from database
+ *
+ * @name getActiveSpoilerGroups
+ *
+ * @returns {object} - an object of group objects obtained from database
+ */
+async function getActiveSpoilerGroups() {
+  const allActiveGroups = await getActiveSettings("spoiler-groups", ["active"]);
+
+  return allActiveGroups;
+}
+/**
+ * Inserts all active spoiler groups into a dashboard top widget
+ *
+ * @name insertSpoilerGroupNames
+ *
+ * @param {object} activeGroups - an object of group objects obtained from database
+ *
+ * @returns {void}
+ */
+function insertSpoilerGroupNames(activeGroups) {
+  const container = $("#spoiler-groups-top-widget").find(".content div");
+
+  activeGroups.forEach((group) => {
+    // Create div element
+    const groupNameItem = document.createElement("div");
+    groupNameItem.className = "group-item";
+    groupNameItem.style.background = group.color;
+
+    // Create p element
+    const groupName = document.createElement("p");
+    groupName.textContent = group.name;
+
+    // Append p element to div
+    groupNameItem.appendChild(groupName);
+
+    // Append div to container
+    container.append(groupNameItem);
+  });
+}
+
+/** !SECTION */
+
 /** SECTION - REDIRECTED POPOVER */
 /**
  * Gets value of redirected parameter from dashboard url
@@ -892,6 +937,10 @@ function chooseRandomGif() {
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(async function () {
+  // Gets active groups and inserts them into top widget
+  const activeGroups = await getActiveSpoilerGroups();
+  insertSpoilerGroupNames(activeGroups);
+
   /**
    * Formats date for input date element
    *
