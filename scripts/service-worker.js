@@ -76,11 +76,6 @@ const database = {
       name: "install-date",
       installDate: "",
     },
-    {
-      id: 2,
-      name: "pause-on-blur",
-      active: false,
-    },
   ],
 
   ["spoiler-free"]: [
@@ -314,7 +309,7 @@ const database = {
     },
     {
       id: 8,
-      name: "video-recom",
+      name: "infinite-recom",
       active: false,
       popup: false,
       followSchedule: false,
@@ -339,6 +334,11 @@ const database = {
       active: false,
       popup: false,
       followSchedule: false,
+    },
+    {
+      id: 12,
+      name: "pause-video-on-blur",
+      active: false,
     },
   ],
 

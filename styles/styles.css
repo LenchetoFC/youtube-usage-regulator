@@ -387,9 +387,13 @@ main p {
   display: none;
   flex-direction: column;
 }
-
+.see-more-container:has(:checked) + .see-more-button {
+  color: var(--text-brand);
+  border-bottom: 2px solid var(--border-brand);
+}
 .see-more-button {
   filter: opacity(0.9);
+  border-radius: 0;
 }
 
 .see-more-button span.material-symbols-rounded {
@@ -965,6 +969,30 @@ input[type="color"] {
   background-color: #e6e6e6;
 }
 
+/* When checkbox is disabled */
+.side-checkbox-container:has(input:disabled) {
+  cursor: not-allowed;
+}
+.side-checkbox-container input:disabled ~ .checkmark {
+  /* border-color: #808080b3;
+  background-color: var(--surface-light);
+
+  box-shadow: none; */
+  display: none;
+}
+.side-checkbox-container input:disabled ~ p {
+  color: #d3d3d3;
+}
+
+.side-checkbox-container input:disabled ~ .lock-icon {
+  color: #d3d3d3;
+  display: flex;
+}
+.side-checkbox-container .lock-icon {
+  display: none;
+  font-size: 2rem;
+}
+
 /* ----- */
 /* FORMS */
 /* ----- */
@@ -1120,7 +1148,10 @@ nav a {
 
 nav a:hover {
   background: var(--brand-1);
-  filter: brightness(85%);
+}
+
+nav a.current-page:hover {
+  filter: brightness(107%);
 }
 
 nav a p {

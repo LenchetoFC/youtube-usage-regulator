@@ -57,14 +57,16 @@ function getChangedSettings(formId) {
  *
  * @example updateSettingsCheckboxes(activeSettings, formId);
  */
+// Define the updateSettingsCheckboxes function
 async function updateSettingsCheckboxes(activeSettings, formId) {
   for (const index in activeSettings) {
     const activeVal = activeSettings[index].active;
 
-    // Auto-checks corresponding checkbox input
+    // Auto-check corresponding checkbox input
     $(`#${formId}`)
       .find(`input[name=${activeSettings[index].name}-active]`)
-      .attr("checked", activeVal);
+      .attr("checked", activeVal)
+      .trigger("change"); // Trigger change event to handle disabling
 
     // Special cases for youtube limitation settings form
     if (formId === "youtube-limitations") {
@@ -72,11 +74,12 @@ async function updateSettingsCheckboxes(activeSettings, formId) {
       const popupVal = activeSettings[index].popup;
 
       $(`#${formId}`)
-        .find$(`input[name=${activeSettings[index].name}-followSchedule]`)
-        .attr("checked", followScheduleVal);
+        .find(`input[name=${activeSettings[index].name}-followSchedule]`)
+        .attr("checked", followScheduleVal)
+        .trigger("change"); // Trigger change event to handle disabling
 
       $(`#${formId}`)
-        .find$(`input[name=${activeSettings[index].name}-popup]`)
+        .find(`input[name=${activeSettings[index].name}-popup]`)
         .attr("checked", popupVal);
     }
   }
@@ -316,5 +319,3 @@ $(document).ready(function () {
   });
 });
 /** !SECTION */
-
-/** TODO: REWORK ALL BELOW FUNCTION */

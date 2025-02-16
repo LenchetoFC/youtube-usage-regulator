@@ -111,7 +111,7 @@
           </figure>
         </div> -->
 
-        <!-- TODO: update all data-option attributes to data-property -->
+        <!-- Settings Form -->
         <form class="settings-form" id="youtube-limitations">
           <!-- Blocking Pages -->
           <fieldset>
@@ -126,32 +126,36 @@
                   <input
                     name="all-pages-active"
                     data-name="all-pages"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="11"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
 
-                  <p>Enable</p>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
                     <label class="side-checkbox-container">
                       <input
                         name="all-pages-followSchedule"
                         data-name="all-pages"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="11"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -160,7 +164,7 @@
                       <input
                         name="all-pages-popup"
                         data-name="all-pages"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="11"
                       />
@@ -192,7 +196,7 @@
                 <label class="side-checkbox-container">
                   <input
                     name="home-page-active"
-                    data-option="active"
+                    data-property="active"
                     data-name="home-page"
                     type="checkbox"
                     value="1"
@@ -200,23 +204,28 @@
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
                     <label class="side-checkbox-container">
                       <input
                         name="home-page-followSchedule"
-                        data-option="home-page"
+                        data-property="followSchedule"
+                        data-name="home-page"
                         type="checkbox"
                         value="1"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -224,7 +233,8 @@
                     <label class="side-checkbox-container">
                       <input
                         name="home-page-popup"
-                        data-option="home-page"
+                        data-name="home-page"
+                        data-property="popup"
                         type="checkbox"
                         value="1"
                       />
@@ -257,31 +267,35 @@
                   <input
                     name="shorts-page-active"
                     data-name="shorts-page"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="2"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
                     <label class="side-checkbox-container">
                       <input
                         name="shorts-page-followSchedule"
                         data-name="shorts-page"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="2"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -290,7 +304,7 @@
                       <input
                         name="shorts-page-popup"
                         data-name="shorts-page"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="2"
                       />
@@ -327,31 +341,35 @@
                   <input
                     name="home-button-active"
                     data-name="home-button"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="3"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
                     <label class="side-checkbox-container">
                       <input
                         name="home-button-followSchedule"
                         data-name="home-button"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="3"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -359,7 +377,7 @@
                       <input
                         name="home-button-popup"
                         data-name="home-button"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="3"
                       />
@@ -391,14 +409,15 @@
                   <input
                     name="shorts-button-active"
                     data-name="shorts-button"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="4"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
@@ -407,14 +426,17 @@
                       <input
                         name="shorts-button-followSchedule"
                         data-name="shorts-button"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="4"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -422,9 +444,77 @@
                       <input
                         name="shorts-button-popup"
                         data-name="shorts-button"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="4"
+                      />
+                      <span class="checkmark">
+                        <span class="material-symbols-rounded">check</span>
+                      </span>
+                      <p>Add as shortcut to popup</p>
+                    </label>
+                  </div>
+                </div>
+
+                <button class="text-button see-more-button">
+                  <span class="material-symbols-rounded" id="expand-icon"
+                    >add</span
+                  >
+                  <span class="material-symbols-rounded" id="collapse-icon"
+                    >remove</span
+                  >
+                  <p>See <span id="see-more-text">more</span></p>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex-row search-item">
+              <!-- Hide Video Recommendations -->
+              <p class="fieldset-header">Hide Video Recommendations</p>
+              <div class="flex-col eight-spacing">
+                <label class="side-checkbox-container">
+                  <input
+                    name="video-recom-active"
+                    data-name="video-recom"
+                    data-property="active"
+                    type="checkbox"
+                    value="7"
+                  />
+                  <span class="checkmark">
+                    <span class="material-symbols-rounded">check</span>
+                  </span>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
+                </label>
+
+                <div class="see-more-container" aria-expanded="false">
+                  <div class="flex-col eight-spacing">
+                    <!-- Only follow restriction schedules -->
+                    <label class="side-checkbox-container">
+                      <input
+                        name="video-recom-followSchedule"
+                        data-name="video-recom"
+                        data-property="followSchedule"
+                        type="checkbox"
+                        value="7"
+                      />
+                      <span class="checkmark">
+                        <span class="material-symbols-rounded">check</span>
+                      </span>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
+                    </label>
+
+                    <!-- Add to Popup -->
+                    <label class="side-checkbox-container">
+                      <input
+                        name="video-recom-popup"
+                        data-name="video-recom"
+                        data-property="popup"
+                        type="checkbox"
+                        value="7"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
@@ -454,31 +544,36 @@
                   <input
                     name="shorts-recom-active"
                     data-name="shorts-recom"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="5"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
                     <label class="side-checkbox-container">
                       <input
                         name="shorts-recom-followSchedule"
                         data-name="shorts-recom"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="5"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -486,7 +581,7 @@
                       <input
                         name="shorts-recom-popup"
                         data-name="shorts-recom"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="5"
                       />
@@ -518,32 +613,36 @@
                   <input
                     name="search-bar-active"
                     data-name="search-bar"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="6"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
 
                     <label class="side-checkbox-container">
                       <input
                         name="search-bar-followSchedule"
                         data-name="search-bar"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="6"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -551,73 +650,9 @@
                       <input
                         name="search-bar-popup"
                         data-name="search-bar"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="6"
-                      />
-                      <span class="checkmark">
-                        <span class="material-symbols-rounded">check</span>
-                      </span>
-                      <p>Add as shortcut to popup</p>
-                    </label>
-                  </div>
-                </div>
-
-                <button class="text-button see-more-button">
-                  <span class="material-symbols-rounded" id="expand-icon"
-                    >add</span
-                  >
-                  <span class="material-symbols-rounded" id="collapse-icon"
-                    >remove</span
-                  >
-                  <p>See <span id="see-more-text">more</span></p>
-                </button>
-              </div>
-            </div>
-
-            <div class="flex-row search-item">
-              <!-- Hide Video Recommendations -->
-              <p class="fieldset-header">Hide Video Recommendations</p>
-              <div class="flex-col eight-spacing">
-                <label class="side-checkbox-container">
-                  <input
-                    name="video-recom-active"
-                    data-name="video-recom"
-                    data-option="active"
-                    type="checkbox"
-                    value="7"
-                  />
-                  <span class="checkmark">
-                    <span class="material-symbols-rounded">check</span>
-                  </span>
-                  <p>Enable</p>
-                </label>
-
-                <div class="see-more-container" aria-expanded="false">
-                  <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
-                    <label class="side-checkbox-container">
-                      <input
-                        name="video-recom-followSchedule"
-                        data-name="video-recom"
-                        data-option="followSchedule"
-                        type="checkbox"
-                        value="7"
-                      />
-                      <span class="checkmark">
-                        <span class="material-symbols-rounded">check</span>
-                      </span>
-                      <p>Follow restriction schedules</p>
-                    </label>
-
-                    <!-- Add to Popup -->
-                    <label class="side-checkbox-container">
-                      <input
-                        name="video-recom-popup"
-                        data-name="video-recom"
-                        data-option="popup"
-                        type="checkbox"
-                        value="7"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
@@ -647,32 +682,36 @@
                   <input
                     name="comments-section-active"
                     data-name="comments-section"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="10"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
                   </span>
-                  <p>Enable</p>
+                  <span class="material-symbols-rounded lock-icon">lock</span>
+                  <p>Always active</p>
                 </label>
 
                 <div class="see-more-container" aria-expanded="false">
                   <div class="flex-col eight-spacing">
-                    <!-- Follow Restriction Schedules -->
+                    <!-- Only follow restriction schedules -->
 
                     <label class="side-checkbox-container">
                       <input
                         name="comments-section-followSchedule"
                         data-name="comments-section"
-                        data-option="followSchedule"
+                        data-property="followSchedule"
                         type="checkbox"
                         value="10"
                       />
                       <span class="checkmark">
                         <span class="material-symbols-rounded">check</span>
                       </span>
-                      <p>Follow restriction schedules</p>
+                      <span class="material-symbols-rounded lock-icon"
+                        >lock</span
+                      >
+                      <p>Only follow restriction schedules</p>
                     </label>
 
                     <!-- Add to Popup -->
@@ -680,7 +719,7 @@
                       <input
                         name="comments-section-popup"
                         data-name="comments-section"
-                        data-option="popup"
+                        data-property="popup"
                         type="checkbox"
                         value="10"
                       />
@@ -719,9 +758,9 @@
                   <input
                     name="pause-video-on-blur-active"
                     data-name="pause-video-on-blur"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
-                    value="2"
+                    value="12"
                   />
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
@@ -741,7 +780,7 @@
                   <input
                     name="infinite-recom-active"
                     data-name="infinite-recom"
-                    data-option="active"
+                    data-property="active"
                     type="checkbox"
                     value="8"
                   />
@@ -757,9 +796,14 @@
           <!-- Submission Button -->
           <div class="group-of-buttons">
             <span>
-              <button type="submit" id="save-limitations">Save Settings</button>
+              <button type="submit" id="save-limitations" class="save-settings">
+                Save Settings
+              </button>
             </span>
-            <button class="text-button red-text-button" id="clear-settings">
+            <button
+              class="text-button red-text-button clear-settings"
+              id="youtube-limitations"
+            >
               <p>Reset All Settings</p>
             </button>
           </div>
@@ -772,5 +816,8 @@
     <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
     <script type="module" src="/scripts/settings-yt-limitations.js"></script>
+    <script src="/scripts/settings-form-control.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
+    <script src="/scripts/settings-popover-form-controls.js"></script>
   </body>
 </html>
