@@ -22,8 +22,6 @@
  * Loads nav bar layout html from separate files to more easily
  * update the nav bar whenever all at once for all settings and
  * dashboard pages
- *
- * NOTE: Working, but disabled while the demo UI is still being reworked
  */
 function loadNavBar() {
   const $pageId = $("nav.fetch-nav").attr("id");
@@ -48,11 +46,58 @@ function loadNavBar() {
 }
 
 /**
+ * loadBugReportPopover()
+ * Loads bug report popover html from module file to more easily
+ * update the bug report html whenever all at once for all pages
+ * using bug report popovers
+ */
+function loadBugReportPopover() {
+  const $bodyTarget = $("body");
+
+  fetch(`/modules/bug-report.html`)
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then((bugReportLayout) => {
+      $bodyTarget.prepend(bugReportLayout);
+    })
+    .then(() => {
+      // Adds event listener to copy email to clipboard
+      $(".copy-to-clipboard").on("click", function () {
+        navigator.clipboard
+          .writeText($(this).attr("value"))
+          .then(() => {
+            displayNotifications(
+              "Email copied to clipboard",
+              "#40a6ce",
+              "info",
+              2500
+            );
+          })
+          .catch((err) => {
+            displayNotifications(
+              "Failed to copy to clipboard",
+              "#d92121",
+              "error",
+              5000
+            );
+            console.error("Failed to copy text: ", err);
+          });
+      });
+    });
+}
+
+/**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
   // Fetch nav bar from nav-bar.html and insert into page
   loadNavBar();
+
+  // Fetch bug report from bug-report.html and insert into page
+  loadBugReportPopover();
 
   /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
   $("button[type='reset'].cancel").on("click", function () {

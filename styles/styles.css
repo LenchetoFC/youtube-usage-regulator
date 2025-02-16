@@ -209,6 +209,14 @@ span.hidden {
   align-items: center;
 }
 
+.align-start {
+  align-self: flex-start;
+}
+
+.align-end {
+  align-self: flex-end;
+}
+
 .dead-center {
   align-items: center;
   justify-content: center;
@@ -314,6 +322,10 @@ header h2 {
 .subtext {
   font-size: 1.2rem;
   filter: brightness(85%);
+}
+
+.dark-text {
+  color: var(--text-dark);
 }
 
 .extra-medium-text {
@@ -1135,7 +1147,8 @@ aside .nav-logo {
   width: 100%;
 }
 
-nav a {
+nav a,
+.nav-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1144,9 +1157,12 @@ nav a {
   border-radius: 0.8rem;
 
   width: 100%;
+  transition: 0.25s;
+  box-shadow: none;
 }
 
-nav a:hover {
+nav a:hover,
+.nav-button:hover {
   background: var(--brand-1);
 }
 
@@ -1154,9 +1170,11 @@ nav a.current-page:hover {
   filter: brightness(107%);
 }
 
-nav a p {
+nav a p,
+.nav-button p {
   /* width: max-content; */
   font-size: 1.2rem;
+  text-align: start;
 }
 
 .current-page {

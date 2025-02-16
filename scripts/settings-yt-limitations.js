@@ -5,11 +5,6 @@
  * @version 1.0.0
  * @author LenchetoFC
  *
- * @requires module:global-functions
- * @see {@link module:global-functions.updateRecordByPropertyGlobal}
- * @see {@link module:global-functions.resetTableGlobal}
- * @see {@link module:global-functions.displayNotifications} x 6
- * @see {@link module:global-functions.toggleButtonAnimation} x 3
  */
 
 // Define the change handler function
