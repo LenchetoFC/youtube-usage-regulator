@@ -44,18 +44,25 @@
     </span>
 
     <!-- POPOVER New Blocked Website -->
-    <div popover id="popover-new-blocked-website" class="popover">
+    <div popover id="popover-new-website-item" class="popover">
       <header>
         <h1>New Blocked Website</h1>
       </header>
 
-      <form action="" method="" class="content" id="new-blocked-website-form">
+      <form
+        action=""
+        method=""
+        class="content"
+        id="new-website-item"
+        data-table="additional-websites"
+      >
         <div class="text-input-container">
           <label for="website-name">Website Name</label>
           <input
             type="text"
             class="input-border-bottom"
             name="website-name"
+            data-property="name"
             id="website-name"
             placeholder="Reddit"
             minlength="1"
@@ -70,6 +77,7 @@
             type="url"
             class="input-border-bottom"
             name="website-url"
+            data-property="url"
             id="website-url"
             placeholder="https://reddit.com"
             minlength="7"
@@ -82,6 +90,7 @@
           <select
             class="input-full-border"
             type="text"
+            data-property="type"
             name="website-type"
             id="website-type"
             required
@@ -96,7 +105,7 @@
         </div>
 
         <label class="side-checkbox-container">
-          <input id="enabled-website" type="checkbox" />
+          <input id="active" type="checkbox" data-property="active" checked />
           <span class="checkmark">
             <span class="material-symbols-rounded">check</span>
           </span>
@@ -106,7 +115,7 @@
 
         <div class="button-footer">
           <span>
-            <button value="" class="text-button cancel" id="delete-website">
+            <button value="" class="text-button cancel" id="delete-item">
               <p>Delete Website</p>
             </button>
           </span>
@@ -115,7 +124,7 @@
             <button
               type="reset"
               class="text-button cancel"
-              data-popover="popover-new-blocked-website"
+              data-popover="popover-new-website-item"
             >
               <p>Cancel</p>
             </button>
@@ -124,15 +133,17 @@
                 type="submit"
                 value=""
                 popovertargetaction="toggle"
-                id="block-new-website"
+                id="add-item"
+                data-table="additional-websites"
               >
-                Block Website
+                Add Website
               </button>
               <button
                 type="submit"
                 value=""
                 popovertargetaction="toggle"
-                id="update-website"
+                id="update-item"
+                data-table="additional-websites"
               >
                 Update Website
               </button>
@@ -200,7 +211,7 @@
         class="flex-col twenty-four-spacing max-height"
         id="additional-websites"
       >
-        <div class="empty-content">
+        <div class="empty-content hidden">
           <span class="material-symbols-rounded">block</span>
           <h1>Add Websites to Block</h1>
           <p>
@@ -209,7 +220,10 @@
             <strong>(reddit.com)</strong> or specific URL<br />
             <strong>(reddit.com/?feed=home)</strong>.
           </p>
-          <button class="misc-button add-new-website">
+          <button
+            class="misc-button add-new-item"
+            popovertarget="popover-new-website-item"
+          >
             <span class="material-symbols-rounded">add</span>
             Add Website
           </button>
@@ -220,7 +234,7 @@
         <!-- Watch Times Table -->
         <!-- TODO: FUTURE FEATURE - SORTING -->
         <!-- FIXME: add wrapping to smaller screens -->
-        <table class="basic" id="website-table">
+        <table class="basic hidden" id="website-table">
           <thead>
             <tr>
               <th
@@ -294,15 +308,21 @@
         </table>
 
         <!-- Add new website button -->
-        <span class="group-of-buttons" id="website-buttons">
+        <span class="group-of-buttons hidden" id="website-buttons">
           <span>
-            <button class="misc-button add-new-website">
+            <button
+              class="misc-button add-new-item"
+              popovertarget="popover-new-website-item"
+            >
               <span class="material-symbols-rounded">add</span>
               Add Website
             </button>
           </span>
 
-          <button class="text-button red-text-button" id="clear-websites">
+          <button
+            class="text-button red-text-button delete-all-items"
+            id="additional-websites"
+          >
             <p>Delete All Websites</p>
           </button>
         </span>
@@ -313,6 +333,9 @@
     <script src="/scripts/global-functions.js"></script>
     <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
-    <script type="module" src="/scripts/settings-website-blocker.js"></script>
+    <script src="/scripts/settings-website-blocker.js"></script>
+    <script src="/scripts/settings-form-control.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
+    <script src="/scripts/settings-popover-form-controls.js"></script>
   </body>
 </html>

@@ -240,6 +240,31 @@ $(document).ready(function () {
   });
 
   /**
+   * Clears all items
+   *
+   * This event listener clears all items by resetting given table name
+   * It asks the user to confirm the action before proceeding.
+   */
+  $(".delete-all-items").on("click", async function () {
+    try {
+      const $table = $(this).attr("id");
+
+      // Ask user to confirm choice
+      if (window.confirm("Confirm to delete all items...")) {
+        const resetResult = await resetTableGlobal(`${$table}`);
+
+        if (!resetResult.error) {
+          window.location.reload();
+        } else {
+          displayNotifications(resetResult.message, "#d92121", "error", 5000);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  /**
    * Clears all settings
    *
    * This event listener clears all settings by resetting all checkboxes to unchecked and saving the settings.

@@ -39,6 +39,13 @@
     * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
  */
 
+/** @notes possible way to disable shorts comments  */
+// use event listeners on down button, mouse scroll wheel down, and down button next to shorts player
+// - also check other areas where this function can be applied to
+
+/** @notes two ways to handle new element creations */
+// 1. add onchange to main element to check for any exisiting element (use length)
+
 /**
  * SECTION - FUNCTION DECLARATIONS
  */

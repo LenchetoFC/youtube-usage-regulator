@@ -1950,9 +1950,9 @@ p.small-text {
     gap: 1.6rem;
   }
 
-  label.side-checkbox-container {
+  /* label.side-checkbox-container {
     align-self: flex-end;
-  }
+  } */
 
   label p {
     color: var(--text-primary);

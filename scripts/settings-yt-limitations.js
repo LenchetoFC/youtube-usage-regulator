@@ -9,7 +9,6 @@
 
 // Define the change handler function
 function handleCheckboxChange() {
-  console.log("Checkbox changed");
   const $this = $(this);
   const isFollowSchedule = $this.attr("data-property") === "followSchedule";
   const relatedCheckbox = $this

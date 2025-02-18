@@ -8,6 +8,44 @@
  */
 
 /**
+ * Update item through the enabled checkbox on item table or grid
+ *
+ * @name enableItem
+ *
+ * @param {string} $button - jquery object of the button that was pressed to get all the attributes
+ *
+ * @returns {boolean} Returns true if the update operation is successful.
+ *
+ * @example let results = enableItem($button);
+ */
+async function enableItem($button) {
+  try {
+    const $table = $($button).attr("data-table");
+    const $itemId = $($button).attr("data-item-id");
+    const $isActive = $($button).is(":checked");
+
+    // Updates current groups's data
+    const updateResult = await updateRecordByPropertyGlobal(
+      $table,
+      "id",
+      parseInt($itemId),
+      { active: $isActive }
+    );
+
+    // Gets status message from update
+    if (updateResult.error) {
+      throw new Error(updateResult.message);
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+}
+
+/**
  * Save website to database
  *
  * This function updates a table with values from a form in the service worker's storage.
@@ -144,7 +182,8 @@ function clearFormValues(formId) {
  * @example functionName(params);
  *
  */
-function determineFormFooterButtons(isNewItem, groupData) {
+function determineFormFooterButtons(isNewItem, itemData) {
+  const { id } = itemData;
   if (isNewItem) {
     // Shows 'add new group' button and sets container to flex end (default)
     $("#add-item").css("display", "flex");
@@ -155,11 +194,11 @@ function determineFormFooterButtons(isNewItem, groupData) {
     $("#update-item").css("display", "none");
   } else {
     // Shows delete button and adds group id as attribute value
-    $("#delete-item").attr("data-group-id", groupData.id);
+    $("#delete-item").attr("data-item-id", id);
     $("#delete-item").css("display", "flex");
 
     // Shows update button and adds group id as attribute value
-    $("#update-item").attr("data-group-id", groupData.id);
+    $("#update-item").attr("data-item-id", id);
     $("#update-item").css("display", "flex");
 
     // Hides 'add new group' button and container to space between
@@ -173,25 +212,6 @@ function determineFormFooterButtons(isNewItem, groupData) {
 
 /** WINDOW ONLOAD FUNCTIONS - ASSIGN EVENT LISTENERS */
 $(document).ready(async function () {
-  $(".delete-all-items").on("click", async function () {
-    try {
-      const $table = $(this).attr("id");
-
-      // Ask user to confirm choice
-      if (window.confirm("Confirm to delete all items...")) {
-        const resetResult = await resetTableGlobal(`${$table}`);
-
-        if (!resetResult.error) {
-          window.location.reload();
-        } else {
-          displayNotifications(resetResult.message, "#d92121", "error", 5000);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
   // Submit group form through submit button in popovers
   $('.popover button[type="submit"]').on("click", function (event) {
     // Disable default form submission event; prevents automatic page reload
@@ -219,5 +239,17 @@ $(document).ready(async function () {
         $(this).find('button[type="submit"]').attr("id")
       );
     }
+  });
+
+  // Delete current item
+  $("#delete-item").on("click", function (event) {
+    // Disable default form submission event; prevents automatic page reload
+    event.preventDefault();
+    debugger;
+
+    const table = $(this).closest("form").attr("data-table");
+    const itemId = $(this).attr("data-item-id");
+
+    deleteItemFromDatabase(table, itemId);
   });
 });

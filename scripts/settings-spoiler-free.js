@@ -40,13 +40,15 @@ async function insertGroupsIntoPage() {
           </div>
           <!-- Footer Buttons -->
           <span class="max-width space-between">
-              <a class='edit-group' data-group-id="${group.id}"><p>Edit</p></a>
+              <a class='edit-item' data-item-id="${group.id}"><p>Edit</p></a>
               <label class="side-checkbox-container">
-                  <input class="enable-group" id="active" data-group-id="${
-                    group.id
-                  }" type="checkbox" ${group.active ? "checked" : ""} />
+                  <input class="enable-item" id="active" 
+                  data-item-id="${group.id}" 
+                  data-table="spoiler-groups" type="checkbox"
+                  ${group.active ? "checked" : ""} />
+
                   <span class="checkmark">
-                      <span class="material-symbols-rounded">check</span>
+                    <span class="material-symbols-rounded">check</span>
                   </span>
                   <p>Enable</p>
               </label>
@@ -94,8 +96,8 @@ async function insertGroupsIntoPage() {
   });
 
   // Adds event listener to edit group
-  $(".edit-group").on("click", async function () {
-    const groupId = $(this).attr("data-group-id");
+  $(".edit-item").on("click", async function () {
+    const groupId = $(this).attr("data-item-id");
 
     // prepare popover
     const groupData = await selectRecordById("spoiler-groups", groupId);
@@ -107,52 +109,28 @@ async function insertGroupsIntoPage() {
     popover.showPopover();
   });
 
-  // Toggle active state of group in database
-  $(".enable-group").on("click", async function () {
-    try {
-      const groupId = $(this).attr("data-group-id");
-      const $isActive = $(this).is(":checked");
+  // Toggle active state of website in database
+  $(".enable-item").on("click", async function () {
+    const $isActive = $(this).is(":checked");
 
-      // Updates current groups's data
-      const updateResult = await updateRecordByPropertyGlobal(
-        "spoiler-groups",
-        "id",
-        parseInt(groupId),
-        { active: $isActive }
+    // Calls function in settings-popover-form-controls to enable item
+    let results = await enableItem(this);
+
+    if (results) {
+      displayNotifications(
+        `Successfully ${$isActive ? "enabled" : "disabled"} spoiler group!`,
+        "#390",
+        "verified",
+        2000
       );
-
-      // Gets status message from update
-      if (updateResult.error) {
-        displayNotifications(
-          "Could not update this group. Try again later.",
-          "#d92121",
-          "release_alert",
-          5000
-        );
-        throw new Error(updateResult.message);
-      } else {
-        console.log(updateResult.message);
-
-        displayNotifications(
-          `Successfully ${$isActive ? "enabled" : "disabled"} group!`,
-          "#390",
-          "verified",
-          2000
-        );
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      // Optionally, you can display an error message to the user here
+    } else {
+      displayNotifications(
+        "Could not update this spoiler group. Try again later.",
+        "#d92121",
+        "release_alert",
+        5000
+      );
     }
-  });
-
-  $("#delete-item").on("click", function (event) {
-    // Disable default form submission event; prevents automatic page reload
-    event.preventDefault();
-
-    deleteItemFromDatabase("spoiler-groups", $(this).attr("data-group-id"));
   });
 }
 
@@ -182,8 +160,8 @@ function populatePopover(groupData) {
   const $activeCheckbox = $popover.find("input#active");
 
   // Fills inputs with group info
-  $form.attr("data-group-id", id);
-  $header.text("Spoiler Keyword Group");
+  $form.attr("data-item-id", id);
+  $header.text("Update Spoiler Keyword Group");
   $groupNameInput.val(name);
   $groupDescInput.val(desc);
   $keywordsTextarea.val(keywords.join(", "));
@@ -223,7 +201,7 @@ function getFormValues($form) {
     color: $form.find("input[name='spoiler-group-color']:checked").val(),
   };
 
-  const dataGroupId = $form.attr("data-group-id");
+  const dataGroupId = $form.attr("data-item-id");
   if (dataGroupId) {
     formValues.id = parseInt(dataGroupId, 10);
   }
@@ -286,7 +264,7 @@ $(document).ready(async function () {
 
   /** Form Button Event Listeners */
   // Reset the popover form whenever a new group is intended to be added
-  $(".spoiler-group-add").on("click", function () {
+  $(".add-item").on("click", function () {
     resetForm();
   });
 });
