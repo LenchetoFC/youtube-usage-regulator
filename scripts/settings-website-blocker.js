@@ -61,11 +61,14 @@ async function insertWebsitesIntoPage() {
         <td>
           <label class="side-checkbox-container">
             <input class="enable-item" ${active ? "checked" : ""}
+              name="active-${id}"
               data-item-id="${id}" data-table="additional-websites" type="checkbox">
+             
             <span class="checkmark">
               <span class="material-symbols-rounded" >check</span>
             </span>
           </label>
+          
         </td>
 
         <td>

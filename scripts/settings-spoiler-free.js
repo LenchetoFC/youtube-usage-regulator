@@ -26,13 +26,12 @@
 async function insertGroupsIntoPage() {
   // Function to generate HTML for a group
   function generateGroupHTML(group) {
+    const { name, desc, id, active } = group;
     return `
-      <article class="keyword-widget search-item" id="spoiler-group-${
-        group.id
-      }">
+      <article class="keyword-widget search-item" id="spoiler-group-${id}">
           <header>
-              <h1 id="spoiler-group-name">${group.name}</h1>
-              <h2 id="spoiler-group-desc">${group.desc}</h2>
+              <h1 id="spoiler-group-name">${name}</h1>
+              <h2 id="spoiler-group-desc">${desc}</h2>
           </header>
           <div class="keyword-group" id="spoiler-keywords">
               <p>Keywords</p>
@@ -40,12 +39,12 @@ async function insertGroupsIntoPage() {
           </div>
           <!-- Footer Buttons -->
           <span class="max-width space-between">
-              <a class='edit-item' data-item-id="${group.id}"><p>Edit</p></a>
+              <a class='edit-item' data-item-id="${id}"><p>Edit</p></a>
               <label class="side-checkbox-container">
-                  <input class="enable-item" id="active" 
-                  data-item-id="${group.id}" 
+                  <input class="enable-item" name="active-${id}"
+                  data-item-id="${id}" 
                   data-table="spoiler-groups" type="checkbox"
-                  ${group.active ? "checked" : ""} />
+                  ${active ? "checked" : ""} />
 
                   <span class="checkmark">
                     <span class="material-symbols-rounded">check</span>
