@@ -185,3 +185,22 @@ async function prepareDatabaseUpdate(tableName, newRecords) {
     return { error: true, message: error.message };
   }
 }
+
+/**
+ * Get a record by property value
+ *
+ * @name filterRecords
+ * @async
+ *
+ * @param {string} table - table name i.e. "youtube-limitations"
+ * @param {string} property - property name i.e. "active"
+ * @param {string|number|boolean} value - value of the property to filter by
+ *
+ * @returns {object} Returns the filtered records from the given table that follows the given condition
+ *
+ * @example filterRecords("youtube-limitations", "active", true);
+ */
+async function filterRecords(table, property, value) {
+  const records = await selectAllRecords(table);
+  return records.filter((record) => record[property] === value);
+}

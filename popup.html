@@ -27,16 +27,20 @@
     />
   </head>
 
+  <!-- ABSOLUTE POSITIONED Notification Container -->
+  <span id="notif-msg">
+    <span class="material-symbols-rounded">info</span>
+    <p>Message Text</p>
+  </span>
+
   <body class="popup">
-    <!-- Popup Header with logo and settings buttons -->
+    <!-- Top Nav Bar -->
     <nav>
-      <span class="nav-logo">
+      <span class="flex-row eight-spacing align-center">
         <img src="/images/icon-logo-ext.png" alt="YouTube Extension logo" />
 
-        <span
-          class="current-watch-mode"
-          style="--watch-mode-color: var(--surface-brand)"
-          >Watch Mode</span
+        <span class="rounded-container" id="restriction-status"
+          >Unrestricted</span
         >
       </span>
 
@@ -49,7 +53,7 @@
 
         <li>
           <a href="/settings/settings-yt-limitations.html" target="_blank">
-            <span class="material-symbols-rounded">settings</span>
+            <span class="material-symbols-rounded">block</span>
           </a>
         </li>
       </ul>
@@ -57,68 +61,71 @@
 
     <main>
       <!-- YouTube Usage -->
-      <section>
-        <h4>Watch Times</h4>
-        <section class="usage-section-popup">
+      <section class="popup-section">
+        <h1>Watch Times</h1>
+
+        <div class="usage-section-popup">
           <!-- Displays the current day's usage time -->
           <span class="usage-time">
-            <span class="material-symbols-rounded"
-              >nest_clock_farsight_analog
-            </span>
+            <span class="material-symbols-rounded">schedule</span>
             <div>
-              <p>Today</p>
+              <p class="header-text">Today</p>
               <p id="today-watch-time">0 seconds</p>
             </div>
           </span>
 
           <!-- Displays total usage time -->
           <span class="usage-time">
-            <span class="material-symbols-rounded"
-              >nest_clock_farsight_analog
-            </span>
+            <span class="material-symbols-rounded">schedule</span>
             <div>
-              <p>Total</p>
+              <p class="header-text">Total</p>
               <p id="total-watch-time">0 seconds</p>
             </div>
           </span>
-        </section>
+        </div>
       </section>
 
-      <!-- Section of quick activation buttons -->
+      <!-- TODO: Section of current watch mode -->
+      <!-- <section class="popup-section">
+        <h1>Current Watch Mode</h1>
+        <div class="rounded-container solid current-watch-mode">
+          Recreational Mode
+        </div>
+      </section> -->
+
+      <!-- Section of next restriction event -->
       <section class="popup-section">
-        <h4>Quick Activations</h4>
-        <form class="text-in-checkbox-form" id="quick-act-form"></form>
+        <h1>Next Restriction Event</h1>
+
+        <div>
+          <span class="usage-time" id="restriction-event">
+            <span class="material-symbols-rounded">calendar_today</span>
+            <div>
+              <p class="header-text" id="date">No Date</p>
+              <p>
+                <time id="start-time">00:00</time> -
+                <time id="end-time">00:00</time>
+              </p>
+            </div>
+          </span>
+        </div>
       </section>
 
-      <!-- ABSOLUTE POSITIONED Notification Container -->
-      <span id="notif-msg">
-        <span class="material-symbols-rounded">info</span>
-        <p>Message Text</p>
-      </span>
+      <!-- Section of quick limitations buttons -->
+      <section class="popup-section">
+        <h1>Quick Limitations</h1>
+        <form
+          class="flex-col max-width text-in-checkbox-form"
+          id="active-popup-limitations"
+        >
+          <div class="limitations-container"></div>
+        </form>
+      </section>
     </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
     <script src="/scripts/popup.js"></script>
   </body>
 </html>
-
-<!-- NOTE: just in case I still need a text in checkbox button  -->
-<!-- <div class="text-in-checkbox-form" id="pause-video-on-blur-form">
-        <div
-          class="checkbox-item"
-          data-limitation-name="pause-video-on-blur"
-        >
-          <label>
-            <input
-              id="pause-video-on-blur"
-              name="pause-video-on-blur"
-              type="checkbox"
-              value="2"
-            />
-            <span for="pause-video-on-blur">
-              Pause YouTube video when page is inactive
-            </span>
-          </label>
-        </div>
-      </div> -->

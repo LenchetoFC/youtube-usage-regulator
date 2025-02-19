@@ -196,66 +196,66 @@ const database = {
   //   },
   // ],
 
-  ["schedule-events"]: [],
+  // ["schedule-events"]: [],
 
-  ["schedule-days"]: [
-    {
-      id: 0,
-      dayId: 0,
-      name: "sunday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 1,
-      dayId: 1,
-      name: "monday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 2,
-      dayId: 2,
-      name: "tuesday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 3,
-      dayId: 3,
-      name: "wednesday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 4,
-      dayId: 4,
-      name: "thursday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 5,
-      dayId: 5,
-      name: "friday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-    {
-      id: 6,
-      dayId: 6,
-      name: "saturday",
-      active: false,
-      "all-day": false,
-      additionalSites: false,
-    },
-  ],
+  // ["schedule-days"]: [
+  //   {
+  //     id: 0,
+  //     dayId: 0,
+  //     name: "sunday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 1,
+  //     dayId: 1,
+  //     name: "monday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     dayId: 2,
+  //     name: "tuesday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     dayId: 3,
+  //     name: "wednesday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     dayId: 4,
+  //     name: "thursday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     dayId: 5,
+  //     name: "friday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  //   {
+  //     id: 6,
+  //     dayId: 6,
+  //     name: "saturday",
+  //     active: false,
+  //     "all-day": false,
+  //     additionalSites: false,
+  //   },
+  // ],
 
   ["youtube-limitations"]: [
     {
@@ -352,7 +352,8 @@ chrome.storage.sync.get(
     "youtube-limitations",
     "watch-modes",
     "watch-times",
-    "schedules",
+    "schedule-days",
+    "schedule-events",
     "preferred-creators",
     "additional-websites",
     "spoiler-free",
@@ -389,8 +390,13 @@ chrome.storage.sync.get(
         "watch-times": database["watch-times"],
       });
     }
-    if (!result["schedules"]) {
-      chrome.storage.sync.set({ schedules: database["schedules"] });
+    if (!result["schedule-events"]) {
+      chrome.storage.sync.set({
+        "schedule-events": database["schedule-events"],
+      });
+    }
+    if (!result["schedule-days"]) {
+      chrome.storage.sync.set({ "schedule-days": database["schedule-days"] });
     }
     if (!result["preferred-creators"]) {
       chrome.storage.sync.set({

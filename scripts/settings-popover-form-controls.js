@@ -85,7 +85,6 @@ function saveItemToDatabase(table, formId, buttonID) {
 
   /** Saves new or existing item to database */
   try {
-    // debugger;
     // Disable the submit button
     toggleButtonAnimation(`button#${buttonID}`, true);
 
@@ -245,7 +244,6 @@ $(document).ready(async function () {
   $("#delete-item").on("click", function (event) {
     // Disable default form submission event; prevents automatic page reload
     event.preventDefault();
-    debugger;
 
     const table = $(this).closest("form").attr("data-table");
     const itemId = $(this).attr("data-item-id");

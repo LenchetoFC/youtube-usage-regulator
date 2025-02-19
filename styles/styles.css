@@ -88,7 +88,8 @@
   --radius-more-rounded: var(--radius-xl);
   --radius-full: var(--radius-3xl);
 
-  --font-family: "Schibsted Grotesk", sans-serif;
+  --font-family: "Inter", sans-serif;
+  /* --font-family: "Schibsted Grotesk", sans-serif; */
 }
 
 /* SECTION - GENERAL STYLES */
@@ -119,7 +120,6 @@ html:has(:popover-open) {
 body {
   margin: 0;
   font-family: var(--font-family);
-  /* font-family: "Inter", sans-serif; */
   font-size: 1.6rem; /* 10px * 1.6rem = 16px bc of 62.5% */
   line-height: 1.4;
   background: var(--surface-dark);
@@ -854,7 +854,6 @@ input[type="color"] {
   columns: 1;
 }
 
-.text-in-checkbox-form,
 .schedule-new {
   display: block;
   /* margin: 10px 0; */
@@ -864,15 +863,18 @@ input[type="color"] {
   columns: 2;
   /* align-self: stretch; */
   /* flex-wrap: wrap; */
+}
 
+.text-in-checkbox-form,
+.schedule-new {
   & .checkbox-item {
     float: left;
     overflow: hidden;
     margin: 4px 0;
     background-color: var(--surface-light);
     border: 1px solid var(--border-dark);
-    border-radius: var(--radius-2xl);
-    transition: 0.3s;
+    border-radius: 1.4rem;
+    transition: 0.5s;
     height: fit-content;
     width: 100%;
     break-inside: avoid;
@@ -888,6 +890,7 @@ input[type="color"] {
       user-select: none;
       flex: 1 0 0;
       font-size: 14px;
+      white-space: nowrap;
     }
     & label input {
       display: none;
@@ -2129,34 +2132,61 @@ div#popover-restricted-details > *:not(img) {
 /* ------------- */
 /* GENERAL POPUP */
 /* ------------- */
-body:is(.popup) {
-  width: 40rem;
+html.html-popup {
+  height: auto;
+}
+body.popup {
+  width: 36rem;
   padding: 2rem;
-  gap: 1.6rem;
+  gap: 1.2rem;
   margin: 0;
   background: var(--surface-light);
   overflow: visible;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  h1,
+  p {
+    color: var(--text-dark);
+  }
+
+  h1,
+  p.header-text {
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
 
   main {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.6rem;
+    gap: 1.2rem;
+    padding: 0;
+    width: 100%;
+    min-height: fit-content;
 
-    > section {
-      /* width: 50%; */
+    .popup-section {
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 12px;
+      gap: 0.8rem;
       align-self: stretch;
 
-      > section {
+      > div {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 0.8rem;
         align-self: stretch;
       }
     }
@@ -2165,6 +2195,9 @@ body:is(.popup) {
   nav {
     background: var(--surface-light);
     padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 
     img {
       width: 32px;
@@ -2172,17 +2205,19 @@ body:is(.popup) {
     }
 
     ul {
-      gap: 1.2rem;
+      gap: 0.6rem;
     }
   }
 
   .material-symbols-rounded {
     color: var(--surface-dark);
+    font-size: 2.8rem;
+    transition: 0.25s;
   }
 
   .usage-time {
     display: flex;
-    gap: 8px;
+    gap: 1.2rem;
     align-self: stretch;
     align-items: center;
 
@@ -2190,39 +2225,59 @@ body:is(.popup) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      gap: 0.4rem;
       flex: 1 0 0;
-
-      p:last-child {
-        font-size: 16px;
-        font-weight: 600;
-      }
-      p {
-        color: var(--text-dark);
-      }
     }
+  }
 
-    .material-symbols-rounded {
-      font-size: 2.8rem;
-    }
+  #notif-msg {
+    max-width: 33rem;
+    left: 1rem;
+  }
+
+  .limitations-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1.2rem;
+  }
+
+  a:hover .material-symbols-rounded {
+    color: var(--surface-light);
   }
 }
 
-.current-watch-mode {
-  /* NOTE: Temp, until watch mode feature is done */
-  display: none;
-
-  /* display: flex; */
-  padding: 4px 12px;
+/* Rounded Containers */
+.rounded-container {
+  display: flex;
+  padding: 6px 12px;
   justify-content: center;
   align-items: center;
   border-radius: var(--radius-more-rounded);
-  border: 1.5px dashed var(--border-dark);
+  border: 1.5px solid var(--border-dark);
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
+  width: max-content;
 
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
 }
+.rounded-container.solid {
+  --mode-color-bg: hsl(218, 23%, 25%);
+  background: var(--mode-color-bg);
+  color: var(--text-light);
+  border-color: transparent;
+}
+
+#restriction-status.active {
+  border-color: var(--brand-1);
+  color: var(--brand-1);
+}
+#restriction-status.inactive {
+  border-color: var(--brand-2);
+  color: var(--brand-2);
+}
+/*  */
 
 input[type="radio"] {
   --size: 2rem;
