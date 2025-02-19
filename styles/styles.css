@@ -1940,7 +1940,11 @@ p.small-text {
 .popover {
   /* display: flex; */
   flex-direction: column;
-  width: 64rem;
+  max-width: 64rem;
+  width: auto;
+  left: 2rem;
+  right: 2rem;
+  min-width: auto;
   padding: 2rem;
   align-items: flex-start;
   border-radius: var(--radius-more-rounded);
