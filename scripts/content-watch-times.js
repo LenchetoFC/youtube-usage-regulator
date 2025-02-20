@@ -12,6 +12,8 @@
  * @see {@link module:global-functions.getCurrentDate} x3
  */
 
+// TODO: Track shorts videos
+
 /**
  * SECTION - FUNCTION DECLARATIONS
  */
@@ -145,10 +147,15 @@ $(document).ready(function () {
   if (activeLongForm || activeShortForm) {
     // Updates watch time every second when video is playing
     setInterval(() => {
-      const videoStatus = $(".ytp-play-button.ytp-button").attr(
-        "data-title-no-tooltip"
-      );
-      const isPlaying = videoStatus === "Pause";
+      let $videoStatus;
+
+      if (activeLongForm) {
+        $videoStatus = $(".ytp-play-button.ytp-button").attr("title");
+      } else if (activeShortForm) {
+        $videoStatus = $("#play-pause-button-shape button").attr("title");
+      }
+
+      const isPlaying = $videoStatus.indexOf("Pause") !== -1;
       if (isPlaying) {
         calculateWatchTime(activeLongForm, activeShortForm);
       }

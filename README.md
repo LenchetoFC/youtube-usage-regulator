@@ -67,6 +67,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 ### Watch Times
 
 - [ ] If at least two videos are playing at once, watch times will count both. Meaning one second in real time will result in two seconds saved to database
+- [ ] The first shorts is not counted towards watch times
 
 ## Sole Author & Developer
 
