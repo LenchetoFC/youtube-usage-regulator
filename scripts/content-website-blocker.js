@@ -27,8 +27,8 @@
 async function checkBlockedWebsite() {
   let allWebsites = await selectAllRecordsGlobal("additional-websites");
 
-  console.log("blockedWebsites");
-  console.log(allWebsites);
+  // console.log("blockedWebsites");
+  // console.log(allWebsites);
 
   // Iterates through each blocked website, removes 'https://', and checks if that is in the current URL
   // -- redirects user to dashboard page

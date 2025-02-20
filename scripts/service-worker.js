@@ -820,9 +820,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     return true;
   } else if (request.operation === "filterRecords") {
-    // Filters records
     filterRecords(request.table, request.property, request.value)
-      .then((filteredData) => sendResponse(filteredData))
+      .then((filteredData) => {
+        console.log("Filtered data:", filteredData);
+        sendResponse(filteredData);
+      })
       .catch((errorMsg) => {
         sendResponse({
           error: true,

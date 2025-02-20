@@ -106,6 +106,7 @@ function getCurrentTime() {
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
+  // TODO: check schedule every second
   // Redirects user to dashboard from YouTube if a limited schedule is active
   // checkSchedules();
 });

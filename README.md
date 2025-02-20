@@ -62,15 +62,11 @@ Shows the user's set schedules and buttons to add a new schedule for the selecte
 On top of a gif that is randomly chosen from 12 different "funny fail" gifs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
 ![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
 
-## To-Do
+## Known Bugs
 
-### Stylings
+### Watch Times
 
-- [ ] jQuery confirm popups
-
-### Settings
-
-- [ ] Remove 'unsaved changes' notice when the user returns to original setting states
+- [ ] If at least two videos are playing at once, watch times will count both. Meaning one second in real time will result in two seconds saved to database
 
 ## Sole Author & Developer
 
@@ -98,9 +94,3 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
   - Added scheduling block functionality
 - 0.8
   - Overhauled content removal system
-
-## Acknowledgments
-
-Icon Creators
-
-- [Google Material Icons](https://fonts.google.com/icons)

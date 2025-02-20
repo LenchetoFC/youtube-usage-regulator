@@ -68,11 +68,11 @@ function hideDOMContent(className, elementName) {
     $(document).ready(function () {
       const contentItems = $(className);
 
-      console.log(className, $(className));
+      // console.log(className, $(className));
 
       // Adds hidden class to elements
       $(className).addClass("hidden", function (index) {
-        console.log(`Hides ${elementName}: ${index}`);
+        // console.log(`Hides ${elementName}: ${index}`);
       });
 
       // Create a style element
@@ -476,7 +476,7 @@ async function applyActiveLimitations() {
         true
       );
 
-      console.log(allActiveLimitations);
+      // console.log(allActiveLimitations);
 
       // Iterate through active limitations to apply to current web page
       for (let index in allActiveLimitations) {
@@ -544,5 +544,16 @@ async function applyActiveLimitations() {
 $(document).ready(function () {
   // Removes any YouTube element that is current limited (only on YouTube site)
   applyActiveLimitations();
+
+  // hides ability to refresh recommendations every time the window is resized.
+  // That tag is reset when the window is resized, so this is the workaround
+  // window.addEventListener("resize", () => {
+  //   setTimeout(() => {
+  //     hideDOMContent(
+  //       "ytd-continuation-item-renderer",
+  //       "Continuous Recommendations"
+  //     );
+  //   }, 1000);
+  // });
 });
 /** !SECTION */

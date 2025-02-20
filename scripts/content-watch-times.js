@@ -19,16 +19,16 @@
 /**
  * Save new watch times (total and video type) to current date's entry
  *
- * @name updateWatchTimes
+ * @name updateWatchTimeRecord
  * @async
  *
- * @param {Object} newWatchTimesObj - The newly created watch time object from createNewWatchTimesObj()
+ * @param {Object} newWatchTimesObj - The newly created watch time object from createTimeRecordObj()
  *
  * @returns {Object} The result of updating watch time in storage
  *
- * @example updateWatchTimes(newWatchTimeObj);
+ * @example updateWatchTimeRecord(newWatchTimeObj);
  */
-async function updateWatchTimes(newWatchTimesObj) {
+async function updateWatchTimeRecord(newWatchTimesObj) {
   let updateWatchTime = await updateRecordByPropertyGlobal(
     "watch-times",
     "date",
@@ -42,31 +42,27 @@ async function updateWatchTimes(newWatchTimesObj) {
 /**
  * Adds a new watch time entry to the storage
  *
- * @name addNewWatchTimeEntry
+ * @name addNewWatchTimeRecord
  *
  * @returns {void}
  *
- * @example addNewWatchTimeEntry();
+ * @example addNewWatchTimeRecord();
  */
-function addNewWatchTimeEntry() {
-  getCurrentWatchTimes().then(async (data) => {
-    if (data.length === 0) {
-      let watchTimeObj = {
-        date: getCurrentDate(),
-        "long-form-watch-time": 0,
-        "short-form-watch-time": 0,
-        "total-watch-time": 0,
-      };
+async function addNewWatchTimeRecord() {
+  let watchTimeObj = {
+    date: getCurrentDate(),
+    "long-form-watch-time": 0,
+    "short-form-watch-time": 0,
+    "total-watch-time": 0,
+  };
 
-      await insertRecordsGlobal("watch-times", [watchTimeObj]);
-    }
-  });
+  await insertRecordsGlobal("watch-times", [watchTimeObj]);
 }
 
 /**
  * Creates a new watch times object with updated watch times
  *
- * @name createNewWatchTimesObj
+ * @name createTimeRecordObj
  *
  * @param {Object} currentWatchTimeObj - The current watch time object from storage
  * @param {boolean} longForm - Indicates if the video is long-form
@@ -75,9 +71,9 @@ function addNewWatchTimeEntry() {
  *
  * @returns {Object} The new watch times object with updated values
  *
- * @example const newWatchTimes = createNewWatchTimesObj(currentWatchTimeObj, true, false, 300);
+ * @example const newWatchTimes = createTimeRecordObj(currentWatchTimeObj, true, false, 300);
  */
-function createNewWatchTimesObj(
+function createTimeRecordObj(
   currentWatchTimeObj,
   elapsedTime,
   longForm,
@@ -98,123 +94,224 @@ function createNewWatchTimesObj(
   return newWatchTimesObj;
 }
 
-/**
- * Starts tracking time when play button is active
- * Gets current time when tracking starts
- *
- * @name startTrackingTime
- *
- * @returns {void}
- *
- * TODO: move code from onload to here, and change it to play button functionality
- *
- */
-function startTrackingTime() {}
-
-/**
- * Stops tracking time and calculates elapsed time when play button is paused
- *
- * @name stopTrackingTime
- *
- * @returns {void}
- *
- * TODO: move code from onload to here, and change it to play button functionality
- */
-function stopTrackingTime() {}
-
 /** !SECTION */
+
+/**
+ * Calculates new watch time and calls function to update database
+ *
+ * @name calculateWatchTime
+ *
+ * @param {boolean} activeLongForm - if the current URL includes "/watch?"
+ * @param {boolean} activeShortForm - if the current URL includes "/shorts/"
+ *
+ * @returns {void}
+ *
+ * @example
+ * const activeLongForm = window.location.href.includes("/watch?");
+ * const activeShortForm = window.location.href.includes("/shorts/");
+ * calculateWatchTime(activeLongForm, activeShortForm);
+ */
+async function calculateWatchTime(activeLongForm, activeShortForm) {
+  // Gets current day's watch times and updates with new watch times
+  const currentWatchTimes = await getCurrentWatchTimes();
+  let currentWatchTimeObj = currentWatchTimes[0];
+
+  let newWatchTimeObj = createTimeRecordObj(
+    currentWatchTimeObj,
+    1,
+    activeLongForm,
+    activeShortForm
+  );
+
+  // Save new watch times (total and video type) to current date's entry
+  updateWatchTimeRecord(newWatchTimeObj);
+}
 
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
-  /**
-   * Starts tracking time when site is focused
-   * Gets current time when tracking starts
-   */
-
-  addNewWatchTimeEntry();
-
-  // TODO: Get value of pause video on inactive and save to global variable
-  // TODO: improve tracking by tracking pause/play button instead of window focus
-
-  // Starts timer immediately, even if not focused at first
-  let startTime = new Date();
-  console.log(`start time immediately ${startTime}`);
-
-  // Starts timer when YouTube site is focused
-  // TODO: add youtube limitation checks to make sure the elements do not appear
-  // -- even if the page never "officially" refreshes
-  window.addEventListener("focus", (event) => {
-    startTime = new Date();
-    // console.log(`start time on focus ${startTime}`);
-
-    // Checks schedule every time the page is focused
-    //  to make sure any new schedules are applied without
-    //  the need to reload page
-    // checkSchedules();
-  });
-
-  // Stops tracking and updates time tracking storage values
-  // Get current time when tracking ends & compares that with time when tracking started
-  window.addEventListener("blur", async (event) => {
-    // Get type of video (short-form or long-form)
-    let activeLongForm = window.location.href.includes("/watch?");
-    let activeShortForm = window.location.href.includes("/shorts/");
-
-    // Updates watch times for the current day in storage
-    if (activeLongForm || activeShortForm) {
-      // Calculates elapsed time
-      const endTime = new Date();
-      const elapsedTime = Math.floor((endTime - startTime) / 1000);
-
-      // Gets current day's watch times and updates with new watch times
-      getCurrentWatchTimes().then(async (data) => {
-        let currentWatchTimeObj = data[0];
-
-        let newWatchTimeObj = createNewWatchTimesObj(
-          currentWatchTimeObj,
-          elapsedTime,
-          activeLongForm,
-          activeShortForm
-        );
-
-        updateWatchTimes(newWatchTimeObj);
-      });
-
-      // Save new watch times (total and video type) to current date's entry
-      console.log(`elapsed time on blur ${elapsedTime}`);
-    } else {
-      console.log("Not on playback page.");
+  // Adds new watch time record if there is no record for current day
+  getCurrentWatchTimes().then(async (data) => {
+    if (data.length === 0) {
+      console.log("Creating new record for today...");
+      addNewWatchTimeRecord();
     }
-
-    // TODO: depends on pause on inactive global variable, activate this
-    // let activePauseOnBlur = await filterRecordsGlobal(
-    //   "misc-settings",
-    //   "pause-video-on-blur",
-    //   true
-    // );
-    // Gets video's play/pause button to simulate a mouse click on it
-    // const playButton = document
-    //   .getElementsByClassName("ytp-play-button ytp-button")
-    //   .item(0);
-
-    // Pause video if it is playing
-    // Effectively keeps accurate tracking for when the user is *watching* YouTube
-    // if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-    //   playButton.click();
-    // }
   });
 
-  // hides ability to refresh recommendations every time the window is resized.
-  // That tag is reset when the window is resized, so this is the workaround
-  // window.addEventListener("resize", () => {
-  //   setTimeout(() => {
-  //     hideDOMContent(
-  //       "ytd-continuation-item-renderer",
-  //       "Continuous Recommendations"
-  //     );
-  //   }, 1000);
-  // });
+  // Sets 1-second interval for only Watch and Shorts pages
+  const activeLongForm = window.location.href.includes("/watch?");
+  const activeShortForm = window.location.href.includes("/shorts/");
+  if (activeLongForm || activeShortForm) {
+    // Updates watch time every second when video is playing
+    setInterval(() => {
+      const videoStatus = $(".ytp-play-button.ytp-button").attr(
+        "data-title-no-tooltip"
+      );
+      const isPlaying = videoStatus === "Pause";
+      if (isPlaying) {
+        calculateWatchTime(activeLongForm, activeShortForm);
+      }
+    }, 1000);
+  }
+
+  // TODO: depends on pause on inactive global variable, activate this
+  // let activePauseOnBlur = await filterRecordsGlobal(
+  //   "misc-settings",
+  //   "pause-video-on-blur",
+  //   true
+  // );
 });
+
 /** !SECTION */
+
+// NOTE: Unused code for an alternative method for tracking watch times
+// /**
+//  * SECTION - TRACKING BASED ON PLAY/PAUSE STATES
+//  * @notes increments watch time until video is done or paused, and then updated to database
+//  */
+
+// async function calculateWatchTime() {
+//   // NOTE: code for TRACKING BASED ON PLAY/PAUSE STATES
+//   // Calculates elapsed time
+//   // const endTime = new Date();
+//   // const elapsedTime = Math.floor((endTime - startTime) / 1000);
+
+//   // Gets current day's watch times and updates with new watch times
+//   ...
+// }
+
+// /**
+//  * Starts tracking time when play button is active
+//  * Gets current time when tracking starts
+//  *
+//  * @name startTrackingTime
+//  *
+//  * @returns {void}
+//  *
+//  *
+//  */
+// // function startTrackingTime() {
+// //   const startTime = new Date();
+// //   console.log(`start time immediately ${startTime}`);
+// //   return startTime;
+// // }
+
+// /**
+//  * Stops tracking time and calculates elapsed time when play button is paused
+//  *
+//  * @name stopTrackingTime
+//  *
+//  * @returns {void}
+//  *
+//  */
+// // function stopTrackingTime(startTime) {
+// //   if (typeof startTime === "undefined") {
+// //     console.log("startTime does not exist");
+// //     return;
+// //   }
+
+// //   calculateWatchTime();
+// // }
+
+// // Function to handle attribute changes
+// // function handleAttributeChange(mutationsList, observer) {
+// //   mutationsList.forEach((mutation) => {
+// //     if (
+// //       mutation.type === "attributes" &&
+// //       mutation.attributeName === "data-title-no-tooltip"
+// //     ) {
+// //       const titleAttr = mutation.target.getAttribute("data-title-no-tooltip");
+// //       const isPlaying = titleAttr === "Pause";
+
+// //       if (isPlaying) {
+// //         startTime = startTrackingTime();
+// //         console.log("playing");
+// //       } else {
+// //         stopTrackingTime(startTime);
+// //         console.log("paused");
+// //       }
+// //     }
+// //   });
+// // }
+
+// // $(document).ready(function () {
+// /**
+//  * Starts tracking time when site is focused
+//  * Gets current time when tracking starts
+//  */
+
+// // adds new watch time record if there is no record for current day
+// // addNewWatchTimeRecord();
+
+// // $(document).on("click", ".ytp-play-button.ytp-button", function () {
+// //   console.log(this);
+// //   setTimeout(() => {
+// //     const titleAttr = $(this).attr("data-title-no-tooltip");
+
+// //     const isPlaying = titleAttr === "Pause";
+
+// //     if (isPlaying) {
+// //       startTime = startTrackingTime();
+// //       console.log("playing");
+// //     } else {
+// //       stopTrackingTime(startTime);
+// //       console.log("paused");
+// //     }
+// //   }, 100); // Adjust the delay as needed
+// // });
+
+// // Starts timer immediately, even if not focused at first
+// // let startTime;
+// // setTimeout(() => {
+// //   // Create an observer instance linked to the callback function
+// //   const observer = new MutationObserver(handleAttributeChange);
+
+// //   // Start observing the target node for configured mutations
+// //   const targetNode = document.querySelector(".ytp-play-button.ytp-button");
+// //   if (targetNode) {
+// //     observer.observe(targetNode, { attributes: true });
+// //     console.log("play button found");
+// //   } else {
+// //     console.error("Play button not found.");
+// //   }
+
+// //   const videoStatus = $(".ytp-play-button.ytp-button").attr(
+// //     "data-title-no-tooltip"
+// //   );
+// //   const isAlreadyPlaying = videoStatus === "Pause";
+// //   if (isAlreadyPlaying) {
+// //     startTime = startTrackingTime();
+// //   }
+// // }, 3000);
+
+// // Starts timer when YouTube site is focused
+// // TODO: add youtube limitation checks to make sure the elements do not appear
+// // -- even if the page never "officially" refreshes
+// // window.addEventListener("focus", (event) => {
+// // startTime = startTrackingTime();
+// // Checks schedule every time the page is focused
+// //  to make sure any new schedules are applied without
+// //  the need to reload page
+// // checkSchedules();
+// // });
+
+// // Stops tracking and updates time tracking storage values
+// // Get current time when tracking ends & compares that with time when tracking started
+// // window.addEventListener("blur", async (event) => {
+// // stopTrackingTime(startTime);
+
+// // // Gets video's play/pause button to simulate a mouse click on it
+// // const playButton = document
+// //   .getElementsByClassName("ytp-play-button ytp-button")
+// //   .item(0);
+// // // Pause video if it is playing
+// // // Effectively keeps accurate tracking for when the user is *watching* YouTube
+// // if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
+// //   playButton.click();
+// // }
+// // });
+
+// // });
+
+// /** !SECTION */
