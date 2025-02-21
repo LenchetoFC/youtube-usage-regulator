@@ -277,7 +277,7 @@ async function insertRestrictionEvent() {
   // Gets event values (startTime, endTime, dayId)
   const $eventContainer = $("#restriction-event");
   const { dayId } = nextEvent;
-  const date = reformatDateToText(getDateOfWeek(dayId));
+  const date = reformatDateToText(getDateOfWeek(dayId)); //FIXME: the day of week is off by one day +1; the date is NOT wrong tho (needs more testing)
   $eventContainer.find("#date").html(date);
 
   // Inserts event details into html

@@ -103,6 +103,7 @@ function createTimeRecordObj(
  *
  * @name calculateWatchTime
  *
+ * @param {boolean} secondsActive - number of seconds to add to watch time database
  * @param {boolean} activeLongForm - if the current URL includes "/watch?"
  * @param {boolean} activeShortForm - if the current URL includes "/shorts/"
  *
@@ -113,14 +114,18 @@ function createTimeRecordObj(
  * const activeShortForm = window.location.href.includes("/shorts/");
  * calculateWatchTime(activeLongForm, activeShortForm);
  */
-async function calculateWatchTime(activeLongForm, activeShortForm) {
+async function calculateWatchTime(
+  secondsActive,
+  activeLongForm,
+  activeShortForm
+) {
   // Gets current day's watch times and updates with new watch times
   const currentWatchTimes = await getCurrentWatchTimes();
   let currentWatchTimeObj = currentWatchTimes[0];
 
   let newWatchTimeObj = createTimeRecordObj(
     currentWatchTimeObj,
-    1,
+    secondsActive,
     activeLongForm,
     activeShortForm
   );
@@ -142,23 +147,44 @@ $(document).ready(function () {
   });
 
   // Sets 1-second interval for only Watch and Shorts pages
-  // FIXME: change interval to every 10 seconds to avoid max 1800 writes per hour quotas
   const activeLongForm = window.location.href.includes("/watch?");
   const activeShortForm = window.location.href.includes("/shorts/");
   if (activeLongForm || activeShortForm) {
-    // Updates watch time every second when video is playing
+    // Count watch time every second when video is playing
+    let secondsActive = 0;
+    let count = 0;
     setInterval(() => {
-      let $videoStatus;
+      count++;
+      let videoStatus;
 
+      // Gets the play status, depending on page
       if (activeLongForm) {
-        $videoStatus = $(".ytp-play-button.ytp-button").attr("title");
+        videoStatus = document
+          .querySelector(".ytp-play-button.ytp-button")
+          .getAttribute("title");
       } else if (activeShortForm) {
-        $videoStatus = $("#play-pause-button-shape button").attr("title");
+        videoStatus = document
+          .querySelector("#play-pause-button-shape button")
+          .getAttribute("title");
       }
 
-      const isPlaying = $videoStatus.indexOf("Pause") !== -1;
+      // If play status is pause, that means video is actively playing
+      const isPlaying = videoStatus.includes("Pause");
       if (isPlaying) {
-        calculateWatchTime(activeLongForm, activeShortForm);
+        secondsActive++;
+
+        // Save every 10 seconds for a max write of 360 per hour
+        if (secondsActive === 10) {
+          calculateWatchTime(secondsActive, activeLongForm, activeShortForm);
+          secondsActive = 0;
+        }
+      }
+
+      // Save the current secondsActive to database every 30 seconds
+      // (in case the video have been paused or stopped before 10 seconds passed),
+      if (count === 30) {
+        calculateWatchTime(secondsActive, activeLongForm, activeShortForm);
+        secondsActive = 0;
       }
     }, 1000);
   }
