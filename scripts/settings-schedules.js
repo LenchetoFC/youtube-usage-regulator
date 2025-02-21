@@ -173,9 +173,10 @@ async function createScheduleEventsObj() {
   // Individual Events
   let events = await selectAllRecordsGlobal("schedule-events");
   events.forEach((element) => {
-    let title = element.additionalSites
-      ? "YouTube + Additional Sites Restricted"
-      : "YouTube Restricted";
+    // let title = element.additionalSites
+    //   ? "YouTube + Additional Sites Restricted"
+    //   : "YouTube Restricted";
+    let title = "YouTube Restricted";
 
     let eventObj = {
       id: element.id,
@@ -209,9 +210,11 @@ async function createScheduleDayObj() {
   let allDaySchedules = events.filter((day) => day["all-day"]);
 
   allDaySchedules.forEach((element) => {
-    let title = element.additionalSites
-      ? "YouTube + Additional Sites Restricted"
-      : "YouTube Restricted";
+    // let title = element.additionalSites
+    //   ? "YouTube + Additional Sites Restricted"
+    //   : "YouTube Restricted";
+
+    let title = "YouTube Restricted";
 
     let eventObj = {
       id: element.dayId,
@@ -614,7 +617,7 @@ function getScheduleFormValues() {
   });
 
   // Get all day and additional websites values
-  eventObj.additionalSites = $("#additionalSites").prop("checked");
+  // eventObj.additionalSites = $("#additionalSites").prop("checked");
   eventObj["all-day"] = $("#all-day").prop("checked");
 
   return eventObj;
@@ -697,7 +700,7 @@ function populateEventOverlay(eventInfo) {
 
   // Populates form
   insertScheduleFormHeader(eventObj.isAdditionalSitesChecked);
-  $("#additionalSites").attr("checked", eventObj.isAdditionalSitesChecked);
+  // $("#additionalSites").attr("checked", eventObj.isAdditionalSitesChecked);
   $("#all-day").attr("checked", eventObj.isAllDay);
 
   hideTimeContainer(eventObj.isAllDay);
@@ -822,9 +825,10 @@ function determineFormFooterButtons(eventObj) {
  * @returns {void} Inserts the correct schedule block type title on the event form.
  */
 function insertScheduleFormHeader(isAdditionalSitesChecked) {
-  let headerText = isAdditionalSitesChecked
-    ? "YouTube + Additional Sites Restricted"
-    : "YouTube Restricted";
+  // let headerText = isAdditionalSitesChecked
+  //   ? "YouTube + Additional Sites Restricted"
+  //   : "YouTube Restricted";
+  let headerText = "YouTube Restricted";
   $("#popover-schedule-event > header h1").html(headerText);
 }
 
@@ -1049,9 +1053,9 @@ $(document).ready(async function () {
   });
 
   // Change schedule form header text according to additional sites checkbox
-  $("#additionalSites").on("click", function () {
-    insertScheduleFormHeader($(this).prop("checked"));
-  });
+  // $("#additionalSites").on("click", function () {
+  //   insertScheduleFormHeader($(this).prop("checked"));
+  // });
 
   // Saves schedule event to database
   $("#save-schedule").on("click", async function (event) {

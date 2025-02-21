@@ -10,24 +10,57 @@
  */
 
 /**
- * SECTION - FUNCTION DECLARATIONS
+ * SECTION - RESTRICTION SCHEDULE CHECKS
  */
 
 /**
- * Gets current time as of execution
+ * Inserts restriction event into popup html
  *
  * @name getCurrentTime
  *
- * @returns {string} Returns the current time in a string format
+ * @returns {object} object of current date and time
  *
- * @example let currentTime = getCurrentTime();
+ * @example const currentDayObj = getCurrentTime();
  */
 function getCurrentTime() {
-  let currentDateTime = new Date();
-  let currentHour = currentDateTime.getHours();
-  let currentMinute = currentDateTime.getMinutes();
+  const currentDay = new Date();
+  const dayObj = {
+    day: currentDay.getDay(),
+    hour: currentDay.getHours(),
+    minute: currentDay.getMinutes(),
+  };
 
-  return `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`;
+  return dayObj;
+}
+
+/**
+ * Check if the current time is within a schedule timeframe for current day
+ *
+ * @name getActiveSchedule
+ *
+ * @param {object} dayObj { day, hour, minute }
+ *
+ * @returns {boolean} boolean value of if there is an active schedule
+ *
+ * @example
+ * const dayObj = getCurrentTime();
+ * const isActive = await getActiveSchedule(dayObj);
+ */
+async function getActiveSchedule({ day, hour, minute }) {
+  // Formats current time as 'hh:mm:ss'
+  const minutes = minute.toString().padStart(2, "0");
+  const currentTime = `${hour}:${minutes}:00`;
+
+  const events = await filterRecordsGlobal("schedule-events", "dayId", day);
+
+  for (const { startTime, endTime } of events) {
+    // Check if the current time falls within the event's start and end time
+    if (currentTime > startTime && currentTime < endTime) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -35,79 +68,58 @@ function getCurrentTime() {
  *
  * @name checkSchedules
  *
- * @returns {void}
+ * @returns {boolean} isActive - boolean value of if there are any currently active schedules
  *
  * @example checkSchedules();
  *
- * TODO: implement fullcalendar.io libary
  */
-// function checkSchedules () {
-//   // console.log("CHECKING SCHEDULE TIMES...");
+async function checkSchedules() {
+  console.log("Checking for active schedules...");
 
-//   // Settings IDs
-//   let scheduleList = [
-//     "sunday", "monday", "tuesday",
-//     "wednesday", "thursday", "friday",
-//     "saturday"
-//   ];
+  // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
+  const dayObj = getCurrentTime();
 
-//   // Empty array to store the boolean values when the current time is checked with schedule times
-//   let blockYouTube = [];
+  const isActive = await getActiveSchedule(dayObj);
 
-//   // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
-//   let currentTime = getCurrentTime();
-//   let currentDay = new Date().getDay();
+  return isActive;
+}
 
-//   TODO: get current day of week, filter records for just that day instead of iterating through all days
+/**
+ * Function that holds function calls to check for active schedules and redirect user
+ *
+ * @name scheduleRedirection
+ *
+ * @returns {void}
+ *
+ * @example scheduleRedirection();
+ *
+ */
+async function scheduleRedirection() {
+  // Checks if any schedules are currently active
+  const isActive = await checkSchedules();
 
-//   // Iterates through schedule days and only gets schedule times when it is the current day
-//   // FIXME: if there's any time scheduled that day, it will block youtube
-//   scheduleList.forEach(async (day, index) => {
-//     console.log(currentDay, index, day)
-//     if (currentDay === index) {
-//       console.log(currentDay)
-//       let times = await sendMessageToServiceWorker({operation: "retrieveNested", parentKey: "schedule-days", key: day});
+  // Redirect user (from globalFunctions.js) if schedule is currently active
+  const currentSite = window.location.href;
+  const isYouTubeSite = currentSite.includes("youtube.com");
 
-//       console.log(`times: ${times}`)
-//       // Checking if current time is within schedule times
-//       if (times) { // All day schedule
-//         blockYouTube.push(true);
-//       } else if (times === false && times.length > 1) { // if all day is false and there is at least one scheduled interval
-//         timesSelection = times.slice(1) // Only grabs the schedule intervals (array)
-
-//         // Iterates through each schedule interval
-//         timesSelection.forEach((time) => {
-//           // Adds true value to blockYoutube array if current time is between interval
-//           if (currentTime >= time[0] && currentTime <= time[1]) {
-//             blockYouTube.push(true);
-//           }
-
-//         })
-//       }
-//     }
-//     // Redirects user to blocked page if there is at least true value in blockYouTube array
-//     //  & sets youtube-site restriction setting to true
-//     if (blockYouTube.includes(true)) {
-//       // console.log("WITHIN SCHEDULE TIMES. BLOCKING YOUTUBE");
-//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: true});
-//       //updateHTML("/html/blocked-page.html");
-//       return;
-//     } else {
-//       // Sets youtube-site restriction to false if there are NO true values in blockYouTube array
-//       // await sendSetSettingsMsg({operation: "set", key: 'scheduleOn', value: false});
-//       // console.log("NOT WITHIN SCHEDULE TIMES");
-//     }
-//   })
-// }
-
+  // Redirects user if they are on a youtube site and if schedule is active
+  if (isActive && isYouTubeSite) {
+    redirectUser();
+  }
+}
 /** !SECTION */
 
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 $(document).ready(function () {
-  // TODO: check schedule every second
-  // Redirects user to dashboard from YouTube if a limited schedule is active
-  // checkSchedules();
+  // Check schedule on load
+  scheduleRedirection();
+
+  // Check schedule every 30 seconds
+  setInterval(async () => {
+    scheduleRedirection();
+  }, 30000);
 });
+
 /** !SECTION */
