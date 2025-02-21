@@ -12,10 +12,8 @@
  * @see {@link module:global-functions.getCurrentDate} x3
  */
 
-// TODO: Track shorts videos
-
 /**
- * SECTION - FUNCTION DECLARATIONS
+ * SECTION - WATCH TIME FUNCTIONS
  */
 
 /**
@@ -96,8 +94,6 @@ function createTimeRecordObj(
   return newWatchTimesObj;
 }
 
-/** !SECTION */
-
 /**
  * Calculates new watch time and calls function to update database
  *
@@ -134,8 +130,65 @@ async function calculateWatchTime(
   updateWatchTimeRecord(newWatchTimeObj);
 }
 
+/** !SECTION */
+
 /**
- * SECTION - ONLOAD FUNCTIONS CALLS
+ * SECTION - PAUSE ON BLUR
+ */
+window.addEventListener("blur", async (event) => {
+  const isActive = await getPauseOnBlurValue();
+  if (isActive) pauseVideo();
+});
+
+/**
+ * Gets value of pauseOnBlur setting from database
+ *
+ * @name getPauseOnBlurValue
+ *
+ * @returns {boolean} isActive - boolean value of if setting is active
+ *
+ * @example const isActive = getPauseOnBlurValue();
+ *
+ */
+async function getPauseOnBlurValue() {
+  let activePauseOnBlur = await filterRecordsGlobal(
+    "youtube-limitations",
+    "name",
+    "pause-video-on-blur"
+  );
+
+  const isActive = activePauseOnBlur[0]["active"];
+
+  return isActive;
+}
+
+/**
+ * Pause video if it is currently playing
+ *
+ * @name pauseVideo
+ *
+ * @returns {void}
+ *
+ * @example pauseVideo();
+ *
+ */
+function pauseVideo() {
+  // Gets video's play/pause button to simulate a mouse click on it
+  const playButton = document
+    .getElementsByClassName("ytp-play-button ytp-button")
+    .item(0);
+
+  // Pause video if it is playing
+  // Effectively keeps accurate tracking for when the user is *watching* YouTube
+  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
+    playButton.click();
+  }
+}
+
+/** !SECTION */
+
+/**
+ * SECTION - COUNTING WATCH TIMES
  */
 $(document).ready(function () {
   // Adds new watch time record if there is no record for current day
@@ -188,164 +241,6 @@ $(document).ready(function () {
       }
     }, 1000);
   }
-
-  // TODO: depends on pause on inactive global variable, activate this
-  // let activePauseOnBlur = await filterRecordsGlobal(
-  //   "misc-settings",
-  //   "pause-video-on-blur",
-  //   true
-  // );
 });
 
 /** !SECTION */
-
-// NOTE: Unused code for an alternative method for tracking watch times
-// /**
-//  * SECTION - TRACKING BASED ON PLAY/PAUSE STATES
-//  * @notes increments watch time until video is done or paused, and then updated to database
-//  */
-
-// async function calculateWatchTime() {
-//   // NOTE: code for TRACKING BASED ON PLAY/PAUSE STATES
-//   // Calculates elapsed time
-//   // const endTime = new Date();
-//   // const elapsedTime = Math.floor((endTime - startTime) / 1000);
-
-//   // Gets current day's watch times and updates with new watch times
-//   ...
-// }
-
-// /**
-//  * Starts tracking time when play button is active
-//  * Gets current time when tracking starts
-//  *
-//  * @name startTrackingTime
-//  *
-//  * @returns {void}
-//  *
-//  *
-//  */
-// // function startTrackingTime() {
-// //   const startTime = new Date();
-// //   console.log(`start time immediately ${startTime}`);
-// //   return startTime;
-// // }
-
-// /**
-//  * Stops tracking time and calculates elapsed time when play button is paused
-//  *
-//  * @name stopTrackingTime
-//  *
-//  * @returns {void}
-//  *
-//  */
-// // function stopTrackingTime(startTime) {
-// //   if (typeof startTime === "undefined") {
-// //     console.log("startTime does not exist");
-// //     return;
-// //   }
-
-// //   calculateWatchTime();
-// // }
-
-// // Function to handle attribute changes
-// // function handleAttributeChange(mutationsList, observer) {
-// //   mutationsList.forEach((mutation) => {
-// //     if (
-// //       mutation.type === "attributes" &&
-// //       mutation.attributeName === "data-title-no-tooltip"
-// //     ) {
-// //       const titleAttr = mutation.target.getAttribute("data-title-no-tooltip");
-// //       const isPlaying = titleAttr === "Pause";
-
-// //       if (isPlaying) {
-// //         startTime = startTrackingTime();
-// //         console.log("playing");
-// //       } else {
-// //         stopTrackingTime(startTime);
-// //         console.log("paused");
-// //       }
-// //     }
-// //   });
-// // }
-
-// // $(document).ready(function () {
-// /**
-//  * Starts tracking time when site is focused
-//  * Gets current time when tracking starts
-//  */
-
-// // adds new watch time record if there is no record for current day
-// // addNewWatchTimeRecord();
-
-// // $(document).on("click", ".ytp-play-button.ytp-button", function () {
-// //   console.log(this);
-// //   setTimeout(() => {
-// //     const titleAttr = $(this).attr("data-title-no-tooltip");
-
-// //     const isPlaying = titleAttr === "Pause";
-
-// //     if (isPlaying) {
-// //       startTime = startTrackingTime();
-// //       console.log("playing");
-// //     } else {
-// //       stopTrackingTime(startTime);
-// //       console.log("paused");
-// //     }
-// //   }, 100); // Adjust the delay as needed
-// // });
-
-// // Starts timer immediately, even if not focused at first
-// // let startTime;
-// // setTimeout(() => {
-// //   // Create an observer instance linked to the callback function
-// //   const observer = new MutationObserver(handleAttributeChange);
-
-// //   // Start observing the target node for configured mutations
-// //   const targetNode = document.querySelector(".ytp-play-button.ytp-button");
-// //   if (targetNode) {
-// //     observer.observe(targetNode, { attributes: true });
-// //     console.log("play button found");
-// //   } else {
-// //     console.error("Play button not found.");
-// //   }
-
-// //   const videoStatus = $(".ytp-play-button.ytp-button").attr(
-// //     "data-title-no-tooltip"
-// //   );
-// //   const isAlreadyPlaying = videoStatus === "Pause";
-// //   if (isAlreadyPlaying) {
-// //     startTime = startTrackingTime();
-// //   }
-// // }, 3000);
-
-// // Starts timer when YouTube site is focused
-// // TODO: add youtube limitation checks to make sure the elements do not appear
-// // -- even if the page never "officially" refreshes
-// // window.addEventListener("focus", (event) => {
-// // startTime = startTrackingTime();
-// // Checks schedule every time the page is focused
-// //  to make sure any new schedules are applied without
-// //  the need to reload page
-// // checkSchedules();
-// // });
-
-// // Stops tracking and updates time tracking storage values
-// // Get current time when tracking ends & compares that with time when tracking started
-// // window.addEventListener("blur", async (event) => {
-// // stopTrackingTime(startTime);
-
-// // // Gets video's play/pause button to simulate a mouse click on it
-// // const playButton = document
-// //   .getElementsByClassName("ytp-play-button ytp-button")
-// //   .item(0);
-// // // Pause video if it is playing
-// // // Effectively keeps accurate tracking for when the user is *watching* YouTube
-// // if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-// //   playButton.click();
-// // }
-// // });
-
-// // });
-
-// /** !SECTION */
