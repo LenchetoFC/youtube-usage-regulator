@@ -25,7 +25,11 @@
  * @example checkBlockedWebsite()
  */
 async function checkBlockedWebsite() {
-  let allWebsites = await selectAllRecordsGlobal("additional-websites");
+  let allWebsites = await filterRecordsGlobal(
+    "additional-websites",
+    "active",
+    true
+  );
 
   // console.log("blockedWebsites");
   // console.log(allWebsites);
@@ -48,5 +52,10 @@ async function checkBlockedWebsite() {
 $(document).ready(function () {
   // Redirects user from current website if it is in the blocked website list
   checkBlockedWebsite();
+
+  // Checks if website is now blocked on every focus
+  window.addEventListener("focus", (event) => {
+    checkBlockedWebsite();
+  });
 });
 /** !SECTION */

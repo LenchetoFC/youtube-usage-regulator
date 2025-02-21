@@ -142,6 +142,7 @@ $(document).ready(function () {
   });
 
   // Sets 1-second interval for only Watch and Shorts pages
+  // FIXME: change interval to every 10 seconds to avoid max 1800 writes per hour quotas
   const activeLongForm = window.location.href.includes("/watch?");
   const activeShortForm = window.location.href.includes("/shorts/");
   if (activeLongForm || activeShortForm) {
