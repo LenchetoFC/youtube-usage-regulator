@@ -69,6 +69,10 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - [ ] If at least two videos are playing at once, watch times will count both. Meaning one second in real time will result in two seconds saved to database
 - [ ] The first shorts is not counted towards watch times
 
+### Restriction Schedules
+
+- [ ] When removing a regular interval event, it removes any existing all-day event in the same day
+
 ## Sole Author & Developer
 
 **Lorenzo Ramirez** | [Email](mailto:lorenzoramirez122@gmail.com) | [Personal Website](https://lorenzoramirezjr.com)

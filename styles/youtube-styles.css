@@ -2,3 +2,11 @@
 .hidden {
   display: none;
 }
+
+.blur {
+  filter: blur(1);
+}
+
+.replacement-thumbnail {
+  background-image: url("spoiler-detected.jpg");
+}

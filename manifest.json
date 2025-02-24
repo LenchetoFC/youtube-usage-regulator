@@ -32,7 +32,8 @@
         "/scripts/content-schedules.js",
         "/scripts/content-watch-times.js",
         "/scripts/content-website-blocker.js",
-        "/scripts/content-yt-limitations.js"
+        "/scripts/content-yt-limitations.js",
+        "/scripts/content-spoiler-free.js"
       ],
       "css": ["/styles/youtube-styles.css"],
       "matches": ["https://www.youtube.com/*"],

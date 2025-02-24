@@ -13,6 +13,8 @@
  * SECTION - RESTRICTION SCHEDULE CHECKS
  */
 
+// FIXME: all day schedules don't redirect users
+
 /**
  * Inserts restriction event into popup html
  *
@@ -74,7 +76,7 @@ async function getActiveSchedule({ day, hour, minute }) {
  *
  */
 async function checkSchedules() {
-  console.log("Checking for active schedules...");
+  // console.log("Checking for active schedules...");
 
   // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
   const dayObj = getCurrentTime();

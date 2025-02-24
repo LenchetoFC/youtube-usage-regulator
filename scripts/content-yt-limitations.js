@@ -86,7 +86,7 @@ function hideDOMContent(className, elementName) {
           // console.log(mutation.addedNodes);
           if (mutation.addedNodes.length) {
             $(className).addClass("hidden");
-            console.log("hidden");
+            // console.log("hidden");
           }
         });
       });
