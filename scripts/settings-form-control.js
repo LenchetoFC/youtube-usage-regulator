@@ -23,7 +23,7 @@
  * @example const limitationChoices = getChangedSettings();
  */
 function getChangedSettings(formId) {
-  const $changedInputs = $(`#${formId}`).find("fieldset input.changed");
+  const $changedInputs = $(`#${formId}`).find("input.changed");
 
   let groupedByName = {};
 
@@ -83,43 +83,6 @@ async function updateSettingsCheckboxes(activeSettings, formId) {
         .attr("checked", popupVal);
     }
   }
-}
-
-// Gets attributes of all newly checked checkboxes
-/**
- * Description
- *
- * @name functionName
- * @global
- *
- * @param {type} name - description
- *
- * @returns {type}
- *
- * @example functionName(params);
- *
- */
-function getCheckedSettings(formId) {
-  const $changedInputs = $(`#${formId} fieldset input.changed`);
-
-  let groupedByName = {};
-
-  for (const setting of $changedInputs) {
-    const $id = $(setting).val();
-    const $property = $(setting).attr("data-property");
-    const $name = $(setting).attr("data-name");
-    const $isChecked = $(setting).is(":checked");
-
-    if (!groupedByName[$name]) {
-      groupedByName[$name] = {};
-    }
-
-    groupedByName[$name] = $isChecked;
-    groupedByName[$name]["id"] = parseInt($id);
-    groupedByName[$name][$property] = $isChecked;
-  }
-
-  return groupedByName;
 }
 
 // Checks for if any checkbox has been newly checked or unchecked
