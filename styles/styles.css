@@ -943,7 +943,7 @@ input[type="color"] {
   align-items: center;
   /* background-color: var(--surface-light); */
   gap: 0.8rem;
-  /* position: relative; */
+  position: relative;
   align-content: center;
   cursor: pointer;
   -webkit-user-select: none;

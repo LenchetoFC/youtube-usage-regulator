@@ -135,9 +135,10 @@ async function calculateWatchTime(
 /**
  * SECTION - PAUSE ON BLUR
  */
+const isActive = await getPauseOnBlurValue();
 // FIXME: pausing does not work on Shorts pages
 window.addEventListener("blur", async (event) => {
-  const isActive = await getPauseOnBlurValue();
+  console.log("isActive", isActive);
   if (isActive) pauseVideo();
 });
 
