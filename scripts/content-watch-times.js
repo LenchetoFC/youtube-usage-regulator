@@ -168,16 +168,33 @@ async function getPauseOnBlurValue() {
  * @example pauseVideo();
  *
  */
-function pauseVideo() {
-  // Gets video's play/pause button to simulate a mouse click on it
-  const playButton = document
-    .getElementsByClassName("ytp-play-button ytp-button")
-    .item(0);
+function pauseVideo(isFirstPress) {
+  const activeLongForm = window.location.href.includes("/watch?");
+  const activeShortForm = window.location.href.includes("/shorts/");
 
-  // Pause video if it is playing
-  // Effectively keeps accurate tracking for when the user is *watching* YouTube
-  if (playButton.getAttribute("data-title-no-tooltip") === "Pause") {
-    playButton.click();
+  let playButton;
+  let valueToCheck;
+
+  // Gets video's play/pause button to simulate a mouse click on it, depending on page
+  if (activeLongForm) {
+    playButton = document
+      .getElementsByClassName("ytp-play-button ytp-button")
+      .item(0);
+
+    valueToCheck = "Pause";
+  } else if (activeShortForm) {
+    playButton = document.querySelector("#play-pause-button-shape button");
+    valueToCheck = isFirstPress ? "Play" : "Pause";
+  }
+
+  // Pause video if it is playing and a play button exists
+  if (playButton && (activeLongForm || activeShortForm)) {
+    const titleValue = playButton.getAttribute("title");
+    const isPlaying = titleValue.includes(valueToCheck);
+
+    if (isPlaying) {
+      playButton.click();
+    }
   }
 }
 
@@ -248,10 +265,14 @@ $(document).ready(async function () {
   // Gets pause on blur setting value once on load
   const isActive = await getPauseOnBlurValue();
 
+  // On shorts pages, the title value of the play button is inaccurate
+  // so this variable is needed to offset that
+  let isFirstPress = true;
+
   // Puase video only if pause on blur is active
   window.addEventListener("blur", async (event) => {
-    console.log("isActive", isActive);
-    if (isActive) pauseVideo();
+    if (isActive) pauseVideo(isFirstPress);
+    isFirstPress = false;
   });
 });
 
