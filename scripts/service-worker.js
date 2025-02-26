@@ -822,7 +822,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   } else if (request.operation === "filterRecords") {
     filterRecords(request.table, request.property, request.value)
       .then((filteredData) => {
-        console.log("Filtered data:", filteredData);
+        // console.log("Filtered data:", filteredData);
         sendResponse(filteredData);
       })
       .catch((errorMsg) => {

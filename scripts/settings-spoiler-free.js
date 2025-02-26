@@ -46,7 +46,7 @@ async function insertGroupsIntoPage() {
                   data-table="spoiler-groups" type="checkbox"
                   ${active ? "checked" : ""} />
 
-                  <span class="checkmark">
+                  <span class="checkmark white-border">
                     <span class="material-symbols-rounded">check</span>
                   </span>
                   <p>Enable</p>

@@ -185,19 +185,20 @@
     </aside>
 
     <main class="white-bg">
+      <!-- Search Bar -->
+      <form>
+        <div class="search-bar">
+          <span class="material-symbols-rounded">search</span>
+          <input
+            type="text"
+            id="search-input"
+            class="input-full-border"
+            placeholder="Search..."
+          />
+        </div>
+      </form>
+
       <header class="page-header">
-        <!-- Search Bar -->
-        <form>
-          <div class="search-bar">
-            <span class="material-symbols-rounded">search</span>
-            <input
-              type="text"
-              id="search-input"
-              class="input-full-border"
-              placeholder="Search..."
-            />
-          </div>
-        </form>
         <div class="flex-col">
           <h1>General Website Blocker</h1>
           <h2>
@@ -234,7 +235,7 @@
         <!-- Watch Times Table -->
         <!-- TODO: FUTURE FEATURE - SORTING -->
         <!-- FIXME: add wrapping to smaller screens -->
-        <table class="basic hidden" id="website-table">
+        <table class="basic hidden search-container" id="website-table">
           <thead>
             <tr>
               <th
@@ -301,9 +302,10 @@
                 </span>
               </th>
             </tr>
+            <tr class="horizontal-line"></tr>
           </thead>
 
-          <!-- Where the watch times are inserted -->
+          <!-- Where the websites are inserted -->
           <tbody></tbody>
         </table>
 

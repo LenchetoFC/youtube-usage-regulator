@@ -130,17 +130,33 @@ $(document).ready(function () {
         } else {
           $(this).hide();
         }
-        // If all options in a fieldset are set to display: none, hide the fieldset title as well
-        const $fieldset = $(this).closest("fieldset");
+        // If all options in a search container are set to display: none, hide the search container entirely (header and all)
+        const $searchContainer = $(this).closest(".search-container");
+        const $buttonContainer = $(this)
+          .closest(".search-container")
+          .siblings(".group-of-buttons");
+
+        // If at least one item is visible, show header and setting buttons
         if ($(this).css("display") !== "none") {
-          $fieldset.show();
+          $searchContainer.show();
+          $buttonContainer.show();
         } else {
           const allItemsHidden =
-            $fieldset.find(".search-item").filter(function () {
+            $searchContainer.find(".search-item").filter(function () {
               return $(this).css("display") !== "none";
             }).length === 0;
+
+          // If no items are visible, hide header and setting buttons
           if (allItemsHidden) {
-            $fieldset.hide();
+            $searchContainer.hide();
+            $buttonContainer.hide();
+
+            displayNotifications(
+              "No items found in your search.",
+              "#40a6ce",
+              "info",
+              5000
+            );
           }
         }
       });

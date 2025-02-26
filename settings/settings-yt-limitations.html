@@ -75,20 +75,21 @@
     </aside>
 
     <main class="white-bg">
-      <header class="page-header">
-        <!-- Search Bar -->
-        <form>
-          <div class="search-bar">
-            <span class="material-symbols-rounded">search</span>
+      <!-- Search Bar -->
+      <form>
+        <div class="search-bar">
+          <span class="material-symbols-rounded">search</span>
 
-            <input
-              type="text"
-              id="search-input"
-              class="input-full-border"
-              placeholder="Search..."
-            />
-          </div>
-        </form>
+          <input
+            type="text"
+            id="search-input"
+            class="input-full-border"
+            placeholder="Search..."
+          />
+        </div>
+      </form>
+
+      <header class="page-header">
         <div class="flex-col">
           <h1>YouTube Limitations</h1>
           <h2>
@@ -113,11 +114,12 @@
 
         <!-- Settings Form -->
         <form class="settings-form" id="youtube-limitations">
-          <table class="basic">
+          <!-- Block Pages Table -->
+          <table class="basic search-container">
             <thead>
               <tr>
                 <th>
-                  <p>Limitations</p>
+                  <p>Block Pages</p>
                 </th>
 
                 <th>
@@ -130,18 +132,15 @@
                   <p>Add to Popup</p>
                 </th>
               </tr>
+              <tr class="horizontal-line"></tr>
             </thead>
 
             <!-- Where the watch times are inserted -->
             <tbody class="full-height">
-              <tr class="horizontal-line"></tr>
-
               <!-- Block All Pages -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Block All Pages</p>
-                </td>
+                <td>All Pages</td>
 
                 <!-- Always active option -->
                 <td>
@@ -200,9 +199,7 @@
               <!-- Block Home Page -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Block Home Page</p>
-                </td>
+                <td>Home Page</td>
 
                 <!-- Always active option -->
                 <td>
@@ -260,9 +257,7 @@
               <!-- Block Shorts Page -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Block Shorts Page</p>
-                </td>
+                <td>Shorts Page</td>
 
                 <!-- Always active option -->
                 <td>
@@ -314,15 +309,36 @@
                   </label>
                 </td>
               </tr>
+            </tbody>
+          </table>
 
-              <!-- <tr class="horizontal-line"></tr>-->
+          <!-- Hide Limitation Table -->
+          <table class="basic search-container">
+            <thead>
+              <tr>
+                <th>
+                  <p>Hide Limitation</p>
+                </th>
 
+                <th>
+                  <p>Always Active</p>
+                </th>
+                <th>
+                  <p>Follow Schedules</p>
+                </th>
+                <th>
+                  <p>Add to Popup</p>
+                </th>
+              </tr>
+              <tr class="horizontal-line"></tr>
+            </thead>
+
+            <!-- Where the watch times are inserted -->
+            <tbody class="full-height">
               <!-- Hide Home Button -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Home Button</p>
-                </td>
+                <td>Home Button</td>
 
                 <!-- Always active option -->
                 <td>
@@ -380,9 +396,7 @@
               <!-- Hide Shorts Button -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Shorts Button</p>
-                </td>
+                <td>Shorts Button</td>
 
                 <!-- Always active option -->
                 <td>
@@ -440,9 +454,7 @@
               <!-- Hide Video Recommendations -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Video Recommendations</p>
-                </td>
+                <td>Video Recommendations</td>
 
                 <!-- Always active option -->
                 <td>
@@ -500,9 +512,7 @@
               <!-- Hide Shorts Recommendations -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Shorts Recommendations</p>
-                </td>
+                <td>Shorts Recommendations</td>
 
                 <!-- Always active option -->
                 <td>
@@ -561,9 +571,7 @@
               <!-- Hide Search Bar -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Search Bar</p>
-                </td>
+                <td>Search Bar</td>
 
                 <!-- Always active option -->
                 <td>
@@ -621,9 +629,7 @@
               <!-- Hide Comments Section -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Hide Comments Section</p>
-                </td>
+                <td>Comments Section</td>
 
                 <!-- Always active option -->
                 <td>
@@ -675,15 +681,32 @@
                   </label>
                 </td>
               </tr>
+            </tbody>
+          </table>
 
-              <!-- <tr class="horizontal-line"></tr>-->
+          <!-- Additional Settings -->
+          <table class="basic search-container">
+            <thead>
+              <tr>
+                <th>
+                  <p>Additional Setting</p>
+                </th>
 
+                <th>
+                  <p>Active</p>
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr class="horizontal-line"></tr>
+            </thead>
+
+            <!-- Where the watch times are inserted -->
+            <tbody class="full-height">
               <!-- Pause video on inactive pages -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">Pause Video on Inactive Pages</p>
-                </td>
+                <td>Pause Video on Inactive Pages</td>
 
                 <!-- Always active option -->
                 <td>
@@ -701,23 +724,9 @@
                   </label>
                 </td>
 
-                <!-- Follow restriction schedules -->
-                <td>
-                  <label class="side-checkbox-container">
-                    <input disabled class="hidden" />
+                <td></td>
 
-                    <span class="material-symbols-rounded lock-icon">lock</span>
-                  </label>
-                </td>
-
-                <!-- Add to popup -->
-                <td>
-                  <label class="side-checkbox-container">
-                    <input disabled class="hidden" />
-
-                    <span class="material-symbols-rounded lock-icon">lock</span>
-                  </label>
-                </td>
+                <td></td>
               </tr>
 
               <!-- <tr class="horizontal-line"></tr>-->
@@ -725,11 +734,7 @@
               <!-- Hide Infinite Recommendations -->
               <tr class="search-item">
                 <!-- Limitation Option -->
-                <td>
-                  <p class="fieldset-header">
-                    Disable Infinite Recommendations
-                  </p>
-                </td>
+                <td>Disable Infinite Recommendations</td>
 
                 <!-- Always active option -->
                 <td>
@@ -747,23 +752,9 @@
                   </label>
                 </td>
 
-                <!-- Follow restriction schedules -->
-                <td>
-                  <label class="side-checkbox-container">
-                    <input disabled class="hidden" />
+                <td></td>
 
-                    <span class="material-symbols-rounded lock-icon">lock</span>
-                  </label>
-                </td>
-
-                <!-- Add to popup -->
-                <td>
-                  <label class="side-checkbox-container">
-                    <input disabled class="hidden" />
-
-                    <span class="material-symbols-rounded lock-icon">lock</span>
-                  </label>
-                </td>
+                <td></td>
               </tr>
             </tbody>
           </table>

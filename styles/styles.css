@@ -440,6 +440,7 @@ main p {
 .material-symbols-rounded {
   font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
   color: var(--surface-dark);
+  align-content: center;
 }
 
 .material-symbols-rounded.medium-icon {
@@ -447,6 +448,10 @@ main p {
 }
 .material-symbols-rounded.large-icon {
   font-size: 4.4rem;
+}
+
+.help-cursor {
+  cursor: help;
 }
 
 button .material-symbols-rounded {
@@ -742,6 +747,12 @@ select {
 /* ---------- */
 /* SEARCH BAR */
 /* ---------- */
+form:has(.search-bar) {
+  position: sticky;
+  top: 0rem;
+  z-index: 1;
+}
+
 form div.search-bar {
   position: relative;
 }
@@ -792,6 +803,10 @@ input[type="checkbox"] {
   span {
     visibility: hidden;
   }
+}
+
+.checkmark.white-border {
+  border-color: var(--border-light);
 }
 
 /* ---------- */
@@ -924,7 +939,7 @@ input[type="color"] {
   align-items: center;
   /* background-color: var(--surface-light); */
   gap: 0.8rem;
-  position: relative;
+  /* position: relative; */
   align-content: center;
   cursor: pointer;
   -webkit-user-select: none;
@@ -2485,6 +2500,10 @@ table.basic {
     text-align: center;
   }
 
+  /* thead tr {
+    margin-bottom: 0.6rem;
+  } */
+
   tr {
     padding: 0;
     margin-bottom: 1.6rem;
@@ -2492,6 +2511,10 @@ table.basic {
   /* tfoot tr {
     padding-top: 1.2rem;
   } */
+
+  td {
+    font-size: 1.5rem;
+  }
 
   button,
   label {

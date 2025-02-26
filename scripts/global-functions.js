@@ -571,14 +571,16 @@ window.displayNotifications = (
 
   $("#notif-msg").css("--notif-before-background", hexColor);
 
+  const isVisible = $("#notif-msg").css("display") === "flex";
+
   // Trigger display animation
-  if (!isPersistent)
+  if (!isPersistent && !isVisible)
     $("#notif-msg")
       .fadeIn(1000)
       .css("display", "flex")
       .delay(delayTime)
       .fadeOut(1000);
-  else {
+  else if (!isVisible) {
     $("#notif-msg").fadeIn(1000).css("display", "flex");
   }
 };
