@@ -234,19 +234,19 @@ async function activateKeywordObserver(containerId, isGenObscureActive) {
   });
 
   // Start observing the document for changes
-  const observerInterval = setInterval(() => {
-    const targetNode = document.body.querySelector(`${containerId}`);
+  // const observerInterval = setInterval(() => {
+  //   const targetNode = document.body.querySelector(`${containerId}`);
 
-    if (targetNode) {
-      observer.observe(targetNode, {
-        childList: true,
-        subtree: true,
-      });
-      clearInterval(observerInterval);
-    } else {
-      console.error(`Target container ${containerId} not found.`);
-    }
-  }, 1000);
+  //   if (targetNode) {
+  //     observer.observe(targetNode, {
+  //       childList: true,
+  //       subtree: true,
+  //     });
+  //     clearInterval(observerInterval);
+  //   } else {
+  //     console.error(`Target container ${containerId} not found.`);
+  //   }
+  // }, 1000);
 }
 
 /** !SECTION */

@@ -11,6 +11,7 @@
  * @see {@link module:global-functions.getCurrentWatchTimes} x2
  * @see {@link module:global-functions.getCurrentDate} x3
  */
+console.log("ASDFGHJKL");
 
 /**
  * SECTION - WATCH TIME FUNCTIONS
@@ -135,13 +136,6 @@ async function calculateWatchTime(
 /**
  * SECTION - PAUSE ON BLUR
  */
-const isActive = await getPauseOnBlurValue();
-// FIXME: pausing does not work on Shorts pages
-window.addEventListener("blur", async (event) => {
-  console.log("isActive", isActive);
-  if (isActive) pauseVideo();
-});
-
 /**
  * Gets value of pauseOnBlur setting from database
  *
@@ -243,6 +237,22 @@ $(document).ready(function () {
       }
     }, 1000);
   }
+});
+
+/** !SECTION */
+
+/**
+ * SECTION - ASYNC ON LOAD CODE
+ */
+$(document).ready(async function () {
+  // Gets pause on blur setting value once on load
+  const isActive = await getPauseOnBlurValue();
+
+  // Puase video only if pause on blur is active
+  window.addEventListener("blur", async (event) => {
+    console.log("isActive", isActive);
+    if (isActive) pauseVideo();
+  });
 });
 
 /** !SECTION */
