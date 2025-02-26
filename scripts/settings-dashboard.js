@@ -426,7 +426,7 @@ function reformatDateToText(dateValue) {
   let date = new Date(dateValue);
 
   let dateObj = {
-    day: date.getDate(),
+    day: date.getDate() + 1,
     month: date.getMonth() + 1,
     year: date.getFullYear(),
 
@@ -434,7 +434,7 @@ function reformatDateToText(dateValue) {
     dayOfWeek: date.toUTCString().split(" ").slice(0, 1)[0].replace(/,/g, ""),
   };
 
-  return ` ${dateObj.month}.${dateObj.day}.${dateObj.year}, ${dateObj.dayOfWeek}`;
+  return `${dateObj.month}.${dateObj.day}.${dateObj.year}, ${dateObj.dayOfWeek}`;
 }
 
 /**
@@ -684,6 +684,7 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
           "short-form": watchTimes[index]["short-form-watch-time"],
         };
 
+        // console.log(dateValue, reformatDateToText(dateValue));
         appendWatchTimeItem(reformatDateToText(dateValue), watchTimeObj);
       }
     }
