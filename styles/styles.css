@@ -222,6 +222,10 @@ span.hidden {
   justify-content: center;
 }
 
+/* .padding-bottom-sixteen {
+  padding-bottom: 1.6rem;
+} */
+
 .white-bg {
   background: var(--surface-light);
 }
@@ -1054,7 +1058,7 @@ legend {
 form.settings-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  /* gap: 2rem; */
   /* flex: 1 0 0; */
   align-items: flex-start;
 }
@@ -1968,6 +1972,8 @@ p.small-text {
   border: transparent;
   z-index: 1;
 
+  max-height: 100dvh;
+
   form {
     gap: 1.6rem;
   }
@@ -1982,11 +1988,14 @@ p.small-text {
   }
 
   header {
-    margin-bottom: 1.6rem;
-
     h1 {
       font-size: 1.6rem;
     }
+  }
+
+  /* For popovers that have forms within them */
+  header:has(+ form) {
+    margin-bottom: 1.2rem;
   }
 
   .button-footer {
@@ -2514,6 +2523,11 @@ table.basic {
 
   td {
     font-size: 1.5rem;
+  }
+
+  th,
+  td {
+    overflow-wrap: anywhere;
   }
 
   button,

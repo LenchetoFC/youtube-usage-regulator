@@ -312,7 +312,25 @@
         </div>
       </header>
 
-      <section class="flex-col thirty-two-spacing max-height">
+      <section class="flex-col thirty-two-spacing">
+        <!-- Empty Content -->
+        <div class="empty-content hidden">
+          <span class="material-symbols-rounded">block</span>
+          <h1>Add Spoiler Keyword Groups</h1>
+          <p>
+            Add groups of keywords that you want to avoid in YouTube. They will
+            not completely hide the content, but will instead blur the videos
+            thumbnail and mark it with a 'spoiler' icon tag.
+          </p>
+          <button
+            class="misc-button add-item"
+            popovertarget="popover-new-spoiler-group"
+          >
+            <span class="material-symbols-rounded">add</span>
+            Add Spoiler Group
+          </button>
+        </div>
+
         <!-- Settings Form -->
         <form class="settings-form" id="spoiler-free">
           <!-- General Settings -->
@@ -409,32 +427,16 @@
             </button>
           </div>
         </form>
+      </section>
 
-        <!-- Empty Content -->
-        <div class="empty-content hidden">
-          <span class="material-symbols-rounded">block</span>
-          <h1>Add Spoiler Keyword Groups</h1>
-          <p>
-            Add groups of keywords that you want to avoid in YouTube. They will
-            not completely hide the content, but will instead blur the videos
-            thumbnail and mark it with a 'spoiler' icon tag.
-          </p>
-          <button
-            class="misc-button add-item"
-            popovertarget="popover-new-spoiler-group"
-          >
-            <span class="material-symbols-rounded">add</span>
-            Add Spoiler Group
-          </button>
-        </div>
-
+      <section class="flex-col thirty-two-spacing">
         <!-- Container spoiler groups are appended to -->
         <div
           class="keyword-widget-container search-container"
           id="spoiler-groups"
         ></div>
 
-        <div class="group-of-buttons hidden">
+        <div class="group-of-buttons hidden padding-bottom-sixteen">
           <span>
             <button
               class="misc-button add-item"

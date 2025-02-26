@@ -44,41 +44,43 @@
     <div popover id="popover-restricted-details" class="popover">
       <img id="random-popover-gif" src="" alt="" />
 
-      <header>
-        <h1>
-          Sorry, <span id="random-name">Pal</span>! You set restrictions for a
-          reason.
-        </h1>
-        <h2>Ponder your screen time... That's plenty, right?</h2>
-      </header>
+      <section class="flex-col sixteen-spacing">
+        <header>
+          <h1>
+            Sorry, <span id="random-name">Bucko</span>! You set restrictions for
+            a reason.
+          </h1>
+          <h2>Ponder your screen time... That's plenty, right?</h2>
+        </header>
 
-      <section class="content-container">
-        <section class="content">
-          <span id="average-watch-time">
-            <p class="medium-text">Average Watch Time</p>
-            <p class="large-text" id="watch-time">0 Seconds</p>
-            <p class="medium-text" id="date">out of 0 days</p>
-          </span>
-        </section>
+        <div class="content-container">
+          <div class="content">
+            <span id="average-watch-time">
+              <p class="medium-text">Average Watch Time</p>
+              <p class="large-text" id="watch-time">0 Seconds</p>
+              <p class="medium-text" id="date">out of 0 days</p>
+            </span>
+          </div>
 
-        <section class="content">
-          <span id="most-watch-day">
-            <p class="medium-text">Most Watched Day</p>
-            <p class="large-text" id="watch-time">0 Seconds</p>
-            <p class="medium-text" id="date">No Date</p>
-          </span>
-        </section>
+          <div class="content">
+            <span id="most-watch-day">
+              <p class="medium-text">Most Watched Day</p>
+              <p class="large-text" id="watch-time">0 Seconds</p>
+              <p class="medium-text" id="date">No Date</p>
+            </span>
+          </div>
+        </div>
+
+        <span class="overlay-buttons">
+          <button
+            class="button-brand"
+            popovertarget="popover-restricted-details"
+            popovertargetaction="hide"
+          >
+            <p>Accept</p>
+          </button>
+        </span>
       </section>
-
-      <span class="overlay-buttons">
-        <button
-          class="button-brand"
-          popovertarget="popover-restricted-details"
-          popovertargetaction="hide"
-        >
-          <p>Accept</p>
-        </button>
-      </span>
     </div>
 
     <!-- Side Nav Bar -->
