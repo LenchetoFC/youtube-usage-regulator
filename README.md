@@ -16,7 +16,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 ### Installing
 
 There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
-Once the extension is functional, there will be an offical release on the store and will be stated here.
+Once the extension is functional, there will be an official release on the store and will be stated here.
 
 ## Features
 
@@ -30,7 +30,7 @@ Once the extension is functional, there will be an offical release on the store 
   - Video recommendations
   - Search bar
   - Home button
-  - Video autoplay button
+  - Video autoPlay button
   - Next video button
   - and more!
 - Schedules:
@@ -59,7 +59,7 @@ Shows the user's set schedules and buttons to add a new schedule for the selecte
 
 ### Blocked Redirect Page
 
-On top of a gif that is randomly chosen from 12 different "funny fail" gifs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
+On top of a gif that is randomly chosen from 12 different "funny fail" GIFs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
 ![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
 
 ## Known Bugs
@@ -82,7 +82,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" gifs, sho
 - 0.1 **Initial Release**
   - Finished User Interfaces
 - 0.2
-  - Added alternate actitivies functionality
+  - Added alternate activities functionality
 - 0.3
   - Added YouTube restriction functionalities
 - 0.4

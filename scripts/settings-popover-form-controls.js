@@ -76,8 +76,8 @@ function saveItemToDatabase(table, formId, buttonID) {
    */
   function checkFormValid(formId) {
     const form = document.querySelector(`#${formId}`);
-    if (!form.checkValidity()) {
-      form.reportValidity();
+    if (!form?.checkValidity() ?? false) {
+      form?.reportValidity() ?? false;
       return false;
     }
     return true;
@@ -164,8 +164,8 @@ function saveItemToDatabase(table, formId, buttonID) {
  */
 function clearFormValues(formId) {
   const form = document.querySelector(`#${formId}`);
-  form.removeAttribute("data-group-id");
-  form.reset();
+  form?.removeAttribute("data-group-id");
+  form?.reset();
 }
 
 /**

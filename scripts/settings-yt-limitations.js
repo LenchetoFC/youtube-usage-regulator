@@ -37,7 +37,7 @@ $(document).ready(async function () {
     .find(
       'input[data-property="followSchedule"], input[data-property="active"]'
     )
-    .change(handleCheckboxChange);
+    .on("change", handleCheckboxChange());
   // updateSettingsCheckboxes() from settings-form-control.js
   updateSettingsCheckboxes(activeSettings, "youtube-limitations");
 });

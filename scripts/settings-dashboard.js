@@ -592,7 +592,7 @@ async function getMonthlyWatchTimes() {
   }
 
   /** Main Body */
-  // Gets all watch times to interate through
+  // Gets all watch times to iterate through
   let allWatchTimes = await getAllWatchTimes();
 
   let monthlyWatchTimes = [];
@@ -821,7 +821,7 @@ async function insertNotableTimes() {
   }
 }
 
-// Gets all watch times to interate through
+// Gets all watch times to iterate through
 async function getTableTotalWatchTimes(videoType) {
   let allWatchTimes = await getAllWatchTimes();
 
@@ -901,7 +901,7 @@ function isUserRedirected() {
 }
 
 /**
- * Chooses one out of 11 gifs and return path and corresponding alt text
+ * Chooses one out of 11 GIFs and return path and corresponding alt text
  *
  * @name isUserRedirected
  *
@@ -913,7 +913,7 @@ function chooseRandomGif() {
     "A toddler slips and smacks her face into her birthday cake",
     "A skater does trick off top of staircase to fail the landing",
     "A man on a mini-gold course hitting a ball off a wooden wall that returns to hit him in the face",
-    "An orange and black-spotted cat clawing at a sock-covered foot and aggresively shaking head",
+    "An orange and black-spotted cat clawing at a sock-covered foot and aggressively shaking head",
     "A toddler in a robot costume falling backwards",
     "First penguin of four in a row shaking its head aggressively",
     "A woman belly flopping into a very clean, blue lake",
@@ -921,7 +921,7 @@ function chooseRandomGif() {
     "A toddler riding a toy motorcycle into his backyard fence",
     "A Lakers player prematurely celebrating while he missing his basketball shot",
     "A soldier on his knees screaming 'NO' to the heavens",
-    "A helldiver from Helldivers 2 is melted by Bile Spewer creature",
+    "A helldiver from HellDivers 2 is melted by Bile Spewer creature",
   ];
 
   const gifObj = {

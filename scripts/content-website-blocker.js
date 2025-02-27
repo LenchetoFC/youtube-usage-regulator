@@ -36,9 +36,9 @@ async function checkBlockedWebsite() {
 
   // Iterates through each blocked website, removes 'https://', and checks if that is in the current URL
   // -- redirects user to dashboard page
-  allWebsites.forEach((element) => {
-    let baseURL = element.url.split("//");
-    if (window.location.href.includes(baseURL[1])) {
+  (Object.values(allWebsites) ?? []).forEach((element) => {
+    let baseURL = element.url?.split("//");
+    if (window.location.href?.includes(baseURL[1])) {
       redirectUser();
     }
   });

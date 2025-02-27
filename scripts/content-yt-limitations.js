@@ -44,7 +44,7 @@
 // - also check other areas where this function can be applied to
 
 /** @notes two ways to handle new element creations */
-// 1. add onchange to main element to check for any exisiting element (use length)
+// 1. add onchange to main element to check for any existing element (use length)
 
 /**
  * SECTION - FUNCTION DECLARATIONS
@@ -78,11 +78,12 @@ function hideDOMContent(className, elementName) {
       // Create a style element
       const style = document.createElement("style");
       style.innerHTML = `.hidden { display: none !important; }`;
-      document.getElementsByTagName("head")[0].appendChild(style);
+      document.getElementsByTagName("head")[0]?.appendChild(style) ??
+        document.createElement("head").appendChild(style);
 
       // Use MutationObserver to watch for changes in the DOM
       const observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
+        (mutations ?? []).forEach(function (mutation) {
           // console.log(mutation.addedNodes);
           if (mutation.addedNodes.length) {
             $(className).addClass("hidden");
@@ -175,7 +176,7 @@ function hideHomeButton() {
   // }
 
   // // Side home button home page (only exists on home page)
-  // if (!window.location.href.includes("/watch?")) {
+  // if (!window.location.href?.includes("/watch?")) {
   //   hideDOMContent(
   //     "ytd-mini-guide-renderer [title='Home']",
   //     "Side Home Button - home page"
@@ -231,7 +232,7 @@ function hideShortsButton() {
   }
 
   // Side home button home page (only exists on home page)
-  if (!window.location.href.includes("/watch?")) {
+  if (!window.location.href?.includes("/watch?") ?? false) {
     hideDOMContent(
       "ytd-mini-guide-renderer a[title='Shorts']",
       "Side Shorts Button - home page"
@@ -258,10 +259,10 @@ function hideShortsContent() {
   // Hides shorts button as well
   hideShortsButton();
 
-  if (window.location.href.includes("/watch?")) {
+  if (window.location.href?.includes("/watch?") ?? false) {
     // Shorts content - side recommendations (playback)
     hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
-  } else if (window.location.href.includes("?search_query=")) {
+  } else if (window.location.href?.includes("?search_query=") ?? false) {
     // Shorts chip filter - search page
     hideDOMContent(
       "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
@@ -271,7 +272,7 @@ function hideShortsContent() {
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
       "Shorts Content - search page"
     );
-  } else if (window.location.href.includes("youtube.com")) {
+  } else if (window.location.href?.includes("youtube.com") ?? false) {
     // Shorts content - home page
     hideDOMContent(
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
@@ -286,7 +287,7 @@ function hideShortsContent() {
   }
 
   // Redirects user if they are on shorts page
-  if (window.location.href.includes("/shorts/")) {
+  if (window.location.href?.includes("/shorts/") ?? false) {
     redirectUser();
   }
 }
@@ -329,7 +330,7 @@ function hideSearchBar() {
  * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
  */
 function hideVideoRecommendations() {
-  if (window.location.href.includes("/watch?")) {
+  if (window.location.href?.includes("/watch?") ?? false) {
     // Side recommendations - playback
     hideDOMContent(
       "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
@@ -350,14 +351,14 @@ function hideVideoRecommendations() {
         "Video Wall after video ends - playback"
       );
 
-      // FIXME: next video still autoplays
+      // FIXME: next video still autoplay
       // Video Wall after videos
       // hideDOMContent(
       //   ".ytp-autonav-endscreen-countdown-overlay",
       //   "Autoplay screen after video ends - playback"
       // );
     }, 5000);
-  } else if (window.location.href.includes("youtube.com")) {
+  } else if (window.location.href?.includes("youtube.com") ?? false) {
     // Video recommendations - home page
     hideDOMContent(
       "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
@@ -424,9 +425,9 @@ function hideSkipButton() {
  * FIXME: comments sometimes takes too long to load in
  */
 function hideComments() {
-  if (window.location.href.includes("watch")) {
+  if (window.location.href?.includes("watch") ?? false) {
     hideDOMContent("ytd-comments#comments", "Comments Section on videos");
-  } else if (window.location.href.includes("/shorts/")) {
+  } else if (window.location.href?.includes("/shorts/") ?? false) {
     //FIXME: none of this works
     hideDOMContent(
       "watch-while-engagement-panel",
@@ -446,15 +447,15 @@ function hideComments() {
 /**
  * Checks if both the shorts content and video recommendations settings are active
  *
- * @name isShortsAndRecommDisabled
+ * @name isRecommendationsDisabled
  *
  * @returns {boolean}
  *
- * @example isShortsAndRecommDisabled();
+ * @example isRecommendationsDisabled();
  *
  * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
  */
-async function isShortsAndRecommDisabled() {}
+async function isRecommendationsDisabled() {}
 
 /**
  * Retrieves and applies all active limitations to current web page
@@ -466,7 +467,7 @@ async function isShortsAndRecommDisabled() {}
  * @example applyActiveLimitations();
  */
 async function applyActiveLimitations() {
-  if (window.location.href.includes("youtube.com")) {
+  if (window.location.href?.includes("youtube.com") ?? false) {
     // setTimeout(async () => {
     try {
       // Get only active limitations from storage
@@ -486,7 +487,7 @@ async function applyActiveLimitations() {
         // Run hide/disable function that corresponds with the current limitation name
         switch (currentLimitation) {
           case "all-pages":
-            if (window.location.href.includes("youtube.com/")) {
+            if (window.location.href?.includes("youtube.com/") ?? false) {
               redirectUser();
             }
             break;
@@ -498,7 +499,7 @@ async function applyActiveLimitations() {
             }
             break;
           case "shorts-page":
-            if (window.location.href.includes("youtube.com/shorts")) {
+            if (window.location.href?.includes("youtube.com/shorts") ?? false) {
               redirectUser();
             } else {
               hideShortsButton();

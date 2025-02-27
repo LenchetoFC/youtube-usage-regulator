@@ -163,7 +163,7 @@ $(document).ready(function () {
     // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
     const newRecords = getChangedSettings($formId);
 
-    if (Object.keys(newRecords).length == 0) {
+    if (Object.keys(newRecords)?.length == 0 ?? false) {
       displayNotifications("No changes to save.", "#40a6ce", "info", 2500);
 
       // Disables button animation

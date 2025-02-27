@@ -151,7 +151,7 @@ function sortStartTimes(eventArray) {
  * @example let nextEvent = await getNextRestrictionEvent(dayId, dayObj);
  */
 async function getNextRestrictionEvent(dayId, dayObj) {
-  // Formats curret time as 'hh:mm:ss'
+  // Formats current time as 'hh:mm:ss'
   const { day, hour, minute } = dayObj;
   const currentTime = `${hour}:${minute}:00`;
 
@@ -407,7 +407,7 @@ function reformatSettingName(name) {
  *
  * @returns {array} Returns array of objects with active quick activations
  *
- * @example let allQuickActiviations = getActiveQuickActivations();
+ * @example let allQuickActivations = getActiveQuickActivations();
  */
 async function insertQuickLimitations() {
   function generatePopupLimitationHTML(limitation) {
@@ -463,20 +463,20 @@ async function insertQuickLimitations() {
   /** MAIN BODY */
   // Get all active popup limitations
   const propertyToCheck = ["popup"];
-  const allActivePopupLims = await getActiveSettings(
+  const allActivePopupLimitations = await getActiveSettings(
     "youtube-limitations",
     propertyToCheck
   );
 
   // Removes quick activation section if there are no buttons to add
-  if (Object.keys(allActivePopupLims).length === 0) {
+  if (Object.keys(allActivePopupLimitations).length === 0) {
     $(".popup-section:has(#active-popup-limitations)").remove();
     return true;
   }
 
   // Iterate through each limitation and insert them into html
-  for (const index in allActivePopupLims) {
-    const limitation = allActivePopupLims[index];
+  for (const index in allActivePopupLimitations) {
+    const limitation = allActivePopupLimitations[index];
 
     // Generate the HTML for each limitation option
     const baseHtml = generatePopupLimitationHTML(limitation);
@@ -497,7 +497,7 @@ async function insertQuickLimitations() {
     }
   }
 
-  // Attachs event listeners to each button after they are all appended to avoid double listeners per element
+  // Attaches event listeners to each button after they are all appended to avoid double listeners per element
   attachQuickActEvents();
 }
 

@@ -42,7 +42,7 @@
  * @returns {void} Closes the popover and resets the form.
  */
 function closePopover() {
-  document.getElementById("popover-schedule-event").hidePopover();
+  document.getElementById("popover-schedule-event")?.hidePopover();
   $("#schedule-form")[0].reset();
   $("#overlay").css("display", "none");
 }
@@ -172,7 +172,7 @@ async function createScheduleEventsObj() {
 
   // Individual Events
   let events = await selectAllRecordsGlobal("schedule-events");
-  events.forEach((element) => {
+  (events ?? []).forEach((element) => {
     // let title = element.additionalSites
     //   ? "YouTube + Additional Sites Restricted"
     //   : "YouTube Restricted";
@@ -209,7 +209,7 @@ async function createScheduleDayObj() {
   let events = await selectAllRecordsGlobal("schedule-days");
   let allDaySchedules = events.filter((day) => day["all-day"]);
 
-  allDaySchedules.forEach((element) => {
+  (allDaySchedules ?? []).forEach((element) => {
     // let title = element.additionalSites
     //   ? "YouTube + Additional Sites Restricted"
     //   : "YouTube Restricted";
@@ -336,7 +336,7 @@ async function insertNewEvent() {
         );
 
         throw new Error(updateEventResult.message);
-      } else if (newEventResult?.error) {
+      } else if (newEventResult.error) {
         // Displays failure notification
         displayNotifications(
           "Could not add event. Try again later.",
@@ -443,15 +443,17 @@ async function updateScheduleEvent() {
       let formValidity = isFormValid(form);
 
       // If form is invalid, end function
-      if (formValidity.includes(false)) {
-        let notifMessages = [
+      if (formValidity?.includes(false)) {
+        let notificationMessages = [
           "Please choose both event times.",
           "Please select at least one day.",
           "Please select an end time that is after start time.",
         ];
 
         displayNotifications(
-          notifMessages[formValidity.findIndex((result) => result == false)],
+          notificationMessages[
+            formValidity?.findIndex((result) => result == false)
+          ],
           "#d92121",
           "release_alert",
           5000
@@ -545,12 +547,12 @@ async function updateScheduleEvent() {
  * @returns {boolean} Returns true if the form is valid, false otherwise.
  */
 function isFormValid(form) {
-  let formValidity = form.checkValidity();
+  let formValidity = form?.checkValidity() ?? false;
   let checkboxesValidity = areDayCheckboxesChecked();
   let timeInputValidity = isTimeInputValid();
 
   if (!formValidity || !checkboxesValidity || !timeInputValidity) {
-    form.reportValidity();
+    form?.reportValidity() ?? false;
   }
   return [formValidity, checkboxesValidity, timeInputValidity];
 }
@@ -603,7 +605,7 @@ function getScheduleFormValues() {
     "#schedule-form #schedule-day-options input[type='checkbox']:checked"
   );
 
-  checkedDays.forEach((input) => {
+  (checkedDays ?? []).forEach((input) => {
     eventObj.days.push(parseInt(input.value));
   });
 
@@ -612,7 +614,7 @@ function getScheduleFormValues() {
     "#schedule-form input[type='time']"
   );
 
-  scheduleTimes.forEach((input) => {
+  (scheduleTimes ?? []).forEach((input) => {
     eventObj[input.name] = `${input.value}:00`;
   });
 
@@ -667,9 +669,9 @@ function populateEventOverlay(eventInfo) {
   let startStr = eventObj.startStr;
   let endStr = eventObj.endStr;
 
-  let startDate = startStr.getDate();
+  let startDate = startStr?.getDate();
   let endDate = endStr != "" ? endStr.getDate() : startDate;
-  let startDay = startStr.getDay();
+  let startDay = startStr?.getDay();
   let endDay = endStr != "" ? endStr.getDay() : startDay;
 
   // Sets startDay to correct day
@@ -842,8 +844,8 @@ function insertScheduleFormHeader(isAdditionalSitesChecked) {
  * @returns {string} Returns the formatted start time.
  */
 function formatEventStartTime(startString) {
-  let startHours = startString.getHours().toString().padStart(2, "0");
-  let startMinutes = startString.getMinutes().toString().padStart(2, "0");
+  let startHours = startString?.getHours().toString().padStart(2, "0");
+  let startMinutes = startString?.getMinutes().toString().padStart(2, "0");
   return `${startHours}:${startMinutes}`;
 }
 
@@ -857,8 +859,8 @@ function formatEventStartTime(startString) {
  * @returns {string} Returns the formatted end time.
  */
 function formatEventEndTime(endString) {
-  let endHours = endString.getHours().toString().padStart(2, "0");
-  let endMinutes = endString.getMinutes().toString().padStart(2, "0");
+  let endHours = endString?.getHours().toString().padStart(2, "0");
+  let endMinutes = endString?.getMinutes().toString().padStart(2, "0");
   return `${endHours}:${endMinutes}`;
 }
 
@@ -876,12 +878,12 @@ function openEventOverlay(eventInfo = {}) {
   clearEventForm();
 
   // Populates overlay if updating existing event
-  if (Object.keys(eventInfo).length != 0) {
+  if ((Object.keys(eventInfo)?.length ?? 0) != 0) {
     populateEventOverlay(eventInfo);
   }
 
   // Opens popover for schedule form
-  document.querySelector("#popover-schedule-event").showPopover();
+  document.querySelector("#popover-schedule-event")?.showPopover();
   $("#overlay").css("display", "flex");
 }
 
@@ -944,7 +946,7 @@ async function renderCalendar() {
       navToCurrentDay: {
         text: "Today",
         click: function () {
-          calendar.today();
+          calendar?.today();
         },
       },
       resetCalendar: {

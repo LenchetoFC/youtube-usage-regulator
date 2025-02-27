@@ -102,7 +102,7 @@ $(document).ready(function () {
   /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
   $("button[type='reset'].cancel").on("click", function () {
     const popoverId = $(this).attr("data-popover");
-    document.querySelector(`#${popoverId}`).togglePopover();
+    document.querySelector(`#${popoverId}`)?.togglePopover();
   });
 
   /** SECTION - SEARCH BAR */

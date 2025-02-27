@@ -76,11 +76,11 @@ async function getSpoilerKeywords() {
   let allKeywords = [];
   for (const key in activeGroups) {
     const group = activeGroups[key];
-    allKeywords.push(...group["keywords"]);
+    allKeywords?.push(...group["keywords"]);
   }
 
   // Convert all keywords to lowercase
-  allKeywords = allKeywords.map((keyword) => keyword.toLowerCase());
+  allKeywords = allKeywords?.map((keyword) => keyword?.toLowerCase());
 
   return allKeywords;
 }
@@ -109,8 +109,8 @@ async function checkForKeywords(allKeywords, stringToCheck) {
   let keywordFound = { keyword: null, keywordFound: false };
 
   // Check if any keyword in allKeywords is included in stringToCheck
-  allKeywords.some((keyword) => {
-    if (stringToCheck.toLowerCase().includes(keyword)) {
+  allKeywords?.some((keyword) => {
+    if (stringToCheck?.toLowerCase()?.includes(keyword)) {
       keywordFound = { keyword: keyword, keywordFound: true }; // Set the variable to true if a match is found
       return true; // Exit the loop once a match is found
     }
@@ -139,26 +139,26 @@ async function activateKeywordObserver(containerId, isGenObscureActive) {
 
   const observer = new MutationObserver(function (mutations) {
     // console.log("new batch");
-    mutations.forEach(function (mutation) {
+    (mutations ?? []).forEach(function (mutation) {
       const localName = mutation.target.localName;
       const classList = Object.values(mutation.target.classList);
       const addedNodes = Object.values(mutation.addedNodes);
       // Filter contentArray to only include elements with localName "ytd-rich-item-renderer"
-      const contentArray = Object.values(content).filter((videoElement) =>
-        videoElement.classList.contains("ytd-rich-item-renderer")
+      const contentArray = Object.values(content)?.filter((videoElement) =>
+        videoElement.classList?.contains("ytd-rich-item-renderer")
       );
       // const contentArray = Object.values(content);
 
       let videoContent;
 
-      contentArray.forEach((videoElement) => {
+      (contentArray ?? []).forEach((videoElement) => {
         // console.log(videoElement);
         if (!observedVideos.has(videoElement)) {
           // Only process unique video elements
           observedVideos.add(videoElement);
 
           const details = videoElement.querySelector("#details");
-          const containsVideoClass = videoElement.classList.contains(
+          const containsVideoClass = videoElement.classList?.contains(
             "ytd-rich-item-renderer"
           );
 

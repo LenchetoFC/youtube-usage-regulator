@@ -26,8 +26,11 @@
  * @example reformatWebsiteType(`social-media`);
  */
 function reformatWebsiteType(websiteType) {
-  // Split the string by hyphens
-  let splitArray = websiteType.split("-");
+  // Use optional chaining to check if websiteType is not null or undefined
+  let splitArray = websiteType?.split("-");
+
+  // If websiteType is null or undefined, return an empty string or handle it as needed
+  if (!splitArray) return "";
 
   // Capitalize the first letter of each word and join them with spaces
   let formattedType = splitArray
@@ -84,7 +87,7 @@ async function insertWebsitesIntoPage() {
   const allWebsites = await selectAllRecords("additional-websites");
 
   // Depends on if there is at least one website, show or hide some content
-  const amtOfWebsites = Object.keys(allWebsites).length;
+  const amtOfWebsites = Object.keys(allWebsites)?.length ?? 0;
   if (amtOfWebsites === 0) {
     // show empty content
     $("#website-table").siblings(".empty-content").removeClass("hidden");
@@ -97,7 +100,7 @@ async function insertWebsitesIntoPage() {
   }
 
   // Iterates through all websites and insert them into page one at a time
-  allWebsites.forEach((website) => {
+  (allWebsites ?? []).forEach((website) => {
     // Generate the HTML for each website
     const baseHtml = generateWebsiteHTML(website);
 
@@ -119,7 +122,7 @@ async function insertWebsitesIntoPage() {
 
     // open popover
     const popover = document.querySelector("#popover-new-website-item");
-    popover.showPopover();
+    popover?.showPopover();
   });
 
   // Toggle active state of website in database

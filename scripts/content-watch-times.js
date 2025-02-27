@@ -11,7 +11,6 @@
  * @see {@link module:global-functions.getCurrentWatchTimes} x2
  * @see {@link module:global-functions.getCurrentDate} x3
  */
-console.log("ASDFGHJKL");
 
 /**
  * SECTION - WATCH TIME FUNCTIONS
@@ -169,8 +168,8 @@ async function getPauseOnBlurValue() {
  *
  */
 function pauseVideo(isFirstPress) {
-  const activeLongForm = window.location.href.includes("/watch?");
-  const activeShortForm = window.location.href.includes("/shorts/");
+  const activeLongForm = window.location.href?.includes("/watch?");
+  const activeShortForm = window.location.href?.includes("/shorts/");
 
   let playButton;
   let valueToCheck;
@@ -179,7 +178,7 @@ function pauseVideo(isFirstPress) {
   if (activeLongForm) {
     playButton = document
       .getElementsByClassName("ytp-play-button ytp-button")
-      .item(0);
+      ?.item(0);
 
     valueToCheck = "Pause";
   } else if (activeShortForm) {
@@ -189,11 +188,11 @@ function pauseVideo(isFirstPress) {
 
   // Pause video if it is playing and a play button exists
   if (playButton && (activeLongForm || activeShortForm)) {
-    const titleValue = playButton.getAttribute("title");
-    const isPlaying = titleValue.includes(valueToCheck);
+    const titleValue = playButton?.getAttribute("title");
+    const isPlaying = titleValue?.includes(valueToCheck);
 
     if (isPlaying) {
-      playButton.click();
+      playButton?.click();
     }
   }
 }
@@ -213,8 +212,8 @@ $(document).ready(function () {
   });
 
   // Sets 1-second interval for only Watch and Shorts pages
-  const activeLongForm = window.location.href.includes("/watch?");
-  const activeShortForm = window.location.href.includes("/shorts/");
+  const activeLongForm = window.location.href?.includes("/watch?");
+  const activeShortForm = window.location.href?.includes("/shorts/");
   if (activeLongForm || activeShortForm) {
     // Count watch time every second when video is playing
     let secondsActive = 0;
@@ -227,15 +226,15 @@ $(document).ready(function () {
       if (activeLongForm) {
         videoStatus = document
           .querySelector(".ytp-play-button.ytp-button")
-          .getAttribute("title");
+          ?.getAttribute("title");
       } else if (activeShortForm) {
         videoStatus = document
           .querySelector("#play-pause-button-shape button")
-          .getAttribute("title");
+          ?.getAttribute("title");
       }
 
       // If play status is pause, that means video is actively playing
-      const isPlaying = videoStatus.includes("Pause");
+      const isPlaying = videoStatus?.includes("Pause");
       if (isPlaying) {
         secondsActive++;
 

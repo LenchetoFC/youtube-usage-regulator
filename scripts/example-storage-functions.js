@@ -17,7 +17,7 @@ let allRecords = await sendMessageToServiceWorker({
   table: "youtube-limitations",
 });
 
-console.log(`\nselectAll: ${Object.keys(allRecords).length}`);
+// console.log(`\nselectAll: ${Object.keys(allRecords)?.length ?? 0}`);
 // for (let index in allRecords) {
 //   console.log(allRecords[index]);
 // }
@@ -29,7 +29,7 @@ let allRecordsWithoutIndex = await sendMessageToServiceWorker({
   table: "misc-settings",
 });
 
-console.log(`\nselectAll: ${Object.keys(allRecordsWithoutIndex).length}`);
+// console.log(`\nselectAll: ${Object.keys(allRecordsWithoutIndex)?.length ?? 0}`);
 console.log(allRecordsWithoutIndex.data);
 for (let index in allRecordsWithoutIndex.data) {
   console.log(allRecordsWithoutIndex.data[index], parseInt(index));

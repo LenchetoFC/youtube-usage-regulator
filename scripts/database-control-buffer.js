@@ -27,7 +27,7 @@ async function getActiveSettings(tableName, propertiesToCheck) {
     const activeRecords = await filterRecordsGlobal(tableName, property, true);
 
     // Add each active record to the Set
-    activeRecords.forEach((record) => uniqueActiveRecords.add(record));
+    (activeRecords ?? []).forEach((record) => uniqueActiveRecords.add(record));
   }
 
   // Convert the Set to an array to return the records
@@ -70,7 +70,7 @@ async function selectAllRecords(table) {
  */
 async function selectRecordById(table, id) {
   const records = await selectAllRecords(table);
-  return records.find((record) => record.id === parseInt(id));
+  return records?.find((record) => record.id === parseInt(id));
 }
 
 /**
@@ -202,5 +202,5 @@ async function prepareDatabaseUpdate(tableName, newRecords) {
  */
 async function filterRecords(table, property, value) {
   const records = await selectAllRecords(table);
-  return records.filter((record) => record[property] === value);
+  return records?.filter((record) => record[property] === value);
 }
