@@ -68,6 +68,7 @@ On top of a gif that is randomly chosen from 12 different "funny fail" GIFs, sho
 
 - [ ] If at least two videos are playing at once, watch times will count both. Meaning one second in real time will result in two seconds saved to database
 - [ ] The first shorts is not counted towards watch times
+- [ ] if no record exists for current day and user navigates to video from home page, it does not create new record. It's something about how youtube works and the page doesn't actually "reload" when going from home to video
 
 ### Restriction Schedules
 

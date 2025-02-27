@@ -547,12 +547,12 @@ async function updateScheduleEvent() {
  * @returns {boolean} Returns true if the form is valid, false otherwise.
  */
 function isFormValid(form) {
-  let formValidity = form?.checkValidity() ?? false;
+  let formValidity = form?.checkValidity();
   let checkboxesValidity = areDayCheckboxesChecked();
   let timeInputValidity = isTimeInputValid();
 
   if (!formValidity || !checkboxesValidity || !timeInputValidity) {
-    form?.reportValidity() ?? false;
+    form?.reportValidity();
   }
   return [formValidity, checkboxesValidity, timeInputValidity];
 }

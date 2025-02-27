@@ -232,7 +232,7 @@ function hideShortsButton() {
   }
 
   // Side home button home page (only exists on home page)
-  if (!window.location.href?.includes("/watch?") ?? false) {
+  if (!window.location.href?.includes("/watch?")) {
     hideDOMContent(
       "ytd-mini-guide-renderer a[title='Shorts']",
       "Side Shorts Button - home page"
@@ -259,10 +259,10 @@ function hideShortsContent() {
   // Hides shorts button as well
   hideShortsButton();
 
-  if (window.location.href?.includes("/watch?") ?? false) {
+  if (window.location.href?.includes("/watch?")) {
     // Shorts content - side recommendations (playback)
     hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
-  } else if (window.location.href?.includes("?search_query=") ?? false) {
+  } else if (window.location.href?.includes("?search_query=")) {
     // Shorts chip filter - search page
     hideDOMContent(
       "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
@@ -272,7 +272,7 @@ function hideShortsContent() {
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
       "Shorts Content - search page"
     );
-  } else if (window.location.href?.includes("youtube.com") ?? false) {
+  } else if (window.location.href?.includes("youtube.com")) {
     // Shorts content - home page
     hideDOMContent(
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
@@ -287,7 +287,7 @@ function hideShortsContent() {
   }
 
   // Redirects user if they are on shorts page
-  if (window.location.href?.includes("/shorts/") ?? false) {
+  if (window.location.href?.includes("/shorts/")) {
     redirectUser();
   }
 }
@@ -330,7 +330,7 @@ function hideSearchBar() {
  * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
  */
 function hideVideoRecommendations() {
-  if (window.location.href?.includes("/watch?") ?? false) {
+  if (window.location.href?.includes("/watch?")) {
     // Side recommendations - playback
     hideDOMContent(
       "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
@@ -358,7 +358,7 @@ function hideVideoRecommendations() {
       //   "Autoplay screen after video ends - playback"
       // );
     }, 5000);
-  } else if (window.location.href?.includes("youtube.com") ?? false) {
+  } else if (window.location.href?.includes("youtube.com")) {
     // Video recommendations - home page
     hideDOMContent(
       "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
@@ -425,9 +425,9 @@ function hideSkipButton() {
  * FIXME: comments sometimes takes too long to load in
  */
 function hideComments() {
-  if (window.location.href?.includes("watch") ?? false) {
+  if (window.location.href?.includes("watch")) {
     hideDOMContent("ytd-comments#comments", "Comments Section on videos");
-  } else if (window.location.href?.includes("/shorts/") ?? false) {
+  } else if (window.location.href?.includes("/shorts/")) {
     //FIXME: none of this works
     hideDOMContent(
       "watch-while-engagement-panel",
@@ -467,7 +467,7 @@ async function isRecommendationsDisabled() {}
  * @example applyActiveLimitations();
  */
 async function applyActiveLimitations() {
-  if (window.location.href?.includes("youtube.com") ?? false) {
+  if (window.location.href?.includes("youtube.com")) {
     // setTimeout(async () => {
     try {
       // Get only active limitations from storage
@@ -487,7 +487,7 @@ async function applyActiveLimitations() {
         // Run hide/disable function that corresponds with the current limitation name
         switch (currentLimitation) {
           case "all-pages":
-            if (window.location.href?.includes("youtube.com/") ?? false) {
+            if (window.location.href?.includes("youtube.com/")) {
               redirectUser();
             }
             break;
@@ -499,7 +499,7 @@ async function applyActiveLimitations() {
             }
             break;
           case "shorts-page":
-            if (window.location.href?.includes("youtube.com/shorts") ?? false) {
+            if (window.location.href?.includes("youtube.com/shorts")) {
               redirectUser();
             } else {
               hideShortsButton();

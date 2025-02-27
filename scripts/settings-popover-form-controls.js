@@ -76,8 +76,8 @@ function saveItemToDatabase(table, formId, buttonID) {
    */
   function checkFormValid(formId) {
     const form = document.querySelector(`#${formId}`);
-    if (!form?.checkValidity() ?? false) {
-      form?.reportValidity() ?? false;
+    if (!form?.checkValidity()) {
+      form?.reportValidity();
       return false;
     }
     return true;

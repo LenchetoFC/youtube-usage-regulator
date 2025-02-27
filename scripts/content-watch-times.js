@@ -59,6 +59,20 @@ async function addNewWatchTimeRecord() {
   await insertRecordsGlobal("watch-times", [watchTimeObj]);
 }
 
+async function checkExistingWatchRecord(date) {
+  const recordsWithDate = await filterRecordsGlobal(
+    "watch-times",
+    "date",
+    date
+  );
+
+  if (recordsWithDate?.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /**
  * Creates a new watch times object with updated watch times
  *
@@ -203,14 +217,6 @@ function pauseVideo(isFirstPress) {
  * SECTION - COUNTING WATCH TIMES
  */
 $(document).ready(function () {
-  // Adds new watch time record if there is no record for current day
-  getCurrentWatchTimes().then(async (data) => {
-    if (data.length === 0) {
-      console.log("Creating new record for today...");
-      addNewWatchTimeRecord();
-    }
-  });
-
   // Sets 1-second interval for only Watch and Shorts pages
   const activeLongForm = window.location.href?.includes("/watch?");
   const activeShortForm = window.location.href?.includes("/shorts/");
@@ -261,6 +267,15 @@ $(document).ready(function () {
  * SECTION - ASYNC ON LOAD CODE
  */
 $(document).ready(async function () {
+  // Adds new watch time record if there is no record for current day and only on watch pages
+  if (
+    window.location.href.includes("/watch?") &&
+    !(await checkExistingWatchRecord(getCurrentDate()))
+  ) {
+    console.log("Creating new record for today...");
+    addNewWatchTimeRecord();
+  }
+
   // Gets pause on blur setting value once on load
   const isActive = await getPauseOnBlurValue();
 
@@ -268,7 +283,7 @@ $(document).ready(async function () {
   // so this variable is needed to offset that
   let isFirstPress = true;
 
-  // Puase video only if pause on blur is active
+  // Pause video only if pause on blur is active
   window.addEventListener("blur", async (event) => {
     if (isActive) pauseVideo(isFirstPress);
     isFirstPress = false;

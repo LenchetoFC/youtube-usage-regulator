@@ -102,7 +102,7 @@ async function scheduleRedirection() {
 
   // Redirect user (from globalFunctions.js) if schedule is currently active
   const currentSite = window.location.href;
-  const isYouTubeSite = currentSite?.includes("youtube.com") ?? false;
+  const isYouTubeSite = currentSite?.includes("youtube.com");
 
   // Redirects user if they are on a youtube site and if schedule is active
   if (isActive && isYouTubeSite) {
