@@ -92,32 +92,186 @@ async function getSpoilerKeywords() {
  */
 
 /**
- * Gets active keywords and checks string for said keywords
+ * Ensures that the thumbnail is modified since it reverts back to original when DOM changes
  *
- * @name checkForKeywords
+ * @name handleIntersection
  *
- * @param {string} stringToCheck - string to check for keyword(s)
+ * @returns {void}
  *
- * @returns {object} objects holding string keyword and boolean keywordFound
- *
- * @example activateKeywordObserver(isGenObscureActive);
+ * @example const thumbnailObserver = new IntersectionObserver(handleIntersection, {
+ *            root: null,
+ *            rootMargin: "0px",
+ *            threshold: 0.1,
+ *          });
  */
-async function checkForKeywords(allKeywords, stringToCheck) {
-  // console.log(`Checking if a keyword is within ${stringToCheck}...`);
+function handleIntersection(entries, observer) {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const imgElement = entry.target;
+      // Change the src attribute here
+      imgElement.src = chrome.runtime.getURL("/images/icon-logo-ext-128.png");
+      imgElement.style.objectFit = "none";
+      imgElement.style.background = "lavender";
 
-  // Initialize a variable to track if a keyword was found
-  let keywordFound = { keyword: null, keywordFound: false };
-
-  // Check if any keyword in allKeywords is included in stringToCheck
-  allKeywords?.some((keyword) => {
-    if (stringToCheck?.toLowerCase()?.includes(keyword)) {
-      keywordFound = { keyword: keyword, keywordFound: true }; // Set the variable to true if a match is found
-      return true; // Exit the loop once a match is found
+      // Stop observing after the src change
+      observer.unobserve(imgElement);
     }
-    return false; // Explicitly return false to continue looping
   });
+}
 
-  return keywordFound; // Return the boolean value
+/**
+ * Detects any spoiler keywords within the title of a video or shorts and obscures it
+ *
+ * @name spoilerDetection
+ *
+ * @returns {void}
+ *
+ * @example spoilerDetection();
+ */
+async function spoilerDetection() {
+  /**
+   * Gets active keywords and checks string for said keywords
+   *
+   * @name checkForKeywords
+   *
+   * @param {array} allKeywords - a list of keywords to check
+   * @param {string} stringToCheck - string to check for keyword(s)
+   *
+   * @returns {object} objects holding string keyword and boolean keywordFound
+   *
+   * @example checkForKeywords(allKeywords, stringToCheck);
+   */
+  async function checkForKeywords(allKeywords, stringToCheck) {
+    // console.log(`Checking if a keyword is within ${stringToCheck}...`);
+
+    // Initialize a variable to track if a keyword was found
+    let keywordFound = { keyword: null, keywordFound: false };
+
+    // Check if any keyword in allKeywords is included in stringToCheck
+    allKeywords?.some((keyword) => {
+      if (stringToCheck?.toLowerCase()?.includes(keyword)) {
+        keywordFound = { keyword: keyword, keywordFound: true }; // Set the variable to true if a match is found
+        return true; // Exit the loop once a match is found
+      }
+      return false; // Explicitly return false to continue looping
+    });
+
+    return keywordFound; // Return the boolean value
+  }
+
+  /**
+   * Gets all video items that haven't been modified yet within the designated container
+   *
+   * @name getVideoItems
+   *
+   * @param {string} containerId - parent ID of container containing video elements
+   *
+   * @returns {array} a list of unmodified video elements
+   *
+   * @example getVideoItems(containerId);
+   */
+  function getVideoItems(containerId) {
+    return $(containerId).find(
+      `ytd-rich-item-renderer.ytd-rich-grid-renderer:not('.rtt-spoiler-item'), 
+            ytd-compact-video-renderer.ytd-item-section-renderer:not('.rtt-spoiler-item')`
+    );
+  }
+
+  /**
+   * Gets all shorts items that haven't been modified yet within the designated container
+   *
+   * @name getVideoItems
+   *
+   * @param {string} containerId - parent ID of container containing shorts elements
+   *
+   * @returns {array} a list of unmodified shorts elements
+   *
+   * @example getShortsItems(containerId);
+   */
+  function getShortsItems(containerId) {
+    return $(containerId).find(
+      `ytd-rich-item-renderer.ytd-rich-shelf-renderer:not('.rtt-spoiler-item'),
+            ytm-shorts-lockup-view-model-v2:not('.rtt-spoiler-item')`
+    );
+  }
+
+  /**
+   * Check each video elements for spoiler keywords
+   *
+   * @name checkForKeywords
+   *
+   * @param {array} videoItems - a list of video elements
+   * @param {array} allKeywords - a list of keywords to check
+   * @param {boolean} isShorts - are the videoItems shorts elements
+   *
+   * @returns {void}
+   *
+   * @example checkForSpoilers(videoItems, allKeywords, false);
+   */
+  function checkForSpoilers(videoItems, allKeywords, isShorts) {
+    videoItems.each(async (item) => {
+      let videoElement = videoItems[item];
+      let videoContent, videoTitleHTML, thumbnailHTML;
+
+      // Get respective element information of each video element
+      if (isShorts) {
+        videoTitleHTML = videoElement.querySelector("h3 span") || "";
+        thumbnailHTML = videoElement.querySelector("img") || "";
+      } else {
+        videoTitleHTML = videoElement.querySelector("#video-title") || "";
+        thumbnailHTML = videoElement.querySelector("#thumbnail img") || "";
+      }
+
+      // Check each video element for spoiler keywords
+      for (const stringToCheck of [videoTitleHTML.innerHTML]) {
+        const { keyword, keywordFound } = await checkForKeywords(
+          allKeywords,
+          stringToCheck
+        );
+
+        if (keywordFound) {
+          // Capture title and thumbnail elements to modify them
+          videoContent = {
+            videoTitleElement: videoTitleHTML,
+            thumbnailElement: thumbnailHTML,
+          };
+
+          // Add a 'modified' tag to video elements
+          $(videoElement).addClass("rtt-spoiler-item");
+          console.log("Keyword found:", keyword);
+
+          // Depending on type of video element, modify the title and thumbnail of spoiler content
+          if (isShorts) {
+            await hideShortsSpoilers(videoContent, keyword);
+          } else {
+            await hideVideoSpoilers(videoContent, keyword);
+          }
+          break;
+        }
+      }
+    });
+  }
+
+  /** Main Content */
+  const containerId = `#contents:has(> ytd-rich-item-renderer), 
+      #contents:has(> ytd-compact-video-renderer), 
+      #contents #content:has(> ytd-rich-shelf-renderer), 
+      #contents #items:has(> ytm-shorts-lockup-view-model-v2)
+    `;
+
+  // Get all video and shorts items within the containerId
+  const videoItems = getVideoItems(containerId);
+  const shortsItems = getShortsItems(containerId);
+
+  // Get all keywords from database
+  // If general obscurement setting is active, add "spoiler" to keyword list
+  const allKeywords = await getSpoilerKeywords();
+  const isGenObscureActive = await getGenObscureValue();
+  if (isGenObscureActive) allKeywords.push("spoiler");
+
+  // check for spoilers for all video and shorts items
+  checkForSpoilers(videoItems, allKeywords, false);
+  checkForSpoilers(shortsItems, allKeywords, true);
 }
 
 /**
@@ -131,122 +285,44 @@ async function checkForKeywords(allKeywords, stringToCheck) {
  *
  * @example activateKeywordObserver(isGenObscureActive);
  */
-async function activateKeywordObserver(containerId, isGenObscureActive) {
-  console.log("activated");
-  const observedVideos = new Set(); // Store unique video elements
-
-  const allKeywords = await getSpoilerKeywords();
-
-  const observer = new MutationObserver(function (mutations) {
-    // console.log("new batch");
-    (mutations ?? []).forEach(function (mutation) {
-      const localName = mutation.target.localName;
-      const classList = Object.values(mutation.target.classList);
-      const addedNodes = Object.values(mutation.addedNodes);
-      // Filter contentArray to only include elements with localName "ytd-rich-item-renderer"
-      const contentArray = Object.values(content)?.filter((videoElement) =>
-        videoElement.classList?.contains("ytd-rich-item-renderer")
-      );
-      // const contentArray = Object.values(content);
-
-      let videoContent;
-
-      (contentArray ?? []).forEach((videoElement) => {
-        // console.log(videoElement);
-        if (!observedVideos.has(videoElement)) {
-          // Only process unique video elements
-          observedVideos.add(videoElement);
-
-          const details = videoElement.querySelector("#details");
-          const containsVideoClass = videoElement.classList?.contains(
-            "ytd-rich-item-renderer"
-          );
-
-          const shortsDetails = videoElement.querySelector(
-            "ytm-shorts-lockup-view-model"
-          );
-
-          if (details && containsVideoClass) {
-            // console.log("video:", videoElement);
-
-            const channelNameHTML =
-              videoElement.querySelector("#channel-name a") || "";
-            const videoTitleHTML =
-              videoElement.querySelector("#video-title") || "";
-            const thumbnailHTML =
-              videoElement.querySelector("#thumbnail img") || "";
-
-            videoContent = {
-              videoTitle: videoTitleHTML,
-              channelName: channelNameHTML,
-              thumbnail: thumbnailHTML,
-            };
-
-            [videoTitleHTML.innerHTML, channelNameHTML.innerHTML].forEach(
-              async (stringToCheck) => {
-                const { keyword, keywordFound } = await checkForKeywords(
-                  allKeywords,
-                  stringToCheck
-                );
-
-                if (keywordFound) {
-                  // Hides video content
-                  // hideVideoSpoilers(videoContent);
-                  console.log(`${keyword} found in`, videoElement);
-                }
-              }
-            );
-
-            // Here you can perform further actions with videoContent
-          } else if (shortsDetails && containsVideoClass) {
-            // console.log("shorts", videoElement);
-            const channelNameHTML = "";
-            const videoTitleHTML = videoElement.querySelector("h3") || "";
-            const thumbnailHTML = videoElement.querySelector("img") || "";
-
-            videoContent = {
-              videoTitle: videoTitleHTML,
-              channelName: channelNameHTML,
-              thumbnail: thumbnailHTML,
-            };
-
-            [videoTitleHTML.innerHTML].forEach(async (stringToCheck) => {
-              const { keyword, keywordFound } = await checkForKeywords(
-                allKeywords,
-                stringToCheck
-              );
-
-              if (keywordFound) {
-                // Hides shorts content
-                // hideShortsSpoilers(videoContent);
-                console.log(`${keyword} found in`, videoElement);
-              }
-            });
-          }
-          // console.log(videoContent);
-        }
-      });
-
-      if (observedVideos.size >= 10) {
-        observer.disconnect();
-      }
-    });
+async function activateKeywordObserver() {
+  // Checks for any changes to first level only of containerId
+  const observer = new MutationObserver(async (mutations) => {
+    await spoilerDetection();
   });
 
-  // Start observing the document for changes
-  // const observerInterval = setInterval(() => {
-  //   const targetNode = document.body.querySelector(`${containerId}`);
+  const observerInterval = setInterval(() => {
+    let containerId;
 
-  //   if (targetNode) {
-  //     observer.observe(targetNode, {
-  //       childList: true,
-  //       subtree: true,
-  //     });
-  //     clearInterval(observerInterval);
-  //   } else {
-  //     console.error(`Target container ${containerId} not found.`);
-  //   }
-  // }, 1000);
+    containerId = `#contents:has(> ytd-rich-item-renderer), 
+      #contents:has(> ytd-compact-video-renderer), 
+      #contents #content:has(> ytd-rich-shelf-renderer), 
+      #contents #items:has(> ytm-shorts-lockup-view-model-v2)
+    `;
+
+    // Makes containerId into a node element
+    const targetNode = document.body.querySelector(`${containerId}`);
+    console.log("Target Node:", targetNode);
+
+    // If container exists, attach spoiler detection observer
+    if (targetNode) {
+      observer.observe(targetNode, {
+        childList: true,
+      });
+
+      // Attach spoiler detection observer to this node for when user navigates between home and playback pages
+      let watchFlexContainer = document.body.querySelector("ytd-watch-flexy");
+      observer.observe(watchFlexContainer, {
+        childList: true,
+        attributes: true,
+      });
+
+      // Clear interval once the target node has been found (if ever)
+      clearInterval(observerInterval);
+    } else {
+      console.error(`Target container ${containerId} not found.`);
+    }
+  }, 1000);
 }
 
 /** !SECTION */
@@ -266,80 +342,68 @@ async function activateKeywordObserver(containerId, isGenObscureActive) {
  *
  * @example hideShortsSpoilers(videoContent);
  */
-function hideShortsSpoilers(videoContent) {
-  const { videoTitle, thumbnail } = videoContent;
+async function hideShortsSpoilers(videoContent, keyword) {
+  /**
+   * Blurs or replaces thumbnail of affected shorts video
+   *
+   * @name modifyShortsThumbnail
+   *
+   * @param {object} thumbnailElement - object of thumbnail element container to be modified
+   *
+   * @returns {void}
+   *
+   * @example modifyShortsThumbnail(thumbnailElement);
+   */
+  async function modifyShortsThumbnail(thumbnailElement) {
+    //  True is to replace thumbnail with image; false is to blur thumbnail
+    const isReplacementActive = await getReplaceThumbnailSetting();
+
+    // Replace thumbnail with blur or 'spoiler detected' image
+    if (isReplacementActive) {
+      // Replace thumbnail with "spoiler detected" image
+      const thumbnailObserver = new IntersectionObserver(handleIntersection, {
+        root: null, // Use the viewport as the root
+        rootMargin: "0px",
+        threshold: 0.1, // Trigger when 10% of the element is visible
+      });
+
+      thumbnailObserver.observe(thumbnailElement);
+    } else {
+      // Blur thumbnail
+      $(thumbnailElement).css("filter", "blur(20px)");
+    }
+  }
+
+  /**
+   * Rewrites details of affected shorts video
+   *
+   * @name rewriteVideoDetails
+   *
+   * @param {object} titleElement - object of video title element container to be modified
+   *
+   * @returns {void}
+   *
+   * @example rewriteVideoDetails(titleElement);
+   */
+  function rewriteShortsDetails(titleElement, keyword) {
+    const $videoTitleLink = $(titleElement).closest("a");
+
+    const newTitle = `SPOILER: "${keyword}" found in the title of this video. Proceed with caution.`;
+
+    $videoTitleLink.attr("aria-label", newTitle);
+    $videoTitleLink.attr("title", newTitle);
+
+    $(titleElement).text(newTitle);
+  }
+
+  /** Main Content */
+  const { videoTitleElement, thumbnailElement } = videoContent;
 
   // Call modifyVideoThumbnail function
-  modifyShortsThumbnail(thumbnail);
-
-  // Add 'spoiler' tag to item
-  addShortsSpoilerTag(videoTitle);
+  modifyShortsThumbnail(thumbnailElement);
 
   // Change video name to hide all other text besides keyword(s) detected
-  rewriteShortsDetails(videoTitle);
-}
-
-/**
- * Blurs or replaces thumbnail of affected shorts video
- *
- * @name modifyShortsThumbnail
- *
- * @param {object} thumbnailElement - object of thumbnail element container to be modified
- *
- * @returns {void}
- *
- * @example modifyShortsThumbnail(thumbnailElement);
- */
-async function modifyShortsThumbnail(thumbnailElement) {
-  //  True is to replace thumbnail with image; false is to blur thumbnail
-  const isReplacementActive = await getReplaceThumbnailSetting();
-
-  // Replace thumbnail with blur or 'spoiler detected' image
-  if (isReplacementActive) {
-    // Blur thumbnail
-  } else {
-    // Replace thumbnail with "spoiler detected" image
-  }
-}
-
-/**
- * Rewrites details of affected shorts video
- *
- * @name rewriteVideoDetails
- *
- * @param {object} titleElement - object of video title element container to be modified
- *
- * @returns {void}
- *
- * @example rewriteVideoDetails(titleElement);
- */
-function rewriteShortsDetails(titleElement) {
-  // Shorts
-  // shorts container = ytd-rich-section-renderer ytd-rich-item-renderer
-  // shorts title = ytd-rich-item-renderer h3 a > span
-  // TODO: get ids of affected shorts video
-  // TODO: disable a.reel-item-endpoint
-  // TODO: update h3 aria-label to new title
-  // TODO: update span html to new title
-}
-
-/**
- * Adds custom spoiler tag to affected shorts video
- *
- * @name addShortsSpoilerTag
- *
- * @param {object} titleElement - object of video title element container to be modified
- *
- * @returns {void}
- *
- * @example addVideoSpoilerTag(titleElement);
- */
-function addShortsSpoilerTag(titleElement) {
-  // Shorts
-  // shorts container = ytd-rich-section-renderer ytd-rich-item-renderer
-  // shorts title = ytd-rich-item-renderer h3 a > span
-  // TODO: get ids of affected shorts video
-  // TODO: add spoiler tag to title
+  rewriteShortsDetails(videoTitleElement, keyword);
 }
 
 /** !SECTION */
@@ -359,84 +423,69 @@ function addShortsSpoilerTag(titleElement) {
  *
  * @example hideVideoSpoilers(videoContent);
  */
-function hideVideoSpoilers(videoContent) {
-  const { videoTitle, channelName, thumbnail } = videoContent;
+async function hideVideoSpoilers(videoContent, keyword) {
+  /**
+   * Blurs or replaces thumbnail of affected video
+   *
+   * @name modifyVideoThumbnail
+   *
+   * @param {object} thumbnailElement - object of thumbnail element container to be modified
+   *
+   * @returns {void}
+   *
+   * @example modifyVideoThumbnail(thumbnailElement);
+   */
+  async function modifyVideoThumbnail(thumbnailElement) {
+    //  True is to replace thumbnail with image; false is to blur thumbnail
+    const isReplacementActive = await getReplaceThumbnailSetting();
+
+    // Replace thumbnail with blur or 'spoiler detected' image
+    if (isReplacementActive) {
+      // Replace thumbnail with "spoiler detected" image
+      const thumbnailObserver = new IntersectionObserver(handleIntersection, {
+        root: null, // Use the viewport as the root
+        rootMargin: "0px",
+        threshold: 0.1, // Trigger when 10% of the element is visible
+      });
+
+      thumbnailObserver.observe(thumbnailElement);
+    } else {
+      // Blur thumbnail
+      $(thumbnailElement).css("filter", "blur(20px)");
+    }
+  }
+
+  /**
+   * Rewrites details of affected video
+   *
+   * @name rewriteVideoDetails
+   *
+   * @param {object} titleElement - object of video title element container to be modified
+   * @ignore @param {object} channelElement - object of channel name container to be modified
+   *
+   * @returns {void}
+   *
+   * @example rewriteVideoDetails(titleElement);
+   */
+  function rewriteVideoDetails(titleElement, keyword) {
+    const $videoTitleLink = $(titleElement).closest("#video-title-link");
+
+    const newTitle = `SPOILER: "${keyword}" found in the title of this video. Proceed with caution.`;
+
+    $videoTitleLink.attr("aria-label", newTitle);
+    $videoTitleLink.attr("title", newTitle);
+
+    $(titleElement).text(newTitle);
+  }
+
+  /** Main Content */
+  const { thumbnailElement, videoTitleElement } = videoContent;
 
   // Call modifyVideoThumbnail function
-  modifyVideoThumbnail(thumbnail);
-
-  // Add 'spoiler' tag to item
-  addVideoSpoilerTag(videoTitle);
+  modifyVideoThumbnail(thumbnailElement);
 
   // Change video name to hide all other text besides keyword(s) detected
-  rewriteVideoDetails(videoTitle, channelName);
-}
-
-/**
- * Blurs or replaces thumbnail of affected video
- *
- * @name modifyVideoThumbnail
- *
- * @param {object} thumbnailElement - object of thumbnail element container to be modified
- *
- * @returns {void}
- *
- * @example modifyVideoThumbnail(thumbnailElement);
- */
-async function modifyVideoThumbnail(thumbnailElement) {
-  //  True is to replace thumbnail with image; false is to blur thumbnail
-  const isReplacementActive = await getReplaceThumbnailSetting();
-
-  // Replace thumbnail with blur or 'spoiler detected' image
-  if (isReplacementActive) {
-    // Blur thumbnail
-  } else {
-    // Replace thumbnail with "spoiler detected" image
-  }
-}
-
-/**
- * Rewrites details of affected video
- *
- * @name rewriteVideoDetails
- *
- * @param {object} titleElement - object of video title element container to be modified
- * @param {object} channelElement - object of channel name container to be modified
- *
- * @returns {void}
- *
- * @example rewriteVideoDetails(titleElement, channelElement);
- */
-// TODO:FIXME:TACKLE THIS FUNCTION FIRST!!!!!!!!!!!!!!
-function rewriteVideoDetails(titleElement, channelElement) {
-  // Video
-  // video container = ytd-rich-grid-renderer ytd-rich-item-renderer
-  // video name id = ytd-rich-item-renderer #video-title
-  // TODO: get ids of affected regular video
-  // TODO: disable a.reel-item-endpoint
-  // TODO: update h3 aria-label to new title
-  // TODO: update span html to new title
-}
-
-// Get all values of video title
-
-/**
- * Adds custom spoiler tag to affected video
- *
- * @name addVideoSpoilerTag
- *
- * @param {object} titleElement - object of video title container to be modified
- *
- * @returns {void}
- *
- * @example addVideoSpoilerTag(titleElement);
- */
-function addVideoSpoilerTag(titleElement) {
-  // Video
-  // video container = ytd-rich-grid-renderer ytd-rich-item-renderer
-  // video name id = ytd-rich-item-renderer #video-title
-  // TODO: get ids of affected regular video
-  // TODO: add spoiler tag to title
+  rewriteVideoDetails(videoTitleElement, keyword);
 }
 
 /** !SECTION */
@@ -444,16 +493,14 @@ function addVideoSpoilerTag(titleElement) {
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
-$(document).ready(async function () {
-  // Get general obscurement value
-  // if true, activate general obscurement mutation observer
-  const isGenObscureActive = await getGenObscureValue();
-  // console.log(isGenObscureActive);
+$(document).ready(function () {
+  // Attach spoiler detection observer after 2 seconds
+  setTimeout(async () => {
+    activateKeywordObserver();
 
-  // TODO: Activates keyword observer depending on if the page is playback or home
-  let containerId;
-  containerId = "#primary ytd-rich-grid-renderer";
-  activateKeywordObserver(containerId, isGenObscureActive);
+    // Initiate initial spoiler detection
+    await spoilerDetection();
+  }, 2000);
 });
 
 /** !SECTION */

@@ -14,15 +14,13 @@
     "default_icon": "/images/icon-logo-ext.png"
   },
   "author": {
-    "author": {
-      "name": "Lencheto Ramirez",
-      "email": "lenchetoramirez16@gmail.com"
-    }
+    "name": "Lencheto Ramirez",
+    "email": "lenchetoramirez16@gmail.com"
   },
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
-  "permissions": ["storage", "unlimitedStorage"],
+  "permissions": ["storage", "unlimitedStorage", "activeTab"],
   "content_scripts": [
     {
       "js": [
@@ -51,8 +49,8 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [],
-      "matches": ["<all_urls>"]
+      "resources": ["/images/icon-logo-ext-128.png"],
+      "matches": ["https://www.youtube.com/*"]
     }
   ]
 }
