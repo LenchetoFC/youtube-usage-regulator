@@ -182,7 +182,6 @@ function hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage) {
   if (isPlaybackPage) {
     // Shorts content on playback pages
     hideDOMContent("#related #contents", "ytd-reel-shelf-renderer");
-    console.log("should hide shorts");
   } else if (isSearchPage) {
     // Shorts content on search pages
     hideDOMContent("#primary #contents", "ytd-reel-shelf-renderer");
@@ -210,9 +209,12 @@ function hideSearchBar() {
 }
 
 /**
- * FIXME: Hides all video recommendations on home page and on side of videos
+ * Hides all video recommendations on home page and on side of videos
  *
  * @name hideVideoRecommendations
+ *
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ * @param {boolean} isHomePage - if the current web address is on home page
  *
  * @returns {void}
  *
@@ -222,48 +224,25 @@ function hideSearchBar() {
  *
  * Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
  *
- * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
- * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
- * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
- * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
- * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
- * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
  */
-function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
+function hideVideoRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
+    console.log("recommendations");
     // Side recommendations - playback
-    hideDOMContent(
-      "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
-      "Recommendations on video playback pages"
-    );
+    hideDOMContent("#primary", "#related");
 
-    // Removes button to switch to default view because the layout
-    //  is messed up after removing recommendations on that view
-    hideDOMContent(
-      ".ytp-size-button",
-      "Default View Button for recommendations - playback"
-    );
-
-    setTimeout(() => {
-      // Video Wall after videos
-      hideDOMContent(
-        ".videowall-endscreen",
-        "Video Wall after video ends - playback"
-      );
-
-      // FIXME: next video still autoplay
-      // Video Wall after videos
-      // hideDOMContent(
-      //   ".ytp-autonav-endscreen-countdown-overlay",
-      //   "Autoplay screen after video ends - playback"
-      // );
-    }, 5000);
-  } else if (isAnyPage) {
+    // Video Wall after videos
+    hideDOMContent(".videowall-endscreen", ".ytp-endscreen-content");
+  } else if (isHomePage) {
     // Video recommendations - home page
     hideDOMContent(
-      "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
-      "Recommendations on home pages"
+      "#primary #contents",
+      "ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer)"
     );
+    // FIXME: with this off, the reload animations plays for a while. Figure out how to allow refresh for just shorts
+    disableInfiniteRecommendations(false, true);
+
+    // TODO: add a message when these recommendations are gone
   }
 }
 
@@ -284,16 +263,16 @@ function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
  * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  */
-function disableInfiniteRecommendations(isPlaybackPage, isAnyPage) {
+function disableInfiniteRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
     hideDOMContent("#related #contents", " ytd-continuation-item-renderer");
-  } else if (isAnyPage) {
+  } else if (isHomePage) {
     hideDOMContent("#primary #contents", " ytd-continuation-item-renderer");
   }
 }
 
 /**
- * FIXME: Hides all comment sections
+ * Hides all comment sections
  *
  * @name hideComments
  *
@@ -361,13 +340,13 @@ async function applyActiveLimitations() {
             hideHomeButton(isPlaybackPage);
           }
           break;
-        // case "shorts-page":
-        //   if (isShortsPage) {
-        //     redirectUser();
-        //   } else {
-        //     hideShortsButton(isPlaybackPage);
-        //   }
-        //   break;
+        case "shorts-page":
+          if (isShortsPage) {
+            redirectUser();
+          } else {
+            hideShortsButton(isPlaybackPage);
+          }
+          break;
         case "home-button":
           hideHomeButton(isPlaybackPage);
           break;
@@ -381,11 +360,11 @@ async function applyActiveLimitations() {
           hideSearchBar();
           break;
         case "infinite-recom":
-          disableInfiniteRecommendations(isPlaybackPage, isAnyPage);
+          disableInfiniteRecommendations(isPlaybackPage, isHomePage);
           break;
-        // case "video-recom":
-        //   hideVideoRecommendations();
-        //   break;
+        case "video-recom":
+          hideVideoRecommendations(isPlaybackPage, isHomePage);
+          break;
         case "comments-section":
           hideComments(isPlaybackPage, isShortsPage);
           break;
