@@ -10,6 +10,12 @@
  * 
  * @notes
  * 
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ * @param {boolean} isHomePage - if the current web address is on home page
+ * @param {boolean} isAnyPage - if the current web address is on any YouTube page
+ * @param {boolean} isShortsPage - if the current web address is on Shorts page
+ * @param {boolean} isSearchPage - if the current web address is on search page
+ * 
     * ---YOUTUBE ELEMENT IDENTIFIERS---
     * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
     * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
@@ -62,43 +68,6 @@
  *
  * @example hideDOMContent("ytd-masthead", "ytd-topbar-logo-renderer");
  */
-// function hideDOMContent(parent, element) {
-//   try {
-//     const observerInterval = setInterval(() => {
-//       // Makes parent and element into node elements
-//       const parentNode = document.body?.querySelector(`${parent}`);
-//       const elementNodes = parentNode?.querySelectorAll(`${element}`);
-
-//       // console.log(parent, element, elementNodes);
-
-//       // If container exists, attach spoiler detection observer
-//       if (parentNode && elementNodes.length > 0) {
-//         const documentObserver = new MutationObserver(async (mutations) => {
-//           console.log("detect changes");
-//           elementNodes.forEach((node) => {
-//             if (!node.classList.contains("rtt-hidden")) {
-//               node.classList.add("rtt-hidden");
-//               console.log("Hidden:", node);
-//             }
-//           });
-//         });
-
-//         documentObserver.observe(parentNode, {
-//           childList: true,
-//           subtree: true,
-//         });
-
-//         // Clear interval once the target node has been found (if ever)
-//         clearInterval(observerInterval);
-//       }
-//       // else {
-//       //   console.error(`issue with ${element} not found.`);
-//       // }
-//     }, 1000);
-//   } catch (error) {
-//     console.log(`Error removing ${element} within ${parent}: ${error.message}`);
-//   }
-// }
 function hideDOMContent(parent, element) {
   try {
     const observerInterval = setInterval(() => {
@@ -142,6 +111,7 @@ function hideDOMContent(parent, element) {
  *
  * @name hideHomeButton
  *
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
  * @returns {void}
  *
  * @example hideHomeButton();
@@ -175,6 +145,8 @@ function hideHomeButton(isPlaybackPage) {
  *
  * @name hideShortsButton
  *
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ *
  * @returns {void}
  *
  * @example hideShortsButton();
@@ -195,19 +167,18 @@ function hideShortsButton(isPlaybackPage) {
 /**
  * Hides all Shorts videos and recommended Shorts
  *
- * @name hideShortsRecom
+ * @name hideShortsRecommendations
+ *
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ * @param {boolean} isAnyPage - if the current web address is on any YouTube page
+ * @param {boolean} isSearchPage - if the current web address is on search page
  *
  * @returns {void}
  *
- * @example hideShortsRecom();
+ * @example hideShortsRecommendations();
  *
  */
-function hideShortsRecom(
-  isPlaybackPage,
-  isAnyPage,
-  isShortsPage,
-  isSearchPage
-) {
+function hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage) {
   if (isPlaybackPage) {
     // Shorts content on playback pages
     hideDOMContent("#related #contents", "ytd-reel-shelf-renderer");
@@ -296,15 +267,15 @@ function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
       "Recommendations on home pages"
     );
   }
-
-  // Also disables infinite recommendations
-  disableInfiniteRecommendations();
 }
 
 /**
- * FIXME: Removes the element that loads another section of recommended videos
+ * Removes the element that loads another section of recommended videos
  *
  * @name disableInfiniteRecommendations
+ *
+ * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ * @param {boolean} isAnyPage - if the current web address is on any YouTube page
  *
  * @returns {void}
  *
@@ -315,14 +286,12 @@ function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
  * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  */
-function disableInfiniteRecommendations() {
-  if (true) {
-    let;
+function disableInfiniteRecommendations(isPlaybackPage, isAnyPage) {
+  if (isPlaybackPage) {
+    hideDOMContent("#related #contents", " ytd-continuation-item-renderer");
+  } else if (isAnyPage) {
+    hideDOMContent("#primary #contents", " ytd-continuation-item-renderer");
   }
-  hideDOMContent(
-    "#primary ytd-continuation-item-renderer",
-    "Infinite Video Recommendations"
-  );
 }
 
 /**
@@ -358,19 +327,6 @@ function hideComments(isPlaybackPage, isShortsPage) {
     });
   }
 }
-
-/**
- * Checks if both the shorts content and video recommendations settings are active
- *
- * @name isRecommendationsDisabled
- *
- * @returns {boolean}
- *
- * @example isRecommendationsDisabled();
- *
- * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
- */
-async function isRecommendationsDisabled() {}
 
 /**
  * Retrieves and applies all active limitations to current web page
@@ -433,19 +389,14 @@ async function applyActiveLimitations() {
           hideShortsButton(isPlaybackPage);
           break;
         case "shorts-recom":
-          hideShortsRecom(
-            isPlaybackPage,
-            isAnyPage,
-            isShortsPage,
-            isSearchPage
-          );
+          hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage);
           break;
         case "search-bar":
           hideSearchBar();
           break;
-        // case "infinite-recom":
-        //   disableInfiniteRecommendations();
-        //   break;
+        case "infinite-recom":
+          disableInfiniteRecommendations(isPlaybackPage, isAnyPage);
+          break;
         // case "video-recom":
         //   hideVideoRecommendations();
         //   break;
