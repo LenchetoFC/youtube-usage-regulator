@@ -1,6 +1,6 @@
 /* YouTube Limitations on Page */
-.hidden {
-  display: none;
+.rtt-hidden {
+  display: none !important;
 }
 
 .blur {

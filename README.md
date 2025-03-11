@@ -124,6 +124,7 @@ When user tries to access a blocked site, they are redirected to Dashboard and g
 - Does miss some spoiler content when navigating between home and playback pages
 - Doesn't check for spoiler content on Shorts page
 - Bugs out when navigating using video chip tabs
+- Doesn't check search items
 - Doesn't check after-video-recommendations
 - Sometimes modifies wrong title
   - I think it happens when you go from home to playback back to home where the recommendations refreshed but the h3 element was not updated

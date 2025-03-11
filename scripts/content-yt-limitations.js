@@ -51,62 +51,52 @@
  */
 
 /**
- * Hides the element with the given ID
+ * Hides a target element within a specified parent element
  *
  * @name hideDOMContent
  *
- * @param {string} elementID - ID of the element to hide
- * @param {string} elementName - Descriptive name of the element that's being hidden
+ * @param {string} parent - tag, id, or class name of parent element
+ * @param {string} element - tag, id, or class name of target element
  *
  * @returns {void}
  *
- * @example hideDOMContent("#guide-inner-content [title='Home']", "Home Button - Drawer Event Listener")
+ * @example hideDOMContent("ytd-masthead", "ytd-topbar-logo-renderer");
  */
-function hideDOMContent(className, elementName) {
+function hideDOMContent(parent, element) {
   try {
-    // Ensure the DOM is fully loaded before running the script
-    $(document).ready(function () {
-      const contentItems = $(className);
+    const observerInterval = setInterval(() => {
+      // Makes parent and element into node elements
+      const parentNode = document.body?.querySelector(`${parent}`);
+      const elementNode = parentNode?.querySelector(`${element}`);
 
-      // console.log(className, $(className));
-
-      // Adds hidden class to elements
-      $(className).addClass("hidden", function (index) {
-        // console.log(`Hides ${elementName}: ${index}`);
-      });
-
-      // Create a style element
-      const style = document.createElement("style");
-      style.innerHTML = `.hidden { display: none !important; }`;
-      document.getElementsByTagName("head")[0]?.appendChild(style) ??
-        document.createElement("head").appendChild(style);
-
-      // Use MutationObserver to watch for changes in the DOM
-      const observer = new MutationObserver(function (mutations) {
-        (mutations ?? []).forEach(function (mutation) {
-          // console.log(mutation.addedNodes);
-          if (mutation.addedNodes.length) {
-            $(className).addClass("hidden");
-            // console.log("hidden");
+      // If container exists, attach spoiler detection observer
+      if (parentNode && elementNode) {
+        const documentObserver = new MutationObserver(async (mutations) => {
+          if (!elementNode.classList.contains("rtt-hidden")) {
+            elementNode.classList.add("rtt-hidden");
+            // console.log("Hidden:", elementNode);
           }
         });
-      });
 
-      // Start observing the document for changes
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    });
+        documentObserver.observe(parentNode, {
+          childList: true,
+          subtree: true,
+        });
+
+        // Clear interval once the target node has been found (if ever)
+        clearInterval(observerInterval);
+      }
+      // else {
+      //   console.error(`issue with ${element} not found.`);
+      // }
+    }, 1000);
   } catch (error) {
-    console.log(
-      `Error removing ${className} for ${elementName}: ${error.message}`
-    );
+    console.log(`Error removing ${element} within ${parent}: ${error.message}`);
   }
 }
 
 /**
- * Hides all buttons that redirect user's to the YT home page
+ * Hides all buttons that directs users to the YT home page
  *
  * @name hideHomeButton
  *
@@ -118,70 +108,26 @@ function hideDOMContent(className, elementName) {
  * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
  * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
  *
- * FIXME: unreliable sometimes - needs further testing
  */
-function hideHomeButton(isPlaybackPage) {
-  // Home button as YouTube logo
-  hideDOMContent("ytd-topbar-logo-renderer", "Home Button - YouTube Logo");
-
-  // Home Button in side panel
-  hideDOMContent(
-    'ytd-guide-entry-renderer:has(a[title="Home"])',
-    "Home Button - Side Panel"
-  );
+function hideHomeButton() {
+  // YouTube logo home button
+  hideDOMContent("ytd-masthead", "ytd-topbar-logo-renderer");
 
   // Home button
   hideDOMContent(
-    '.ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])',
-    "Home Button"
+    ".ytd-mini-guide-renderer[role='tab']:has(a[title='Home']",
+    'a[title="Home"]'
   );
 
-  // setTimeout(() => {
-  //   // Side Home Button
-  //   hideDOMContent(
-  //     "ytd-mini-guide-entry-renderer a[title='Home']",
-  //     "Side Home Button - timeout 500"
-  //   );
-  // }, 500);
+  // YouTube logo home button in side panel
+  // NOTE: will trigger a 'not found' error if the side panel is never opened.
+  //        Error goes away when opened at least once.
+  hideDOMContent("tp-yt-app-drawer", "ytd-topbar-logo-renderer");
 
-  // // Drawer home button - will not show if the side drawer haven't been opened yet
-  // $("ytd-masthead #guide-button").on("click", function () {
-  //   setTimeout(() => {
-  //     // Home Button
-  //     hideDOMContent(
-  //       "#guide-inner-content [title='Home']",
-  //       "Home Button - Drawer Event Listener"
-  //     );
-  //     // Home Button as YT Logo
-  //     hideDOMContent(
-  //       "ytd-topbar-logo-renderer [title='YouTube Home']",
-  //       "Home Button - YouTube Logo on guide button click"
-  //     );
-
-  //     // Side Home Button
-  //     hideDOMContent(
-  //       "ytd-mini-guide-entry-renderer a[title='Home']",
-  //       "Side Home Button - on guide button click"
-  //     );
-  //   }, 500);
-  // });
-
-  // // Drawer home button - drawer is already opened
-  // if ($("tp-yt-app-drawer").opened) {
-  //   console.log("drawer opened");
-  //   hideDOMContent(
-  //     "#guide-inner-content [title='Home']",
-  //     "Home Button - Drawer Opened"
-  //   );
-  // }
-
-  // // Side home button home page (only exists on home page)
-  // if (!isPlaybackPage) {
-  //   hideDOMContent(
-  //     "ytd-mini-guide-renderer [title='Home']",
-  //     "Side Home Button - home page"
-  //   );
-  // }
+  // Home Button in side panel
+  // NOTE: will trigger a 'not found' error if the side panel is never opened.
+  //        Error goes away when opened at least once.
+  hideDOMContent("tp-yt-app-drawer", 'a[title="Home"]');
 }
 
 /**
@@ -198,269 +144,269 @@ function hideHomeButton(isPlaybackPage) {
  *
  * FIXME: unreliable sometimes - needs further testing
  */
-function hideShortsButton(isPlaybackPage) {
-  setTimeout(() => {
-    // Side Shorts button
-    hideDOMContent(
-      "ytd-mini-guide-entry-renderer a[title='Shorts']",
-      "Side Shorts Button - timeout 500"
-    );
-  }, 500);
+// function hideShortsButton(isPlaybackPage) {
+//   setTimeout(() => {
+//     // Side Shorts button
+//     hideDOMContent(
+//       "ytd-mini-guide-entry-renderer a[title='Shorts']",
+//       "Side Shorts Button - timeout 500"
+//     );
+//   }, 500);
 
-  // Drawer shorts button - will not show if the side drawer haven't been opened yet
-  $("ytd-masthead #guide-button").on("click", function () {
-    setTimeout(() => {
-      hideDOMContent(
-        "#guide-inner-content a[title='Shorts']",
-        "Shorts Button - Drawer Event Listener"
-      );
+//   // Drawer shorts button - will not show if the side drawer haven't been opened yet
+//   $("ytd-masthead #guide-button").on("click", function () {
+//     setTimeout(() => {
+//       hideDOMContent(
+//         "#guide-inner-content a[title='Shorts']",
+//         "Shorts Button - Drawer Event Listener"
+//       );
 
-      // Side Shorts button
-      // hideDOMContent(
-      //   "ytd-mini-guide-entry-renderer a[title='Shorts']",
-      //   "Side Shorts Button - on guide button click"
-      // );
-    }, 500);
-  });
+//       // Side Shorts button
+//       // hideDOMContent(
+//       //   "ytd-mini-guide-entry-renderer a[title='Shorts']",
+//       //   "Side Shorts Button - on guide button click"
+//       // );
+//     }, 500);
+//   });
 
-  // Drawer home button - drawer is already opened
-  if ($("tp-yt-app-drawer").opened) {
-    hideDOMContent(
-      "#guide-inner-content a[title='Shorts']",
-      "Shorts Button - Drawer Opened"
-    );
-  }
+//   // Drawer home button - drawer is already opened
+//   if ($("tp-yt-app-drawer").opened) {
+//     hideDOMContent(
+//       "#guide-inner-content a[title='Shorts']",
+//       "Shorts Button - Drawer Opened"
+//     );
+//   }
 
-  // Side home button home page (only exists on home page)
-  if (!isPlaybackPage) {
-    hideDOMContent(
-      "ytd-mini-guide-renderer a[title='Shorts']",
-      "Side Shorts Button - home page"
-    );
-  }
-}
+//   // Side home button home page (only exists on home page)
+//   if (!isPlaybackPage) {
+//     hideDOMContent(
+//       "ytd-mini-guide-renderer a[title='Shorts']",
+//       "Side Shorts Button - home page"
+//     );
+//   }
+// }
 
-/**
- * Hides all Shorts videos and recommended Shorts
- *
- * @name hideShortsContent
- *
- * @returns {void}
- *
- * @example hideShortsContent();
- *
- * @notes applies to home & playback pages
- *
- * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
- * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
- * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
- */
-function hideShortsContent(
-  isPlaybackPage,
-  isAnyPage,
-  isShortsPage,
-  isSearchPage
-) {
-  // Hides shorts button as well
-  hideShortsButton(isPlaybackPage);
+// /**
+//  * Hides all Shorts videos and recommended Shorts
+//  *
+//  * @name hideShortsContent
+//  *
+//  * @returns {void}
+//  *
+//  * @example hideShortsContent();
+//  *
+//  * @notes applies to home & playback pages
+//  *
+//  * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
+//  * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
+//  * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
+//  */
+// function hideShortsContent(
+//   isPlaybackPage,
+//   isAnyPage,
+//   isShortsPage,
+//   isSearchPage
+// ) {
+//   // Hides shorts button as well
+//   hideShortsButton(isPlaybackPage);
 
-  if (isPlaybackPage) {
-    // Shorts content - side recommendations (playback)
-    hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
-  } else if (isSearchPage) {
-    // Shorts chip filter - search page
-    hideDOMContent(
-      "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
-      "shorts chip content - search page"
-    );
-    hideDOMContent(
-      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - search page"
-    );
-  } else if (isAnyPage) {
-    // Shorts content - home page
-    hideDOMContent(
-      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - home page"
-    );
+//   if (isPlaybackPage) {
+//     // Shorts content - side recommendations (playback)
+//     hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
+//   } else if (isSearchPage) {
+//     // Shorts chip filter - search page
+//     hideDOMContent(
+//       "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
+//       "shorts chip content - search page"
+//     );
+//     hideDOMContent(
+//       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+//       "Shorts Content - search page"
+//     );
+//   } else if (isAnyPage) {
+//     // Shorts content - home page
+//     hideDOMContent(
+//       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+//       "Shorts Content - home page"
+//     );
 
-    hideDOMContent(
-      "ytd-rich-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - home page other try"
-    );
-    console.log("should hide shorts");
-  }
+//     hideDOMContent(
+//       "ytd-rich-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
+//       "Shorts Content - home page other try"
+//     );
+//     console.log("should hide shorts");
+//   }
 
-  // Redirects user if they are on shorts page
-  if (isShortsPage) {
-    redirectUser();
-  }
-}
+//   // Redirects user if they are on shorts page
+//   if (isShortsPage) {
+//     redirectUser();
+//   }
+// }
 
-/**
- * Hides search at top middle of page
- *
- * @name hideSearchBar
- *
- * @returns {void}
- *
- * @example hideSearchBar();
- *
- * @notes applies to home & playback pages
- *
- * SEARCH BAR: #center:has(#search)
- */
-function hideSearchBar() {
-  hideDOMContent("#center:has(#search)", "Search Bar");
-}
+// /**
+//  * Hides search at top middle of page
+//  *
+//  * @name hideSearchBar
+//  *
+//  * @returns {void}
+//  *
+//  * @example hideSearchBar();
+//  *
+//  * @notes applies to home & playback pages
+//  *
+//  * SEARCH BAR: #center:has(#search)
+//  */
+// function hideSearchBar() {
+//   hideDOMContent("#center:has(#search)", "Search Bar");
+// }
 
-/**
- * Hides all video recommendations on home page and on side of videos
- *
- * @name hideVideoRecommendations
- *
- * @returns {void}
- *
- * @example hideVideoRecommendations();
- *
- * @notes applies to home & playback pages
- *
- * Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
- *
- * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
- * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
- * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
- * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
- * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
- * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
- */
-function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
-  if (isPlaybackPage) {
-    // Side recommendations - playback
-    hideDOMContent(
-      "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
-      "Recommendations on video playback pages"
-    );
+// /**
+//  * Hides all video recommendations on home page and on side of videos
+//  *
+//  * @name hideVideoRecommendations
+//  *
+//  * @returns {void}
+//  *
+//  * @example hideVideoRecommendations();
+//  *
+//  * @notes applies to home & playback pages
+//  *
+//  * Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
+//  *
+//  * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
+//  * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
+//  * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
+//  * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
+//  * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
+//  * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
+//  */
+// function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
+//   if (isPlaybackPage) {
+//     // Side recommendations - playback
+//     hideDOMContent(
+//       "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
+//       "Recommendations on video playback pages"
+//     );
 
-    // Removes button to switch to default view because the layout
-    //  is messed up after removing recommendations on that view
-    hideDOMContent(
-      ".ytp-size-button",
-      "Default View Button for recommendations - playback"
-    );
+//     // Removes button to switch to default view because the layout
+//     //  is messed up after removing recommendations on that view
+//     hideDOMContent(
+//       ".ytp-size-button",
+//       "Default View Button for recommendations - playback"
+//     );
 
-    setTimeout(() => {
-      // Video Wall after videos
-      hideDOMContent(
-        ".videowall-endscreen",
-        "Video Wall after video ends - playback"
-      );
+//     setTimeout(() => {
+//       // Video Wall after videos
+//       hideDOMContent(
+//         ".videowall-endscreen",
+//         "Video Wall after video ends - playback"
+//       );
 
-      // FIXME: next video still autoplay
-      // Video Wall after videos
-      // hideDOMContent(
-      //   ".ytp-autonav-endscreen-countdown-overlay",
-      //   "Autoplay screen after video ends - playback"
-      // );
-    }, 5000);
-  } else if (isAnyPage) {
-    // Video recommendations - home page
-    hideDOMContent(
-      "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
-      "Recommendations on home pages"
-    );
-  }
+//       // FIXME: next video still autoplay
+//       // Video Wall after videos
+//       // hideDOMContent(
+//       //   ".ytp-autonav-endscreen-countdown-overlay",
+//       //   "Autoplay screen after video ends - playback"
+//       // );
+//     }, 5000);
+//   } else if (isAnyPage) {
+//     // Video recommendations - home page
+//     hideDOMContent(
+//       "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
+//       "Recommendations on home pages"
+//     );
+//   }
 
-  // Also disables infinite recommendations
-  disableInfiniteRecommendations();
-}
+//   // Also disables infinite recommendations
+//   disableInfiniteRecommendations();
+// }
 
-/**
- * Removes the element that loads another section of recommended videos
- *
- * @name disableInfiniteRecommendations
- *
- * @returns {void}
- *
- * @example disableInfiniteRecommendations();
- *
- * @notes applies to home & playback pages
- *
- * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
- * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
- */
-function disableInfiniteRecommendations() {
-  if (true) {
-    let;
-  }
-  hideDOMContent(
-    "#primary ytd-continuation-item-renderer",
-    "Infinite Video Recommendations"
-  );
-}
+// /**
+//  * Removes the element that loads another section of recommended videos
+//  *
+//  * @name disableInfiniteRecommendations
+//  *
+//  * @returns {void}
+//  *
+//  * @example disableInfiniteRecommendations();
+//  *
+//  * @notes applies to home & playback pages
+//  *
+//  * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+//  * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+//  */
+// function disableInfiniteRecommendations() {
+//   if (true) {
+//     let;
+//   }
+//   hideDOMContent(
+//     "#primary ytd-continuation-item-renderer",
+//     "Infinite Video Recommendations"
+//   );
+// }
 
-/**
- * Hides skip button on videos to avoid moving from video to video easily
- *
- * @name hideSkipButton
- *
- * @returns {void}
- *
- * @example hideSkipButton();
- *
- * SKIP VIDEO BUTTON: .ytp-next-button
- */
-function hideSkipButton() {
-  hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
-}
+// /**
+//  * Hides skip button on videos to avoid moving from video to video easily
+//  *
+//  * @name hideSkipButton
+//  *
+//  * @returns {void}
+//  *
+//  * @example hideSkipButton();
+//  *
+//  * SKIP VIDEO BUTTON: .ytp-next-button
+//  */
+// function hideSkipButton() {
+//   hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
+// }
 
-/**
- * Hides all comment sections
- *
- * @name hideComments
- *
- * @returns {void}
- *
- * @example hideComments();
- *
- * @notes applies to playback and shorts pages
- *
- * COMMENTS SECTION on PLAYBACK: #comments
- * COMMENTS SECTION on SHORTS: #comments-button
- * FIXME: comments sometimes takes too long to load in
- */
-function hideComments(isPlaybackPage, isShortsPage) {
-  if (isPlaybackPage) {
-    hideDOMContent("ytd-comments#comments", "Comments Section on videos");
-  } else if (isShortsPage) {
-    //FIXME: none of this works
-    hideDOMContent(
-      "watch-while-engagement-panel",
-      "Comments Section in Shorts"
-    );
-    hideDOMContent("#comments-button", "Comments button in Shorts");
-    $("#comments-buttons").on("click", function () {
-      console.log("clicked");
-      hideDOMContent(
-        "`${this} watch-while-engagement-panel`",
-        "Comments Section in Shorts"
-      );
-    });
-  }
-}
+// /**
+//  * Hides all comment sections
+//  *
+//  * @name hideComments
+//  *
+//  * @returns {void}
+//  *
+//  * @example hideComments();
+//  *
+//  * @notes applies to playback and shorts pages
+//  *
+//  * COMMENTS SECTION on PLAYBACK: #comments
+//  * COMMENTS SECTION on SHORTS: #comments-button
+//  * FIXME: comments sometimes takes too long to load in
+//  */
+// function hideComments(isPlaybackPage, isShortsPage) {
+//   if (isPlaybackPage) {
+//     hideDOMContent("ytd-comments#comments", "Comments Section on videos");
+//   } else if (isShortsPage) {
+//     //FIXME: none of this works
+//     hideDOMContent(
+//       "watch-while-engagement-panel",
+//       "Comments Section in Shorts"
+//     );
+//     hideDOMContent("#comments-button", "Comments button in Shorts");
+//     $("#comments-buttons").on("click", function () {
+//       console.log("clicked");
+//       hideDOMContent(
+//         "`${this} watch-while-engagement-panel`",
+//         "Comments Section in Shorts"
+//       );
+//     });
+//   }
+// }
 
-/**
- * Checks if both the shorts content and video recommendations settings are active
- *
- * @name isRecommendationsDisabled
- *
- * @returns {boolean}
- *
- * @example isRecommendationsDisabled();
- *
- * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
- */
-async function isRecommendationsDisabled() {}
+// /**
+//  * Checks if both the shorts content and video recommendations settings are active
+//  *
+//  * @name isRecommendationsDisabled
+//  *
+//  * @returns {boolean}
+//  *
+//  * @example isRecommendationsDisabled();
+//  *
+//  * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
+//  */
+// async function isRecommendationsDisabled() {}
 
 /**
  * Retrieves and applies all active limitations to current web page

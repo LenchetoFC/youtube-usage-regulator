@@ -319,9 +319,10 @@ async function activateKeywordObserver() {
 
       // Clear interval once the target node has been found (if ever)
       clearInterval(observerInterval);
-    } else {
-      console.error(`Target container ${containerId} not found.`);
     }
+    // else {
+    //   console.error(`Target container ${containerId} not found.`);
+    // }
   }, 1000);
 }
 
