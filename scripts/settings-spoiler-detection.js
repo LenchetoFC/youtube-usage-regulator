@@ -1,6 +1,6 @@
 /**
- * @file settings-spoiler-free.js
- * @description This file contains spoiler-free-related functions and event listeners for the spoilers free page.
+ * @file settings-spoiler-detection.js
+ * @description This file contains spoiler-detection-related functions and event listeners for the spoilers free page.
  * It handles saving, deleting, and editing spoiler groups .
  *
  * @version 1.0.0
@@ -251,12 +251,12 @@ $(document).ready(async function () {
 
   // getActiveSettings() from database-control-buffer.js
   const activeSettings = await getActiveSettings(
-    "spoiler-free",
+    "spoiler-detection",
     propertiesToCheck
   );
 
   // updateSettingsCheckboxes() from settings-form-control.js
-  updateSettingsCheckboxes(activeSettings, "spoiler-free");
+  updateSettingsCheckboxes(activeSettings, "spoiler-detection");
 
   // Inserts all groups from database into page
   await insertGroupsIntoPage();

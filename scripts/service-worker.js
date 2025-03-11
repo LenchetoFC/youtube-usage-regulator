@@ -78,7 +78,7 @@ const database = {
     },
   ],
 
-  ["spoiler-free"]: [
+  ["spoiler-detection"]: [
     {
       id: 1,
       name: "obscure-all-with-spoiler",
@@ -356,7 +356,7 @@ chrome.storage.sync.get(
     "schedule-events",
     "preferred-creators",
     "additional-websites",
-    "spoiler-free",
+    "spoiler-detection",
     "spoiler-groups",
   ],
   (result) => {
@@ -375,9 +375,9 @@ chrome.storage.sync.get(
         "watch-modes": database["watch-modes"],
       });
     }
-    if (!result["spoiler-free"]) {
+    if (!result["spoiler-detection"]) {
       chrome.storage.sync.set({
-        "spoiler-free": database["spoiler-free"],
+        "spoiler-detection": database["spoiler-detection"],
       });
     }
     if (!result["spoiler-groups"]) {

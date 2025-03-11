@@ -31,7 +31,7 @@
         "/scripts/content-watch-times.js",
         "/scripts/content-website-blocker.js",
         "/scripts/content-yt-limitations.js",
-        "/scripts/content-spoiler-free.js"
+        "/scripts/content-spoiler-detection.js"
       ],
       "css": ["/styles/youtube-styles.css"],
       "matches": ["https://www.youtube.com/*"],

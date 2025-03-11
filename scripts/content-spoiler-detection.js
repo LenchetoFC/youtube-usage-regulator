@@ -1,5 +1,5 @@
 /**
- * @file content-spoiler-free.js
+ * @file content-spoiler-detection.js
  * @description Controls the spoiler free features
  *
  * @version 1.0.0
@@ -25,7 +25,7 @@
 async function getReplaceThumbnailSetting() {
   // get thumbnail setting value
   const replaceThumbnailSetting = await filterRecordsGlobal(
-    "spoiler-free",
+    "spoiler-detection",
     "name",
     "replace-thumbnail"
   );
@@ -46,7 +46,7 @@ async function getReplaceThumbnailSetting() {
 async function getGenObscureValue() {
   // get obscurement setting value
   const genObscurementSetting = await filterRecordsGlobal(
-    "spoiler-free",
+    "spoiler-detection",
     "name",
     "obscure-all-with-spoiler"
   );
@@ -302,16 +302,16 @@ async function activateKeywordObserver() {
 
     // Makes containerId into a node element
     const targetNode = document.body.querySelector(`${containerId}`);
+    const watchFlexContainer = document.body.querySelector("ytd-watch-flexy");
     console.log("Target Node:", targetNode);
 
     // If container exists, attach spoiler detection observer
-    if (targetNode) {
+    if (targetNode && watchFlexContainer) {
       observer.observe(targetNode, {
         childList: true,
       });
 
       // Attach spoiler detection observer to this node for when user navigates between home and playback pages
-      let watchFlexContainer = document.body.querySelector("ytd-watch-flexy");
       observer.observe(watchFlexContainer, {
         childList: true,
         attributes: true,
