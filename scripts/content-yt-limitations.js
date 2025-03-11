@@ -62,20 +62,65 @@
  *
  * @example hideDOMContent("ytd-masthead", "ytd-topbar-logo-renderer");
  */
+// function hideDOMContent(parent, element) {
+//   try {
+//     const observerInterval = setInterval(() => {
+//       // Makes parent and element into node elements
+//       const parentNode = document.body?.querySelector(`${parent}`);
+//       const elementNodes = parentNode?.querySelectorAll(`${element}`);
+
+//       // console.log(parent, element, elementNodes);
+
+//       // If container exists, attach spoiler detection observer
+//       if (parentNode && elementNodes.length > 0) {
+//         const documentObserver = new MutationObserver(async (mutations) => {
+//           console.log("detect changes");
+//           elementNodes.forEach((node) => {
+//             if (!node.classList.contains("rtt-hidden")) {
+//               node.classList.add("rtt-hidden");
+//               console.log("Hidden:", node);
+//             }
+//           });
+//         });
+
+//         documentObserver.observe(parentNode, {
+//           childList: true,
+//           subtree: true,
+//         });
+
+//         // Clear interval once the target node has been found (if ever)
+//         clearInterval(observerInterval);
+//       }
+//       // else {
+//       //   console.error(`issue with ${element} not found.`);
+//       // }
+//     }, 1000);
+//   } catch (error) {
+//     console.log(`Error removing ${element} within ${parent}: ${error.message}`);
+//   }
+// }
 function hideDOMContent(parent, element) {
   try {
     const observerInterval = setInterval(() => {
-      // Makes parent and element into node elements
-      const parentNode = document.body?.querySelector(`${parent}`);
-      const elementNode = parentNode?.querySelector(`${element}`);
+      const parentNode = document.body?.querySelector(parent);
 
-      // If container exists, attach spoiler detection observer
-      if (parentNode && elementNode) {
-        const documentObserver = new MutationObserver(async (mutations) => {
-          if (!elementNode.classList.contains("rtt-hidden")) {
-            elementNode.classList.add("rtt-hidden");
-            // console.log("Hidden:", elementNode);
-          }
+      if (parentNode) {
+        const hideElements = () => {
+          const elementNodes = parentNode.querySelectorAll(element);
+          elementNodes.forEach((node) => {
+            if (!node.classList.contains("rtt-hidden")) {
+              node.classList.add("rtt-hidden");
+              // console.log("Hidden:", node);
+            }
+          });
+        };
+
+        // Initially hide elements
+        hideElements();
+
+        // Observe for changes in the DOM to hide new elements
+        const documentObserver = new MutationObserver(() => {
+          hideElements();
         });
 
         documentObserver.observe(parentNode, {
@@ -86,12 +131,9 @@ function hideDOMContent(parent, element) {
         // Clear interval once the target node has been found (if ever)
         clearInterval(observerInterval);
       }
-      // else {
-      //   console.error(`issue with ${element} not found.`);
-      // }
     }, 1000);
   } catch (error) {
-    console.log(`Error removing ${element} within ${parent}: ${error.message}`);
+    console.log(`Error hiding ${element} within ${parent}: ${error.message}`);
   }
 }
 
@@ -105,15 +147,17 @@ function hideDOMContent(parent, element) {
  * @example hideHomeButton();
  *
  */
-function hideHomeButton() {
+function hideHomeButton(isPlaybackPage) {
+  if (!isPlaybackPage) {
+    // Home button
+    hideDOMContent(
+      ".ytd-mini-guide-renderer[role='tab']:has(a[title='Home']",
+      'a[title="Home"]'
+    );
+  }
+
   // YouTube logo home button
   hideDOMContent("ytd-masthead", "ytd-topbar-logo-renderer");
-
-  // Home button
-  hideDOMContent(
-    ".ytd-mini-guide-renderer[role='tab']:has(a[title='Home']",
-    'a[title="Home"]'
-  );
 
   // YouTube logo home button in side panel
   // NOTE: will trigger a 'not found' error if the side panel is never opened.
@@ -123,7 +167,7 @@ function hideHomeButton() {
   // Home Button in side panel
   // NOTE: will trigger a 'not found' error if the side panel is never opened.
   //        Error goes away when opened at least once.
-  hideDOMContent("tp-yt-app-drawer", 'a[title="Home"]');
+  hideDOMContent("tp-yt-app-drawer", "a[title='Home']");
 }
 
 /**
@@ -136,75 +180,51 @@ function hideHomeButton() {
  * @example hideShortsButton();
  *
  */
-function hideShortsButton() {
-  // Side Shorts button
-  hideDOMContent("ytd-mini-guide-renderer", 'a[title="Shorts"]');
+function hideShortsButton(isPlaybackPage) {
+  if (!isPlaybackPage) {
+    // Side Shorts button
+    hideDOMContent("ytd-mini-guide-renderer", 'a[title="Shorts"]');
+  }
 
   // Home Button in side panel
   // NOTE: will trigger a 'not found' error if the side panel is never opened.
   //        Error goes away when opened at least once.
-  hideDOMContent("tp-yt-app-drawer", 'a[title="Shorts"]');
+  hideDOMContent("tp-yt-app-drawer", "a[title='Shorts']");
 }
 
 /**
- * FIXME: Hides all Shorts videos and recommended Shorts
+ * Hides all Shorts videos and recommended Shorts
  *
- * @name hideShortsContent
+ * @name hideShortsRecom
  *
  * @returns {void}
  *
- * @example hideShortsContent();
+ * @example hideShortsRecom();
  *
- * @notes applies to home & playback pages
- *
- * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
- * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
- * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
  */
-function hideShortsContent(
+function hideShortsRecom(
   isPlaybackPage,
   isAnyPage,
   isShortsPage,
   isSearchPage
 ) {
-  // Hides shorts button as well
-  hideShortsButton(isPlaybackPage);
-
   if (isPlaybackPage) {
-    // Shorts content - side recommendations (playback)
-    hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
-  } else if (isSearchPage) {
-    // Shorts chip filter - search page
-    hideDOMContent(
-      "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
-      "shorts chip content - search page"
-    );
-    hideDOMContent(
-      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - search page"
-    );
-  } else if (isAnyPage) {
-    // Shorts content - home page
-    hideDOMContent(
-      "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - home page"
-    );
-
-    hideDOMContent(
-      "ytd-rich-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
-      "Shorts Content - home page other try"
-    );
+    // Shorts content on playback pages
+    hideDOMContent("#related #contents", "ytd-reel-shelf-renderer");
     console.log("should hide shorts");
-  }
+  } else if (isSearchPage) {
+    // Shorts content on search pages
+    hideDOMContent("#primary #contents", "ytd-reel-shelf-renderer");
+  } else if (isAnyPage) {
+    // Shorts content on home page
+    hideDOMContent("#primary #contents", "ytd-rich-section-renderer");
 
-  // Redirects user if they are on shorts page
-  if (isShortsPage) {
-    redirectUser();
+    console.log("should hide shorts");
   }
 }
 
 /**
- * FIXME: Hides search at top middle of page
+ * Hides search at top middle of page
  *
  * @name hideSearchBar
  *
@@ -396,7 +416,7 @@ async function applyActiveLimitations() {
           if (isHomePage) {
             redirectUser();
           } else {
-            hideHomeButton();
+            hideHomeButton(isPlaybackPage);
           }
           break;
         // case "shorts-page":
@@ -407,19 +427,19 @@ async function applyActiveLimitations() {
         //   }
         //   break;
         case "home-button":
-          hideHomeButton();
+          hideHomeButton(isPlaybackPage);
           break;
         case "shorts-button":
-          hideShortsButton();
+          hideShortsButton(isPlaybackPage);
           break;
-        // case "shorts-recom":
-        //   hideShortsContent(
-        //     isPlaybackPage,
-        //     isAnyPage,
-        //     isShortsPage,
-        //     isSearchPage
-        //   );
-        //   break;
+        case "shorts-recom":
+          hideShortsRecom(
+            isPlaybackPage,
+            isAnyPage,
+            isShortsPage,
+            isSearchPage
+          );
+          break;
         case "search-bar":
           hideSearchBar();
           break;
@@ -457,5 +477,10 @@ $(document).ready(function () {
   //     );
   //   }, 1000);
   // });
+});
+
+// Reapplies limitations when navigating between pages
+window.addEventListener("yt-navigate-finish", function (event) {
+  applyActiveLimitations();
 });
 /** !SECTION */
