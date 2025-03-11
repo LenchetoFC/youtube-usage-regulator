@@ -104,10 +104,6 @@ function hideDOMContent(parent, element) {
  *
  * @example hideHomeButton();
  *
- * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
- * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
- * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
- *
  */
 function hideHomeButton() {
   // YouTube logo home button
@@ -139,51 +135,15 @@ function hideHomeButton() {
  *
  * @example hideShortsButton();
  *
- * SHORTS BUTTON: .ytd-mini-guide-renderer[role="tab"]:has([title="Shorts"])
- * SHORTS BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has([title="Shorts"])
- *
- * FIXME: unreliable sometimes - needs further testing
  */
-function hideShortsButton(isPlaybackPage) {
-  setTimeout(() => {
-    // Side Shorts button
-    hideDOMContent(
-      "ytd-mini-guide-entry-renderer a[title='Shorts']",
-      "Side Shorts Button - timeout 500"
-    );
-  }, 500);
+function hideShortsButton() {
+  // Side Shorts button
+  hideDOMContent("ytd-mini-guide-renderer", 'a[title="Shorts"]');
 
-  // Drawer shorts button - will not show if the side drawer haven't been opened yet
-  $("ytd-masthead #guide-button").on("click", function () {
-    setTimeout(() => {
-      hideDOMContent(
-        "#guide-inner-content a[title='Shorts']",
-        "Shorts Button - Drawer Event Listener"
-      );
-
-      // Side Shorts button
-      // hideDOMContent(
-      //   "ytd-mini-guide-entry-renderer a[title='Shorts']",
-      //   "Side Shorts Button - on guide button click"
-      // );
-    }, 500);
-  });
-
-  // Drawer home button - drawer is already opened
-  if ($("tp-yt-app-drawer").opened) {
-    hideDOMContent(
-      "#guide-inner-content a[title='Shorts']",
-      "Shorts Button - Drawer Opened"
-    );
-  }
-
-  // Side home button home page (only exists on home page)
-  if (!isPlaybackPage) {
-    hideDOMContent(
-      "ytd-mini-guide-renderer a[title='Shorts']",
-      "Side Shorts Button - home page"
-    );
-  }
+  // Home Button in side panel
+  // NOTE: will trigger a 'not found' error if the side panel is never opened.
+  //        Error goes away when opened at least once.
+  hideDOMContent("tp-yt-app-drawer", 'a[title="Shorts"]');
 }
 
 /**
@@ -465,9 +425,9 @@ async function applyActiveLimitations() {
         case "home-button":
           hideHomeButton();
           break;
-        // case "shorts-button":
-        //   hideShortsButton(isPlaybackPage);
-        //   break;
+        case "shorts-button":
+          hideShortsButton();
+          break;
         // case "shorts-content":
         //   hideShortsContent(
         //     isPlaybackPage,
