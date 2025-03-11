@@ -120,7 +120,7 @@ function hideDOMContent(className, elementName) {
  *
  * FIXME: unreliable sometimes - needs further testing
  */
-function hideHomeButton() {
+function hideHomeButton(isPlaybackPage) {
   // Home button as YouTube logo
   hideDOMContent("ytd-topbar-logo-renderer", "Home Button - YouTube Logo");
 
@@ -176,7 +176,7 @@ function hideHomeButton() {
   // }
 
   // // Side home button home page (only exists on home page)
-  // if (!window.location.href?.includes("/watch?")) {
+  // if (!isPlaybackPage) {
   //   hideDOMContent(
   //     "ytd-mini-guide-renderer [title='Home']",
   //     "Side Home Button - home page"
@@ -198,7 +198,7 @@ function hideHomeButton() {
  *
  * FIXME: unreliable sometimes - needs further testing
  */
-function hideShortsButton() {
+function hideShortsButton(isPlaybackPage) {
   setTimeout(() => {
     // Side Shorts button
     hideDOMContent(
@@ -232,7 +232,7 @@ function hideShortsButton() {
   }
 
   // Side home button home page (only exists on home page)
-  if (!window.location.href?.includes("/watch?")) {
+  if (!isPlaybackPage) {
     hideDOMContent(
       "ytd-mini-guide-renderer a[title='Shorts']",
       "Side Shorts Button - home page"
@@ -255,14 +255,19 @@ function hideShortsButton() {
  * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
  * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
  */
-function hideShortsContent() {
+function hideShortsContent(
+  isPlaybackPage,
+  isAnyPage,
+  isShortsPage,
+  isSearchPage
+) {
   // Hides shorts button as well
-  hideShortsButton();
+  hideShortsButton(isPlaybackPage);
 
-  if (window.location.href?.includes("/watch?")) {
+  if (isPlaybackPage) {
     // Shorts content - side recommendations (playback)
     hideDOMContent("ytd-reel-shelf-renderer", "Shorts Content - playback");
-  } else if (window.location.href?.includes("?search_query=")) {
+  } else if (isSearchPage) {
     // Shorts chip filter - search page
     hideDOMContent(
       "yt-chip-cloud-chip-renderer:has([title='Shorts'])",
@@ -272,7 +277,7 @@ function hideShortsContent() {
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
       "Shorts Content - search page"
     );
-  } else if (window.location.href?.includes("youtube.com")) {
+  } else if (isAnyPage) {
     // Shorts content - home page
     hideDOMContent(
       "ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model-v2)",
@@ -287,7 +292,7 @@ function hideShortsContent() {
   }
 
   // Redirects user if they are on shorts page
-  if (window.location.href?.includes("/shorts/")) {
+  if (isShortsPage) {
     redirectUser();
   }
 }
@@ -329,8 +334,8 @@ function hideSearchBar() {
  * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
  * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
  */
-function hideVideoRecommendations() {
-  if (window.location.href?.includes("/watch?")) {
+function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
+  if (isPlaybackPage) {
     // Side recommendations - playback
     hideDOMContent(
       "#secondary:has(ytd-watch-next-secondary-results-renderer) #related",
@@ -358,7 +363,7 @@ function hideVideoRecommendations() {
       //   "Autoplay screen after video ends - playback"
       // );
     }, 5000);
-  } else if (window.location.href?.includes("youtube.com")) {
+  } else if (isAnyPage) {
     // Video recommendations - home page
     hideDOMContent(
       "ytd-rich-grid-renderer > #contents > ytd-rich-item-renderer",
@@ -424,10 +429,10 @@ function hideSkipButton() {
  * COMMENTS SECTION on SHORTS: #comments-button
  * FIXME: comments sometimes takes too long to load in
  */
-function hideComments() {
-  if (window.location.href?.includes("watch")) {
+function hideComments(isPlaybackPage, isShortsPage) {
+  if (isPlaybackPage) {
     hideDOMContent("ytd-comments#comments", "Comments Section on videos");
-  } else if (window.location.href?.includes("/shorts/")) {
+  } else if (isShortsPage) {
     //FIXME: none of this works
     hideDOMContent(
       "watch-while-engagement-panel",
@@ -467,74 +472,83 @@ async function isRecommendationsDisabled() {}
  * @example applyActiveLimitations();
  */
 async function applyActiveLimitations() {
-  if (window.location.href?.includes("youtube.com")) {
-    // setTimeout(async () => {
-    try {
-      // Get only active limitations from storage
-      let allActiveLimitations = await filterRecordsGlobal(
-        "youtube-limitations",
-        "active",
-        true
-      );
+  try {
+    // Boolean values for current page to determine which functions to run
+    const currentWebAddress = window.location.href;
+    const isAnyPage = currentWebAddress?.includes("youtube.com/");
+    const isHomePage = currentWebAddress === "https://www.youtube.com/";
+    const isShortsPage = currentWebAddress?.includes("youtube.com/shorts");
+    const isPlaybackPage = currentWebAddress?.includes("/watch?");
+    const isSearchPage = currentWebAddress?.includes("?search_query=");
 
-      // console.log(allActiveLimitations);
+    // Get only active limitations from storage
+    let allActiveLimitations = await filterRecordsGlobal(
+      "youtube-limitations",
+      "active",
+      true
+    );
 
-      // Iterate through active limitations to apply to current web page
-      for (let index in allActiveLimitations) {
-        // Limitation name property from storage
-        const currentLimitation = allActiveLimitations[index].name;
+    // console.log(allActiveLimitations);
 
-        // Run hide/disable function that corresponds with the current limitation name
-        switch (currentLimitation) {
-          case "all-pages":
-            if (window.location.href?.includes("youtube.com/")) {
-              redirectUser();
-            }
-            break;
-          case "home-page":
-            if (window.location.href === "https://www.youtube.com/") {
-              redirectUser();
-            } else {
-              hideHomeButton();
-            }
-            break;
-          case "shorts-page":
-            if (window.location.href?.includes("youtube.com/shorts")) {
-              redirectUser();
-            } else {
-              hideShortsButton();
-            }
-            break;
-          case "home-button":
+    // Iterate through active limitations to apply to current web page
+    for (let index in allActiveLimitations) {
+      // Limitation name property from storage
+      const currentLimitation = allActiveLimitations[index].name;
+
+      // Run hide/disable function that corresponds with the current limitation name
+      switch (currentLimitation) {
+        case "all-pages":
+          if (isAnyPage) {
+            redirectUser();
+          }
+          break;
+        case "home-page":
+          if (isHomePage) {
+            redirectUser();
+          } else {
             hideHomeButton();
-            break;
-          case "shorts-button":
-            hideShortsButton();
-            break;
-          case "shorts-content":
-            hideShortsContent();
-            break;
-          case "search-bar":
-            hideSearchBar();
-            break;
-          case "infinite-recommendations":
-            disableInfiniteRecommendations();
-            break;
-          case "video-recommendations":
-            hideVideoRecommendations();
-            break;
-          case "skip-button":
-            hideSkipButton();
-            break;
-          case "comments-section":
-            hideComments();
-            break;
-        }
+          }
+          break;
+        case "shorts-page":
+          if (isShortsPage) {
+            redirectUser();
+          } else {
+            hideShortsButton(isPlaybackPage);
+          }
+          break;
+        case "home-button":
+          hideHomeButton();
+          break;
+        case "shorts-button":
+          hideShortsButton(isPlaybackPage);
+          break;
+        case "shorts-content":
+          hideShortsContent(
+            isPlaybackPage,
+            isAnyPage,
+            isShortsPage,
+            isSearchPage
+          );
+          break;
+        case "search-bar":
+          hideSearchBar();
+          break;
+        case "infinite-recommendations":
+          disableInfiniteRecommendations();
+          break;
+        case "video-recommendations":
+          hideVideoRecommendations();
+          break;
+        case "skip-button":
+          hideSkipButton();
+          break;
+        case "comments-section":
+          hideComments();
+          break;
       }
-    } catch (error) {
-      console.error(error.message);
     }
-    // }, 2000);
+  } catch (error) {
+    console.error(error.message);
   }
 }
 /** !SECTION */

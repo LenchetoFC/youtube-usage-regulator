@@ -238,7 +238,7 @@ async function spoilerDetection() {
 
           // Add a 'modified' tag to video elements
           $(videoElement).addClass("rtt-spoiler-item");
-          console.log("Keyword found:", keyword);
+          // console.log("Keyword found:", keyword);
 
           // Depending on type of video element, modify the title and thumbnail of spoiler content
           if (isShorts) {
@@ -303,7 +303,7 @@ async function activateKeywordObserver() {
     // Makes containerId into a node element
     const targetNode = document.body.querySelector(`${containerId}`);
     const watchFlexContainer = document.body.querySelector("ytd-watch-flexy");
-    console.log("Target Node:", targetNode);
+    // console.log("Target Node:", targetNode);
 
     // If container exists, attach spoiler detection observer
     if (targetNode && watchFlexContainer) {
