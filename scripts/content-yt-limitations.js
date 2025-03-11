@@ -147,7 +147,7 @@ function hideShortsButton() {
 }
 
 /**
- * Hides all Shorts videos and recommended Shorts
+ * FIXME: Hides all Shorts videos and recommended Shorts
  *
  * @name hideShortsContent
  *
@@ -204,7 +204,7 @@ function hideShortsContent(
 }
 
 /**
- * Hides search at top middle of page
+ * FIXME: Hides search at top middle of page
  *
  * @name hideSearchBar
  *
@@ -221,7 +221,7 @@ function hideSearchBar() {
 }
 
 /**
- * Hides all video recommendations on home page and on side of videos
+ * FIXME: Hides all video recommendations on home page and on side of videos
  *
  * @name hideVideoRecommendations
  *
@@ -282,7 +282,7 @@ function hideVideoRecommendations(isPlaybackPage, isAnyPage) {
 }
 
 /**
- * Removes the element that loads another section of recommended videos
+ * FIXME: Removes the element that loads another section of recommended videos
  *
  * @name disableInfiniteRecommendations
  *
@@ -306,22 +306,7 @@ function disableInfiniteRecommendations() {
 }
 
 /**
- * Hides skip button on videos to avoid moving from video to video easily
- *
- * @name hideSkipButton
- *
- * @returns {void}
- *
- * @example hideSkipButton();
- *
- * SKIP VIDEO BUTTON: .ytp-next-button
- */
-function hideSkipButton() {
-  hideDOMContent("#player-container .ytp-next-button", "Playback Skip Button");
-}
-
-/**
- * Hides all comment sections
+ * FIXME: Hides all comment sections
  *
  * @name hideComments
  *
@@ -333,7 +318,6 @@ function hideSkipButton() {
  *
  * COMMENTS SECTION on PLAYBACK: #comments
  * COMMENTS SECTION on SHORTS: #comments-button
- * FIXME: comments sometimes takes too long to load in
  */
 function hideComments(isPlaybackPage, isShortsPage) {
   if (isPlaybackPage) {
@@ -428,7 +412,7 @@ async function applyActiveLimitations() {
         case "shorts-button":
           hideShortsButton();
           break;
-        // case "shorts-content":
+        // case "shorts-recom":
         //   hideShortsContent(
         //     isPlaybackPage,
         //     isAnyPage,
@@ -439,14 +423,11 @@ async function applyActiveLimitations() {
         // case "search-bar":
         //   hideSearchBar();
         //   break;
-        // case "infinite-recommendations":
+        // case "infinite-recom":
         //   disableInfiniteRecommendations();
         //   break;
-        // case "video-recommendations":
+        // case "video-recom":
         //   hideVideoRecommendations();
-        //   break;
-        // case "skip-button":
-        //   hideSkipButton();
         //   break;
         // case "comments-section":
         //   hideComments();
