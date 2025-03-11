@@ -7,8 +7,19 @@
  *
  */
 
-// Define the change handler function
-function handleCheckboxChange() {
+/**
+ * Disable other limitation option to signify that both options are not able to active simultaneously
+ *
+ * @name disableOtherLimitationOption
+ *
+ * @returns {void}
+ *
+ * @example $(".search-item")
+ *            .find(
+ *              'input[data-property="followSchedule"], input[data-property="active"]'
+ *            ).on("change", disableOtherLimitationOption);
+ */
+function disableOtherLimitationOption() {
   const $this = $(this);
   const isFollowSchedule = $this.attr("data-property") === "followSchedule";
   const relatedCheckbox = $this
@@ -32,12 +43,13 @@ $(document).ready(async function () {
     propertiesToCheck
   );
 
-  // Attach the change handler to both checkboxes
+  // Attach the change handler to both checkboxes - MUST be before updateSettingsCheckboxes()
   $(".search-item")
     .find(
       'input[data-property="followSchedule"], input[data-property="active"]'
     )
-    .on("change", handleCheckboxChange());
+    .on("change", disableOtherLimitationOption);
+
   // updateSettingsCheckboxes() from settings-form-control.js
   updateSettingsCheckboxes(activeSettings, "youtube-limitations");
 });

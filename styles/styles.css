@@ -1058,7 +1058,7 @@ legend {
 form.settings-form {
   display: flex;
   flex-direction: column;
-  /* gap: 2rem; */
+  gap: 2rem;
   /* flex: 1 0 0; */
   align-items: flex-start;
 }
