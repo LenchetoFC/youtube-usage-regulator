@@ -217,7 +217,7 @@ function hideShortsContent(
  * SEARCH BAR: #center:has(#search)
  */
 function hideSearchBar() {
-  hideDOMContent("#center:has(#search)", "Search Bar");
+  hideDOMContent("ytd-masthead", "#center:has(yt-searchbox)");
 }
 
 /**
@@ -420,9 +420,9 @@ async function applyActiveLimitations() {
         //     isSearchPage
         //   );
         //   break;
-        // case "search-bar":
-        //   hideSearchBar();
-        //   break;
+        case "search-bar":
+          hideSearchBar();
+          break;
         // case "infinite-recom":
         //   disableInfiniteRecommendations();
         //   break;
