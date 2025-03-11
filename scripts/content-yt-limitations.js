@@ -189,8 +189,6 @@ function hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage) {
   } else if (isAnyPage) {
     // Shorts content on home page
     hideDOMContent("#primary #contents", "ytd-rich-section-renderer");
-
-    console.log("should hide shorts");
   }
 }
 
@@ -310,21 +308,9 @@ function disableInfiniteRecommendations(isPlaybackPage, isAnyPage) {
  */
 function hideComments(isPlaybackPage, isShortsPage) {
   if (isPlaybackPage) {
-    hideDOMContent("ytd-comments#comments", "Comments Section on videos");
+    hideDOMContent("#primary", "ytd-comments#comments");
   } else if (isShortsPage) {
-    //FIXME: none of this works
-    hideDOMContent(
-      "watch-while-engagement-panel",
-      "Comments Section in Shorts"
-    );
-    hideDOMContent("#comments-button", "Comments button in Shorts");
-    $("#comments-buttons").on("click", function () {
-      console.log("clicked");
-      hideDOMContent(
-        "`${this} watch-while-engagement-panel`",
-        "Comments Section in Shorts"
-      );
-    });
+    hideDOMContent("ytd-shorts", "#comments-button");
   }
 }
 
@@ -400,9 +386,9 @@ async function applyActiveLimitations() {
         // case "video-recom":
         //   hideVideoRecommendations();
         //   break;
-        // case "comments-section":
-        //   hideComments();
-        //   break;
+        case "comments-section":
+          hideComments(isPlaybackPage, isShortsPage);
+          break;
       }
     }
   } catch (error) {
