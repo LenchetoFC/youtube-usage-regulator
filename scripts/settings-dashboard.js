@@ -972,6 +972,11 @@ $(document).ready(async function () {
     prepareWatchTimeChart();
   });
 
+  /** EVENT LISTENER: update watch time chart through selecting a new timeframe */
+  $("#chart-timeframe").on("change", async function () {
+    prepareWatchTimeChart();
+  });
+
   /** EVENT LISTENER: Ensures the border colors are default grey (in case of previous invalid dates) */
   $(".timeframe-inputs input").on("click", async function () {
     $(this).css("border-color", "#1e1f1f4f");
