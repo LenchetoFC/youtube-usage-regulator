@@ -1115,6 +1115,9 @@ aside {
   max-width: 20rem;
   max-width: max-content; */
 
+  min-width: fit-content;
+  width: 20rem;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1122,7 +1125,7 @@ aside {
   overflow-y: auto;
 
   gap: 3.2rem;
-  padding: 1.8rem 1.2rem;
+  padding: 2.4rem 1.2rem;
 
   background-color: var(--surface-dark);
 }
@@ -2630,6 +2633,9 @@ table.basic {
 }
 
 @media (max-width: 40rem) {
+  aside {
+    width: fit-content;
+  }
   aside p {
     display: none;
   }
@@ -2732,6 +2738,36 @@ button:is(.edit):hover {
   flex: 1 1 22rem;
   flex-direction: column;
 }
+
+/* SECTION - LOADING STATES */
+.loading-skeleton-item {
+  /* background: linear-gradient(
+    -45deg,
+    var(--brand-3),
+    var(--grey-400),
+    var(--brand-3)
+  ); */
+  background: linear-gradient(-45deg, #b8b8b8, var(--surface-dark), #b8b8b8);
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
+  width: 100%;
+  height: 4rem;
+  border-radius: 3.2rem;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* !SECTION */
 
 /* SECTION - ANIMATIONS */
 /* Keyframes */
