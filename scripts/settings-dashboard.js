@@ -803,7 +803,9 @@ async function insertNotableTimes() {
       $(`#average-watch-time #watch-time`).html(convertTimeToText(avgTime));
 
       // Inserts total days into .date tag
-      $(`#average-watch-time #date`).html(`out of ${amtOfDays} days`);
+      $(`#average-watch-time #date`).html(
+        `out of <span class="counter-animation" data-num="${amtOfDays}"></span> days`
+      );
     }
 
     // Gets most watched day and inserts the date and time into "Most Watched Day" column

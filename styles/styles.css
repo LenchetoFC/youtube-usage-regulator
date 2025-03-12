@@ -2769,6 +2769,23 @@ button:is(.edit):hover {
 
 /* !SECTION */
 
+/* SECTION - COUNTER ANIMATION */
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.counter-animation {
+  transition: --num 2s;
+  counter-set: num var(--num);
+  /* font: 800 40px system-ui; */
+}
+.counter-animation::after {
+  content: counter(num);
+}
+/* !SECTION */
+
 /* SECTION - ANIMATIONS */
 /* Keyframes */
 @keyframes spin {

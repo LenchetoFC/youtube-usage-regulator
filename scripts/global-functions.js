@@ -385,7 +385,7 @@ window.convertTimeToText = (timeUsage) => {
  * @returns {string} Returns time usage in seconds.
  */
 function formatSeconds(timeUsage) {
-  return `0m ${timeUsage}s`;
+  return `0m <span class="counter-animation" data-num="${timeUsage}"></span>s`;
 }
 
 /**
@@ -399,7 +399,7 @@ function formatSeconds(timeUsage) {
 function formatMinutesAndSeconds(timeUsage, abbrActive) {
   let min = Math.floor(timeUsage / 60);
   let sec = Math.floor(timeUsage - min * 60);
-  return `${min}m ${sec}s`;
+  return `<span class="counter-animation" data-num="${min}"></span>m <span class="counter-animation" data-num="${sec}"></span>s`;
 }
 
 /**
@@ -412,7 +412,7 @@ function formatMinutesAndSeconds(timeUsage, abbrActive) {
 function formatHoursAndMinutes(timeUsage) {
   let hours = Math.floor(timeUsage / 3600);
   let remainingMinutes = Math.floor((timeUsage - hours * 3600) / 60);
-  return `${hours}hr ${remainingMinutes}m`;
+  return `<span class="counter-animation" data-num="${hours}"></span>hr <span class="counter-animation" data-num="${remainingMinutes}"></span>m`;
 }
 
 /**
@@ -648,4 +648,58 @@ $("#overlay").on("click", function () {
   $(this).css("display", "none");
 });
 
+/**!SECTION */
+
+/** SECTION - COUNTER ANIMATION */
+
+/**
+ * Gets the time integer from data-num and set --num property with it to initiate counter animation
+ *
+ * @name updateCounterAnimation
+ *
+ * @param {node} element - the element (should have 'counter-animation' class) to modify
+ *
+ * @returns {void}
+ *
+ * @example updateCounterAnimation(document.getElementsByClassName("counter-animation"))
+ */
+function updateCounterAnimation(element) {
+  const num = parseInt(element.getAttribute("data-num"));
+  element.style.setProperty("--num", 0); // Set to an intermediate value
+  setTimeout(() => {
+    element.style.setProperty("--num", num);
+  }, 50); // Short delay to ensure the transition triggers
+}
+
+// Starts animation counter on load
+$(document).ready(function () {
+  // Update existing counter-animation elements
+  document
+    .querySelectorAll(".counter-animation")
+    .forEach(updateCounterAnimation);
+
+  // Set up a MutationObserver to watch for new counter-animation elements
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            // Update all counter-animation elements within the new node
+            const allCounters = node.querySelectorAll(".counter-animation");
+
+            allCounters.forEach(updateCounterAnimation);
+
+            // If the node itself is a counter-animation element, update it as well
+            if (node.classList.contains("counter-animation")) {
+              updateCounterAnimation(node);
+            }
+          }
+        });
+      }
+    }
+  });
+
+  // Start observing the document body for added nodes
+  observer.observe(document.body, { childList: true, subtree: true });
+});
 /**!SECTION */
