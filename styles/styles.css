@@ -2741,18 +2741,23 @@ button:is(.edit):hover {
 
 /* SECTION - LOADING STATES */
 .loading-skeleton-item {
-  /* background: linear-gradient(
-    -45deg,
-    var(--brand-3),
-    var(--grey-400),
-    var(--brand-3)
-  ); */
-  background: linear-gradient(-45deg, #b8b8b8, var(--surface-dark), #b8b8b8);
+  background: linear-gradient(-45deg, #b8b8b8, #eaebeb);
   background-size: 400% 400%;
   animation: gradient 5s ease infinite;
   width: 100%;
-  height: 4rem;
   border-radius: 3.2rem;
+}
+
+nav .loading-skeleton-item {
+  height: 4rem;
+}
+tbody .loading-skeleton-item {
+  height: 2rem;
+  width: 10rem;
+}
+
+tbody td:not(:first-child) .loading-skeleton-item {
+  justify-self: center;
 }
 
 @keyframes gradient {

@@ -674,6 +674,8 @@ async function insertFilteredWatchTimes(watchTimes, timeframe) {
   }
 
   /** Main Body */
+  // Deletes any existing list to be replaced by upcoming list
+  $("#watch-times-table tbody").html("");
   if (timeframe === "daily-times") {
     for (let index in watchTimes) {
       if (watchTimes[index]["total-watch-time"] != 0) {
@@ -987,9 +989,6 @@ $(document).ready(async function () {
 
   /** EVENT LISTENER: calculates and displays corresponding watch time timeframes  */
   $("#list-timeframe").on("change", async function () {
-    // Deletes any existing list to be replaced by upcoming list
-    $("#watch-times-table tbody").html("");
-
     // Timeframe value for determining which times to display
     let timeframeValue = $(this).val();
 
