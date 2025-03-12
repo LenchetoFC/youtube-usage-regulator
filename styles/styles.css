@@ -2797,6 +2797,17 @@ button:is(.edit):hover {
   }
 }
 
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Classes */
 .spin-animation {
   animation: 1.75s spin linear infinite;
@@ -2814,4 +2825,9 @@ button:is(.edit):hover {
   button {
     margin: 3px;
   }
+}
+
+.slide-item {
+  opacity: 0;
+  animation: slideIn 1s cubic-bezier(0, 0, 0.3, 1) forwards;
 }

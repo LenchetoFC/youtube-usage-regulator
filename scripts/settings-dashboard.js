@@ -864,11 +864,12 @@ async function getActiveSpoilerGroups() {
 function insertSpoilerGroupNames(activeGroups) {
   const container = $("#spoiler-groups-top-widget").find(".content div");
 
-  activeGroups.forEach((group) => {
+  activeGroups.forEach((group, i) => {
     // Create div element
     const groupNameItem = document.createElement("div");
-    groupNameItem.className = "group-item";
+    groupNameItem.className = "group-item slide-item";
     groupNameItem.style.background = group.color;
+    groupNameItem.style.animationDelay = `0.${15 * i}s`;
 
     // Create p element
     const groupName = document.createElement("p");
