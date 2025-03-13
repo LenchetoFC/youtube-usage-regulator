@@ -229,7 +229,10 @@ function hideVideoRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
     console.log("recommendations");
     // Side recommendations - playback
-    hideDOMContent("#primary", "#related");
+    hideDOMContent(
+      "#primary #related:has(> ytd-compact-video-renderer), #contents:has(> ytd-compact-video-renderer)",
+      "ytd-compact-video-renderer"
+    );
 
     // Video Wall after videos
     hideDOMContent(".videowall-endscreen", ".ytp-endscreen-content");
