@@ -5,59 +5,42 @@
  * @version 1.0.0
  * @author LenchetoFC
  *
- * @requires module:global-functions
- * @see {@link module:global-functions.redirectUser} x4
- * 
  * @notes
- * 
- * @param {boolean} isPlaybackPage - if the current web address is on a playback page
- * @param {boolean} isHomePage - if the current web address is on home page
- * @param {boolean} isAnyPage - if the current web address is on any YouTube page
- * @param {boolean} isShortsPage - if the current web address is on Shorts page
- * @param {boolean} isSearchPage - if the current web address is on search page
- * 
-    * ---YOUTUBE ELEMENT IDENTIFIERS---
-    * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
-    * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
-    * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
-    * SHORTS BUTTON: .ytd-mini-guide-renderer[role="tab"]:has([title="Shorts"])
-    * SHORTS BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has([title="Shorts"])
-    * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
-    * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
-    * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
-    * SEARCH BAR: #center:has(#search)
-    * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
-    * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
-    * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
-    * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
-    * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
-    * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
-    * SKIP VIDEO BUTTON: .ytp-next-button
-    * COMMENTS SECTION on PLAYBACK: #comments
-    * COMMENTS SECTION on SHORTS: #comments-button
-    * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
-    * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+ * ---YOUTUBE ELEMENT IDENTIFIERS---
+ * HOME BUTTON: .ytd-mini-guide-renderer[role="tab"]:has(> a[title="Home"])
+ * HOME BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has(a[title="Home"])
+ * HOME BUTTON as YOUTUBE LOGO: ytd-topbar-logo-renderer
+ * SHORTS BUTTON: .ytd-mini-guide-renderer[role="tab"]:has([title="Shorts"])
+ * SHORTS BUTTON in SIDE PANEL: ytd-guide-entry-renderer:has([title="Shorts"])
+ * SHORTS CONTENT on HOME PAGE: ytd-rich-section-renderer:has([is-shorts])
+ * SHORTS CONTENT on PLAYBACK PAGE: ytd-reel-shelf-renderer:has(ytm-shorts-lockup-view-model)
+ * SHORTS CONTENT on TRENDING, SHOPPING, GAMING PAGES: ytd-item-section-renderer:has(ytd-reel-shelf-renderer)
+ * SEARCH BAR: #center:has(#search)
+ * VIDEO RECOMMENDATIONS on PLAYBACK: ytd-compact-video-renderer
+ * VIDEO RECOMMENDATIONS on TRENDING, SHOPPING: ytd-item-section-renderer:has(ytd-video-renderer)
+ * VIDEO RECOMMENDATIONS on LIVE, NEWS: ytd-rich-section-renderer:has([is-shelf-item])
+ * VIDEO RECOMMENDATIONS on GAMING: ytd-item-section-renderer:has(ytd-grid-video-renderer)
+ * VIDEO RECOMMENDATIONS on NEWS, FASHION&BEAUTY, PODCASTS: ytd-rich-section-renderer:has(.ytd-rich-section-renderer)
+ * VIDEO RECOMMENDATIONS on SPORTS: ytd-rich-section-renderer, ytd-rich-item-renderer
+ * SKIP VIDEO BUTTON: .ytp-next-button
+ * COMMENTS SECTION on PLAYBACK: #comments
+ * COMMENTS SECTION on SHORTS: #comments-button
+ * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
+ * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
 
-    * ---LIMITATION RESTRICTIONS---
-    * VIDEO RECOMMENDATIONS: Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
+ * ---LIMITATION RESTRICTIONS---
+ * VIDEO RECOMMENDATIONS: Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
 
-    * ---LIMITATION SPECIAL CASES---
-    * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
+ * ---LIMITATION SPECIAL CASES---
+ * ACTIVE VIDEO RECOMMENDATIONS & SHORTS on PLAYBACK: #related:has(ytd-watch-next-secondary-results-renderer)
  */
-
-/** @notes possible way to disable shorts comments  */
-// use event listeners on down button, mouse scroll wheel down, and down button next to shorts player
-// - also check other areas where this function can be applied to
-
-/** @notes two ways to handle new element creations */
-// 1. add onchange to main element to check for any existing element (use length)
 
 /**
  * SECTION - FUNCTION DECLARATIONS
  */
 
 /**
- * Hides a target element within a specified parent element
+ * Main functionality for hiding target elements within a specified parent element
  *
  * @name hideDOMContent
  *
@@ -112,9 +95,10 @@ function hideDOMContent(parent, element) {
  * @name hideHomeButton
  *
  * @param {boolean} isPlaybackPage - if the current web address is on a playback page
+ *
  * @returns {void}
  *
- * @example hideHomeButton();
+ * @example hideHomeButton(true);
  *
  */
 function hideHomeButton(isPlaybackPage) {
@@ -196,9 +180,6 @@ function hideShortsRecommendations(isPlaybackPage, isHomePage) {
  *
  * @example hideSearchBar();
  *
- * @notes applies to home & playback pages
- *
- * SEARCH BAR: #center:has(#search)
  */
 function hideSearchBar() {
   hideDOMContent("ytd-masthead", "#center:has(yt-searchbox)");
@@ -214,11 +195,9 @@ function hideSearchBar() {
  *
  * @returns {void}
  *
- * @example hideVideoRecommendations();
+ * @example hideVideoRecommendations(true, false);
  *
- * @notes applies to home & playback pages
- *
- * Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
+ * @notes Don't run on MUSIC, MOVIES&TV, NEWS, COURSES, STUDIO.YT.COM, YT.COM/@, YT.COM/PLAYLIST, YT.COM/FEED/*
  *
  */
 function hideVideoRecommendations(isPlaybackPage, isHomePage) {
@@ -237,6 +216,7 @@ function hideVideoRecommendations(isPlaybackPage, isHomePage) {
       "#primary #contents",
       "ytd-rich-item-renderer:not(.ytd-rich-shelf-renderer)"
     );
+
     // FIXME: with this off, the reload animations plays for a while. Figure out how to allow refresh for just shorts
     disableInfiniteRecommendations(false, true);
   }
@@ -252,12 +232,8 @@ function hideVideoRecommendations(isPlaybackPage, isHomePage) {
  *
  * @returns {void}
  *
- * @example disableInfiniteRecommendations();
+ * @example disableInfiniteRecommendations(false, true);
  *
- * @notes applies to home & playback pages
- *
- * RECOMMENDATION REFRESH on HOME: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
- * RECOMMENDATION REFRESH on PLAYBACK: ytd-watch-next-secondary-results-renderer ytd-continuation-item-renderer
  */
 function disableInfiniteRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
@@ -272,14 +248,13 @@ function disableInfiniteRecommendations(isPlaybackPage, isHomePage) {
  *
  * @name hideComments
  *
+ * @param {boolean} isPlaybackPage
+ * @param {boolean} isShortsPage
+ *
  * @returns {void}
  *
- * @example hideComments();
+ * @example hideComments(true, false);
  *
- * @notes applies to playback and shorts pages
- *
- * COMMENTS SECTION on PLAYBACK: #comments
- * COMMENTS SECTION on SHORTS: #comments-button
  */
 function hideComments(isPlaybackPage, isShortsPage) {
   if (isPlaybackPage) {
@@ -344,6 +319,7 @@ function insertRecommendationsMessage() {
  */
 async function applyActiveLimitations() {
   try {
+    // Ensures this container is covering the entire screen
     $(".blank-screen").css("display", "block");
 
     // Boolean values for current page to determine which functions to run
@@ -360,7 +336,7 @@ async function applyActiveLimitations() {
       true
     );
 
-    console.log(allActiveLimitations);
+    // console.log(allActiveLimitations);
 
     // If remove recommendations settings for shorts and video are both active, hide everything inside container
     let isBothRecomActive = false;
@@ -377,7 +353,6 @@ async function applyActiveLimitations() {
     if (shortsRecomActive && videoRecomActive) {
       hideAllRecommendations(isPlaybackPage, isHomePage);
       isBothRecomActive = true;
-      console.log("both active");
     }
 
     // Iterate through active limitations to apply to current web page
@@ -424,7 +399,6 @@ async function applyActiveLimitations() {
           if (!isBothRecomActive) {
             disableInfiniteRecommendations(isPlaybackPage, isHomePage);
           }
-
           break;
         case "video-recom":
           if (!isBothRecomActive) {
@@ -437,6 +411,8 @@ async function applyActiveLimitations() {
       }
     }
 
+    // Hides the container when all the limitations are applied
+    // NOTE: sometimes hides before all limitations are applied
     $(".blank-screen").css("display", "none");
   } catch (error) {
     console.error(error.message);
@@ -452,9 +428,9 @@ async function applyActiveLimitations() {
  * @param {string} property - property name to check
  * @param {string} value - value to check
  *
- * @returns {void}
+ * @returns {boolean}
  *
- * @example applyActiveLimitations();
+ * @example checkPropertyValueExists([{"name": "brad", "age": 24}, {"name": "karen", "age": 37}], "name", "karen");
  */
 function checkPropertyValueExists(arr, property, value) {
   return arr.some(
@@ -466,23 +442,13 @@ function checkPropertyValueExists(arr, property, value) {
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
+// Prepends container covering entire screen to hide site until the limitations have been applied
 const blankScreen = `<div class='blank-screen'></div`;
 $("body").prepend(blankScreen);
 
 $(document).ready(function () {
-  // Removes any YouTube element that is current limited (only on YouTube site)
+  // Applies all active limitations to applicable sub-pages of YouTube
   applyActiveLimitations();
-
-  // hides ability to refresh recommendations every time the window is resized.
-  // That tag is reset when the window is resized, so this is the workaround
-  // window.addEventListener("resize", () => {
-  //   setTimeout(() => {
-  //     hideDOMContent(
-  //       "ytd-continuation-item-renderer",
-  //       "Continuous Recommendations"
-  //     );
-  //   }, 1000);
-  // });
 });
 
 // Reapplies limitations when navigating between pages
