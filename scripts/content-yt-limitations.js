@@ -304,6 +304,8 @@ function hideComments(isPlaybackPage, isShortsPage) {
  */
 async function applyActiveLimitations() {
   try {
+    $(".blank-screen").css("display", "block");
+
     // Boolean values for current page to determine which functions to run
     const currentWebAddress = window.location.href;
     const isAnyPage = currentWebAddress?.includes("youtube.com/");
@@ -370,6 +372,8 @@ async function applyActiveLimitations() {
           break;
       }
     }
+
+    $(".blank-screen").css("display", "none");
   } catch (error) {
     console.error(error.message);
   }
@@ -379,6 +383,9 @@ async function applyActiveLimitations() {
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
+const blankScreen = `<div class='blank-screen'></div`;
+$("body").prepend(blankScreen);
+
 $(document).ready(function () {
   // Removes any YouTube element that is current limited (only on YouTube site)
   applyActiveLimitations();

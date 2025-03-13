@@ -604,7 +604,6 @@ window.displayNotifications = (
  * @example
  * redirectUser("/html/dashboard.html");
  *
- * TODO: pass code to the dashboard so it can show the popup
  */
 window.redirectUser = () => {
   chrome.runtime.sendMessage(
