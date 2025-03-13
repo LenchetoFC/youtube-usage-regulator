@@ -170,22 +170,18 @@ function hideShortsButton(isPlaybackPage) {
  * @name hideShortsRecommendations
  *
  * @param {boolean} isPlaybackPage - if the current web address is on a playback page
- * @param {boolean} isAnyPage - if the current web address is on any YouTube page
- * @param {boolean} isSearchPage - if the current web address is on search page
+ * @param {boolean} isHomePage - if the current web address is on the home page
  *
  * @returns {void}
  *
- * @example hideShortsRecommendations();
+ * @example hideShortsRecommendations(true, false);
  *
  */
-function hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage) {
+function hideShortsRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
     // Shorts content on playback pages
     hideDOMContent("#related #contents", "ytd-reel-shelf-renderer");
-  } else if (isSearchPage) {
-    // Shorts content on search pages
-    hideDOMContent("#primary #contents", "ytd-reel-shelf-renderer");
-  } else if (isAnyPage) {
+  } else if (isHomePage) {
     // Shorts content on home page
     hideDOMContent("#primary #contents", "ytd-rich-section-renderer");
   }
@@ -227,7 +223,6 @@ function hideSearchBar() {
  */
 function hideVideoRecommendations(isPlaybackPage, isHomePage) {
   if (isPlaybackPage) {
-    console.log("recommendations");
     // Side recommendations - playback
     hideDOMContent(
       "#primary #related:has(> ytd-compact-video-renderer), #contents:has(> ytd-compact-video-renderer)",
@@ -359,7 +354,7 @@ async function applyActiveLimitations() {
           hideShortsButton(isPlaybackPage);
           break;
         case "shorts-recom":
-          hideShortsRecommendations(isPlaybackPage, isAnyPage, isSearchPage);
+          hideShortsRecommendations(isPlaybackPage, isHomePage);
           break;
         case "search-bar":
           hideSearchBar();
