@@ -239,8 +239,6 @@ function hideVideoRecommendations(isPlaybackPage, isHomePage) {
     );
     // FIXME: with this off, the reload animations plays for a while. Figure out how to allow refresh for just shorts
     disableInfiniteRecommendations(false, true);
-
-    // TODO: add a message when these recommendations are gone
   }
 }
 
@@ -292,6 +290,50 @@ function hideComments(isPlaybackPage, isShortsPage) {
 }
 
 /**
+ * Hides entire recommendations container
+ * If on home page, insert container stating that recommendations have been removed
+ *
+ * @name hideAllRecommendations
+ *
+ * @param {boolean} isPlaybackPage
+ * @param {boolean} isHomePage
+ *
+ * @returns {void}
+ *
+ * @example hideAllRecommendations(false, true);
+ *
+ */
+function hideAllRecommendations(isPlaybackPage, isHomePage) {
+  if (isPlaybackPage) {
+    hideDOMContent("#primary", "#related");
+    hideDOMContent("#secondary", "#related");
+  } else if (isHomePage) {
+    hideDOMContent("#primary", "ytd-rich-grid-renderer");
+    insertRecommendationsMessage();
+  }
+}
+
+/**
+ * Insert container stating that recommendations have been removed
+ *
+ * @name insertRecommendationsMessage
+ *
+ * @returns {void}
+ *
+ * @example insertRecommendationsMessage();
+ *
+ */
+function insertRecommendationsMessage() {
+  const messageHTML = `
+    <div class="center-message">
+      <h1>All recommendations have been disabled.</h1>
+      <h2>Courtesy of Restrict the Tube.</h2>
+    </div>
+  `;
+  $("#primary:not(:has(.center-message))").prepend(messageHTML);
+}
+
+/**
  * Retrieves and applies all active limitations to current web page
  *
  * @name applyActiveLimitations
@@ -310,7 +352,6 @@ async function applyActiveLimitations() {
     const isHomePage = currentWebAddress === "https://www.youtube.com/";
     const isShortsPage = currentWebAddress?.includes("youtube.com/shorts");
     const isPlaybackPage = currentWebAddress?.includes("/watch?");
-    const isSearchPage = currentWebAddress?.includes("?search_query=");
 
     // Get only active limitations from storage
     let allActiveLimitations = await filterRecordsGlobal(
@@ -319,7 +360,25 @@ async function applyActiveLimitations() {
       true
     );
 
-    // console.log(allActiveLimitations);
+    console.log(allActiveLimitations);
+
+    // If remove recommendations settings for shorts and video are both active, hide everything inside container
+    let isBothRecomActive = false;
+    const shortsRecomActive = checkPropertyValueExists(
+      allActiveLimitations,
+      "name",
+      "shorts-recom"
+    );
+    const videoRecomActive = checkPropertyValueExists(
+      allActiveLimitations,
+      "name",
+      "video-recom"
+    );
+    if (shortsRecomActive && videoRecomActive) {
+      hideAllRecommendations(isPlaybackPage, isHomePage);
+      isBothRecomActive = true;
+      console.log("both active");
+    }
 
     // Iterate through active limitations to apply to current web page
     for (let index in allActiveLimitations) {
@@ -354,16 +413,23 @@ async function applyActiveLimitations() {
           hideShortsButton(isPlaybackPage);
           break;
         case "shorts-recom":
-          hideShortsRecommendations(isPlaybackPage, isHomePage);
+          if (!isBothRecomActive) {
+            hideShortsRecommendations(isPlaybackPage, isHomePage);
+          }
           break;
         case "search-bar":
           hideSearchBar();
           break;
         case "infinite-recom":
-          disableInfiniteRecommendations(isPlaybackPage, isHomePage);
+          if (!isBothRecomActive) {
+            disableInfiniteRecommendations(isPlaybackPage, isHomePage);
+          }
+
           break;
         case "video-recom":
-          hideVideoRecommendations(isPlaybackPage, isHomePage);
+          if (!isBothRecomActive) {
+            hideVideoRecommendations(isPlaybackPage, isHomePage);
+          }
           break;
         case "comments-section":
           hideComments(isPlaybackPage, isShortsPage);
@@ -375,6 +441,25 @@ async function applyActiveLimitations() {
   } catch (error) {
     console.error(error.message);
   }
+}
+
+/**
+ * Determines if a property value exists in array
+ *
+ * @name checkPropertyValueExists
+ *
+ * @param {array} arr - array to check
+ * @param {string} property - property name to check
+ * @param {string} value - value to check
+ *
+ * @returns {void}
+ *
+ * @example applyActiveLimitations();
+ */
+function checkPropertyValueExists(arr, property, value) {
+  return arr.some(
+    (obj) => obj.hasOwnProperty(property) && obj[property] === value
+  );
 }
 /** !SECTION */
 
