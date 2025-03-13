@@ -89,6 +89,44 @@ function loadBugReportPopover() {
     });
 }
 
+/** SECTION - COLLAPSIBLE NAV BAR */
+
+/**
+ * Collapses side nav bar
+ *
+ * @name collapseNavBar
+ *
+ * @param collapseButton - jquery object of button to collapse nav bar
+ *
+ * @returns {void}
+ *
+ * @example collapseNavBar($('.collapse-nav'));
+ *
+ */
+function collapseNavBar(collapseButton) {
+  $(collapseButton).attr("aria-expanded", false);
+  $("#aside-nav").addClass("nav-collapsed");
+}
+
+/**
+ * Expands side nav bar
+ *
+ * @name expandNavBar
+ *
+ * @param collapseButton - jquery object of button to collapse nav bar
+ *
+ * @returns {void}
+ *
+ * @example expandNavBar($('.collapse-nav'));
+ *
+ */
+function expandNavBar(collapseButton) {
+  $(collapseButton).attr("aria-expanded", true);
+  $("#aside-nav").removeClass("nav-collapsed");
+}
+
+/** !SECTION */
+
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
@@ -162,6 +200,24 @@ $(document).ready(function () {
       });
     }
     filterSearchItems($(this));
+  });
+
+  /** !SECTION */
+
+  /** SECTION - COLLAPSIBLE NAV BAR */
+  // Controls collapsible nav bar
+  $(".collapse-nav").on("click", function () {
+    const isExpanded = $(this).attr("aria-expanded");
+    isExpanded === "true" ? collapseNavBar(this) : expandNavBar(this);
+  });
+
+  // If window is less than 40rem wide, collapse nav bar. Else, expand nav bar
+  const isWindowTooNarrow = window.matchMedia("(max-width: 40rem)");
+  isWindowTooNarrow.addEventListener("change", function (event) {
+    const collapseButton = $(".collapse-nav");
+    event.matches
+      ? collapseNavBar(collapseButton)
+      : expandNavBar(collapseButton);
   });
 
   /** !SECTION */

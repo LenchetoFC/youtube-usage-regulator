@@ -1122,12 +1122,14 @@ aside {
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 
   gap: 3.2rem;
   padding: 2.4rem 1.2rem;
 
   background-color: var(--surface-dark);
+
+  position: relative;
 }
 
 aside .material-symbols-rounded {
@@ -1165,6 +1167,42 @@ aside .nav-logo {
   width: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.nav-collapsed {
+  width: fit-content;
+
+  p {
+    display: none;
+  }
+}
+
+button.collapse-nav {
+  position: absolute;
+  z-index: 10;
+  right: -1.2rem;
+  width: fit-content;
+  margin: 0.2rem 0;
+  padding: 0;
+  background: var(--surface-dark);
+  border-radius: 2rem;
+  transition: 0.2s;
+
+  span {
+    font-size: 2.8rem;
+  }
+}
+
+button.collapse-nav[aria-expanded="false"] {
+  transform: rotate(180deg);
+}
+
+button.collapse-nav:hover {
+  background: var(--surface-light);
+
+  span {
+    color: var(--text-dark);
+  }
 }
 
 .nav-logo p {
@@ -2631,7 +2669,7 @@ table.basic {
     flex-wrap: nowrap;
   }
 }
-
+/* 
 @media (max-width: 40rem) {
   aside {
     width: fit-content;
@@ -2639,7 +2677,7 @@ table.basic {
   aside p {
     display: none;
   }
-}
+} */
 
 /* !SECTION */
 
