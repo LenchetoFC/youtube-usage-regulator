@@ -216,19 +216,17 @@
         </div>
       </form>
 
-      <header class="page-header">
-        <div class="flex-col">
+      <section class="flex-col twenty-four-spacing" id="additional-websites">
+        <header class="flex-col">
           <h1>General Website Blocker</h1>
           <h2>
             Completely block more websites beyond YouTube, such as social media,
             shopping, adult content, and more!
           </h2>
-        </div>
-      </header>
+        </header>
 
-      <section class="flex-col" id="additional-websites">
         <!-- Empty Content -->
-        <div class="empty-content">
+        <div class="empty-content hidden" data-visible="false">
           <div class="flex-col eight-spacing">
             <p class="container-title">Block General Websites</p>
             <h1>Add websites to completely restrict</h1>
@@ -265,7 +263,11 @@
 
         <!-- Watch Times Table -->
         <!-- TODO: FUTURE FEATURE - SORTING -->
-        <table class="basic hidden search-container" id="website-table">
+        <table
+          class="basic hidden search-container"
+          id="website-table"
+          data-visible="false"
+        >
           <thead>
             <tr>
               <th
@@ -340,9 +342,10 @@
         </table>
 
         <!-- Add new website button -->
-        <span
+        <div
           class="group-of-buttons hidden padding-bottom-sixteen"
           id="website-buttons"
+          data-visible="false"
         >
           <span>
             <button
@@ -360,7 +363,7 @@
           >
             <p>Delete All Websites</p>
           </button>
-        </span>
+        </div>
       </section>
     </main>
 

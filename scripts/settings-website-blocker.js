@@ -88,21 +88,9 @@ async function insertWebsitesIntoPage() {
 
   // Depends on if there is at least one website, show or hide some content
   const amtOfWebsites = Object.keys(allWebsites)?.length ?? 0;
+  displayEmptyContent("#additional-websites", amtOfWebsites);
   if (amtOfWebsites === 0) {
-    // show empty content
-    $("#website-table")
-      .siblings(".empty-content")
-      .removeClass("hidden")
-      .attr("data-visible", "true");
-
     return;
-  } else {
-    // show group of buttons
-    $("#website-table")
-      .siblings(".group-of-buttons")
-      .removeClass("hidden")
-      .attr("data-visible", "false");
-    $("#website-table").removeClass("hidden");
   }
 
   // Iterates through all websites and insert them into page one at a time
@@ -154,6 +142,38 @@ async function insertWebsitesIntoPage() {
       );
     }
   });
+}
+
+/**
+ * Displays buttons and content if there are any existing in database
+ *
+ * @name displayEmptyContent
+ *
+ * @param {string} parentContainerId - ID of parent container that contains all affected elements
+ * @param {number} childrenNum - Number of content items found to append to DOM
+ *
+ * @returns {void}
+ *
+ * @example displayEmptyContent("#additional-websites", 2);
+ */
+function displayEmptyContent(parentContainerId, childrenNum) {
+  if (childrenNum === 0) {
+    // show empty content
+    $(`${parentContainerId}`)
+      .find(".empty-content")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  } else {
+    // Show group of buttons && website table
+    $(`${parentContainerId}`)
+      .find(".group-of-buttons")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+    $(`${parentContainerId}`)
+      .find("#website-table")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  }
 }
 
 /**

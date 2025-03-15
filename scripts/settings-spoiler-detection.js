@@ -58,18 +58,9 @@ async function insertGroupsIntoPage() {
   let allGroups = await selectAllRecords("spoiler-groups");
 
   const amtOfGroups = Object.keys(allGroups).length;
+  displayEmptyContent("#spoiler-group-container", amtOfGroups);
   if (amtOfGroups === 0) {
-    // show empty content
-    $(".keyword-widget-container")
-      .siblings(".empty-content")
-      .removeClass("hidden");
-
     return;
-  } else {
-    // show group of buttons
-    $(".keyword-widget-container")
-      .siblings(".group-of-buttons")
-      .removeClass("hidden");
   }
 
   // Iterates through all groups and insert them into page one at a time
@@ -131,6 +122,34 @@ async function insertGroupsIntoPage() {
       );
     }
   });
+}
+
+/**
+ * Displays buttons and content if there are any existing in database
+ *
+ * @name displayEmptyContent
+ *
+ * @param {string} parentContainerId - ID of parent container that contains all affected elements
+ * @param {number} childrenNum - Number of content items found to append to DOM
+ *
+ * @returns {void}
+ *
+ * @example displayEmptyContent("#spoiler-group-container", 0);
+ */
+function displayEmptyContent(parentContainerId, childrenNum) {
+  if (childrenNum === 0) {
+    // show empty content
+    $(`${parentContainerId}`)
+      .find(".empty-content")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  } else {
+    // Show group of buttons
+    $(`${parentContainerId}`)
+      .find(".group-of-buttons")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  }
 }
 
 /**

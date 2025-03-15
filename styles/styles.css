@@ -2087,7 +2087,8 @@ p.small-text {
 input::placeholder,
 input,
 select,
-option {
+option,
+textarea {
   font-family: var(--font-family);
   color: var(--text-primary);
   font-size: 1.6rem;
