@@ -1426,7 +1426,7 @@ p.small-text {
   min-width: 50rem;
   flex-direction: column;
   /* flex: 1 0 0; */
-  padding: 0 1.2rem;
+  padding: 0 2rem;
 }
 
 .widget-container:has(#calendar) {

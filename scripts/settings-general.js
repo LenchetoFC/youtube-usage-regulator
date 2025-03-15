@@ -127,6 +127,41 @@ function expandNavBar(collapseButton) {
 
 /** !SECTION */
 
+/** SECTION - EXPORT SETTINGS INTO JSON FILE */
+/**
+ * Retrieves all settings from local storage and exports it to JSON file
+ *
+ * @name exportSettings
+ *
+ * @returns {void}
+ *
+ * @example exportSettings();
+ *
+ */
+async function exportSettings() {
+  // Get all settings fromg local storage
+  const allSettings = await sendMessageToServiceWorker({
+    operation: "selectAllStorage",
+  });
+
+  // Send data to service worker to download JSON file
+  await sendMessageToServiceWorker({
+    operation: "downloadFile",
+    filename: "settings.json",
+    data: allSettings,
+  });
+}
+
+/**
+ * Export settings button
+ */
+$("#export-settings").on("click", function (event) {
+  event.preventDefault();
+  exportSettings();
+});
+
+/** !SECTION */
+
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */

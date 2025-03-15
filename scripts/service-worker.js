@@ -458,6 +458,22 @@ function selectAllRecords(table) {
 }
 
 /**
+ *
+ */
+function selectAllStorage() {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get((result) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        console.log(result);
+        resolve(result || []);
+      }
+    });
+  });
+}
+
+/**
  * Get a record by its ID
  *
  * @name selectRecordById
@@ -931,6 +947,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     resetTable(request.table).then(sendResponse);
 
     return true;
+  } else if (request.operation === "selectAllStorage") {
+    selectAllStorage()
+      .then((allSettings) => sendResponse(JSON.stringify(allSettings)))
+      .catch((errorMsg) => {
+        sendResponse({
+          error: true,
+          message: errorMsg,
+        });
+      });
+  } else if (request.operation == "downloadFile") {
+    chrome.downloads.download({
+      url:
+        "data:application/json;charset=utf-8," +
+        encodeURIComponent(request.data),
+      filename: request.filename,
+      saveAs: true,
+    });
   }
 
   if (request.redirect) {

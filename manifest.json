@@ -20,7 +20,7 @@
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
-  "permissions": ["storage", "unlimitedStorage", "activeTab"],
+  "permissions": ["storage", "unlimitedStorage", "activeTab", "downloads"],
   "content_scripts": [
     {
       "js": [
