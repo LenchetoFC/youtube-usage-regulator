@@ -1064,8 +1064,16 @@ $(document).ready(async function () {
   prepareWatchTimeChart();
 
   // Populates watch time list by default (daily)
-  let dailyWatchTimes = await getAllWatchTimes();
-  insertFilteredWatchTimes(dailyWatchTimes, "daily-times");
+  const dailyWatchTimes = (await getAllWatchTimes()) || {};
+
+  // if there are not available watch times, hide table and show empty content message
+  // else, insert watch times into table
+  const watchTimesLength = dailyWatchTimes.length;
+  displayWatchTimeEmptyContent(
+    ".watch-time-span",
+    dailyWatchTimes,
+    watchTimesLength
+  );
 
   // Gets and displays the notable times for the "notable times" widget
   insertNotableTimes();
@@ -1104,6 +1112,52 @@ $(document).ready(async function () {
     document.querySelector("#popover-restricted-details").showPopover();
   }
 });
+
+/**
+ * Displays buttons and content if there are any existing in database
+ *
+ * @name displayWatchTimeEmptyContent
+ *
+ * @param {string} parentContainerId - ID of parent container that contains all affected elements
+ * @param {object} watchTimesObj - object containing all watch times
+ * @param {number} watchTimesLength - Number of content items found to append to DOM
+ *
+ * @returns {void}
+ *
+ * @example displayWatchTimeEmptyContent(".watch-time-span", {}, 0);
+ */
+function displayWatchTimeEmptyContent(
+  parentContainerId,
+  watchTimesObj,
+  watchTimesLength
+) {
+  const isEmptyWatchTimes =
+    (watchTimesLength === 1 && watchTimesObj[0]["total-watch-time"] === 0) ||
+    watchTimesLength === 0;
+
+  if (isEmptyWatchTimes) {
+    // show empty content
+    $(`${parentContainerId}`)
+      .find(".empty-content")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  } else {
+    // Show table
+    $(`${parentContainerId}`)
+      .find("#watch-times-table")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+
+    //Show header buttons
+    $(`${parentContainerId}`)
+      .find(".watch-times-table-buttons")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+
+    // Insert watch times
+    insertFilteredWatchTimes(watchTimesObj, "daily-times");
+  }
+}
 
 /** !SECTION */
 // Resize the chart when the window is resized

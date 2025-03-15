@@ -304,7 +304,9 @@
               <header>
                 <h1>Table</h1>
 
-                <div class="flex-row eight-spacing">
+                <div
+                  class="flex-row eight-spacing hidden watch-times-table-buttons"
+                >
                   <button class="button-brand" id="reset-all-watch-times">
                     Reset All Times
                   </button>
@@ -321,8 +323,24 @@
                 </div>
               </header>
 
+              <!-- Empty Content -->
+              <div class="empty-content hidden" data-visible="false">
+                <div class="flex-col eight-spacing">
+                  <p class="container-title">Watch Time Table</p>
+                  <h1>No Watch Times Found</h1>
+                  <p class="sub-header">
+                    Watch any YouTube video or Shorts to start tracking your
+                    watch times.
+                  </p>
+                </div>
+              </div>
+
               <!-- Watch Times Table -->
-              <table class="basic" id="watch-times-table">
+              <table
+                class="basic hidden"
+                id="watch-times-table"
+                data-visible="false"
+              >
                 <thead>
                   <tr>
                     <th

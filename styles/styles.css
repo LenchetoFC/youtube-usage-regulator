@@ -2450,10 +2450,10 @@ input[type="radio"]:focus-visible {
   width: 100%;
   gap: 1.6rem;
 
-  h1 {
+  /* h1 {
     font-size: 1.6rem;
-    /* font-weight: 500; */
-  }
+    font-weight: 500;
+  } */
 }
 
 .watch-time-container {
