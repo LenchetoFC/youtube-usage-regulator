@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
     <link
@@ -167,7 +167,7 @@
         <img
           src="/images/icon-logo-ext-128.png"
           alt="YouTube Extension logo"
-          class="medium-img"
+          class="small-img"
         />
         <p>Restrict the Tube</p>
       </div>
@@ -227,15 +227,33 @@
       </header>
 
       <section class="flex-col" id="additional-websites">
-        <div class="empty-content hidden">
-          <span class="material-symbols-rounded">block</span>
-          <h1>Add Websites to Block</h1>
-          <p>
-            Add websites to block completely, and categorize them by website
-            type using the dropdown list. You can add broad URL
-            <strong>(reddit.com)</strong> or specific URL<br />
-            <strong>(reddit.com/?feed=home)</strong>.
-          </p>
+        <!-- Empty Content -->
+        <div class="empty-content">
+          <div class="flex-col eight-spacing">
+            <p class="container-title">Block General Websites</p>
+            <h1>Add websites to completely restrict</h1>
+            <p class="sub-header">
+              Added websites will be completely inaccessible from this browser
+              while active.
+            </p>
+          </div>
+
+          <div class="flex-col twelve-spacing">
+            <p>
+              <span class="material-symbols-rounded">counter_1</span>Give the
+              website a name. It can be anything you want!
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_2</span>Write the
+              URL address. You can be broad (i.e. https://reddit.com) or
+              specific (https://reddit.com/?feed=home)
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_3</span>Categorize
+              them by website type using the dropdown list
+            </p>
+          </div>
+
           <button
             class="misc-button add-new-item"
             popovertarget="popover-new-website-item"
@@ -244,8 +262,6 @@
             Add Website
           </button>
         </div>
-
-        <!-- <div class="content"></div> -->
 
         <!-- Watch Times Table -->
         <!-- TODO: FUTURE FEATURE - SORTING -->
@@ -258,7 +274,7 @@
                 data-active-sort="true"
               >
                 <span class="flex-row align-center">
-                  <p>Website Name</p>
+                  <h3>Website Name</h3>
                   <span class="material-symbols-rounded hidden"
                     >keyboard_arrow_up</span
                   >
@@ -273,7 +289,7 @@
                 data-active-sort="false"
               >
                 <span class="flex-row align-center justify-cont-center">
-                  <p>URL Address</p>
+                  <h3>URL Address</h3>
                   <span class="material-symbols-rounded hidden"
                     >keyboard_arrow_up</span
                   >
@@ -288,7 +304,7 @@
                 data-active-sort="false"
               >
                 <span class="flex-row align-center justify-cont-center">
-                  <p>Website Type</p>
+                  <h3>Website Type</h3>
                   <span class="material-symbols-rounded hidden"
                     >keyboard_arrow_up</span
                   ><span class="material-symbols-rounded hidden"
@@ -302,7 +318,7 @@
                 data-active-sort="false"
               >
                 <span class="flex-row align-center justify-cont-center">
-                  <p>Enabled</p>
+                  <h3>Enabled</h3>
                   <span class="material-symbols-rounded hidden"
                     >keyboard_arrow_up</span
                   ><span class="material-symbols-rounded hidden"
@@ -312,7 +328,7 @@
               </th>
               <th>
                 <span class="flex-row align-center justify-cont-center">
-                  <p>Update</p>
+                  <h3>Update</h3>
                 </span>
               </th>
             </tr>

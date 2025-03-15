@@ -88,8 +88,8 @@
   --radius-more-rounded: var(--radius-xl);
   --radius-full: var(--radius-3xl);
 
-  --font-family: "Inter", sans-serif;
-  /* --font-family: "Schibsted Grotesk", sans-serif; */
+  /* --font-family: "Inter", sans-serif; */
+  --font-family: "Nunito", sans-serif;
 }
 
 /* SECTION - GENERAL STYLES */
@@ -100,6 +100,7 @@
 *:before,
 *:after {
   box-sizing: border-box;
+  font-family: var(--font-family);
 }
 
 html,
@@ -272,6 +273,9 @@ span.hidden {
 .twenty-four-spacing {
   gap: 2.4rem;
 }
+.twenty-spacing {
+  gap: 2rem;
+}
 .sixteen-spacing {
   gap: 1.6rem;
 }
@@ -317,14 +321,14 @@ header h1 {
 }
 
 header h2 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   color: #1e1f1f;
   filter: brightness(3);
 }
 
 .subtext {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   filter: brightness(85%);
 }
 
@@ -385,7 +389,7 @@ p,
 }
 
 p {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 
 main p {
@@ -447,6 +451,9 @@ main p {
   align-content: center;
 }
 
+.material-symbols-rounded.small-icon {
+  font-size: 2.4rem;
+}
 .material-symbols-rounded.medium-icon {
   font-size: 3.2rem;
 }
@@ -532,7 +539,7 @@ li {
 /* ---------------------- */
 a {
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   transition: 0.25s;
   align-self: center;
@@ -552,7 +559,7 @@ button {
   user-select: none;
   color: var(--text-light);
   width: fit-content;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   line-height: 150%;
   display: flex;
@@ -573,7 +580,7 @@ button {
   background: var(--surface-light);
   border-radius: 0.8rem;
   color: var(--text-dark);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   border: solid 0.7px #5f6767;
 }
 
@@ -694,6 +701,7 @@ button[type="submit"]:active,
 /* ------------- */
 /* GENERAL INPUT */
 /* ------------- */
+
 input,
 select,
 textarea {
@@ -823,7 +831,7 @@ input[type="time" i] {
   border: none;
   border-bottom: 1.6px solid hsl(180, 4%, 60%);
   color: var(--text-text);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   transition: border 0.25s;
   width: 12rem;
 }
@@ -952,7 +960,7 @@ input[type="color"] {
   user-select: none;
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
   img {
     width: 32px;
@@ -1116,7 +1124,7 @@ aside {
   max-width: max-content; */
 
   min-width: fit-content;
-  width: 20rem;
+  width: 23rem;
 
   display: flex;
   flex-direction: column;
@@ -1167,6 +1175,7 @@ aside .nav-logo {
   width: 100%;
   align-items: center;
   justify-content: center;
+  padding: 0.8rem;
 }
 
 .nav-collapsed {
@@ -1206,7 +1215,7 @@ button.collapse-nav:hover {
 }
 
 .nav-logo p {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   width: 100%;
 }
 
@@ -1236,7 +1245,7 @@ nav a.current-page:hover {
 nav a p,
 .nav-button p {
   /* width: max-content; */
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   text-align: start;
 }
 
@@ -1312,7 +1321,7 @@ button[type="submit"]:disabled:hover {
     }
 
     /* p.medium-text {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 500;
     } */
   }
@@ -1326,12 +1335,12 @@ p.large-text {
 p.medium-text,
 label.medium-text {
   color: var(--text-dark);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
 }
 
 p.small-text {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 /* NOTE: Temp, until watch mode feature is done */
@@ -1477,13 +1486,8 @@ p.small-text {
 }
 
 .widget-item.top-widget h1 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
-}
-
-.widget-item.top-widget h2 {
-  font-size: 1.3rem;
-  font-weight: 400;
 }
 
 .widget-item h1 {
@@ -1492,14 +1496,14 @@ p.small-text {
 }
 
 .widget-item h2 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   color: #5f6767;
   filter: brightness(3);
 }
 
 .widget-item header > a p {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .widget-item .content {
@@ -1593,7 +1597,7 @@ p.small-text {
     align-self: stretch;
 
     > h1 {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
   }
   form,
@@ -1808,32 +1812,42 @@ p.small-text {
 
 .empty-content {
   display: flex;
+  padding: 2rem;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 100%;
-  gap: 2rem;
+  align-items: flex-start;
+  gap: 2.4rem;
+  align-self: stretch;
+  min-width: fit-content;
 
-  > .material-symbols-rounded:first-child {
-    font-size: 10rem;
-    color: var(--surface-dark);
+  border-radius: 16px;
+  border: 1.5px solid #3d5a80;
+  background: var(--text-text-light, #f8f8ff);
+  box-shadow: 2px 2px 4px 0px rgba(30, 31, 31, 0.25);
+
+  p.container-title {
+    color: var(--primary, #3d5a80);
+    font-weight: 700;
+  }
+  p.sub-header {
+    color: #3d3d3d;
+    font-weight: 500;
   }
 
   h1 {
     font-size: 2rem;
-    text-align: center;
+    font-weight: 600;
   }
 
   p {
     color: var(--text-dark);
-    max-width: 44ch;
-    text-align: center;
+    font-size: 1.6rem;
   }
 
-  h1,
-  strong {
-    font-weight: 500;
+  p:has(.material-symbols-rounded) {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
   }
 }
 
@@ -1856,7 +1870,7 @@ p.small-text {
   }
 
   p {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 
   div li {
@@ -1882,7 +1896,7 @@ p.small-text {
     }
 
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 400;
     }
   }
@@ -1923,7 +1937,7 @@ p.small-text {
     border-radius: 0.8rem;
     background: var(--surface-light);
     box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     flex: 1 0 fit-content;
     min-width: 25rem;
@@ -2065,10 +2079,22 @@ p.small-text {
 
   label,
   .label {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     line-height: 200%;
   }
+}
+input::placeholder,
+input,
+select,
+option {
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  font-size: 1.6rem;
+}
+
+input::placeholder {
+  opacity: 0.6;
 }
 
 /* Dashboard Restriction Details Popover */
@@ -2137,7 +2163,7 @@ div#popover-restricted-details > *:not(img) {
 
   background: var(--surface-light);
   width: fit-content;
-  z-index: 4;
+  z-index: 100;
   box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.1);
   padding: 1.6rem 1.6rem 1.6rem 4rem;
 
@@ -2172,7 +2198,7 @@ div#popover-restricted-details > *:not(img) {
   gap: 0.8rem;
 
   label {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 200%;
   }
 }
@@ -2563,7 +2589,8 @@ table.basic {
   } */
 
   td {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 500;
   }
 
   th,
@@ -2705,7 +2732,7 @@ section:has(> .empty-content[data-visible="true"]) {
   border: 1.25px solid transparent;
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
   }
   img {

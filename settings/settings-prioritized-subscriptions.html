@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
     <link
@@ -57,7 +57,7 @@
         <img
           src="/images/icon-logo-ext-128.png"
           alt="YouTube Extension logo"
-          class="medium-img"
+          class="small-img"
         />
         <p>Restrict the Tube</p>
       </div>
@@ -115,15 +115,33 @@
       </header>
 
       <section class="flex-col thirty-two-spacing" id="prioritize-creators">
+        <!-- Empty Content -->
         <div class="empty-content">
-          <span class="material-symbols-rounded">account_circle</span>
-          <h1>Link your YouTube Account</h1>
-          <p>
-            Link your account to personalize your feed with chosen creators.
-            Your subscriptions will be displayed here, allowing you to select
-            your favorites.
-          </p>
-          <button class="misc-button" id="youtube-login-button">
+          <div class="flex-col eight-spacing">
+            <p class="container-title">Prioritized Subscriptions</p>
+            <h1>Link your YouTube account to better personalize your feed</h1>
+            <p class="sub-header">
+              Be granted access to a new feed page that only shows videos of
+              subscriptions you’ve prioritized
+            </p>
+          </div>
+
+          <div class="flex-col twelve-spacing">
+            <p>
+              <span class="material-symbols-rounded">counter_1</span>Securely
+              log in to your YouTube account
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_2</span>Give this
+              extension access to your list of subscriptions
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_3</span>Prioritize
+              any of your current subscriptions as you see fit
+            </p>
+          </div>
+
+          <button class="misc-button add-item" id="youtube-login-button">
             <span class="material-symbols-rounded">youtube_activity</span>
             Connect Account
           </button>

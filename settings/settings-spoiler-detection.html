@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
     <link
@@ -269,7 +269,7 @@
         <img
           src="/images/icon-logo-ext-128.png"
           alt="YouTube Extension logo"
-          class="medium-img"
+          class="small-img"
         />
         <p>Restrict the Tube</p>
       </div>
@@ -304,7 +304,7 @@
       </nav>
     </aside>
 
-    <main class="white-bg">
+    <main class="white-bg thirty-two-spacing">
       <!-- Search Bar -->
       <form>
         <div class="search-bar">
@@ -319,35 +319,11 @@
         </div>
       </form>
 
-      <header class="page-header">
-        <div class="flex-col">
+      <section class="flex-col twenty-four-spacing">
+        <header class="flex-col">
           <h1>Spoiler Detection</h1>
-          <h2>
-            Shroud content that includes your selected keywords. Adds a
-            “spoiler” tag and obscures the thumbnail and title of matching
-            videos.
-          </h2>
-        </div>
-      </header>
-
-      <section class="flex-col thirty-two-spacing">
-        <!-- Empty Content -->
-        <div class="empty-content hidden">
-          <span class="material-symbols-rounded">block</span>
-          <h1>Add Spoiler Keyword Groups</h1>
-          <p>
-            Add groups of keywords that you want to avoid in YouTube. They will
-            not completely hide the content, but will instead blur the videos
-            thumbnail and mark it with a 'spoiler' icon tag.
-          </p>
-          <button
-            class="misc-button add-item"
-            popovertarget="popover-new-spoiler-group"
-          >
-            <span class="material-symbols-rounded">add</span>
-            Add Spoiler Group
-          </button>
-        </div>
+          <h2>Control how spoiler content is obscured.</h2>
+        </header>
 
         <!-- Settings Form -->
         <form class="settings-form" id="spoiler-detection">
@@ -356,11 +332,11 @@
             <thead>
               <tr>
                 <th>
-                  <p>General Settings</p>
+                  <h3>General Settings</h3>
                 </th>
 
                 <th>
-                  <p>Active</p>
+                  <h3>Active</h3>
                 </th>
               </tr>
               <tr class="horizontal-line"></tr>
@@ -370,9 +346,7 @@
               <!-- Replace thumbnail with Spoiler Detected image -->
               <tr class="search-item">
                 <td class="flex-row eight-spacing">
-                  <p class="fieldset-header">
-                    Replace thumbnail with "Spoiler Detected" image
-                  </p>
+                  Replace thumbnail with "Spoiler Detected" image
                   <span
                     class="material-symbols-rounded help-cursor"
                     title="Default behavior: heavy blur over original thumbnail"
@@ -400,11 +374,7 @@
 
               <!-- Obscure any video with spoiler keyword -->
               <tr class="search-item">
-                <td>
-                  <p class="fieldset-header">
-                    Obscure all videos that include the word “Spoiler”
-                  </p>
-                </td>
+                <td>Obscure all videos that include the word “Spoiler”</td>
 
                 <!-- Always active option -->
                 <td>
@@ -447,7 +417,51 @@
         </form>
       </section>
 
-      <section class="flex-col thirty-two-spacing">
+      <section class="flex-col twenty-four-spacing">
+        <header class="flex-col">
+          <h1>Spoiler Groups</h1>
+          <h2>
+            Shroud content that includes your selected keywords. Obscures the
+            thumbnail and title of matching videos.
+          </h2>
+        </header>
+
+        <!-- Empty Content -->
+        <div class="empty-content">
+          <div class="flex-col eight-spacing">
+            <p class="container-title">Spoiler Detection</p>
+            <h1>Add Spoiler Keyword Groups</h1>
+            <p class="sub-header">
+              Spoiler Groups will obscure the title and thumbnail of possible
+              spoilers (or other unwanted content)
+            </p>
+          </div>
+
+          <div class="flex-col twelve-spacing">
+            <p>
+              <span class="material-symbols-rounded">counter_1</span>Give the
+              group a name. It can be anything you want!
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_2</span>Give it a
+              short one-sentence description
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_3</span>Add any
+              keyword as a comma-separated list. Multi-word keywords are
+              supported.
+            </p>
+          </div>
+
+          <button
+            class="misc-button add-item"
+            popovertarget="popover-new-spoiler-group"
+          >
+            <span class="material-symbols-rounded">add</span>
+            Add Group
+          </button>
+        </div>
+
         <!-- Container spoiler groups are appended to -->
         <div
           class="keyword-widget-container search-container"
