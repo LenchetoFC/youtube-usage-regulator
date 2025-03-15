@@ -1491,11 +1491,6 @@ p.small-text {
   gap: 1.2rem;
 }
 
-.widget-item.top-widget h1 {
-  font-size: 1.6rem;
-  font-weight: 500;
-}
-
 .widget-item h1 {
   font-size: 1.8rem;
   font-weight: 500;
@@ -1814,6 +1809,17 @@ p.small-text {
   button[type="submit"] {
     display: none;
   } */
+}
+
+.widget-item .empty-content-widget {
+  p {
+    align-self: flex-start;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
 }
 
 .empty-content,
