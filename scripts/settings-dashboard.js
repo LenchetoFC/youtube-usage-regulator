@@ -843,6 +843,34 @@ async function getTableTotalWatchTimes(videoType) {
 
 /** SECTION - ACTIVE SPOILER GROUPS */
 /**
+ * Displays buttons and content if there are any existing in database
+ *
+ * @name displayEmptyContent
+ *
+ * @param {string} parentContainerId - ID of parent container that contains all affected elements
+ * @param {number} childrenNum - Number of content items found to append to DOM
+ *
+ * @returns {void}
+ *
+ * @example displayEmptyContent("#spoiler-group-container", 0);
+ */
+function displayEmptyContent(parentContainerId, childrenNum) {
+  if (childrenNum === 0) {
+    // show empty content
+    $(`${parentContainerId}`)
+      .find(".empty-content-widget")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  } else {
+    // Show group of buttons
+    $(`${parentContainerId}`)
+      .find(".spoiler-groups")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
+  }
+}
+
+/**
  * Retrieves all active spoiler groups from database
  *
  * @name getActiveSpoilerGroups
@@ -864,7 +892,9 @@ async function getActiveSpoilerGroups() {
  * @returns {void}
  */
 function insertSpoilerGroupNames(activeGroups) {
-  const container = $("#spoiler-groups-top-widget").find(".content div");
+  const container = $("#spoiler-groups-top-widget").find(
+    ".content .spoiler-groups"
+  );
 
   activeGroups.forEach((group, i) => {
     // Create div element
@@ -946,6 +976,9 @@ $(document).ready(async function () {
   // Gets active groups and inserts them into top widget
   const activeGroups = await getActiveSpoilerGroups();
   insertSpoilerGroupNames(activeGroups);
+
+  const amtOfGroups = Object.keys(activeGroups).length;
+  displayEmptyContent("#spoiler-group-container", amtOfGroups);
 
   /**
    * Formats date for input date element

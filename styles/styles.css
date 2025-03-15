@@ -465,7 +465,8 @@ main p {
   cursor: help;
 }
 
-button .material-symbols-rounded {
+button .material-symbols-rounded,
+a.misc-button .material-symbols-rounded {
   color: var(--surface-light);
 }
 .playback .material-symbols-rounded {
@@ -552,7 +553,8 @@ a:hover {
 /* SPECIFIC BUTTONS */
 /* ---------------- */
 
-button {
+button,
+.misc-button {
   transition: background, background-color, filter 0.25s;
   border: none;
   box-shadow: 2px 2px 8px -3px rgba(0, 0, 0, 0.1);
@@ -571,6 +573,10 @@ button {
   border-radius: 1.2rem;
   background: var(--surface-dark);
   min-width: max-content;
+}
+
+a.misc-button {
+  align-self: flex-start;
 }
 
 .light-button,
@@ -1810,20 +1816,14 @@ p.small-text {
   } */
 }
 
-.empty-content {
+.empty-content,
+.empty-content-widget {
   display: flex;
-  padding: 2rem;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   gap: 2.4rem;
   align-self: stretch;
   min-width: fit-content;
-
-  border-radius: 16px;
-  border: 1.5px solid #3d5a80;
-  background: var(--text-text-light, #f8f8ff);
-  box-shadow: 2px 2px 4px 0px rgba(30, 31, 31, 0.25);
 
   p.container-title {
     color: var(--primary, #3d5a80);
@@ -1849,6 +1849,20 @@ p.small-text {
     gap: 1.2rem;
     align-items: center;
   }
+}
+
+.empty-content {
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1.5px solid #3d5a80;
+  background: var(--text-text-light, #f8f8ff);
+  box-shadow: 2px 2px 4px 0px rgba(30, 31, 31, 0.25);
+}
+
+.empty-content-widget {
+  justify-content: space-evenly !important;
+  height: 100%;
 }
 
 /* --------------- */
