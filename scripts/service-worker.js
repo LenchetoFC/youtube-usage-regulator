@@ -993,6 +993,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 // });
 
 // TODO: Implement for when ext is updated to display patch notes
-// chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("/onInstalled/onboarding.html"),
+    });
+  } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("/onInstalled/update.html"),
+    });
+  }
+});
 
-// });
+// NOTE: For testing purposes, manually invoke the onInstalled event
+function simulateOnInstalled(reason) {
+  chrome.runtime.onInstalled.dispatch({ reason });
+}
+
+// Simulate an installation
+// simulateOnInstalled(chrome.runtime.OnInstalledReason.INSTALL);
+
+// Or simulate an update
+// simulateOnInstalled(chrome.runtime.OnInstalledReason.UPDATE);
