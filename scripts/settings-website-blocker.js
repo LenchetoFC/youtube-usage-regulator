@@ -90,12 +90,18 @@ async function insertWebsitesIntoPage() {
   const amtOfWebsites = Object.keys(allWebsites)?.length ?? 0;
   if (amtOfWebsites === 0) {
     // show empty content
-    $("#website-table").siblings(".empty-content").removeClass("hidden");
+    $("#website-table")
+      .siblings(".empty-content")
+      .removeClass("hidden")
+      .attr("data-visible", "true");
 
     return;
   } else {
     // show group of buttons
-    $("#website-table").siblings(".group-of-buttons").removeClass("hidden");
+    $("#website-table")
+      .siblings(".group-of-buttons")
+      .removeClass("hidden")
+      .attr("data-visible", "false");
     $("#website-table").removeClass("hidden");
   }
 

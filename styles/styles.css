@@ -2654,6 +2654,11 @@ table.basic {
 
 /* !SECTION */
 
+/* Empty Content */
+section:has(> .empty-content[data-visible="true"]) {
+  height: 100%;
+}
+
 /* SECTION - MEDIA QUERIES */
 /* ------------- */
 /* DESKTOP WIDTH */
