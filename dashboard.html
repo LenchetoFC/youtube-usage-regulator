@@ -286,186 +286,185 @@
       </div>
 
       <!-- Watch Times -->
-      <div class="widget-container">
-        <!-- Watch Times -->
-        <section id="watch-times" class="large widget-item">
-          <header>
-            <span>
-              <h1>Watch Times</h1>
-              <h2>Manage you tracked YouTube usage times.</h2>
-            </span>
-          </header>
+      <section id="watch-times" class="large widget-item">
+        <header>
+          <span>
+            <h1>Watch Times</h1>
+            <h2>Manage you tracked YouTube usage times.</h2>
+          </span>
+        </header>
 
-          <!-- Content -->
-          <section>
-            <!-- List of Watch Times -->
-            <!-- TODO: FUTURE FEATURE - SORTING -->
-            <span class="watch-time-span">
-              <header>
-                <h1>Table</h1>
+        <!-- Content -->
+        <section>
+          <!-- List of Watch Times -->
+          <!-- TODO: FUTURE FEATURE - SORTING -->
+          <span class="watch-time-span">
+            <header>
+              <h1>Table</h1>
 
-                <div
-                  class="flex-row eight-spacing hidden watch-times-table-buttons"
-                >
-                  <button class="button-brand" id="reset-all-watch-times">
-                    Reset All Times
-                  </button>
-
-                  <select
-                    name="days"
-                    id="list-timeframe"
-                    class="input-full-border"
-                  >
-                    <option value="daily-times">Daily</option>
-                    <option value="weekly-times">Weekly</option>
-                    <option value="monthly-times">Monthly</option>
-                  </select>
-                </div>
-              </header>
-
-              <!-- Empty Content -->
-              <div class="empty-content hidden" data-visible="false">
-                <div class="flex-col eight-spacing">
-                  <p class="container-title">Watch Time Table</p>
-                  <h1>No Watch Times Found</h1>
-                  <p class="sub-header">
-                    Watch any YouTube video or Shorts to start tracking your
-                    watch times.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Watch Times Table -->
-              <table
-                class="basic hidden"
-                id="watch-times-table"
-                data-visible="false"
+              <div
+                class="flex-row eight-spacing hidden watch-times-table-buttons"
               >
-                <thead>
-                  <tr>
-                    <th
-                      data-sort-id="date"
-                      data-current-sort-dir="desc"
-                      data-active-sort="true"
-                    >
-                      <span class="flex-row align-center">
-                        Date
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_up</span
-                        >
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_down</span
-                        >
-                      </span>
-                    </th>
-                    <th
-                      data-sort-id="total-time"
-                      data-current-sort-dir="desc"
-                      data-active-sort="false"
-                    >
-                      <span class="flex-row align-center justify-cont-center">
-                        Total Time
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_up</span
-                        >
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_down</span
-                        >
-                      </span>
-                    </th>
-                    <th
-                      data-sort-id="long-form"
-                      data-current-sort-dir="desc"
-                      data-active-sort="false"
-                    >
-                      <span class="flex-row align-center justify-cont-center">
-                        Long Form
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_up</span
-                        ><span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_down</span
-                        >
-                      </span>
-                    </th>
-                    <th
-                      data-sort-id="short-form"
-                      data-current-sort-dir="desc"
-                      data-active-sort="false"
-                    >
-                      <span class="flex-row align-center justify-cont-center">
-                        Short Form
-                        <span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_up</span
-                        ><span class="material-symbols-rounded hidden"
-                          >keyboard_arrow_down</span
-                        >
-                      </span>
-                    </th>
-                  </tr>
-                  <tr class="horizontal-line"></tr>
-                </thead>
+                <button class="button-brand" id="reset-all-watch-times">
+                  Reset All Times
+                </button>
 
-                <!-- Where the watch times are inserted -->
-                <tbody>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                  <tr>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                    <td><div class="loading-skeleton-item"></div></td>
-                  </tr>
-                </tbody>
+                <select
+                  name="days"
+                  id="list-timeframe"
+                  class="input-full-border"
+                >
+                  <option value="daily-times">Daily</option>
+                  <option value="weekly-times">Weekly</option>
+                  <option value="monthly-times">Monthly</option>
+                </select>
+              </div>
+            </header>
 
-                <tfoot>
-                  <tr class="horizontal-line"></tr>
-                  <tr>
-                    <td>Total Times</td>
-                    <td id="total">0hr 0m</td>
-                    <td id="long-form">0hr 0m</td>
-                    <td id="short-form">0hr 0m</td>
-                    <!-- <td></td> -->
-                  </tr>
-                </tfoot>
-              </table>
-            </span>
+            <!-- Empty Content -->
+            <div class="empty-content hidden" data-visible="false">
+              <div class="flex-col eight-spacing">
+                <p class="container-title">Watch Time Table</p>
+                <h1>No Watch Times Found</h1>
+                <p class="sub-header">
+                  Watch any YouTube video or Shorts to start tracking your watch
+                  times.
+                </p>
+              </div>
+            </div>
 
-            <!-- Charts -->
-            <span id="charts" class="watch-time-span">
+            <!-- Watch Times Table -->
+            <table
+              class="basic hidden"
+              id="watch-times-table"
+              data-visible="false"
+            >
+              <thead>
+                <tr>
+                  <th
+                    data-sort-id="date"
+                    data-current-sort-dir="desc"
+                    data-active-sort="true"
+                  >
+                    <span class="flex-row align-center">
+                      Date
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      >
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="total-time"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Total Time
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      >
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="long-form"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Long Form
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      ><span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="short-form"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Short Form
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      ><span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                </tr>
+                <tr class="horizontal-line"></tr>
+              </thead>
+
+              <!-- Where the watch times are inserted -->
+              <tbody>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr class="horizontal-line"></tr>
+                <tr>
+                  <td>Total Times</td>
+                  <td id="total">0hr 0m</td>
+                  <td id="long-form">0hr 0m</td>
+                  <td id="short-form">0hr 0m</td>
+                  <!-- <td></td> -->
+                </tr>
+              </tfoot>
+            </table>
+          </span>
+
+          <!-- Charts -->
+          <span id="charts" class="watch-time-span">
+            <div class="flex-col twelve-spacing">
               <header>
                 <h1>Graph</h1>
 
@@ -519,12 +518,17 @@
                   </button>
                 </span>
               </div>
+            </div>
 
+            <div>
               <canvas id="chart"></canvas>
-            </span>
-          </section>
+            </div>
+          </span>
         </section>
-      </div>
+      </section>
+
+      <!-- Watch Times -->
+      <!-- <div class="widget-container"></div> -->
     </main>
 
     <script src="/node_modules/progressbar.js/dist/progressbar.js"></script>
