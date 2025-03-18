@@ -115,13 +115,37 @@ function loadHelpPopover() {
 }
 
 /** SECTION - COLLAPSIBLE NAV BAR */
+/**
+ * Handles collapse/expansion depending on window width
+ *
+ * @name handleNavBarResize
+ *
+ * @returns {void}
+ *
+ * @example handleNavBarResize();
+ *
+ */
+function handleNavBarResize() {
+  const collapseButton = $(".collapse-nav");
+  const priorUserActivation =
+    $(collapseButton).attr("data-user-activated") === "true" ? true : false;
+  const isWindowNarrow = $(window).width() < 600;
+
+  // Collapsing nav bar when screen gets too narrow
+  if (isWindowNarrow) {
+    collapseNavBar(collapseButton);
+  } else if (!isWindowNarrow && !priorUserActivation) {
+    // Expands nav bar automatically only if the screen is wide enough and the user hasn't closed it prior
+    expandNavBar(collapseButton);
+  }
+}
 
 /**
  * Collapses side nav bar
  *
  * @name collapseNavBar
  *
- * @param collapseButton - jquery object of button to collapse nav bar
+ * @param {object} collapseButton - jquery object of button to collapse nav bar
  *
  * @returns {void}
  *
@@ -138,7 +162,7 @@ function collapseNavBar(collapseButton) {
  *
  * @name expandNavBar
  *
- * @param collapseButton - jquery object of button to collapse nav bar
+ * @param {object} collapseButton - jquery object of button to collapse nav bar
  *
  * @returns {void}
  *
@@ -325,16 +349,16 @@ $(document).ready(function () {
   // Controls collapsible nav bar
   $(".collapse-nav").on("click", function () {
     const isExpanded = $(this).attr("aria-expanded");
+    $(this).attr("data-user-activated", true);
     isExpanded === "true" ? collapseNavBar(this) : expandNavBar(this);
   });
 
-  // If window is less than 40rem wide, collapse nav bar. Else, expand nav bar
-  const isWindowTooNarrow = window.matchMedia("(max-width: 40rem)");
-  isWindowTooNarrow.addEventListener("change", function (event) {
-    const collapseButton = $(".collapse-nav");
-    event.matches
-      ? collapseNavBar(collapseButton)
-      : expandNavBar(collapseButton);
+  // Initial check to collapse/expand nav bar
+  handleNavBarResize();
+
+  // Bind handleNavBarResize() to the window resize event
+  $(window).resize(function () {
+    handleNavBarResize();
   });
 
   /** !SECTION */

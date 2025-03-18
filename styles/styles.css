@@ -685,8 +685,8 @@ button[type="submit"]:active,
   }
 }
 
-.cancel p,
-.red-text-button p {
+.cancel p.red-text,
+.red-text-button p.red-text {
   color: var(--brand-1);
   font-size: 1.4rem;
   font-weight: 600;
@@ -1248,7 +1248,7 @@ button.collapse-nav:hover {
 }
 
 .nav-logo p {
-  font-size: 1.6rem;
+  font-weight: 600;
   width: 100%;
 }
 
@@ -2126,7 +2126,7 @@ p.small-text {
   width: auto;
   overflow: hidden;
 
-  *:not(.red-text-button) > p {
+  p:not(.red-text) {
     /* max-width: 50ch; */
     text-wrap: balance;
     color: var(--text-dark);
@@ -2901,8 +2901,8 @@ section:has(> .empty-content[data-visible="true"]) {
     flex-wrap: nowrap;
   }
 }
-/* 
-@media (max-width: 40rem) {
+
+/* @media (max-width: 40rem) {
   aside {
     width: fit-content;
   }
