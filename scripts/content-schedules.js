@@ -12,9 +12,6 @@
 /**
  * SECTION - RESTRICTION SCHEDULE CHECKS
  */
-
-// FIXME: all day schedules don't redirect users
-
 /**
  * Inserts restriction event into popup html
  *
@@ -38,7 +35,7 @@ function getCurrentTime() {
 /**
  * Check if the current time is within a schedule timeframe for current day
  *
- * @name getActiveSchedule
+ * @name isActiveSchedule
  *
  * @param {object} dayObj { day, hour, minute }
  *
@@ -46,15 +43,24 @@ function getCurrentTime() {
  *
  * @example
  * const dayObj = getCurrentTime();
- * const isActive = await getActiveSchedule(dayObj);
+ * const isActive = await isActiveSchedule(dayObj);
  */
-async function getActiveSchedule({ day, hour, minute }) {
+async function isActiveSchedule({ day, hour, minute }) {
+  // Gets if the current day has an active all-day value
+  const allDayEvents = await filterRecordsGlobal("schedule-days", "dayId", day);
+  const isAllDay = allDayEvents[0]["all-day"];
+
+  // If all day schedule is active, skip rest of code and return true
+  if (isAllDay) {
+    return true;
+  }
+
   // Formats current time as 'hh:mm:ss'
   const minutes = minute.toString().padStart(2, "0");
   const currentTime = `${hour}:${minutes}:00`;
 
+  // Gets schedule events that happen within the day
   const events = await filterRecordsGlobal("schedule-events", "dayId", day);
-
   for (const { startTime, endTime } of events) {
     // Check if the current time falls within the event's start and end time
     if (currentTime > startTime && currentTime < endTime) {
@@ -81,7 +87,7 @@ async function checkSchedules() {
   // Gets current time (string) and day of the week (int - index of day of week i.e. Monday == 1)
   const dayObj = getCurrentTime();
 
-  const isActive = await getActiveSchedule(dayObj);
+  const isActive = await isActiveSchedule(dayObj);
 
   return isActive;
 }
