@@ -43,114 +43,119 @@
       <p>Message Text</p>
     </span>
 
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
     <!-- POPOVER New Blocked Website -->
     <div popover id="popover-new-website-item" class="popover">
-      <header>
-        <h1>New Blocked Website</h1>
-      </header>
+      <section class="flex-col sixteen-spacing full-width">
+        <header>
+          <h1>New Blocked Website</h1>
+        </header>
 
-      <form
-        action=""
-        method=""
-        class="content"
-        id="new-website-item"
-        data-table="additional-websites"
-      >
-        <div class="text-input-container">
-          <label for="website-name">Website Name</label>
-          <input
-            type="text"
-            class="input-border-bottom"
-            name="website-name"
-            data-property="name"
-            id="website-name"
-            placeholder="Reddit"
-            minlength="1"
-            maxlength="50"
-            required
-          />
-        </div>
+        <form
+          action=""
+          method=""
+          class="content"
+          id="new-website-item"
+          data-table="additional-websites"
+        >
+          <div class="text-input-container">
+            <label for="website-name">Website Name</label>
+            <input
+              type="text"
+              class="input-border-bottom"
+              name="website-name"
+              data-property="name"
+              id="website-name"
+              placeholder="Reddit"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
 
-        <div class="text-input-container">
-          <label for="website-url">URL Address</label>
-          <input
-            type="url"
-            class="input-border-bottom"
-            name="website-url"
-            data-property="url"
-            id="website-url"
-            placeholder="https://reddit.com"
-            minlength="7"
-            required
-          />
-        </div>
+          <div class="text-input-container">
+            <label for="website-url">URL Address</label>
+            <input
+              type="url"
+              class="input-border-bottom"
+              name="website-url"
+              data-property="url"
+              id="website-url"
+              placeholder="https://reddit.com"
+              minlength="7"
+              required
+            />
+          </div>
 
-        <div class="text-input-container">
-          <label for="website-type">Website Type</label>
-          <select
-            class="input-full-border"
-            type="text"
-            data-property="type"
-            name="website-type"
-            id="website-type"
-            required
-          >
-            <option value="">Choose a Website Type</option>
-            <option value="social-media">Social Media</option>
-            <option value="shopping">Shopping</option>
-            <option value="streaming">Streaming Content</option>
-            <option value="adult-content">Adult Content</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <label class="side-checkbox-container">
-          <input id="active" type="checkbox" data-property="active" checked />
-          <span class="checkmark">
-            <span class="material-symbols-rounded">check</span>
-          </span>
-
-          <p>Enable</p>
-        </label>
-
-        <div class="button-footer">
-          <span>
-            <button value="" class="text-button cancel" id="delete-item">
-              <p>Delete Website</p>
-            </button>
-          </span>
-
-          <span class="group-of-buttons">
-            <button
-              type="reset"
-              class="text-button cancel"
-              data-popover="popover-new-website-item"
+          <div class="text-input-container">
+            <label for="website-type">Website Type</label>
+            <select
+              class="input-full-border"
+              type="text"
+              data-property="type"
+              name="website-type"
+              id="website-type"
+              required
             >
-              <p>Cancel</p>
-            </button>
+              <option value="">Choose a Website Type</option>
+              <option value="social-media">Social Media</option>
+              <option value="shopping">Shopping</option>
+              <option value="streaming">Streaming Content</option>
+              <option value="adult-content">Adult Content</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <label class="side-checkbox-container">
+            <input id="active" type="checkbox" data-property="active" checked />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+
+            <p>Enable</p>
+          </label>
+
+          <div class="button-footer">
             <span>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="add-item"
-                data-table="additional-websites"
-              >
-                Add Website
-              </button>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="update-item"
-                data-table="additional-websites"
-              >
-                Update Website
+              <button value="" class="text-button cancel" id="delete-item">
+                <p>Delete Website</p>
               </button>
             </span>
-          </span>
-        </div>
-      </form>
+
+            <span class="group-of-buttons">
+              <button
+                type="reset"
+                class="text-button cancel"
+                data-popover="popover-new-website-item"
+              >
+                <p>Cancel</p>
+              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="add-item"
+                  data-table="additional-websites"
+                >
+                  Add Website
+                </button>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-item"
+                  data-table="additional-websites"
+                >
+                  Update Website
+                </button>
+              </span>
+            </span>
+          </div>
+        </form>
+      </section>
     </div>
 
     <!-- Side Nav Bar -->
@@ -369,7 +374,6 @@
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
     <script src="/scripts/global-functions.js"></script>
-    <script type="module" src="/scripts/usage-chart.js"></script>
     <script type="module" src="/scripts/settings-general.js"></script>
     <script src="/scripts/settings-website-blocker.js"></script>
     <script src="/scripts/settings-form-control.js"></script>

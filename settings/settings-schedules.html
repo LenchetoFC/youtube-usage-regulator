@@ -39,95 +39,104 @@
       <p>Message Text</p>
     </span>
 
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
     <!-- Schedule Event Overlay -->
     <div popover id="popover-schedule-event" class="popover">
-      <header>
-        <h1>YouTube Restricted</h1>
-      </header>
+      <section class="flex-col sixteen-spacing full-width">
+        <header>
+          <h1>YouTube Restricted</h1>
+        </header>
 
-      <form action="" method="" class="content" id="schedule-form">
-        <span class="overlay-buttons" id="schedule-day-options">
-          <!-- Sunday -->
-          <label class="side-checkbox-container" for="sunday">
-            <input id="sunday" name="sunday" type="checkbox" value="0" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Sun</p>
-          </label>
+        <form action="" method="" class="content" id="schedule-form">
+          <span class="overlay-buttons" id="schedule-day-options">
+            <!-- Sunday -->
+            <label class="side-checkbox-container" for="sunday">
+              <input id="sunday" name="sunday" type="checkbox" value="0" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Sun</p>
+            </label>
 
-          <!-- Monday -->
-          <label class="side-checkbox-container" for="monday">
-            <input id="monday" name="monday" type="checkbox" value="1" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Mon</p>
-          </label>
+            <!-- Monday -->
+            <label class="side-checkbox-container" for="monday">
+              <input id="monday" name="monday" type="checkbox" value="1" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Mon</p>
+            </label>
 
-          <!-- Tuesday -->
-          <label class="side-checkbox-container" for="tuesday">
-            <input id="tuesday" name="tuesday" type="checkbox" value="2" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Tue</p>
-          </label>
+            <!-- Tuesday -->
+            <label class="side-checkbox-container" for="tuesday">
+              <input id="tuesday" name="tuesday" type="checkbox" value="2" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Tue</p>
+            </label>
 
-          <!-- Wednesday -->
-          <label class="side-checkbox-container" for="wednesday">
-            <input id="wednesday" name="wednesday" type="checkbox" value="3" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Wed</p>
-          </label>
+            <!-- Wednesday -->
+            <label class="side-checkbox-container" for="wednesday">
+              <input
+                id="wednesday"
+                name="wednesday"
+                type="checkbox"
+                value="3"
+              />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Wed</p>
+            </label>
 
-          <!-- Thursday -->
-          <label class="side-checkbox-container" for="thursday">
-            <input id="thursday" name="thursday" type="checkbox" value="4" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Thu</p>
-          </label>
+            <!-- Thursday -->
+            <label class="side-checkbox-container" for="thursday">
+              <input id="thursday" name="thursday" type="checkbox" value="4" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Thu</p>
+            </label>
 
-          <!-- Friday -->
-          <label class="side-checkbox-container" for="friday">
-            <input id="friday" name="friday" type="checkbox" value="5" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Fri</p>
-          </label>
+            <!-- Friday -->
+            <label class="side-checkbox-container" for="friday">
+              <input id="friday" name="friday" type="checkbox" value="5" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Fri</p>
+            </label>
 
-          <!-- Saturday -->
-          <label class="side-checkbox-container" for="saturday">
-            <input id="saturday" name="saturday" type="checkbox" value="6" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>Sat</p>
-          </label>
-        </span>
+            <!-- Saturday -->
+            <label class="side-checkbox-container" for="saturday">
+              <input id="saturday" name="saturday" type="checkbox" value="6" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>Sat</p>
+            </label>
+          </span>
 
-        <hr class="horizontal-line" />
+          <hr class="horizontal-line" />
 
-        <span class="schedule-options" id="schedule-options">
-          <label class="side-checkbox-container" for="all-day">
-            <input
-              id="all-day"
-              name="all-day"
-              type="checkbox"
-              value="all-day"
-            />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
-            <p>All Day</p>
-          </label>
+          <span class="schedule-options" id="schedule-options">
+            <label class="side-checkbox-container" for="all-day">
+              <input
+                id="all-day"
+                name="all-day"
+                type="checkbox"
+                value="all-day"
+              />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+              <p>All Day</p>
+            </label>
 
-          <!-- <label class="side-checkbox-container" for="additionalSites">
+            <!-- <label class="side-checkbox-container" for="additionalSites">
             <input
               id="additionalSites"
               name="additionalSites"
@@ -139,64 +148,65 @@
             </span>
             <p>Include Additional Websites</p>
           </label> -->
-        </span>
+          </span>
 
-        <div id="new-time-container" class="time-container">
-          <div class="schedule-new-time" id="first-time-selection-new">
-            <input
-              id="startTime"
-              name="startTime"
-              placeholder="Start time"
-              type="time"
-              required
-            />
-            <div>-</div>
-            <input
-              id="endTime"
-              name="endTime"
-              placeholder="End time"
-              type="time"
-              required
-            />
+          <div id="new-time-container" class="time-container">
+            <div class="schedule-new-time" id="first-time-selection-new">
+              <input
+                id="startTime"
+                name="startTime"
+                placeholder="Start time"
+                type="time"
+                required
+              />
+              <div>-</div>
+              <input
+                id="endTime"
+                name="endTime"
+                placeholder="End time"
+                type="time"
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <span class="overlay-buttons">
-          <button class="text-button cancel" id="delete-schedule">
-            <p>Delete Schedule</p>
-          </button>
-
-          <span class="group-of-buttons">
-            <button
-              class="text-button cancel"
-              data-popover="popover-schedule-event"
-              id="cancel-schedule"
-            >
-              <p>Cancel</p>
+          <span class="overlay-buttons">
+            <button class="text-button cancel" id="delete-schedule">
+              <p>Delete Schedule</p>
             </button>
-            <span>
+
+            <span class="group-of-buttons">
               <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="save-schedule"
+                class="text-button cancel"
+                data-popover="popover-schedule-event"
+                id="cancel-schedule"
               >
-                Save Schedule
+                <p>Cancel</p>
               </button>
-            </span>
-            <span>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="update-schedule"
-              >
-                Update Schedule
-              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="save-schedule"
+                >
+                  Save Schedule
+                </button>
+              </span>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-schedule"
+                >
+                  Update Schedule
+                </button>
+              </span>
             </span>
           </span>
-        </span>
-      </form>
+        </form>
+      </section>
     </div>
 
     <!-- Side Nav Bar -->

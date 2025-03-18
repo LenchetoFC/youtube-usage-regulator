@@ -46,35 +46,39 @@ function loadNavBar() {
 }
 
 /**
- * loadBugReportPopover()
- * Loads bug report popover html from module file to more easily
- * update the bug report html whenever all at once for all pages
- * using bug report popovers
+ * loadHelpPopover()
+ * Loads Help popover html from module file to more easily
+ * update the Help html whenever all at once for all pages
+ * using Help popovers
  */
-function loadBugReportPopover() {
-  const $bodyTarget = $("body");
+function loadHelpPopover() {
+  const $bodyTarget = $("#popover-help");
 
-  fetch(`/modules/bug-report.html`)
+  fetch(`/modules/help-popover.html`)
     .then((res) => {
       if (res.ok) {
         return res.text();
       }
     })
-    .then((bugReportLayout) => {
-      $bodyTarget.prepend(bugReportLayout);
+    .then((helpPopoverLayout) => {
+      $bodyTarget.prepend(helpPopoverLayout);
     })
     .then(() => {
+      // Adds event listener to download settings
+      $("#export-settings").on("click", function (event) {
+        console.log("s");
+        event.preventDefault();
+        exportSettings();
+      });
+
       // Adds event listener to copy email to clipboard
       $(".copy-to-clipboard").on("click", function () {
         navigator.clipboard
           .writeText($(this).attr("value"))
           .then(() => {
-            displayNotifications(
-              "Email copied to clipboard",
-              "#40a6ce",
-              "info",
-              2500
-            );
+            $("#copy-confirm-msg").fadeIn(2000, function () {
+              $(this).fadeOut(2000);
+            });
           })
           .catch((err) => {
             displayNotifications(
@@ -139,26 +143,18 @@ function expandNavBar(collapseButton) {
  *
  */
 async function exportSettings() {
-  // Get all settings fromg local storage
+  // Get all settings from local storage
   const allSettings = await sendMessageToServiceWorker({
     operation: "selectAllStorage",
   });
 
   // Send data to service worker to download JSON file
-  await sendMessageToServiceWorker({
+  const downloadFileResults = await sendMessageToServiceWorker({
     operation: "downloadFile",
     filename: "settings.json",
     data: allSettings,
   });
 }
-
-/**
- * Export settings button
- */
-$("#export-settings").on("click", function (event) {
-  event.preventDefault();
-  exportSettings();
-});
 
 /** !SECTION */
 
@@ -169,8 +165,8 @@ $(document).ready(function () {
   // Fetch nav bar from nav-bar.html and insert into page
   loadNavBar();
 
-  // Fetch bug report from bug-report.html and insert into page
-  loadBugReportPopover();
+  // Fetch help popover from help-popover.html and insert into page
+  loadHelpPopover();
 
   /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
   $("button[type='reset'].cancel").on("click", function () {

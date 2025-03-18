@@ -43,191 +43,200 @@
       <p>Message Text</p>
     </span>
 
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
     <!-- POPOVER New Watch Mode -->
     <div popover id="popover-new-watch-mode" class="popover">
-      <header>
-        <h1>New Watch Mode</h1>
-      </header>
+      <section class="flex-col sixteen-spacing full-width">
+        <header>
+          <h1>New Watch Mode</h1>
+        </header>
 
-      <form action="" method="" class="content" id="new-watch-mode">
-        <div class="text-input-container">
-          <label for="watch-mode-name">Mode Name</label>
-          <input
-            type="text"
-            class="input-border-bottom"
-            name="watch-mode-name"
-            id="watch-mode-name"
-            placeholder="Educational Mode"
-            minlength="1"
-            maxlength="50"
-            required
-          />
-        </div>
-
-        <div class="text-input-container">
-          <label for="watch-mode-desc">Description</label>
-          <input
-            type="url"
-            class="input-border-bottom"
-            name="watch-mode-desc"
-            id="watch-mode-desc"
-            placeholder="Remove all non-educational materials"
-            minlength="1"
-            maxlength="100"
-            required
-          />
-        </div>
-
-        <div class="text-input-container">
-          <label for="allowed-tags">Allowed Tags</label>
-          <input
-            type="url"
-            class="input-border-bottom"
-            name="allowed-tags"
-            id="allowed-tags"
-            placeholder="School, learning, study, etc."
-            minlength="1"
-            required
-          />
-        </div>
-
-        <div class="text-input-container">
-          <label for="restricted-tags">Restricted Tags</label>
-          <input
-            type="url"
-            class="input-border-bottom"
-            name="restricted-tags"
-            id="restricted-tags"
-            placeholder="Games, movies, fun, etc."
-            minlength="1"
-            required
-          />
-        </div>
-
-        <div class="max-width space-between">
+        <form action="" method="" class="content" id="new-watch-mode">
           <div class="text-input-container">
-            <label for="watch-mode-color">Widget Color</label>
-
-            <div class="flex-row eight-spacing">
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-marian-blue"
-                value="#3c4672"
-                title="Marian Blue"
-                class="color-scheme"
-                tabindex="0"
-                checked
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-royal-purple"
-                value="#724B9C"
-                title="Royal Purple"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-chestnut"
-                value="#974F30"
-                title="Chestnut"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-dartmouth-green"
-                value="#256B55"
-                title="Dartmouth Green"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-byzantium"
-                value="#862760"
-                title="Byzantium"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-redwood"
-                value="#b04040"
-                title="redwood"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <input
-                type="radio"
-                name="watch-mode-color"
-                id="watch-mode-color-lapis-lazuli"
-                value="#336786"
-                title="Lapis Lazuli"
-                class="color-scheme"
-                tabindex="0"
-              />
-            </div>
+            <label for="watch-mode-name">Mode Name</label>
+            <input
+              type="text"
+              class="input-border-bottom"
+              name="watch-mode-name"
+              id="watch-mode-name"
+              placeholder="Educational Mode"
+              minlength="1"
+              maxlength="50"
+              required
+            />
           </div>
 
-          <label class="side-checkbox-container">
-            <input id="enabled-website" type="checkbox" />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
+          <div class="text-input-container">
+            <label for="watch-mode-desc">Description</label>
+            <input
+              type="url"
+              class="input-border-bottom"
+              name="watch-mode-desc"
+              id="watch-mode-desc"
+              placeholder="Remove all non-educational materials"
+              minlength="1"
+              maxlength="100"
+              required
+            />
+          </div>
 
-            <p>Enable</p>
-          </label>
-        </div>
+          <div class="text-input-container">
+            <label for="allowed-tags">Allowed Tags</label>
+            <input
+              type="url"
+              class="input-border-bottom"
+              name="allowed-tags"
+              id="allowed-tags"
+              placeholder="School, learning, study, etc."
+              minlength="1"
+              required
+            />
+          </div>
 
-        <div class="button-footer">
-          <span>
-            <button value="" class="text-button cancel" id="delete-watch-mode">
-              <p>Delete Mode</p>
-            </button>
-          </span>
+          <div class="text-input-container">
+            <label for="restricted-tags">Restricted Tags</label>
+            <input
+              type="url"
+              class="input-border-bottom"
+              name="restricted-tags"
+              id="restricted-tags"
+              placeholder="Games, movies, fun, etc."
+              minlength="1"
+              required
+            />
+          </div>
 
-          <span class="group-of-buttons">
-            <button
-              type="reset"
-              class="text-button cancel"
-              data-popover="popover-new-watch-mode"
-            >
-              <p>Cancel</p>
-            </button>
+          <div class="max-width space-between">
+            <div class="text-input-container">
+              <label for="watch-mode-color">Widget Color</label>
+
+              <div class="flex-row eight-spacing">
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-marian-blue"
+                  value="#3c4672"
+                  title="Marian Blue"
+                  class="color-scheme"
+                  tabindex="0"
+                  checked
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-royal-purple"
+                  value="#724B9C"
+                  title="Royal Purple"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-chestnut"
+                  value="#974F30"
+                  title="Chestnut"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-dartmouth-green"
+                  value="#256B55"
+                  title="Dartmouth Green"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-byzantium"
+                  value="#862760"
+                  title="Byzantium"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-redwood"
+                  value="#b04040"
+                  title="redwood"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <input
+                  type="radio"
+                  name="watch-mode-color"
+                  id="watch-mode-color-lapis-lazuli"
+                  value="#336786"
+                  title="Lapis Lazuli"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+              </div>
+            </div>
+
+            <label class="side-checkbox-container">
+              <input id="enabled-website" type="checkbox" />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+
+              <p>Enable</p>
+            </label>
+          </div>
+
+          <div class="button-footer">
             <span>
               <button
-                type="submit"
                 value=""
-                popovertargetaction="toggle"
-                id="add-watch-mode"
+                class="text-button cancel"
+                id="delete-watch-mode"
               >
-                Add Mode
-              </button>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="update-watch-mode"
-              >
-                Update Mode
+                <p>Delete Mode</p>
               </button>
             </span>
-          </span>
-        </div>
-      </form>
+
+            <span class="group-of-buttons">
+              <button
+                type="reset"
+                class="text-button cancel"
+                data-popover="popover-new-watch-mode"
+              >
+                <p>Cancel</p>
+              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="add-watch-mode"
+                >
+                  Add Mode
+                </button>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-watch-mode"
+                >
+                  Update Mode
+                </button>
+              </span>
+            </span>
+          </div>
+        </form>
+      </section>
     </div>
 
     <!-- Side Nav Bar -->

@@ -43,216 +43,226 @@
       <p>Message Text</p>
     </span>
 
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
     <!-- POPOVER New Spoiler Group -->
     <div popover id="popover-new-spoiler-group" class="popover">
-      <header>
-        <h1>New Spoiler Keyword Group</h1>
-      </header>
+      <section class="flex-col sixteen-spacing full-width">
+        <header>
+          <h1>New Spoiler Keyword Group</h1>
+        </header>
 
-      <form
-        action=""
-        method=""
-        class="content"
-        id="new-spoiler-group"
-        data-table="spoiler-groups"
-      >
-        <div class="text-input-container">
-          <label for="spoiler-group-name">Group Name</label>
-          <input
-            type="text"
-            class="input-border-bottom"
-            name="spoiler-group-name"
-            data-property="name"
-            id="spoiler-group-name"
-            placeholder="Marvel Spoiler Free"
-            minlength="1"
-            maxlength="50"
-            required
-          />
-        </div>
-
-        <div class="text-input-container">
-          <label for="spoiler-group-desc">Description</label>
-          <input
-            type="text"
-            class="input-border-bottom"
-            name="spoiler-group-desc"
-            data-property="desc"
-            id="spoiler-group-desc"
-            placeholder="Avoid marvel videos."
-            minlength="1"
-            maxlength="100"
-            required
-          />
-        </div>
-
-        <div class="text-input-container">
-          <label for="keywords">Keywords</label>
-          <textarea
-            class="input-border-bottom"
-            name="keywords"
-            id="keywords"
-            data-property="keywords"
-            placeholder="Keywords separated by commas."
-            minlength="1"
-            required
-          ></textarea>
-        </div>
-
-        <div class="max-width space-between">
+        <form
+          action=""
+          method=""
+          class="content"
+          id="new-spoiler-group"
+          data-table="spoiler-groups"
+        >
           <div class="text-input-container">
-            <p class="label dark-text">Widget Color</p>
-
-            <div class="flex-row eight-spacing">
-              <label for="spoiler-group-color-marian-blue" class="hidden"
-                >Marian Blue</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                data-property="color"
-                id="spoiler-group-color-marian-blue"
-                value="#3c4672"
-                title="Marian Blue"
-                class="color-scheme"
-                tabindex="0"
-                checked
-              />
-
-              <label for="spoiler-group-color-royal-purple" class="hidden"
-                >Royal Purple</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                data-property="color"
-                id="spoiler-group-color-royal-purple"
-                value="#724B9C"
-                title="Royal Purple"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <label for="spoiler-group-color-chestnut" class="hidden"
-                >Chestnut</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                id="spoiler-group-color-chestnut"
-                data-property="color"
-                value="#974F30"
-                title="Chestnut"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <label for="spoiler-group-color-dartmouth-green" class="hidden"
-                >Dartmouth Green</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                id="spoiler-group-color-dartmouth-green"
-                data-property="color"
-                value="#256B55"
-                title="Dartmouth Green"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <label for="spoiler-group-color-byzantium" class="hidden"
-                >Byzantium</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                id="spoiler-group-color-byzantium"
-                value="#862760"
-                data-property="color"
-                title="Byzantium"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <label for="spoiler-group-color-redwood" class="hidden"
-                >Redwood</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                id="spoiler-group-color-redwood"
-                value="#b04040"
-                data-property="color"
-                title="redwood"
-                class="color-scheme"
-                tabindex="0"
-              />
-
-              <label for="spoiler-group-color-lapis-lazuli" class="hidden"
-                >Lapis Lazuli</label
-              >
-              <input
-                type="radio"
-                name="spoiler-group-color"
-                data-property="color"
-                id="spoiler-group-color-lapis-lazuli"
-                value="#336786"
-                title="Lapis Lazuli"
-                class="color-scheme"
-                tabindex="0"
-              />
-            </div>
+            <label for="spoiler-group-name">Group Name</label>
+            <input
+              type="text"
+              class="input-border-bottom"
+              name="spoiler-group-name"
+              data-property="name"
+              id="spoiler-group-name"
+              placeholder="Marvel Spoiler Free"
+              minlength="1"
+              maxlength="50"
+              required
+            />
           </div>
 
-          <label class="side-checkbox-container">
-            <input id="active" type="checkbox" data-property="active" checked />
-            <span class="checkmark">
-              <span class="material-symbols-rounded">check</span>
-            </span>
+          <div class="text-input-container">
+            <label for="spoiler-group-desc">Description</label>
+            <input
+              type="text"
+              class="input-border-bottom"
+              name="spoiler-group-desc"
+              data-property="desc"
+              id="spoiler-group-desc"
+              placeholder="Avoid marvel videos."
+              minlength="1"
+              maxlength="100"
+              required
+            />
+          </div>
 
-            <p>Enable</p>
-          </label>
-        </div>
+          <div class="text-input-container">
+            <label for="keywords">Keywords</label>
+            <textarea
+              class="input-border-bottom"
+              name="keywords"
+              id="keywords"
+              data-property="keywords"
+              placeholder="Keywords separated by commas."
+              minlength="1"
+              required
+            ></textarea>
+          </div>
 
-        <div class="button-footer">
-          <span>
-            <button value="" class="text-button cancel" id="delete-item">
-              <p>Delete Group</p>
-            </button>
-          </span>
+          <div class="max-width space-between">
+            <div class="text-input-container">
+              <p class="label dark-text">Widget Color</p>
 
-          <span class="group-of-buttons">
-            <button
-              type="reset"
-              class="text-button cancel"
-              data-popover="popover-new-spoiler-group"
-            >
-              <p>Cancel</p>
-            </button>
+              <div class="flex-row eight-spacing">
+                <label for="spoiler-group-color-marian-blue" class="hidden"
+                  >Marian Blue</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  data-property="color"
+                  id="spoiler-group-color-marian-blue"
+                  value="#3c4672"
+                  title="Marian Blue"
+                  class="color-scheme"
+                  tabindex="0"
+                  checked
+                />
+
+                <label for="spoiler-group-color-royal-purple" class="hidden"
+                  >Royal Purple</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  data-property="color"
+                  id="spoiler-group-color-royal-purple"
+                  value="#724B9C"
+                  title="Royal Purple"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <label for="spoiler-group-color-chestnut" class="hidden"
+                  >Chestnut</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  id="spoiler-group-color-chestnut"
+                  data-property="color"
+                  value="#974F30"
+                  title="Chestnut"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <label for="spoiler-group-color-dartmouth-green" class="hidden"
+                  >Dartmouth Green</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  id="spoiler-group-color-dartmouth-green"
+                  data-property="color"
+                  value="#256B55"
+                  title="Dartmouth Green"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <label for="spoiler-group-color-byzantium" class="hidden"
+                  >Byzantium</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  id="spoiler-group-color-byzantium"
+                  value="#862760"
+                  data-property="color"
+                  title="Byzantium"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <label for="spoiler-group-color-redwood" class="hidden"
+                  >Redwood</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  id="spoiler-group-color-redwood"
+                  value="#b04040"
+                  data-property="color"
+                  title="redwood"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+
+                <label for="spoiler-group-color-lapis-lazuli" class="hidden"
+                  >Lapis Lazuli</label
+                >
+                <input
+                  type="radio"
+                  name="spoiler-group-color"
+                  data-property="color"
+                  id="spoiler-group-color-lapis-lazuli"
+                  value="#336786"
+                  title="Lapis Lazuli"
+                  class="color-scheme"
+                  tabindex="0"
+                />
+              </div>
+            </div>
+
+            <label class="side-checkbox-container">
+              <input
+                id="active"
+                type="checkbox"
+                data-property="active"
+                checked
+              />
+              <span class="checkmark">
+                <span class="material-symbols-rounded">check</span>
+              </span>
+
+              <p>Enable</p>
+            </label>
+          </div>
+
+          <div class="button-footer">
             <span>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="add-item"
-                data-table="spoiler-groups"
-              >
-                Add Group
-              </button>
-              <button
-                type="submit"
-                value=""
-                popovertargetaction="toggle"
-                id="update-item"
-                data-table="spoiler-groups"
-              >
-                Update Group
+              <button value="" class="text-button cancel" id="delete-item">
+                <p>Delete Group</p>
               </button>
             </span>
-          </span>
-        </div>
-      </form>
+
+            <span class="group-of-buttons">
+              <button
+                type="reset"
+                class="text-button cancel"
+                data-popover="popover-new-spoiler-group"
+              >
+                <p>Cancel</p>
+              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="add-item"
+                  data-table="spoiler-groups"
+                >
+                  Add Group
+                </button>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-item"
+                  data-table="spoiler-groups"
+                >
+                  Update Group
+                </button>
+              </span>
+            </span>
+          </div>
+        </form>
+      </section>
     </div>
 
     <!-- Side Nav Bar -->
