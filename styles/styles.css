@@ -1361,6 +1361,17 @@ button[type="submit"]:disabled:hover {
   }
 }
 
+#video-comparison-top-widget .content {
+  padding: 2rem 1rem;
+}
+
+.dropbox {
+  height: 20rem;
+  width: 40rem;
+  border-radius: 1.2rem;
+  border: 1.5px dashed var(--border-dark);
+}
+
 p.large-text {
   font-size: 1.8rem;
   font-weight: 600;
@@ -2154,6 +2165,7 @@ p.small-text {
       background: var(--surface-light);
       transition: 0.25s;
       cursor: copy;
+      width: 40rem;
 
       .material-symbols-rounded {
         color: var(--surface-dark);

@@ -65,7 +65,9 @@
 
       <form method="post" enctype="multipart/form-data">
         <div>
-          <label for="file" class="medium-text">Choose file to upload</label>
+          <label for="imported-settings" class="medium-text">
+            Choose JSON file to upload
+          </label>
           <input
             type="file"
             id="imported-settings"
@@ -73,8 +75,9 @@
             accept="application/json"
           />
         </div>
+        <!-- <div class="dropbox" id="dropbox"></div> -->
         <div>
-          <button class="button-brand">Submit</button>
+          <button class="button-brand" id="import-settings">Submit</button>
         </div>
       </form>
     </div>

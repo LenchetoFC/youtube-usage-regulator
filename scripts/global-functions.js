@@ -526,9 +526,13 @@ async function getCurrentWatchMode() {
 
     let currentWatchMode = data[0];
 
-    return currentWatchMode;
+    if (currentWatchMode) {
+      return currentWatchMode;
+    } else {
+      throw Error;
+    }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return false;
   }
 }

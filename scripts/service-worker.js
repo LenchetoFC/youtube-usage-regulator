@@ -584,6 +584,30 @@ function updateRecords(table, records) {
 }
 
 /**
+ * Import existing records
+ *
+ * @name importRecords
+ *
+ * @param {object} importedRecords - records i.e. JSON object of entire database
+ *
+ * @returns {void} Returns nothing
+ *
+ * @example importRecords(jsonObject);
+ */
+function importRecords(importedRecords) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.clear();
+    chrome.storage.sync.set(importedRecords, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(true);
+      }
+    });
+  });
+}
+
+/**
  * Update a specific record by ID
  *
  * @name updateRecordByProperty
@@ -929,7 +953,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       .then(() => {
         sendResponse({
           error: false,
-          message: `Successfuly inserted records ${JSON.stringify(
+          message: `Successfully inserted records ${JSON.stringify(
             request.records
           )} into table ${request.table}.`,
         });
@@ -964,6 +988,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       filename: request.filename,
       saveAs: true,
     });
+  } else if (request.operation === "importSettings") {
+    importRecords(request.records).then(sendResponse);
   }
 
   if (request.redirect) {
@@ -980,7 +1006,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 // Updates last-used-date to current date if date doesn't match or exist
 // chrome.storage.sync.get(["last-used-date"], function (result) {
-//   let currentDay = new Date().toDateString(); //Format: dayofweek month day year "Thu Apr 25 2024"
+//   let currentDay = new Date().toDateString(); //Format: dayOfWeek month day year "Thu Apr 25 2024"
 
 //   // NOTE: Disabled !for now!
 //   if (result["last-used-date"] != currentDay) {

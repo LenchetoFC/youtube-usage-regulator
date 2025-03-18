@@ -66,9 +66,23 @@ function loadHelpPopover() {
     .then(() => {
       // Adds event listener to download settings
       $("#export-settings").on("click", function (event) {
-        console.log("s");
         event.preventDefault();
         exportSettings();
+      });
+
+      // Adds event listener to handle file import
+      $("#import-settings").on("click", async function (event) {
+        event.preventDefault();
+
+        const fileInput = document.querySelector("#imported-settings");
+        const importedRecords = fileInput.files;
+
+        // Imports settings file into chrome sync storage
+        const results = await handleImportFile(importedRecords);
+        if (results) {
+          // Reload page if import is successful
+          window.location.reload();
+        }
       });
 
       // Adds event listener to copy email to clipboard
@@ -90,6 +104,13 @@ function loadHelpPopover() {
             console.error("Failed to copy text: ", err);
           });
       });
+
+      // Drag and drop for importing settings file
+      // let dropbox;
+      // dropbox = document.getElementById("dropbox");
+      // dropbox.addEventListener("dragenter", dragenter, false);
+      // dropbox.addEventListener("dragover", dragover, false);
+      // dropbox.addEventListener("drop", drop, false);
     });
 }
 
@@ -131,7 +152,7 @@ function expandNavBar(collapseButton) {
 
 /** !SECTION */
 
-/** SECTION - EXPORT SETTINGS INTO JSON FILE */
+/** SECTION - EXPORT/IMPORT SETTINGS */
 /**
  * Retrieves all settings from local storage and exports it to JSON file
  *
@@ -154,6 +175,71 @@ async function exportSettings() {
     filename: "settings.json",
     data: allSettings,
   });
+}
+
+// Handle file drag enter action
+// function dragenter(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+// }
+
+// Handle file drag over action
+// function dragover(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+// }
+
+// Handle file drop action
+// function drop(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+
+//   const dt = e.dataTransfer;
+//   const importedSettings = dt.files[0];
+
+//   handleImportFile(importedSettings);
+// }
+
+/**
+ * Handles import file by calling service worker to import settings
+ *
+ * @name handleImportFile
+ * @async
+ *
+ * @param {object} importedRecords - records i.e. JSON object of entire database
+ *
+ * @returns {boolean}
+ *
+ * @example handleImportFile(jsonObject);
+ *
+ */
+async function handleImportFile(importedRecords) {
+  try {
+    if (importedRecords.length > 0) {
+      const reader = new FileReader();
+
+      reader.onload = async (event) => {
+        const fileContent = JSON.parse(event.target.result);
+
+        const results = await sendMessageToServiceWorker({
+          operation: "importSettings",
+          records: fileContent,
+        });
+
+        if (results != true) {
+          throw new Error(results);
+        }
+      };
+
+      reader.readAsText(importedRecords[0]);
+      return true;
+    } else {
+      throw new Error("No File Selected");
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 }
 
 /** !SECTION */
