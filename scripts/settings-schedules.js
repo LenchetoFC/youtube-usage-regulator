@@ -275,7 +275,7 @@ async function insertNewEvent() {
       toggleButtonAnimation(`#save-schedule`, false);
 
       // If form is invalid, end function
-      if (!formValidity) {
+      if (formValidity?.includes(false)) {
         displayNotifications(
           "Please select at least one day and choose event times.",
           "#d92121",
@@ -326,7 +326,7 @@ async function insertNewEvent() {
       checkActiveDayStatus();
 
       // Gets status message from insertion
-      if (updateEventResult.error) {
+      if (updateEventResult?.error) {
         // Displays failure notification
         displayNotifications(
           "Could not add event. Try again later.",
@@ -336,7 +336,7 @@ async function insertNewEvent() {
         );
 
         throw new Error(updateEventResult.message);
-      } else if (newEventResult.error) {
+      } else if (newEventResult?.error) {
         // Displays failure notification
         displayNotifications(
           "Could not add event. Try again later.",
@@ -382,7 +382,7 @@ async function insertNewEvent() {
  * @returns {Promise<Object>} A promise that resolves to the result of the update operation.
  */
 async function updateAllDayEvent(event) {
-  const DAYNAMES = [
+  const dayNames = [
     "sunday",
     "monday",
     "tuesday",
@@ -399,7 +399,7 @@ async function updateAllDayEvent(event) {
   // Adds missing schedule-day properties
   event.active = true;
   event.id = event.dayId;
-  event.name = DAYNAMES[event.dayId];
+  event.name = dayNames[event.dayId];
 
   // Updates schedule day in database
   /** schedule-day record
@@ -499,7 +499,7 @@ async function updateScheduleEvent() {
       checkActiveDayStatus();
 
       // Gets status message from insertion
-      if (saveEventResult.error) {
+      if (saveEventResult?.error) {
         displayNotifications(
           "Could not update event. Try again later.",
           "#d92121",
@@ -547,13 +547,14 @@ async function updateScheduleEvent() {
  * @returns {boolean} Returns true if the form is valid, false otherwise.
  */
 function isFormValid(form) {
-  let formValidity = form?.checkValidity();
+  let formValidity = form?.reportValidity();
+
   let checkboxesValidity = areDayCheckboxesChecked();
   let timeInputValidity = isTimeInputValid();
 
-  if (!formValidity || !checkboxesValidity || !timeInputValidity) {
-    form?.reportValidity();
-  }
+  // if (!formValidity || !checkboxesValidity || !timeInputValidity) {
+  //   form?.reportValidity();
+  // }
   return [formValidity, checkboxesValidity, timeInputValidity];
 }
 
@@ -653,7 +654,7 @@ function getExistingEventFormValues(eventObj) {
  * @returns {void} Populates the event overlay with the provided event information.
  */
 function populateEventOverlay(eventInfo) {
-  const DAYNAMES = [
+  const dayNames = [
     "sunday",
     "monday",
     "tuesday",
@@ -697,7 +698,7 @@ function populateEventOverlay(eventInfo) {
 
   // Checks all selected days
   for (let dayId = startDay; dayId <= endDay; dayId++) {
-    $(`#${DAYNAMES[dayId]}`).attr("checked", true);
+    $(`#${dayNames[dayId]}`).attr("checked", true);
   }
 
   // Populates form
@@ -744,7 +745,7 @@ function createEventObject(eventInfo) {
 
   eventObj.eventId = parseInt(event.id);
 
-  // Assigns the other proprties that depend on the creation method
+  // Assigns the other properties that depend on the creation method
   if (isEventInfoNull) {
     eventObj.dayId = eventObj.startStr.getDay();
     eventObj.isNewEvent = true;
@@ -771,11 +772,18 @@ function createEventObject(eventInfo) {
  * @returns {void} Hides or shows the time container based on the all-day status.
  */
 function hideTimeContainer(isAllDay) {
-  if (isAllDay) {
-    $("#new-time-container").css("display", "none");
-  } else {
-    $("#new-time-container").css("display", "flex");
-  }
+  $("#new-time-container").slideToggle(function () {
+    $("#startTime").prop("required", !$("#startTime").prop("required"));
+    $("#endTime").prop("required", !$("#endTime").prop("required"));
+
+    if (isAllDay) {
+      $("#new-time-container").css("display", "none");
+      $("#new-time-container").find("input").attr("data-type", "hidden");
+    } else {
+      $("#new-time-container").css("display", "flex");
+      $("#new-time-container").find("input").attr("data-type", "time");
+    }
+  });
 }
 
 /**
@@ -955,7 +963,7 @@ async function renderCalendar() {
           if (window.confirm("Confirm to clear the entire calendar...")) {
             let resultDays = await resetTableGlobal("schedule-days");
             resultEvents = await resetTableGlobal("schedule-events");
-            if (!resultDays.error && !resultEvents.error) {
+            if (!resultDays?.error && !resultEvents?.error) {
               displayNotifications(
                 "Cleared Calendar Successfully!",
                 "#390",
@@ -1047,11 +1055,9 @@ $(document).ready(async function () {
 
   /** SECTION - EVENT LISTENERS */
   // If all day is clicked, hide/show time-container
-  $("#all-day").on("click", function () {
-    $("#new-time-container").slideToggle(function () {
-      $("#startTime").prop("required", !$("#startTime").prop("required"));
-      $("#endTime").prop("required", !$("#endTime").prop("required"));
-    });
+  $("#all-day").on("click", function (event) {
+    const isChecked = event.target.checked;
+    hideTimeContainer(isChecked);
   });
 
   // Change schedule form header text according to additional sites checkbox
