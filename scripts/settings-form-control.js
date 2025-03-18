@@ -126,18 +126,20 @@ $(document).ready(function () {
     .on("click", function () {
       const formId = $(this).closest(`.${formClassName}`).attr("id");
       const isChanged = checkForChangedCheckboxes(this, formId);
+      console.log("isChanged", isChanged);
 
       // Fade in or fade out the unsaved message based on the presence of the "changed" class
       if (isChanged) {
         displayNotifications(
-          "Ensure to save your changed settings.",
+          "page-notif-msg",
+          "Save your settings.",
           "#fc0",
           "warning",
           0,
           true
         );
       } else {
-        $("#notif-msg").fadeOut(1000);
+        $("#page-notif-msg").fadeOut(1000);
       }
     });
 
@@ -153,18 +155,24 @@ $(document).ready(function () {
     const $buttonId = $(this).attr("id");
     const $formId = $(this).closest("form").attr("id");
 
-    console.log($formId);
+    // console.log($formId);
 
     toggleButtonAnimation(`#${$buttonId}`, true);
 
     // Hide unsaved message
-    $("#notif-msg").fadeOut();
+    $("#page-notif-msg").fadeOut();
 
     // Retrieve current values of the form inputs: name, id, isActive, isQuickAdd
     const newRecords = getChangedSettings($formId);
 
     if (Object.keys(newRecords)?.length == 0 ?? false) {
-      displayNotifications("No changes to save.", "#40a6ce", "info", 2500);
+      displayNotifications(
+        "page-notif-msg",
+        "No changes to save.",
+        "#40a6ce",
+        "info",
+        2500
+      );
 
       // Disables button animation
       toggleButtonAnimation(`#${$buttonId}`, false);
@@ -182,6 +190,7 @@ $(document).ready(function () {
       // Start animation on status message, depending saving outcome
       if (!updateResult.error) {
         displayNotifications(
+          "page-notif-msg",
           "Saved settings successfully!",
           "#390",
           "verified",
@@ -189,6 +198,7 @@ $(document).ready(function () {
         );
       } else {
         displayNotifications(
+          "page-notif-msg",
           "Unsuccessfully update. Check error logs.",
           // updateSettingsResults.message,
           "#d92121",
@@ -217,9 +227,25 @@ $(document).ready(function () {
         const resetResult = await resetTableGlobal(`${$table}`);
 
         if (!resetResult.error) {
-          window.location.reload();
+          displayNotifications(
+            "page-notif-msg",
+            "Cleared settings successfully!",
+            "#390",
+            "verified",
+            2000
+          );
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } else {
-          displayNotifications(resetResult.message, "#d92121", "error", 5000);
+          displayNotifications(
+            "page-notif-msg",
+            resetResult.message,
+            "#d92121",
+            "error",
+            5000
+          );
         }
       }
     } catch (error) {
@@ -241,7 +267,7 @@ $(document).ready(function () {
      * This function unchecks all limitation inputs by setting their checked property to false.
      */
     function uncheckCheckboxes(formId) {
-      const $checkboxes = $(`form#${formId}`).find("fieldset input");
+      const $checkboxes = $(`form#${formId}`).find("input");
 
       $checkboxes.each(function (_, element) {
         $(`input[name='${element.name}']`).prop("checked", false);
@@ -257,7 +283,8 @@ $(document).ready(function () {
 
         if (!resetResult.error) {
           displayNotifications(
-            "Cleared Settings Successfully!",
+            "page-notif-msg",
+            "Cleared settings successfully!",
             "#390",
             "verified",
             2000
@@ -266,7 +293,13 @@ $(document).ready(function () {
           // Sets all checkboxes to unchecked
           uncheckCheckboxes($formId);
         } else {
-          displayNotifications(resetResult.message, "#d92121", "error", 5000);
+          displayNotifications(
+            "page-notif-msg",
+            resetResult.message,
+            "#d92121",
+            "error",
+            5000
+          );
         }
       }
     } catch (error) {

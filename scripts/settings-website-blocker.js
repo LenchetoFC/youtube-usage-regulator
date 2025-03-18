@@ -128,6 +128,7 @@ async function insertWebsitesIntoPage() {
 
     if (results) {
       displayNotifications(
+        "page-notif-msg",
         `Successfully ${$isActive ? "enabled" : "disabled"} website!`,
         "#390",
         "verified",
@@ -135,6 +136,7 @@ async function insertWebsitesIntoPage() {
       );
     } else {
       displayNotifications(
+        "page-notif-msg",
         "Could not update this item. Try again later.",
         "#d92121",
         "release_alert",

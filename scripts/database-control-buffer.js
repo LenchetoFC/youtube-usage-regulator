@@ -97,16 +97,7 @@ async function deleteItemFromDatabase(table, itemId) {
 
       // Displays error message if deleting is unsuccessful
       if (results.error) {
-        displayNotifications(
-          "Unsuccessfully deleted. Check error logs.",
-          "#d92121",
-          "release_alert",
-          5000
-        );
-
         throw new Error(`${results.message}`);
-      } else {
-        window.location.reload();
       }
     }
     return true;

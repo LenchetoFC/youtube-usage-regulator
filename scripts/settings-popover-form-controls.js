@@ -128,6 +128,7 @@ function saveItemToDatabase(table, formId, buttonID) {
       // Gets status message from insertion
       if (results.error) {
         displayNotifications(
+          "popover-notif-msg",
           `Could not ${
             isNewItem ? "add" : "update"
           } this item. Try again later.`,
@@ -137,8 +138,18 @@ function saveItemToDatabase(table, formId, buttonID) {
         );
         throw new Error(results.message);
       } else {
-        // Reloads webpage
-        window.location.reload();
+        // Reload page if update or addition is successful
+        displayNotifications(
+          "popover-notif-msg",
+          `Successfully ${isNewItem ? "added" : "updated"} item!`,
+          "#390",
+          "verified",
+          2000
+        );
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
 
       return true;
@@ -150,16 +161,15 @@ function saveItemToDatabase(table, formId, buttonID) {
 }
 
 /**
- * Description
+ * Clears any existing value with a form
  *
- * @name functionName
- * @global
+ * @name clearFormValues
  *
- * @param {type} name - description
+ * @param {string} formId - id of form in question
  *
- * @returns {type}
+ * @returns {void}
  *
- * @example functionName(params);
+ * @example clearFormValues("settings-form");
  *
  */
 function clearFormValues(formId) {
@@ -171,10 +181,11 @@ function clearFormValues(formId) {
 /**
  * Description
  *
- * @name functionName
+ * @name determineFormFooterButtons
  * @global
  *
- * @param {type} name - description
+ * @param {boolean} isNewItem - whether or not the the item is new or is being updated
+ * @param {object} itemData - object of item's information
  *
  * @returns {type}
  *
@@ -248,6 +259,29 @@ $(document).ready(async function () {
     const table = $(this).closest("form").attr("data-table");
     const itemId = $(this).attr("data-item-id");
 
-    deleteItemFromDatabase(table, itemId);
+    const results = deleteItemFromDatabase(table, itemId);
+
+    if (!results) {
+      displayNotifications(
+        "popover-notif-msg",
+        "Unsuccessfully deleted item.",
+        "#d92121",
+        "release_alert",
+        5000
+      );
+    } else {
+      // Reload page if update or addition is successful
+      displayNotifications(
+        "popover-notif-msg",
+        `Successfully deleted item!`,
+        "#390",
+        "verified",
+        2000
+      );
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
   });
 });

@@ -2343,11 +2343,10 @@ div#popover-restricted-details > *:not(img) {
 /* ------------- */
 /* NOTIFICATIONS */
 /* ------------- */
-#notif-msg {
+.notif-msg {
   display: none;
   position: absolute;
-  left: 2rem;
-  top: 2rem;
+
   border-radius: 12px;
   align-items: center;
   justify-content: flex-end;
@@ -2356,15 +2355,26 @@ div#popover-restricted-details > *:not(img) {
   background: var(--surface-light);
   width: fit-content;
   z-index: 100;
-  box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 6px -2px rgba(0, 0, 0, 0.5);
   padding: 1.6rem 1.6rem 1.6rem 4rem;
 
   p {
     color: var(--text-dark);
+    font-weight: 600;
   }
 }
 
-#notif-msg:before {
+.popover-notif-msg {
+  bottom: 2rem;
+  left: 2rem;
+}
+
+#page-notif-msg {
+  left: 2rem;
+  top: 2rem;
+}
+
+.notif-msg::before {
   content: "";
   position: absolute;
   background: var(--notif-before-background);
@@ -2517,7 +2527,7 @@ body.popup {
     }
   }
 
-  #notif-msg {
+  #page-notif-msg {
     max-width: 33rem;
     left: 1rem;
   }

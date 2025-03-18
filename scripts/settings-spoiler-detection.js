@@ -108,6 +108,7 @@ async function insertGroupsIntoPage() {
 
     if (results) {
       displayNotifications(
+        "page-notif-msg",
         `Successfully ${$isActive ? "enabled" : "disabled"} spoiler group!`,
         "#390",
         "verified",
@@ -115,6 +116,7 @@ async function insertGroupsIntoPage() {
       );
     } else {
       displayNotifications(
+        "page-notif-msg",
         "Could not update this spoiler group. Try again later.",
         "#d92121",
         "release_alert",

@@ -277,6 +277,7 @@ async function insertNewEvent() {
       // If form is invalid, end function
       if (formValidity?.includes(false)) {
         displayNotifications(
+          "popover-notif-msg",
           "Please select at least one day and choose event times.",
           "#d92121",
           "release_alert",
@@ -329,6 +330,7 @@ async function insertNewEvent() {
       if (updateEventResult?.error) {
         // Displays failure notification
         displayNotifications(
+          "popover-notif-msg",
           "Could not add event. Try again later.",
           "#d92121",
           "release_alert",
@@ -339,6 +341,7 @@ async function insertNewEvent() {
       } else if (newEventResult?.error) {
         // Displays failure notification
         displayNotifications(
+          "popover-notif-msg",
           "Could not add event. Try again later.",
           "#d92121",
           "release_alert",
@@ -349,19 +352,22 @@ async function insertNewEvent() {
       } else {
         console.log(updateEventResult.message);
 
-        // Rerenders calendar
-        renderCalendar();
-
-        // Closes popover
-        closePopover();
-
         // Displays success notification
         displayNotifications(
-          "Successfully Added New Event!",
+          "popover-notif-msg",
+          "Successfully added new event!",
           "#390",
           "verified",
           2000
         );
+
+        setTimeout(() => {
+          // Rerenders calendar
+          renderCalendar();
+
+          // Closes popover
+          closePopover();
+        }, 2000);
       }
 
       return true;
@@ -451,6 +457,7 @@ async function updateScheduleEvent() {
         ];
 
         displayNotifications(
+          "popover-notif-msg",
           notificationMessages[
             formValidity?.findIndex((result) => result == false)
           ],
@@ -501,6 +508,7 @@ async function updateScheduleEvent() {
       // Gets status message from insertion
       if (saveEventResult?.error) {
         displayNotifications(
+          "popover-notif-msg",
           "Could not update event. Try again later.",
           "#d92121",
           "release_alert",
@@ -511,18 +519,21 @@ async function updateScheduleEvent() {
       } else {
         console.log(saveEventResult.message);
 
-        // Rerenders calendar
-        renderCalendar();
-
-        // Closes popover
-        closePopover();
-
         displayNotifications(
-          "Successfully Updated Event!",
+          "popover-notif-msg",
+          "Successfully updated event!",
           "#390",
           "verified",
           2000
         );
+
+        setTimeout(() => {
+          // Rerenders calendar
+          renderCalendar();
+
+          // Closes popover
+          closePopover();
+        }, 2000);
       }
 
       return true;
@@ -944,6 +955,7 @@ async function renderCalendar() {
       //   click: function () {
       //     renderCalendar();
       //     displayNotifications(
+      //       'popover-notif-msg',
       //       "Successfully refreshed calendar!",
       //       "#390",
       //       "verified",
@@ -965,7 +977,8 @@ async function renderCalendar() {
             resultEvents = await resetTableGlobal("schedule-events");
             if (!resultDays?.error && !resultEvents?.error) {
               displayNotifications(
-                "Cleared Calendar Successfully!",
+                "page-notif-msg",
+                "Successfully cleared calendar!",
                 "#390",
                 "verified",
                 2000
@@ -974,6 +987,7 @@ async function renderCalendar() {
               renderCalendar();
             } else {
               displayNotifications(
+                "page-notif-msg",
                 resultEvents.message,
                 "#d92121",
                 "error",
@@ -1113,17 +1127,20 @@ $(document).ready(async function () {
       }
 
       displayNotifications(
+        "popover-notif-msg",
         "Successfully deleted event!",
         "#390",
         "verified",
         2000
       );
 
-      // Closes popover
-      closePopover();
+      setTimeout(() => {
+        // Closes popover
+        closePopover();
 
-      // Rerenders calendar
-      renderCalendar();
+        // Rerenders calendar
+        renderCalendar();
+      }, 2000);
     }
   });
 

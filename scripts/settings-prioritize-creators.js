@@ -42,14 +42,15 @@ $(document).ready(function () {
     // Fade in or fade out the unsaved message based on the presence of the "changed" class
     if (hasChanged) {
       displayNotifications(
-        "Ensure to Save your Changed Settings.",
+        "page-notif-msg",
+        "Save your settings.",
         "#fc0",
         "warning",
         0,
         true
       );
     } else {
-      $("#notif-msg").fadeOut(1000);
+      $("#page-notif-msg").fadeOut(1000);
     }
   });
 
@@ -66,7 +67,7 @@ $(document).ready(function () {
    */
   $("#save-creators").on("click", function () {
     $('#creators-list input[type="checkbox"]').removeClass("changed");
-    $("#notif-msg").fadeOut();
+    $("#page-notif-msg").fadeOut();
 
     // TODO: change for creators
     // if (limitationChoices.length == 0) {
@@ -91,12 +92,14 @@ $(document).ready(function () {
       // Start animation on status message, depending saving outcome
       buttonSuccess
         ? displayNotifications(
+            "page-notif-msg",
             "Saved Creators Successfully!",
             "#390",
             "verified",
             2000
           )
         : displayNotifications(
+            "page-notif-msg",
             "Unsuccessfully Saved. Try Again Later.",
             "#d92121",
             "release_alert",

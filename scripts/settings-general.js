@@ -81,7 +81,26 @@ function loadHelpPopover() {
         const results = await handleImportFile(importedRecords);
         if (results) {
           // Reload page if import is successful
-          window.location.reload();
+          displayNotifications(
+            "help-notif-msg",
+            "Successfully imported settings!",
+            "#390",
+            "verified",
+            2000
+          );
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          // TODO: switch to warning
+          displayNotifications(
+            "help-notif-msg",
+            "No file found",
+            "#fc0",
+            "warning",
+            3000
+          );
         }
       });
 
@@ -96,6 +115,7 @@ function loadHelpPopover() {
           })
           .catch((err) => {
             displayNotifications(
+              "help-notif-msg",
               "Failed to copy to clipboard",
               "#d92121",
               "error",
@@ -331,6 +351,7 @@ $(document).ready(function () {
             $buttonContainer.hide();
 
             displayNotifications(
+              "page-notif-msg",
               "No items found in your search.",
               "#40a6ce",
               "info",

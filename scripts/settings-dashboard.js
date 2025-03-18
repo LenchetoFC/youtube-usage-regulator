@@ -400,6 +400,7 @@ async function prepareWatchTimeChart() {
     );
   } else {
     displayNotifications(
+      "page-notif-msg",
       "Invalid Timeframe. Try Again Later.",
       "#d92121",
       "release_alert",

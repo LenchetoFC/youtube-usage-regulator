@@ -548,6 +548,7 @@ async function getCurrentWatchMode() {
  * @name displayNotifications
  * @global
  *
+ * @param {string} notifId - id of notification element to be modified
  * @param {string} msg - The notification message to display.
  * @param {string} hexColor - The color of the notification message.
  * @param {string} iconName - The name of the icon to display in the notification message.
@@ -557,35 +558,38 @@ async function getCurrentWatchMode() {
  * @returns {void}
  *
  * @example
- * displayNotifications("Saved Successfully", "#40a6ce", "verified", 2000);
+ * displayNotifications("page-notif-msg", "Saved Successfully", "#40a6ce", "verified", 2000);
  */
 window.displayNotifications = (
+  notifId,
   msg,
   hexColor,
   iconName,
   delayTime,
   isPersistent = false
 ) => {
+  // debugger;
+  console.log(notifId, msg, hexColor, iconName, delayTime, isPersistent);
   // Prepare notification's message, color, and icon
-  $("#notif-msg .material-symbols-rounded")
+  $(`#${notifId} .material-symbols-rounded`)
     .html(iconName)
     .css("color", hexColor);
 
-  $("#notif-msg p").html(msg);
+  $(`#${notifId} p`).html(msg);
 
-  $("#notif-msg").css("--notif-before-background", hexColor);
+  $(`#${notifId}`).css("--notif-before-background", hexColor);
 
-  const isVisible = $("#notif-msg").css("display") === "flex";
+  const isVisible = $(`#${notifId}`).css("display") === "flex";
 
   // Trigger display animation
   if (!isPersistent && !isVisible)
-    $("#notif-msg")
+    $(`#${notifId}`)
       .fadeIn(1000)
       .css("display", "flex")
       .delay(delayTime)
       .fadeOut(1000);
   else if (!isVisible) {
-    $("#notif-msg").fadeIn(1000).css("display", "flex");
+    $(`#${notifId}`).fadeIn(1000).css("display", "flex");
   }
 };
 

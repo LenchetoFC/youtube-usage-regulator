@@ -441,6 +441,7 @@ async function insertQuickLimitations() {
           throw { error: true, message: updateResult.message };
         } else {
           displayNotifications(
+            "page-notif-msg",
             "Refresh YouTube to apply changes",
             "#7b3ed2",
             "verified",
@@ -451,6 +452,7 @@ async function insertQuickLimitations() {
         console.log(error);
 
         displayNotifications(
+          "page-notif-msg",
           "Unsuccessfully updated. Check error logs.",
           "#d92121",
           "release_alert",
