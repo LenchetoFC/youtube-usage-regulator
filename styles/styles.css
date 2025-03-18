@@ -480,6 +480,10 @@ main p {
 .material-symbols-rounded.large-icon {
   font-size: 4.4rem;
 }
+.material-symbols-rounded.info-help {
+  font-size: 1.8rem;
+  color: #535353;
+}
 
 .help-cursor {
   cursor: help;
