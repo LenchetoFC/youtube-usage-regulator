@@ -1005,20 +1005,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 /** !SECTION */
 
-// Updates last-used-date to current date if date doesn't match or exist
-// chrome.storage.sync.get(["last-used-date"], function (result) {
-//   let currentDay = new Date().toDateString(); //Format: dayOfWeek month day year "Thu Apr 25 2024"
-
-//   // NOTE: Disabled !for now!
-//   if (result["last-used-date"] != currentDay) {
-//     // Resets today-usage
-//     setSetting("last-used-date", currentDay);
-//     console.log("TODAY USAGE RESET TO 0");
-//   }
-
-//   console.log(result["last-used-date"]);
-// });
-
 // TODO: Implement for when ext is updated to display patch notes
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {

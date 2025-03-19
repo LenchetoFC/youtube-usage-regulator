@@ -3177,3 +3177,143 @@ section:has(> .watch-time-span) {
     max-height: 100%;
   }
 }
+
+/*
+  ARTICLE STYLINGS
+*/
+article.on-install-article {
+  > header,
+  .body-section > header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1,
+  h2 {
+    text-align: center;
+  }
+
+  > header {
+    height: 26rem;
+    justify-content: center;
+    gap: 0.8rem;
+
+    h1 {
+      font-size: 6rem;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+  }
+
+  .body-section {
+    > header h1 {
+      font-size: 4rem;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0.8rem 3rem 1.8rem;
+    gap: 1rem;
+  }
+
+  li {
+    list-style: disc;
+    font-weight: 600;
+  }
+  li::marker {
+    color: var(--surface-dark);
+  }
+
+  .legend-icons {
+    h2 {
+      text-align: start;
+      font-weight: revert;
+    }
+  }
+  /* Icon Colors */
+  .material-symbols-rounded[title="New Feature"] {
+    color: #ffd901;
+  }
+  .material-symbols-rounded[title="Bug Fix"] {
+    color: #2c6b25;
+  }
+  .material-symbols-rounded[title="General Change"] {
+    color: #3f5478;
+  }
+  .material-symbols-rounded[title="Overhaul"] {
+    color: #783f3f;
+  }
+
+  .collapsible-container {
+    border: 3px solid var(--surface-dark);
+    box-shadow: 3px 3px 0px var(--surface-dark);
+    border-radius: 1.6rem;
+    background: #3f5478;
+  }
+
+  .collapsible {
+    background-color: var(--brand-4);
+    color: var(--surface-light);
+    cursor: pointer;
+    /* padding: 18px; */
+    width: 100%;
+    border: none;
+    text-align: left;
+    justify-content: space-between;
+    outline: none;
+    font-size: 1.6rem;
+    transition: 0.25s;
+  }
+
+  .active,
+  .collapsible:hover {
+    background-color: #3f5478;
+  }
+
+  .collapsible:after {
+    content: "\002B";
+    color: var(--surface-light);
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+
+  .active:after {
+    content: "\2212";
+  }
+
+  .content {
+    padding: 0 1.8rem;
+    /* max-height: 0px;
+    overflow: hidden; */
+    overflow-y: auto;
+    max-height: 75dvh;
+    transition: height 0.2s ease-out;
+    background-color: var(--surface-light);
+    border-radius: 0 0 1.2rem 1.2rem;
+  }
+  .content header:first-child {
+    padding-top: 2rem;
+  }
+}
+
+#on-install-body {
+  .content header h1,
+  .legend-icons p,
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .legend-icons p,
+  .nav-logo p {
+    font-weight: 600;
+    font-size: 1.6rem;
+  }
+}
