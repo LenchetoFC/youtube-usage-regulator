@@ -58,6 +58,7 @@ const database = {
   ],
 
   ["spoiler-groups"]: [
+    // NOTE: for testing
     // {
     //   id: 1,
     //   name: "Marvel Spoiler Free",
@@ -73,8 +74,8 @@ const database = {
   ["misc-settings"]: [
     {
       id: 1,
-      name: "install-date",
-      installDate: "",
+      name: "nav-bar-expanded-state",
+      isExpanded: false,
     },
   ],
 

@@ -368,10 +368,28 @@ $(document).ready(function () {
 
   /** SECTION - COLLAPSIBLE NAV BAR */
   // Controls collapsible nav bar
-  $(".collapse-nav").on("click", function () {
-    const isExpanded = $(this).attr("aria-expanded");
-    $(this).attr("data-user-activated", true);
-    isExpanded === "true" ? collapseNavBar(this) : expandNavBar(this);
+  $(".collapse-nav").on("click", async function () {
+    try {
+      const isExpanded =
+        $(this).attr("aria-expanded") === "true" ? true : false;
+      $(this).attr("data-user-activated", true);
+      isExpanded ? collapseNavBar(this) : expandNavBar(this);
+
+      // Updates misc settings
+      const updateResult = await updateRecordByPropertyGlobal(
+        "misc-settings",
+        "name",
+        "nav-bar-expanded-state",
+        { isExpanded: !isExpanded }
+      );
+
+      // Gets status message from update
+      if (updateResult.error) {
+        throw new Error(updateResult.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   // Initial check to collapse/expand nav bar
@@ -383,6 +401,21 @@ $(document).ready(function () {
   });
 
   /** !SECTION */
+});
+
+$(document).ready(async function () {
+  /** Auto-Collapse for Nav Bar */
+  const navBarSettings = await filterRecordsGlobal(
+    "misc-settings",
+    "name",
+    "nav-bar-expanded-state"
+  );
+  const isExpanded = navBarSettings[0]["isExpanded"];
+
+  // Collapses nav bar if it is active in settings
+  isExpanded
+    ? expandNavBar($(".collapse-nav"))
+    : collapseNavBar($(".collapse-nav"));
 });
 
 /** !SECTION */
