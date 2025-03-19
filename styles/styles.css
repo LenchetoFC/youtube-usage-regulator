@@ -3189,15 +3189,20 @@ article.on-install-article {
     align-items: center;
   }
 
+  > section {
+    margin-bottom: 8rem;
+  }
+
   h1,
   h2 {
     text-align: center;
   }
 
   > header {
-    height: 26rem;
+    min-height: 26rem;
     justify-content: center;
-    gap: 0.8rem;
+    gap: 2rem;
+    padding: 6.4rem 0;
 
     h1 {
       font-size: 6rem;
@@ -3299,6 +3304,50 @@ article.on-install-article {
   }
   .content header:first-child {
     padding-top: 2rem;
+  }
+
+  .flex-wrap-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.4rem;
+
+    > .feature-container {
+      flex: 1 0 40rem;
+      display: flex;
+      padding: 1.2rem;
+      gap: 2.4rem;
+      background-color: var(--surface-light);
+
+      .material-symbols-rounded {
+        font-size: 6.4rem;
+      }
+    }
+
+    > .feature-container:nth-child(2n) .material-symbols-rounded {
+      background: -webkit-linear-gradient(45deg, #14a220, #a31228 40%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    > .feature-container:nth-child(2n + 1) .material-symbols-rounded {
+      background: -webkit-linear-gradient(45deg, #1b1597, #119e63 80%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .paragraph-header {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .paragraph-subtext {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  .group-of-buttons {
+    justify-content: center;
   }
 }
 

@@ -16,7 +16,7 @@
       name="description"
       content="Learn about how to use and take advantage of Restrict the Tube."
     />
-    <title>Onboarding | RTT</title>
+    <title>Thank you for installing! | RTT</title>
 
     <link rel="stylesheet" href="/styles/styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,51 +31,146 @@
     />
   </head>
 
-  <body id="onboarding">
-    <!-- Side Nav Bar -->
-    <aside>
-      <div class="nav-logo">
-        <img
-          src="/images/icon-logo-ext-128.png"
-          alt="YouTube Extension logo"
-          class="small-img"
-        />
-        <p>Restrict the Tube</p>
-      </div>
-
-      <!-- NOTE: commented out until features are completed -->
-      <!-- YouTube Account -->
-      <!-- <div class="flex-col eight-spacing dead-center max-width">
-        <span class="material-symbols-rounded large-icon">account_circle</span>
-
-        <div class="flex-col dead-center">
-          <p>Account Name</p>
-          <p class="subtext">@accountName</p>
+  <body id="on-install-body">
+    <main class="white-bg">
+      <header>
+        <div class="nav-logo">
+          <img
+            src="/images/icon-logo-ext-128.png"
+            alt="YouTube Extension logo"
+            class="small-img"
+          />
+          <p>Restrict the Tube</p>
         </div>
-      </div>
+      </header>
 
-      <button id="connect-account" class="button-brand">
-        <span class="material-symbols-rounded">person</span>
-        <p>Connect Account</p>
-      </button> -->
+      <article class="on-install-article">
+        <header>
+          <h1>Thank you for installing!</h1>
+          <h2>
+            Your support is greatly appreciated. Enjoy Restrict the Tube
+            extension!
+          </h2>
 
-      <!-- Nav List -->
-      <nav class="fetch-nav" id="nav-dashboard">
-        <ul>
-          <li class="loading-skeleton-item"></li>
-          <li class="loading-skeleton-item"></li>
-          <li class="loading-skeleton-item"></li>
-          <li class="loading-skeleton-item"></li>
-          <li class="loading-skeleton-item"></li>
-        </ul>
+          <div class="group-of-buttons flex-wrap">
+            <a class="misc-button add-item" href="/dashboard.html">
+              <span class="material-symbols-rounded">dashboard</span>
+              Dashboard
+            </a>
 
-        <div class="loading-skeleton-item"></div>
-      </nav>
-    </aside>
+            <a
+              class="misc-button add-item"
+              href="/settings/settings-yt-limitations.html"
+            >
+              <span class="material-symbols-rounded">block</span>
+              Limitations
+            </a>
+          </div>
+        </header>
 
-    <main></main>
+        <!-- Features -->
+        <section class="body-section flex-col twenty-four-spacing">
+          <header>
+            <h1>Features</h1>
+          </header>
+
+          <!-- Changelog item -->
+          <div class="flex-wrap-container">
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">dashboard</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">Dashboard</p>
+                <p class="paragraph-subtext">
+                  View key statistics and essential details about the extension,
+                  along with an overview of your watch time history.
+                </p>
+              </div>
+            </div>
+
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">calendar_month</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">Restriction Schedules</p>
+                <p class="paragraph-subtext">
+                  Set up events to automatically limit YouTube access. Choose a
+                  specific time window during the day or opt to restrict access
+                  for the entire day to simplify your usage.
+                </p>
+              </div>
+            </div>
+
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">block</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">YouTube Limitations</p>
+                <p class="paragraph-subtext">
+                  Eliminate buttons, recommendations, and entire YouTube pages
+                  to better manage and reduce the time you spend on the
+                  platform.
+                </p>
+              </div>
+            </div>
+
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">do_not_disturb_on</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">General Website Blocker</p>
+                <p class="paragraph-subtext">
+                  Restrict access to sites beyond YouTube to enhance your
+                  control over your overall browsing experience.
+                </p>
+              </div>
+            </div>
+
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">visibility_off</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">Spoiler Detection</p>
+                <p class="paragraph-subtext">
+                  Identify key terms within recommendations to shield yourself
+                  from potential spoilers effectively.
+                </p>
+              </div>
+            </div>
+
+            <div class="collapsible-container feature-container">
+              <span class="material-symbols-rounded">timer</span>
+
+              <div class="feature-description">
+                <p class="paragraph-header">Watch Times</p>
+                <p class="paragraph-subtext">
+                  Accurately and precisely track your watch times. These are
+                  categorized into short-form and long-form videos, providing
+                  detailed insights into your viewing habits.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Feedback -->
+        <!-- <section class="body-section flex-col twenty-four-spacing">
+          <header>
+            <h1>Feedback</h1>
+          </header>
+
+          <div class="paragraph-section">
+            <h2 class="paragraph-header">Commitment to Improvement</h2>
+
+            <p class="paragraph-subtext">
+              If you have any suggestions to improvement your experience with
+            </p>
+          </div>
+        </section> -->
+      </article>
+    </main>
 
     <script src="/scripts/jquery-3.7.1.min.js"></script>
-    <script type="module" src="/scripts/settings-general.js"></script>
+    <script src="/scripts/collapsible-containers.js"></script>
   </body>
 </html>

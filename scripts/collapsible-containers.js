@@ -13,7 +13,9 @@
 function expandCollapsible(collapsible) {
   const content = $(collapsible).siblings(".content");
 
-  $(collapsible).css("border-radius", "1.2rem 1.2rem 0 0");
+  $(collapsible)
+    .css("border-radius", "1.2rem 1.2rem 0 0")
+    .attr("aria-expanded", true);
   $(content).css("height", $(content)[0].scrollHeight + 25 + "px");
 }
 
@@ -32,7 +34,7 @@ function expandCollapsible(collapsible) {
 function closeCollapsible(collapsible) {
   const content = $(collapsible).siblings(".content");
 
-  $(collapsible).css("border-radius", "1.2rem");
+  $(collapsible).css("border-radius", "1.2rem").attr("aria-expanded", false);
   $(content).css("height", "0px");
 }
 

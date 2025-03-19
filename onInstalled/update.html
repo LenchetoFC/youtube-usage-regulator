@@ -92,10 +92,15 @@
 
           <!-- Changelog item -->
           <div class="collapsible-container">
-            <button class="collapsible" id="latest-changelog">
+            <button
+              class="collapsible"
+              id="latest-changelog"
+              aria-expanded="false"
+              aria-controls="collapse-content"
+            >
               March 20, 2025 • Version 1.0.0
             </button>
-            <div class="content">
+            <div class="content" aria-describedby="collapse-content">
               <!-- Global Changes -->
               <header>
                 <h1>
