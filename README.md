@@ -15,8 +15,7 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Installing
 
-There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
-Once the extension is functional, there will be an official release on the store and will be stated here.
+There is now a consumer release on the [Chrome Extension Store](https://chromewebstore.google.com/). You may download it from [here](https://chromewebstore.google.com/detail/restrict-the-tube-limit-a/ddmcmbnmlhgbjkfmidljbcekphnjiddd?authuser=0&hl=en)!
 
 ## Technologies Used
 
@@ -38,7 +37,7 @@ Once the extension is functional, there will be an official release on the store
 
 #### Dashboard:
 
-Quick view of user information
+View key statistics and essential details about the extension, along with an overview of your watch time history.
 
 - Watch percentages
 - Watch times (table)
@@ -48,7 +47,7 @@ Quick view of user information
 
 #### YouTube Limitations:
 
-Specific limitations to apply to all (or some) YouTube pages:
+Eliminate buttons, recommendations, and entire YouTube pages to better manage and reduce the time you spend on the platform.
 
 - Specific YouTube pages
 - Video/Shorts recommendations
@@ -59,16 +58,19 @@ Specific limitations to apply to all (or some) YouTube pages:
 
 #### General Website Blocker:
 
-Add other websites beyond YouTube to completely block
+Restrict access to sites beyond YouTube to enhance your control over your overall browsing experience.
 
 #### Spoiler Detection:
 
-Add groups of keyword to check recommended videos for
-Blur thumbnail and filter title of videos with potential spoilers
+Identify key terms within recommendations to shield yourself from potential spoilers effectively.
 
 #### Restriction Schedules:
 
-Add days and times that YouTube will be completely restricted
+Set up events to automatically limit YouTube access. Choose a specific time window during the day or opt to restrict access for the entire day to simplify your usage.
+
+#### Watch Times
+
+Accurately and precisely track your watch times. These are categorized into short-form and long-form videos, providing detailed insights into your viewing habits.
 
 ### Possible Future Features
 
@@ -105,8 +107,6 @@ A FullCalender.js library calendar that shows schedule events. Buttons to add or
 ### Redirection Blocked Popover
 
 When user tries to access a blocked site, they are redirected to Dashboard and greeted with this popover. Popover consists of a gif, that is randomly chosen from 12 different "funny fail" GIFs, and shows the user's usage times.
-
-## Known Bugs
 
 ## Author & Sole Developer
 
@@ -155,3 +155,13 @@ When user tries to access a blocked site, they are redirected to Dashboard and g
   - Added scheduling block functionality
 - **0.8.0**
   - Overhauled content removal system
+- **1.0.0** - Finished for Release
+  - Multiple quality of life features
+  - New intuitive user interface
+  - Overhauled YouTube Limitations
+  - Overhauled Restriction Schedules
+  - Overhauled Popup
+  - Overhauled Watch Times
+  - Added Spoiler Detection
+  - Added General Website Blocker
+  - Added Dashboard
