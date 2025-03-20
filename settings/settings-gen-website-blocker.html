@@ -1,0 +1,389 @@
+<!--
+  File Name: settings-yt-limitations.html
+
+  Author: @LenchetoFC
+
+  Date Created: 2025-02-04
+ 
+  Description: Settings for YouTube Limitations
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
+    />
+    <title>General Website Blocker | RTT</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
+  </head>
+
+  <body>
+    <!-- Notification Container - ABSOLUTE POSITIONED-->
+    <span id="page-notif-msg" class="notif-msg">
+      <span class="material-symbols-rounded">info</span>
+      <p>Message Text</p>
+    </span>
+
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
+    <!-- POPOVER New Blocked Website -->
+    <div popover id="popover-new-website-item" class="popover">
+      <section class="flex-col sixteen-spacing full-width">
+        <header>
+          <h1>New Blocked Website</h1>
+        </header>
+
+        <form
+          action=""
+          method=""
+          class="content"
+          id="new-website-item"
+          data-table="additional-websites"
+        >
+          <div class="text-input-container">
+            <label for="website-name">Website Name</label>
+            <input
+              type="text"
+              class="input-border-bottom"
+              name="website-name"
+              data-property="name"
+              id="website-name"
+              placeholder="Reddit"
+              minlength="1"
+              maxlength="50"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-url">URL Address</label>
+            <input
+              type="url"
+              class="input-border-bottom"
+              name="website-url"
+              data-property="url"
+              id="website-url"
+              placeholder="https://reddit.com"
+              minlength="7"
+              required
+            />
+          </div>
+
+          <div class="text-input-container">
+            <label for="website-type">Website Type</label>
+            <select
+              class="input-full-border"
+              type="text"
+              data-property="type"
+              name="website-type"
+              id="website-type"
+              required
+            >
+              <option value="">Choose a Website Type</option>
+              <option value="social-media">Social Media</option>
+              <option value="shopping">Shopping</option>
+              <option value="streaming">Streaming Content</option>
+              <option value="adult-content">Adult Content</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <label class="side-checkbox-container">
+            <input id="active" type="checkbox" data-property="active" checked />
+            <span class="checkmark">
+              <span class="material-symbols-rounded">check</span>
+            </span>
+
+            <p>Enable</p>
+          </label>
+
+          <div class="button-footer">
+            <span>
+              <button value="" class="text-button cancel" id="delete-item">
+                <p class="red-text">Delete Website</p>
+              </button>
+            </span>
+
+            <span class="group-of-buttons">
+              <button
+                type="reset"
+                class="text-button cancel"
+                data-popover="popover-new-website-item"
+              >
+                <p class="red-text">Cancel</p>
+              </button>
+              <span>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="add-item"
+                  data-table="additional-websites"
+                >
+                  Add Website
+                </button>
+                <button
+                  type="submit"
+                  value=""
+                  popovertargetaction="toggle"
+                  id="update-item"
+                  data-table="additional-websites"
+                >
+                  Update Website
+                </button>
+              </span>
+            </span>
+          </div>
+        </form>
+
+        <!-- Notification Popup - ABSOLUTE POSITIONED -->
+        <span id="popover-notif-msg" class="notif-msg popover-notif-msg">
+          <span class="material-symbols-rounded">info</span>
+          <p>Message Text</p>
+        </span>
+      </section>
+    </div>
+
+    <!-- Side Nav Bar -->
+    <aside id="aside-nav">
+      <button
+        class="collapse-nav"
+        aria-controls="aside-nav"
+        aria-expanded="true"
+      >
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+
+      <div class="nav-logo">
+        <img
+          src="/images/icon-logo-ext-128.png"
+          alt="YouTube Extension logo"
+          class="small-img"
+        />
+        <p>Restrict the Tube</p>
+      </div>
+
+      <!-- NOTE: commented out until features are completed -->
+      <!-- YouTube Account -->
+      <!-- <div class="flex-col eight-spacing dead-center max-width">
+        <span class="material-symbols-rounded large-icon">account_circle</span>
+
+        <div class="flex-col dead-center">
+          <p>Account Name</p>
+          <p class="subtext">@accountName</p>
+        </div>
+      </div>
+
+      <button id="connect-account" class="button-brand">
+        <span class="material-symbols-rounded">person</span>
+        <p>Connect Account</p>
+      </button> -->
+
+      <!-- Nav List -->
+      <nav class="fetch-nav" id="nav-gen-website-blocker">
+        <ul>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+        </ul>
+
+        <div class="loading-skeleton-item"></div>
+      </nav>
+    </aside>
+
+    <main class="white-bg">
+      <!-- Search Bar -->
+      <form>
+        <div class="search-bar">
+          <span class="material-symbols-rounded">search</span>
+          <input
+            type="text"
+            id="search-input"
+            class="input-full-border"
+            placeholder="Search..."
+          />
+        </div>
+      </form>
+
+      <section class="flex-col twenty-four-spacing" id="additional-websites">
+        <header class="flex-col">
+          <h1>General Website Blocker</h1>
+          <h2>
+            Completely block more websites beyond YouTube, such as social media,
+            shopping, adult content, and more!
+          </h2>
+        </header>
+
+        <!-- Empty Content -->
+        <div class="empty-content hidden" data-visible="false">
+          <div class="flex-col eight-spacing">
+            <p class="container-title">Block General Websites</p>
+            <h1>Add websites to completely restrict</h1>
+            <p class="sub-header">
+              Added websites will be completely inaccessible from this browser
+              while active.
+            </p>
+          </div>
+
+          <div class="flex-col twelve-spacing">
+            <p>
+              <span class="material-symbols-rounded">counter_1</span>Give the
+              website a name. It can be anything you want!
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_2</span>Write the
+              URL address. You can be broad (i.e. https://reddit.com) or
+              specific (https://reddit.com/?feed=home)
+            </p>
+            <p>
+              <span class="material-symbols-rounded">counter_3</span>Categorize
+              them by website type using the dropdown list
+            </p>
+          </div>
+
+          <button
+            class="misc-button add-new-item"
+            popovertarget="popover-new-website-item"
+          >
+            <span class="material-symbols-rounded">add</span>
+            Add Website
+          </button>
+        </div>
+
+        <!-- Watch Times Table -->
+        <!-- TODO: FUTURE FEATURE - SORTING -->
+        <table
+          class="basic hidden search-container"
+          id="website-table"
+          data-visible="false"
+        >
+          <thead>
+            <tr>
+              <th
+                data-sort-id="website-name"
+                data-current-sort-dir="desc"
+                data-active-sort="true"
+              >
+                <span class="flex-row align-center">
+                  <h3>Website Name</h3>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  >
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="url-address"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <h3>URL Address</h3>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  >
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="website-type"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <h3>Website Type</h3>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  ><span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th
+                data-sort-id="enabled"
+                data-current-sort-dir="desc"
+                data-active-sort="false"
+              >
+                <span class="flex-row align-center justify-cont-center">
+                  <h3>Enabled</h3>
+                  <span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_up</span
+                  ><span class="material-symbols-rounded hidden"
+                    >keyboard_arrow_down</span
+                  >
+                </span>
+              </th>
+              <th>
+                <span class="flex-row align-center justify-cont-center">
+                  <h3>Update</h3>
+                </span>
+              </th>
+            </tr>
+            <tr class="horizontal-line"></tr>
+          </thead>
+
+          <!-- Where the websites are inserted -->
+          <tbody></tbody>
+        </table>
+
+        <!-- Add new website button -->
+        <div
+          class="group-of-buttons hidden padding-bottom-sixteen"
+          id="website-buttons"
+          data-visible="false"
+        >
+          <span>
+            <button
+              class="misc-button add-new-item"
+              popovertarget="popover-new-website-item"
+            >
+              <span class="material-symbols-rounded">add</span>
+              Add Website
+            </button>
+          </span>
+
+          <button
+            class="text-button red-text-button delete-all-items"
+            id="additional-websites"
+          >
+            <p class="red-text">Delete All Websites</p>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/global-functions.js"></script>
+    <script type="module" src="/scripts/settings-general.js"></script>
+    <script src="/scripts/settings-website-blocker.js"></script>
+    <script src="/scripts/settings-form-control.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
+    <script src="/scripts/settings-popover-form-controls.js"></script>
+  </body>
+</html>

@@ -15,159 +15,153 @@ This extension goes beyond blocking the entire site (since user's still may need
 
 ### Installing
 
-There is currently no consumer release on [Chrome Extension Store](https://chromewebstore.google.com/).
-Once the extension is functional, there will be an offical release on the store and will be stated here.
+There is now a consumer release on the [Chrome Extension Store](https://chromewebstore.google.com/). You may download it from [here](https://chromewebstore.google.com/detail/restrict-the-tube-limit-a/ddmcmbnmlhgbjkfmidljbcekphnjiddd?authuser=0&hl=en)!
+
+## Technologies Used
+
+### Frontend
+
+- HTML
+- CSS
+- JavaScript
+- jQuery
+- [ ] Bootstrap
+
+### Backend
+
+- Chrome API
 
 ## Features
 
 ### Current Features
 
-- Blocks Pages:
-  - Entirety of YouTube
-  - Home page
-  - Shorts page
-- Removes Parts of YouTube Site:
-  - Video recommendations
-  - Search bar
-  - Home button
-  - Video autoplay button
-  - Next video button
-  - and more!
-- Alternate Activities:
-  - Write alternate activities to remind you what better things you can be doing
-- Schedules:
-  - Add days and times that YouTube will be completely restricted
-- Limit the ability to endlessly recommend videos
+#### Dashboard:
 
-### Future Features
+View key statistics and essential details about the extension, along with an overview of your watch time history.
 
-- Timer to Disable YouTube
-- Dark Mode
-- Watch Modes:
-  - Only shows videos according to watch mode
-  - Options include: educational, recreational, and all-inclusive (default)
-  - Uses video tags to determine if video respects current watch mode
-- Free Videos:
-  - Allow yourself at most 3 videos per day to watch
-  - YouTube will disable after tokens have been used
+- Watch percentages
+- Watch times (table)
+- Watch times (graph)
+- Notable times
+- Active spoiler groups
 
-## User Interface Designs
+#### YouTube Limitations:
+
+Eliminate buttons, recommendations, and entire YouTube pages to better manage and reduce the time you spend on the platform.
+
+- Specific YouTube pages
+- Video/Shorts recommendations
+- Search bar
+- Home/Shorts button
+- Comments section
+- Disable infinite recommendations
+
+#### General Website Blocker:
+
+Restrict access to sites beyond YouTube to enhance your control over your overall browsing experience.
+
+#### Spoiler Detection:
+
+Identify key terms within recommendations to shield yourself from potential spoilers effectively.
+
+#### Restriction Schedules:
+
+Set up events to automatically limit YouTube access. Choose a specific time window during the day or opt to restrict access for the entire day to simplify your usage.
+
+#### Watch Times
+
+Accurately and precisely track your watch times. These are categorized into short-form and long-form videos, providing detailed insights into your viewing habits.
+
+### Possible Future Features
+
+#### Watch Modes
+
+Only allow videos with specific keywords or within specific categories
+
+#### Preferred Creators Mode
+
+Select specific _subscribed_ creators to only appear in video recommendations
+
+## User Interface Pages
 
 ### Popup
 
-Shows the user's current usage times and a button to disable the entire YouTube site.
-![Screenshot of the extensions main popup; shows the user's current usage times and a button to disable the entire YouTube site](/images/ui-popup.png)
+Shows the user's current usage times, next restriction event, and all the selected limitations added as "Quick Limitations."
 
-### General Settings
+### YouTube Limitations
 
-Shows buttons to toggle YouTube elements, add/remove alternate activities, the user's all time usage, and a button to reset that time.
-![Screenshot of the extension's general settings UI; shows buttons to disable YouTube elements, set alternate activities, textbox for new activities, and a button to reset all time usage](/images/ui-general-settings.png)
+A table of settings to toggle limitation settings, make them follow schedule events only, or add them to popup as a "Quick Limitations."
 
-### Schedule Settings
+### General Website Blocker
 
-Shows the user's set schedules and buttons to add a new schedule for the selected days. They can also add and remove schedule times when creating new schedules.
-![Screenshot of the extension's schedule settings UI; shows user's set schedules and buttons to add a new schedule](/images/ui-schedule-settings.png)
+A table that shows the websites the user added to be completely blocked. Buttons to either update or disable/enable website blocking.
 
-### Blocked Redirect Page
+### Spoiler Detection
 
-On top of a gif that is randomly chosen from 12 different "funny fail" gifs, shows the user's usage times and their set alternate activities. If there are no set activities, it tells the user how to add some.
-![Screenshot of an example of the page that the user is redirected to when they try to use YouTube when it the entire site is blocked](/images/ui-blocked-page.png)
+A table of settings to toggle thumbnail obscurement. Customizable widgets that hold groups of keyword the user added.
 
-<!-- ### Free Video Popup
+### Restriction Schedules
 
-![Screenshot of a popup to tell the extension that the user is going to spend a free video token on the video they're current watching](/images/ui-free-videos-popup.png) -->
+A FullCalender.js library calendar that shows schedule events. Buttons to add or edit event details. Buttons to change calendar view to day or week views.
 
-## To-Do
+### Redirection Blocked Popover
 
-### Known Bugs
+When user tries to access a blocked site, they are redirected to Dashboard and greeted with this popover. Popover consists of a gif, that is randomly chosen from 12 different "funny fail" GIFs, and shows the user's usage times.
 
-- [ ] Sometimes the comments are removed
-- [ ] Sometimes the time check while adding a new time repeatedly alerts user and user must refresh page
+## Author & Sole Developer
 
-### YouTube Restrictions
+**Lorenzo Ramirez** | [Email](mailto:lorenzoramirez122@gmail.com) | [Personal Website](https://lorenzoramirezjr.com) | [LinkedIn](https://linkedin.com/in/lorenzo-ramirez-jr)
 
-- [ ] Check settings every time the window is focused
-  - [ ] Update removal functions to include the settings value and hide/show based on value
-- [ ] Remove recommendation wall after video ends
+## Known Bugs
 
-### Publishing Extension
+### Watch Times
 
-- [ ] Publish to Chrome Web Store
-- [ ] Update Repo Example Photos
-- [ ] Record Demo Video
+- The first shorts is not counted towards watch times
+- If no record exists for current day and user navigates to video from home page, it does not create new record. It's something about how youtube works and the page doesn't actually "reload" when going from home to video
 
-### Scheduling
+### Spoiler Detection
 
-- [ ] Combine crossed times
-- [ ] Options for what restrictions to turn on when schedule is active
-- [ ] Ability to remove individual times instead of entire day
-- [ ] Use time usage to determine if youtube is disabled
+- Does miss some spoiler content when navigating between home and playback pages
+- Doesn't check for spoiler content on Shorts page
+- Bugs out when navigating using video chip tabs
+- Doesn't check search items
+- Doesn't check after-video-recommendations
+- Sometimes modifies wrong title
+  - I think it happens when you go from home to playback back to home where the recommendations refreshed but the h3 element was not updated
 
-### Testing
+### Restriction Schedules
 
-- [ ] Test in all most popular browsers
-
-### Completed
-
-- [x] Improve restriction functionality
-- [x] Sorts schedule times before storing
-- [x] Allow schedules to block site
-- [x] Create new schedules
-- [x] Delete schedules
-- [x] Display current schedules
-- [x] Create default settings on first extension use
-- [x] Separate general and schedule settings javascript into two files
-- [x] Add new schedule form functionality
-- [x] Display alt activities
-- [x] Display usage times
-- [x] Redesign Blocked Page
-- [x] Display all time usage value on settings page
-- [x] Display current day's usage time
-- [x] Track and storage user's usage time
-- [x] Display total usage time
-- [x] Reset all time usage
-- [x] Create activities
-- [x] Delete activities
-- [x] Display activities on settings page
-- [x] Responsive design based on deleting and adding
-- [x] Revise current version of how YouTube elements are removed
-- [x] Extension Popup UI
-- [x] General Settings UI
-- [x] Schedule Settings UI
-- [x] Free Video Popup UI
-- [x] Blocked Page UI
-
-## Sole Author & Developer
-
-**Lorenzo Ramirez** | [Email](mailto:lorenzoramirez122@gmail.com) | [Personal Website](https://lorenzoramirezjr.com)
+- When removing a regular interval event, it removes any existing all-day event in the same day
 
 ## Version History
 
-- 0.1 **Initial Release**
+- **0.1.0** Initial Release
   - Finished User Interfaces
-- 0.2
-  - Added alternate actitivies functionality
-- 0.3
+- **0.2.0**
+  - Added alternate activities functionality
+- **0.3.0**
   - Added YouTube restriction functionalities
-- 0.4
+- **0.4.0**
   - Added settings & cross-reference functionality
-- 0.5
+- **0.5.0**
   - Added time tracking functionality
-- 0.6
+- **0.6.0**
   - Updated blocked page functionality & UI
-- 0.7
+- **0.7.0**
   - Added scheduling storing functionality
-- 0.7.1
+- **0.7.1**
   - Restriction fixes
-- 0.7.2
+- **0.7.2**
   - Added scheduling block functionality
-- 0.8
+- **0.8.0**
   - Overhauled content removal system
-
-## Acknowledgments
-
-Icon Creators
-
-- [BomSymbols](https://creativemarket.com/BomSymbols)
-- [FlatArt](https://www.freepik.com/author/flatart)
-- [Erik_Rgnr](https://www.iconfinder.com/Erik_Rgnr)
+- **1.0.0** - Finished for Release
+  - Multiple quality of life features
+  - New intuitive user interface
+  - Overhauled YouTube Limitations
+  - Overhauled Restriction Schedules
+  - Overhauled Popup
+  - Overhauled Watch Times
+  - Added Spoiler Detection
+  - Added General Website Blocker
+  - Added Dashboard

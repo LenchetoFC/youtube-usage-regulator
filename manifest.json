@@ -1,34 +1,55 @@
 {
   "manifest_version": 3,
-  "name": "Restrict The Tube: Limit addicting aspects of YouTube",
-  "version": "1.0",
+  "name": "Restrict The Tube: Fight back against YouTube addiction",
+  "version": "1.0.0",
   "description": "'Restrict The Tube' helps you take back control of your YouTube watch habits.",
   "icons": {
     "16": "/images/icon-logo-ext.png",
     "32": "/images/icon-logo-ext.png",
     "48": "/images/icon-logo-ext.png",
-    "128": "/images/icon-logo-ext.png"
+    "128": "/images/icon-logo-ext-128.png"
   },
   "action": {
-    "default_popup": "/html/popup.html",
+    "default_popup": "/popup.html",
     "default_icon": "/images/icon-logo-ext.png"
   },
-  "author": "lenchetoramirez16@gmail.com",
+  "author": {
+    "name": "Lencheto Ramirez",
+    "email": "lenchetoramirez16@gmail.com"
+  },
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "unlimitedStorage", "activeTab", "downloads"],
   "content_scripts": [
     {
-      "js": ["/scripts/content.js"],
-      "matches": ["*://www.youtube.com/*"],
+      "js": [
+        "/scripts/jquery-3.7.1.min.js",
+        "/scripts/global-functions.js",
+        "/scripts/content-schedules.js",
+        "/scripts/content-watch-times.js",
+        "/scripts/content-website-blocker.js",
+        "/scripts/content-yt-limitations.js",
+        "/scripts/content-spoiler-detection.js"
+      ],
+      "css": ["/styles/youtube-styles.css"],
+      "matches": ["https://www.youtube.com/*"],
+      "runAt": "document_end"
+    },
+    {
+      "js": [
+        "/scripts/jquery-3.7.1.min.js",
+        "/scripts/global-functions.js",
+        "/scripts/content-website-blocker.js"
+      ],
+      "matches": ["<all_urls>"],
       "runAt": "document_end"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["/html/blocked-page.html"],
-      "matches": ["<all_urls>"]
+      "resources": ["/images/icon-logo-ext-128.png"],
+      "matches": ["https://www.youtube.com/*"]
     }
   ]
 }

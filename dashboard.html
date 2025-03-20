@@ -1,0 +1,545 @@
+<!-- 
+  Author: Lorenzo Ramirez
+  Description: 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'nonce-123456'; font-src 'self' https://fonts.gstatic.com data:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Review important information regarding your YouTube usage, restriction schedules, and more!"
+    />
+    <title>Dashboard | RTT</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
+  </head>
+
+  <body id="dashboard">
+    <div id="overlay"></div>
+
+    <!-- Notification Container - ABSOLUTE POSITIONED-->
+    <span id="page-notif-msg" class="notif-msg">
+      <span class="material-symbols-rounded">info</span>
+      <p>Message Text</p>
+    </span>
+
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
+    <!-- Restriction Details - ABSOLUTE POSITIONED-->
+    <div popover id="popover-restricted-details" class="popover">
+      <img id="random-popover-gif" src="" alt="" />
+
+      <section class="flex-col sixteen-spacing article-body">
+        <header>
+          <h1>
+            Sorry, <span id="random-name">Bucko</span>! You set restrictions for
+            a reason.
+          </h1>
+          <h2>Ponder your screen time... That's plenty, right?</h2>
+        </header>
+
+        <div class="content-container">
+          <div class="content">
+            <span id="average-watch-time">
+              <p class="medium-text">Average Watch Time</p>
+              <p class="large-text" id="watch-time">0s</p>
+              <p class="medium-text" id="date">out of 0 days</p>
+            </span>
+          </div>
+
+          <div class="content">
+            <span id="most-watch-day">
+              <p class="medium-text">Most Watched Day</p>
+              <p class="large-text" id="watch-time">0s</p>
+              <p class="medium-text" id="date">No Date</p>
+            </span>
+          </div>
+        </div>
+
+        <span class="overlay-buttons">
+          <button
+            class="button-brand"
+            popovertarget="popover-restricted-details"
+            popovertargetaction="hide"
+          >
+            Accept
+          </button>
+        </span>
+      </section>
+    </div>
+
+    <!-- Side Nav Bar -->
+    <aside id="aside-nav">
+      <button
+        class="collapse-nav"
+        aria-controls="aside-nav"
+        aria-expanded="true"
+      >
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+
+      <div class="nav-logo">
+        <img
+          src="/images/icon-logo-ext-128.png"
+          alt="YouTube Extension logo"
+          class="small-img"
+        />
+        <p>Restrict the Tube</p>
+      </div>
+
+      <!-- NOTE: commented out until features are completed -->
+      <!-- YouTube Account -->
+      <!-- <div class="flex-col eight-spacing dead-center max-width">
+        <span class="material-symbols-rounded large-icon">account_circle</span>
+
+        <div class="flex-col dead-center">
+          <p>Account Name</p>
+          <p class="subtext">@accountName</p>
+        </div>
+      </div>
+
+      <button id="connect-account" class="button-brand">
+        <span class="material-symbols-rounded">person</span>
+        <p>Connect Account</p>
+      </button> -->
+
+      <!-- Nav List -->
+      <nav class="fetch-nav" id="nav-dashboard">
+        <ul>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+        </ul>
+
+        <div class="loading-skeleton-item"></div>
+      </nav>
+    </aside>
+
+    <main>
+      <!-- Quick Info -->
+      <div class="widget-container widget-container-row">
+        <!-- Active Spoiler Groups -->
+        <section class="widget-item top-widget" id="spoiler-groups-top-widget">
+          <header>
+            <span>
+              <span class="material-symbols-rounded">visibility_off</span>
+              <h1>Active Spoiler Groups</h1>
+            </span>
+          </header>
+
+          <section class="content" id="spoiler-group-container">
+            <div class="hidden spoiler-groups"></div>
+            <!-- Empty Content -->
+            <div class="hidden empty-content-widget">
+              <div class="flex-col eight-spacing">
+                <p class="container-title">No Active Spoiler Groups Found</p>
+                <h1>Add or enable Spoiler Groups</h1>
+              </div>
+
+              <a
+                class="misc-button add-item"
+                href="/settings/settings-spoiler-detection.html"
+              >
+                <span class="material-symbols-rounded">visibility_off</span>
+                Spoiler Detection
+              </a>
+            </div>
+          </section>
+        </section>
+
+        <!-- TODO: Active Watch Mode - HIDDEN -->
+        <section
+          class="widget-item top-widget hidden"
+          id="watch-mode-top-widget"
+        >
+          <header>
+            <span>
+              <span class="material-symbols-rounded">live_tv</span>
+              <h1>Active Watch Mode</h1>
+            </span>
+
+            <a href="/settings/settings-watch-modes.html">
+              <p>Switch Modes</p>
+
+              <span class="material-symbols-rounded"> arrow_right_alt </span>
+            </a>
+          </header>
+
+          <section class="content" id="db-current-watch-mode">
+            <div>
+              <p class="medium-text"></p>
+              <p class="small-text"></p>
+            </div>
+          </section>
+        </section>
+
+        <!-- Video Type Comparisons Item -->
+        <section
+          class="widget-item top-widget"
+          id="video-comparison-top-widget"
+        >
+          <header>
+            <span>
+              <span class="material-symbols-rounded">percent</span>
+              <h1>Watch Percentages</h1>
+            </span>
+          </header>
+
+          <div class="content-container">
+            <section class="content">
+              <p class="medium-text">Long-Form</p>
+              <div class="progress" id="progress-long-form"></div>
+              <!-- <span class="progress-container">
+                <h1>Long-Form</h1>
+                <div class="progress" id="progress-long-form"></div>
+              </span> -->
+            </section>
+
+            <section class="content">
+              <p class="medium-text">Short-Form</p>
+              <div class="progress" id="progress-short-form"></div>
+              <!-- <span class="progress-container">
+                <h1>Short-Form</h1>
+                <div class="progress" id="progress-short-form"></div>
+              </span> -->
+            </section>
+          </div>
+        </section>
+
+        <!-- Notable Times Item -->
+        <section class="widget-item top-widget" id="notable-days-top-widget">
+          <header>
+            <span>
+              <span class="material-symbols-rounded">schedule</span>
+              <h1>Notable Times</h1>
+            </span>
+          </header>
+
+          <section class="content-container">
+            <section class="content">
+              <span id="average-watch-time">
+                <p class="medium-text">Average Watch Time</p>
+                <p class="large-text" id="watch-time">0s</p>
+                <p class="medium-text" id="date">out of 0 days</p>
+              </span>
+            </section>
+
+            <section class="content">
+              <span id="most-watch-day">
+                <p class="medium-text">Most Watched Day</p>
+                <p class="large-text" id="watch-time">0s</p>
+                <p class="medium-text" id="date">No Date</p>
+              </span>
+            </section>
+          </section>
+        </section>
+
+        <!-- TODO: New Videos in Past Week Item - HIDDEN -->
+        <section
+          class="widget-item top-widget hidden"
+          id="new-videos-top-widget"
+        >
+          <header>
+            <span>
+              <span class="material-symbols-rounded">subscriptions</span>
+              <h1>New Videos in Past Week</h1>
+            </span>
+
+            <a href="/settings/settings-prioritized-subscriptions.html">
+              <p>See All</p>
+              <span class="material-symbols-rounded"> arrow_right_alt </span>
+            </a>
+          </header>
+
+          <section class="content">
+            <ul>
+              <li class="channel-item">
+                <a href="https://www.youtube.com">
+                  <span>
+                    <!-- <img src="" /> -->
+                    <span class="material-symbols-rounded">person</span>
+                    <p class="medium-text">Channel Name</p>
+                  </span>
+                  <p class="large-text">#</p>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+
+      <!-- Watch Times -->
+      <section id="watch-times" class="large widget-item">
+        <header>
+          <span>
+            <h1>Watch Times</h1>
+            <h2>Manage you tracked YouTube usage times.</h2>
+          </span>
+        </header>
+
+        <!-- Content -->
+        <section>
+          <!-- List of Watch Times -->
+          <!-- TODO: FUTURE FEATURE - SORTING -->
+          <span class="watch-time-span">
+            <header>
+              <h1>Table</h1>
+
+              <div
+                class="flex-row eight-spacing hidden watch-times-table-buttons"
+              >
+                <button class="button-brand" id="reset-all-watch-times">
+                  Reset All Times
+                </button>
+
+                <select
+                  name="days"
+                  id="list-timeframe"
+                  class="input-full-border"
+                >
+                  <option value="daily-times">Daily</option>
+                  <option value="weekly-times">Weekly</option>
+                  <option value="monthly-times">Monthly</option>
+                </select>
+              </div>
+            </header>
+
+            <!-- Empty Content -->
+            <div class="empty-content hidden" data-visible="false">
+              <div class="flex-col eight-spacing">
+                <p class="container-title">Watch Time Table</p>
+                <h1>No Watch Times Found</h1>
+                <p class="sub-header">
+                  Watch any YouTube video or Shorts to start tracking your watch
+                  times.
+                </p>
+              </div>
+            </div>
+
+            <!-- Watch Times Table -->
+            <table
+              class="basic hidden"
+              id="watch-times-table"
+              data-visible="false"
+            >
+              <thead>
+                <tr>
+                  <th
+                    data-sort-id="date"
+                    data-current-sort-dir="desc"
+                    data-active-sort="true"
+                  >
+                    <span class="flex-row align-center">
+                      Date
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      >
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="total-time"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Total Time
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      >
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="long-form"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Long Form
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      ><span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                  <th
+                    data-sort-id="short-form"
+                    data-current-sort-dir="desc"
+                    data-active-sort="false"
+                  >
+                    <span class="flex-row align-center justify-cont-center">
+                      Short Form
+                      <span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_up</span
+                      ><span class="material-symbols-rounded hidden"
+                        >keyboard_arrow_down</span
+                      >
+                    </span>
+                  </th>
+                </tr>
+                <tr class="horizontal-line"></tr>
+              </thead>
+
+              <!-- Where the watch times are inserted -->
+              <tbody>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+                <tr>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                  <td><div class="loading-skeleton-item"></div></td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr class="horizontal-line"></tr>
+                <tr>
+                  <td>Total Times</td>
+                  <td id="total">0hr 0m</td>
+                  <td id="long-form">0hr 0m</td>
+                  <td id="short-form">0hr 0m</td>
+                  <!-- <td></td> -->
+                </tr>
+              </tfoot>
+            </table>
+          </span>
+
+          <!-- Charts -->
+          <span id="charts" class="watch-time-span">
+            <div class="flex-col twelve-spacing">
+              <header>
+                <h1>Graph</h1>
+
+                <select
+                  name="video-form"
+                  id="chart-timeframe"
+                  class="input-full-border"
+                >
+                  <option value="total-watch-time">
+                    Short-Form + Long-Form
+                  </option>
+                  <option value="long-form-watch-time">Long-Form Videos</option>
+                  <option value="short-form-watch-time">
+                    Short-Form Videos
+                  </option>
+                </select>
+              </header>
+
+              <div class="flex-col eight-spacing">
+                <p class="extra-medium-text">Total Time</p>
+
+                <div class="flex-row eight-spacing">
+                  <span class="material-symbols-rounded"
+                    >nest_clock_farsight_analog
+                  </span>
+                  <span id="total-watch-time">0s</span>
+                </div>
+              </div>
+
+              <div class="flex-col eight-spacing">
+                <label for="timeframe-start" class="extra-medium-text"
+                  >Timeframe</label
+                >
+                <span class="timeframe-inputs">
+                  <input
+                    class="input-full-border"
+                    type="date"
+                    id="timeframe-start"
+                    name="timeframe"
+                  />
+                  <p>-</p>
+                  <input
+                    class="input-full-border"
+                    type="date"
+                    id="timeframe-end"
+                  />
+                  <button class="misc-button">
+                    <span class="material-symbols-rounded"
+                      >arrow_right_alt
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <canvas id="chart"></canvas>
+            </div>
+          </span>
+        </section>
+      </section>
+
+      <!-- Watch Times -->
+      <!-- <div class="widget-container"></div> -->
+    </main>
+
+    <script src="/node_modules/progressbar.js/dist/progressbar.js"></script>
+    <script src="/scripts/chart.js"></script>
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/global-functions.js"></script>
+    <script type="module" src="/scripts/settings-general.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
+    <script src="/scripts/settings-dashboard.js"></script>
+  </body>
+</html>

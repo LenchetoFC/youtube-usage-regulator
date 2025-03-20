@@ -1,0 +1,327 @@
+<!-- 
+  Author: Lorenzo Ramirez
+  Description: Onboarding page for Restrict the Tube
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'nonce-123456'; font-src 'self' https://fonts.gstatic.com data:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Learn about what's brand new to or fixed within Restrict the Tube."
+    />
+    <title>1.0.0 | Restrict the Tube has been updated!</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
+  </head>
+
+  <body id="on-install-body">
+    <main class="white-bg">
+      <header>
+        <div class="nav-logo">
+          <img
+            src="/images/icon-logo-ext-128.png"
+            alt="YouTube Extension logo"
+            class="small-img"
+          />
+          <p>Restrict the Tube</p>
+        </div>
+      </header>
+      <article class="on-install-article">
+        <header>
+          <h1>It's update time!</h1>
+          <h2>Your support is greatly appreciated.</h2>
+        </header>
+
+        <!-- Changes -->
+        <section class="body-section flex-col twenty-four-spacing">
+          <header>
+            <h1>Changes</h1>
+          </header>
+
+          <!-- Legend of Icons -->
+          <div class="legend-icons flex-col twelve-spacing">
+            <h2>Legend</h2>
+
+            <div class="flex-row sixteen-spacing flex-wrap">
+              <p>
+                <span class="material-symbols-rounded" title="Bug Fix">
+                  bug_report
+                </span>
+                Bug Fix
+              </p>
+
+              <p>
+                <span class="material-symbols-rounded" title="General Change">
+                  settings
+                </span>
+                General Change
+              </p>
+
+              <p>
+                <span class="material-symbols-rounded" title="Overhaul">
+                  construction
+                </span>
+                Massive Overhaul
+              </p>
+
+              <p>
+                <span class="material-symbols-rounded" title="New Feature">
+                  editor_choice
+                </span>
+                New Feature
+              </p>
+            </div>
+          </div>
+
+          <!-- Changelog item -->
+          <div class="collapsible-container">
+            <button
+              class="collapsible"
+              id="latest-changelog"
+              aria-expanded="false"
+              aria-controls="collapse-content"
+            >
+              March 20, 2025 • Version 1.0.0
+            </button>
+            <div class="content" aria-describedby="collapse-content">
+              <!-- Global Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="General Change">
+                    settings
+                  </span>
+                  Global
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Improves and expands database with better named tables and
+                  tables for new features
+                </li>
+                <li>Redesigns popovers and converts them into side drawers</li>
+                <li>Adds a help popover</li>
+                <li>Adds ability to export and import user settings</li>
+                <li>Adds search functionalities to all settings pages</li>
+                <li>
+                  Adds ability to expand or collapse nav bar at will with
+                  collapse state persistence
+                </li>
+                <li>Removes alternate activities feature</li>
+                <li>
+                  Adds page (this one) to let users know what has been updated
+                  when extension has been changed
+                </li>
+                <li>
+                  Adds page to welcome users when they first install the
+                  extension
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="New Feature">
+                    editor_choice
+                  </span>
+                  Dashboard
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Users can now see important information regarding statistics,
+                  active settings, and watch times on a dashboard
+                </li>
+                <li>
+                  Displays watch times in a table where users can see the total
+                  time, long-form times, and short-form times for each day
+                </li>
+                <li>
+                  Allows user to switch watch time table views to "daily,"
+                  "weekly," or "monthly."
+                </li>
+                <li>
+                  Displays watch times in a graph where users can see the total
+                  time, long-form times, and short-form times for each day
+                  within a chosen timeframe
+                </li>
+                <li>Adds number addition animation when loading watch times</li>
+                <li>
+                  Adds "Notable Times" widget that shows the average watch time
+                  and most watched day
+                </li>
+                <li>
+                  Adds "Watch Percentages" widget that shows the percentages of
+                  watch times that was spent on long-form videos and short-form
+                  videos
+                </li>
+                <li>
+                  Adds "Active Spoiler Groups" widget that shows the currently
+                  active spoiler groups
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="New Feature">
+                    editor_choice
+                  </span>
+                  Spoiler Detection
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Users can now add groups of keywords that will be used to
+                  detect potential spoilers within video titles and thumbnails
+                </li>
+                <li>
+                  Replaces title of video with the "Spoiler Detected: [keyword]
+                  has been found in title. Proceed with caution"
+                </li>
+                <li>
+                  Obscures thumbnail with either a heavy blur or a "Spoiler
+                  Detected" image, depending on setting
+                </li>
+                <li>
+                  Adds setting option to obscure all videos that include the
+                  word "Spoiler"
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="New Feature">
+                    editor_choice
+                  </span>
+                  General Website Blocker
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Users can now add other websites beyond YouTube to completely
+                  block
+                </li>
+                <li>
+                  Adds ability to easily enable or disable website blocking
+                  without entering edit mode
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="Overhaul">
+                    construction
+                  </span>
+                  YouTube Limitations
+                </h1>
+              </header>
+              <ul>
+                <li>Displays limitation settings within a table</li>
+                <li>
+                  Can set limitation to either be always active or only follow
+                  restriction schedules
+                </li>
+                <li>
+                  Adds option to add limitation to popup for quick activation
+                </li>
+                <li>
+                  Adds additional setting to pause videos when playback page is
+                  not in focus
+                </li>
+                <li>
+                  Adds additional setting to disable infinite recommendations on
+                  all pages
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="Overhaul">
+                    construction
+                  </span>
+                  Restriction Schedules
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Implements FullCalendar.js library to display restriction
+                  events on a weekly calendar
+                </li>
+                <li>
+                  Can add events by clicking on any part of calendar or by
+                  clicking "Add Event" button
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="Overhaul">
+                    construction
+                  </span>
+                  Popup
+                </h1>
+              </header>
+              <ul>
+                <li>Overhaul popup design</li>
+                <li>
+                  Displays current day's total watch time and overall total
+                  watch time
+                </li>
+                <li>Displays the next scheduled restriction event</li>
+                <li>Quick limitation activation buttons are now user-added</li>
+                <li>
+                  A status icon stating whether or not any limitation or
+                  schedule is active now displays up top
+                </li>
+              </ul>
+
+              <!-- Category Changes -->
+              <header>
+                <h1>
+                  <span class="material-symbols-rounded" title="Overhaul">
+                    construction
+                  </span>
+                  Watch Times
+                </h1>
+              </header>
+              <ul>
+                <li>
+                  Tracking is tied to video playback instead of being actively
+                  focused on page
+                </li>
+                <li>
+                  Watch times now include watching long-form videos and
+                  short-form video
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/collapsible-containers.js"></script>
+  </body>
+</html>

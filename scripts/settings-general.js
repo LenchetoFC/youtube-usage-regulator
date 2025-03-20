@@ -1,285 +1,421 @@
 /**
- * @LenchetoFC 
- * @description This controls the settings pages and accurately
- *  displays current settings and user information for the general settings
- * 
- */
-
-/**
- * NOTE: to access storage from browser console, run this command...
- * chrome.storage.sync.get((result) => { console.log(result) });
- */
-
-/**
- * SECTION - INITIAL VARIABLES AND FUNCTION CALLS
+ * @file settings-general.js
+ * @description This file contains general functions and event listeners for the settings page.
+ * It handles tab switching, form interactions, and other settings-related functionalities.
  *
+ * @version 1.0.0
+ * @author LenchetoFC
+ *
+ * @notes
+ * - To access storage from the browser console, run this command:
+ *   chrome.storage.sync.get((result) => { console.log(result) });
+ * - Ensure that jQuery is loaded before this script.
+ * - This file is part of the settings module and should be included in the settings page.
  */
-
-// TODO: Change settings retrievals and sets to await promises like functions in content.js
-//        to be able to use the values outside of the callback
-
-// For determining if a YT element either fades or slides out of yt page examples
-const ytFadeToggleElements = ["all-pages", "home-page", "search-bar", "shorts-btn"]
-
-// Adds all activities from storage to HTML on load
-retrieveActivityFromStorage();
-
-// Gets initial num of activities and displays add button if not reached max
-getSettings("activities", (result) => {
-  let activityNum = 0;
-  try {
-    activityNum = result.length;
-  } catch {
-    activityNum = 0;
-  }
-});
-
-// Displays current watch times in HTML
-getSettings("watch-usage", (result) => {
-  $('#all-time-count').text(convertTimeToText(result['all-time']));
-  $('#regular-time-count').text(convertTimeToText(result['regular-video']));
-  $('#shorts-time-count').text(convertTimeToText(result['shorts']));
-});
-
-// Gets initial num of activities and displays add button if not reached max
-getSettings("activities", (result) => {
-  let activityNum = 0;
-  try {
-    activityNum = result.length;
-  } catch {
-    activityNum = 0;
-  }
-});
-
 
 /**
  * SECTION - FUNCTION DECLARATIONS
+ */
+
+/**
+ * loadNavBar()
+ * Loads nav bar layout html from separate files to more easily
+ * update the nav bar whenever all at once for all settings and
+ * dashboard pages
+ */
+function loadNavBar() {
+  const $pageId = $("nav.fetch-nav").attr("id");
+  const $navTarget = $(`nav.fetch-nav`);
+
+  fetch(`/modules/nav-bar.html`)
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then((navBarLayout) => {
+      $navTarget.html(navBarLayout);
+    })
+    .then(() => {
+      // Adds current-page styles to nav bar anchor and
+      $("nav")
+        .find(`a[data-id="${$pageId}"]`)
+        .addClass("current-page")
+        .attr("href", "#");
+    });
+}
+
+/**
+ * loadHelpPopover()
+ * Loads Help popover html from module file to more easily
+ * update the Help html whenever all at once for all pages
+ * using Help popovers
+ */
+function loadHelpPopover() {
+  const $bodyTarget = $("#popover-help");
+
+  fetch(`/modules/help-popover.html`)
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then((helpPopoverLayout) => {
+      $bodyTarget.prepend(helpPopoverLayout);
+    })
+    .then(() => {
+      // Adds event listener to download settings
+      $("#export-settings").on("click", function (event) {
+        event.preventDefault();
+        exportSettings();
+      });
+
+      // Adds event listener to handle file import
+      $("#import-settings").on("click", async function (event) {
+        event.preventDefault();
+
+        const fileInput = document.querySelector("#imported-settings");
+        const importedRecords = fileInput.files;
+
+        // Imports settings file into chrome sync storage
+        const results = await handleImportFile(importedRecords);
+        if (results) {
+          // Reload page if import is successful
+          displayNotifications(
+            "help-notif-msg",
+            "Successfully imported settings!",
+            "#390",
+            "verified",
+            2000
+          );
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          // TODO: switch to warning
+          displayNotifications(
+            "help-notif-msg",
+            "No file found",
+            "#fc0",
+            "warning",
+            3000
+          );
+        }
+      });
+
+      // Adds event listener to copy email to clipboard
+      $(".copy-to-clipboard").on("click", function () {
+        navigator.clipboard
+          .writeText($(this).attr("value"))
+          .then(() => {
+            $("#copy-confirm-msg").fadeIn(2000, function () {
+              $(this).fadeOut(2000);
+            });
+          })
+          .catch((err) => {
+            displayNotifications(
+              "help-notif-msg",
+              "Failed to copy to clipboard",
+              "#d92121",
+              "error",
+              5000
+            );
+            console.error("Failed to copy text: ", err);
+          });
+      });
+
+      // Drag and drop for importing settings file
+      // let dropbox;
+      // dropbox = document.getElementById("dropbox");
+      // dropbox.addEventListener("dragenter", dragenter, false);
+      // dropbox.addEventListener("dragover", dragover, false);
+      // dropbox.addEventListener("drop", drop, false);
+    });
+}
+
+/** SECTION - COLLAPSIBLE NAV BAR */
+/**
+ * Handles collapse/expansion depending on window width
+ *
+ * @name handleNavBarResize
+ *
+ * @returns {void}
+ *
+ * @example handleNavBarResize();
  *
  */
+function handleNavBarResize() {
+  const collapseButton = $(".collapse-nav");
+  const priorUserActivation =
+    $(collapseButton).attr("data-user-activated") === "true" ? true : false;
+  const isWindowNarrow = $(window).width() < 600;
 
-/** FUNCTION - retrieves the 'activities' setting and adds each activity to the HTML */
-function retrieveActivityFromStorage() {
-  getSettings("activities", (result) => {
-    if (result != undefined) {
-      result.forEach((element, index) => {
-        insertActivityHTML(element);
+  // Collapsing nav bar when screen gets too narrow
+  if (isWindowNarrow) {
+    collapseNavBar(collapseButton);
+  } else if (!isWindowNarrow && !priorUserActivation) {
+    // Expands nav bar automatically only if the screen is wide enough and the user hasn't closed it prior
+    expandNavBar(collapseButton);
+  }
+}
+
+/**
+ * Collapses side nav bar
+ *
+ * @name collapseNavBar
+ *
+ * @param {object} collapseButton - jquery object of button to collapse nav bar
+ *
+ * @returns {void}
+ *
+ * @example collapseNavBar($('.collapse-nav'));
+ *
+ */
+function collapseNavBar(collapseButton) {
+  $(collapseButton).attr("aria-expanded", false);
+  $("#aside-nav").addClass("nav-collapsed");
+}
+
+/**
+ * Expands side nav bar
+ *
+ * @name expandNavBar
+ *
+ * @param {object} collapseButton - jquery object of button to collapse nav bar
+ *
+ * @returns {void}
+ *
+ * @example expandNavBar($('.collapse-nav'));
+ *
+ */
+function expandNavBar(collapseButton) {
+  $(collapseButton).attr("aria-expanded", true);
+  $("#aside-nav").removeClass("nav-collapsed");
+}
+
+/** !SECTION */
+
+/** SECTION - EXPORT/IMPORT SETTINGS */
+/**
+ * Retrieves all settings from local storage and exports it to JSON file
+ *
+ * @name exportSettings
+ *
+ * @returns {void}
+ *
+ * @example exportSettings();
+ *
+ */
+async function exportSettings() {
+  // Get all settings from local storage
+  const allSettings = await sendMessageToServiceWorker({
+    operation: "selectAllStorage",
+  });
+
+  // Send data to service worker to download JSON file
+  const downloadFileResults = await sendMessageToServiceWorker({
+    operation: "downloadFile",
+    filename: "settings.json",
+    data: allSettings,
+  });
+}
+
+// Handle file drag enter action
+// function dragenter(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+// }
+
+// Handle file drag over action
+// function dragover(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+// }
+
+// Handle file drop action
+// function drop(e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+
+//   const dt = e.dataTransfer;
+//   const importedSettings = dt.files[0];
+
+//   handleImportFile(importedSettings);
+// }
+
+/**
+ * Handles import file by calling service worker to import settings
+ *
+ * @name handleImportFile
+ * @async
+ *
+ * @param {object} importedRecords - records i.e. JSON object of entire database
+ *
+ * @returns {boolean}
+ *
+ * @example handleImportFile(jsonObject);
+ *
+ */
+async function handleImportFile(importedRecords) {
+  try {
+    if (importedRecords.length > 0) {
+      const reader = new FileReader();
+
+      reader.onload = async (event) => {
+        const fileContent = JSON.parse(event.target.result);
+
+        const results = await sendMessageToServiceWorker({
+          operation: "importSettings",
+          records: fileContent,
+        });
+
+        if (results != true) {
+          throw new Error(results);
+        }
+      };
+
+      reader.readAsText(importedRecords[0]);
+      return true;
+    } else {
+      throw new Error("No File Selected");
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+/** !SECTION */
+
+/**
+ * SECTION - ONLOAD FUNCTIONS CALLS
+ */
+$(document).ready(function () {
+  // Fetch nav bar from nav-bar.html and insert into page
+  loadNavBar();
+
+  // Fetch help popover from help-popover.html and insert into page
+  loadHelpPopover();
+
+  /** EVENT LISTENER: Popover won't close when cancel button is pressed if the form is incomplete in any way */
+  $("button[type='reset'].cancel").on("click", function () {
+    const popoverId = $(this).attr("data-popover");
+    document.querySelector(`#${popoverId}`)?.togglePopover();
+  });
+
+  /** SECTION - SEARCH BAR */
+  // Focuses on search bar input when the parent container is pressed since input box is invisible
+  $(".search-bar").on("click", function () {
+    $("#search-input").trigger("focus");
+  });
+
+  // Filters all .search-item according to current search bar input
+  // NOTE: for transparency, most of this, especially the highlighting, is A.I. generated.
+  $("#search-input").on("input", function () {
+    // .search-item is the parent container of each setting option
+    function filterSearchItems(searchBarElem) {
+      const inputVal = $(searchBarElem).val();
+      // Hide search items if it does not container search bar input value
+      $(".search-item").each(function () {
+        if (
+          $(this)
+            .find("p, td, h1, h2, li")
+            .text()
+            .toLowerCase()
+            .includes(inputVal.toLowerCase())
+        ) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+        // If all options in a search container are set to display: none, hide the search container entirely (header and all)
+        const $searchContainer = $(this).closest(".search-container");
+        const $buttonContainer = $(this)
+          .closest(".search-container")
+          .siblings(".group-of-buttons");
+
+        // If at least one item is visible, show header and setting buttons
+        if ($(this).css("display") !== "none") {
+          $searchContainer.show();
+          $buttonContainer.show();
+        } else {
+          const allItemsHidden =
+            $searchContainer.find(".search-item").filter(function () {
+              return $(this).css("display") !== "none";
+            }).length === 0;
+
+          // If no items are visible, hide header and setting buttons
+          if (allItemsHidden) {
+            $searchContainer.hide();
+            $buttonContainer.hide();
+
+            displayNotifications(
+              "page-notif-msg",
+              "No items found in your search.",
+              "#40a6ce",
+              "info",
+              5000
+            );
+          }
+        }
       });
     }
+    filterSearchItems($(this));
   });
-}
 
-/** FUNCTION - Creates a new HTML element for an activity and adds it to the 'activity-section' in the document */
-function insertActivityHTML(activity) {
-  let activityItem = $("<li></li>").html(`
-      <div class="activity-item" id="${activity}">
-        ${activity}
-        <button>
-          <img class="icon-delete" src="/images/icon-delete.svg" alt="x delete button">
-        </button>
-      </div>
-  `);
+  /** !SECTION */
 
-  activityItem.css("display", "none")
-
-  $('#activity-section').append(activityItem);
-  activityItem.slideDown();
-};
-
-/** FUNCTION - Adds an activity to the 'activities' setting in storage. If the 'activities' setting does not exist, it creates a new one */
-function addActivityStorage (activity) {
-  getSettings("activities", (result) => {
-    // Saves new activity to exisiting storage 
-    result.unshift(activity);
-    setSetting("activities", result);
-  });
-}
-
-/** FUNCTION - Removes a specific activity from the 'activities' setting in storage */
-function removeActivity (value) {
-  getSettings("activities", (result) => {
-    // Get index of key activity and removes it
-    // let activityIndex = result.indexOf(activity);
-    result.splice(result.indexOf(value), 1);
-
-    // Saves updated array to storage 
-    setSetting("activities", result);
-  });
-}
-
-/** FUNCTION - Inserts activity from storage into HTML to and adds them to storage */
-// NOTE: Not exactly sure if this is even necessary 
-function addActivityEventHandler() {
-  let activityNumEvent = 0;
-  let activityInput = $("#activity-input");
-
-  // Gets current number of activities
-  getSettings("activities", (result) => {
+  /** SECTION - COLLAPSIBLE NAV BAR */
+  // Controls collapsible nav bar
+  $(".collapse-nav").on("click", async function () {
     try {
-      activityNumEvent = result.length;
-    } catch {
-      activityNumEvent = 0;
-    }
+      const isExpanded =
+        $(this).attr("aria-expanded") === "true" ? true : false;
+      $(this).attr("data-user-activated", true);
+      isExpanded ? collapseNavBar(this) : expandNavBar(this);
 
-    if(activityInput.val().length > 0 && activityNumEvent < 4){
-      insertActivityHTML(activityInput.val());
-      addActivityStorage(activityInput.val());
-      activityInput.val("");
+      // Updates misc settings
+      const updateResult = await updateRecordByPropertyGlobal(
+        "misc-settings",
+        "name",
+        "nav-bar-expanded-state",
+        { isExpanded: !isExpanded }
+      );
+
+      // Gets status message from update
+      if (updateResult.error) {
+        throw new Error(updateResult.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
-}
 
-/** FUNCTION - Displays or hides 'add activity' button or "activity input" only under the right conditions */
-function toggleActivityBtns() {
-  let activityItemAmt = $('#activity-section').children().length;
+  // Initial check to collapse/expand nav bar
+  handleNavBarResize();
 
-  console.log(activityItemAmt);
-  console.log($('#input-btn-box').css("visibility"))
-  
-  if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "visible") {
-    // $('#activity-add').css("display", "block");
-    // $('#activity-add').css("visibility", "visible");
-    // $('#input-btn-box').css("visibility", "visible");
-    $('#activity-add').slideToggle();
-    $('#input-btn-box').slideToggle();
-  } else if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "hidden") {
-    // $('#activity-add').css("display", "none");
-    // $('#activity-add').css("visibility", "hidden");
-    $('#activity-add').slideToggle();
-    $('#input-btn-box').slideToggle();
-  } else {
-
-  }
-}
-
-/** FUNCTION - Displays or hides activity inputs based on amount of active activities */
-function showActivityInput () {
-  let activityItemAmt = $('#activity-section').length;
-  
-  if (activityItemAmt < 4 && $('#input-btn-box').css("visibility") == "hidden") {
-    $('#activity-add').css("display", "block");
-    $('#activity-add').css("visibility", "visible");
-    $('#input-btn-box').css("visibility", "visible");
-  } else {
-    $('#activity-add').css("display", "none");
-    $('#activity-add').css("visibility", "hidden");
-  }
-}
-
-/** FUNCTION - Toggles all checkboxes based on the settings value (true == checked or false == unchecked) */
-function toggleCheckboxes(setting, element) {
-  getSettings(setting, (result) => {
-    // Visually displays the status of the setting on load
-    if (result[element.value]) {
-      element.checked = true; // Auto-updates checkbox status
-      $(`.${element.value}`).slideToggle() // Auto-updates YT UI example
-    } else {
-      element.checked = false;
-    }
-
-    // Updates settings for whichever button is pushed
-    element.addEventListener("click", (event) => {
-      setNestedSetting(setting, element.name, element.checked);
-
-      // Displays change in YT UI example
-      ytFadeToggleElements.includes(element.value) ? $(`.${element.value}`).fadeToggle() : $(`.${element.value}`).slideToggle() 
-    });
+  // Bind handleNavBarResize() to the window resize event
+  $(window).resize(function () {
+    handleNavBarResize();
   });
-}
 
-
-/** 
- * SECTION - EVENT LISTENERS 
- * 
- */
-
-// Deletes activity through 'x' button
-$(document).on('click', '.icon-delete', function(event) {
-  const activityItem = $(this).closest('li');
-  const activityItemId = $(this).closest('div').attr('id');
-
-  removeActivity(activityItemId);
-
-  if (activityItem.length) {
-    activityItem.slideUp(function() {
-      $(this).remove();
-    });
-  }
+  /** !SECTION */
 });
 
-// Triggers toggleCheckboxes with the type of checkbox on every checkbox within a form
-const addictiveForm = document.querySelectorAll("form input");
-addictiveForm.forEach((element) => {
-  if (element.name.includes('quick')) {
-    toggleCheckboxes("quick-actions", element);
-  } else {
-    toggleCheckboxes("addictive-elements", element);
-  }
+$(document).ready(async function () {
+  /** Auto-Collapse for Nav Bar */
+  const navBarSettings = await filterRecordsGlobal(
+    "misc-settings",
+    "name",
+    "nav-bar-expanded-state"
+  );
+  const isExpanded = navBarSettings[0]["isExpanded"];
+
+  // Collapses nav bar if it is active in settings
+  isExpanded
+    ? expandNavBar($(".collapse-nav"))
+    : collapseNavBar($(".collapse-nav"));
 });
 
-// Displays activity input text box and auto-focuses on it
-$('#activity-add button').on("click", function() {
-  $('#input-btn-box').slideDown( function() {
-    $('#input-container').trigger("focus");
-  });
-  $('#activity-add').slideUp();
-});
-
-// Removes activity input and reshows add activity button
-$('#activity-cancel').on("click", function() {
-  toggleActivityBtns();
-});
-
-// "Enter" event listener for new activity
-$('#activity-input').on("keydown", function ( event ) {
-  let inputTextLen = $(this).val().length;
-  if (event.which == 13 && inputTextLen > 0) {
-    addActivityEventHandler();
-    toggleActivityBtns();
-  }
-});
-
-// "Save button" event listener for new activity
-$('#activity-save').on("click", function() {
-  let inputTextLen = $('#activity-input').val().length;
-  if (inputTextLen > 0) {
-    addActivityEventHandler();
-    toggleActivityBtns();
-  }
-})
-
-// Resets all time usage to 0 and updates the displayed count
-$('#reset-usage').on("click", function() {
-  setSetting("all-time-usage", 0);
-  $('#all-time-count').text('0 seconds');
-  console.log("ALL TIME USAGE RESET TO 0");
-})
-
-// Opens and closes horizontal nav bar
-// document.querySelector(".hamburger-input").addEventListener("click", () => {
-//   let checked = document.querySelector(".hamburger-input").checked;
-//   let nav = document.querySelector("nav");
-//   let contentWrapper = document.querySelector(".content-wrapper");
-  
-//   if (window.matchMedia("(max-width: 630px)").matches) {
-//     if (checked) {
-//       nav.style.transform = "translateY(83.5px)";
-//       contentWrapper.style.transform = "translateY(110px)";
-//     } else {
-//       nav.style.transform = "translateY(-30px)";
-//       contentWrapper.style.transform = "none";
-//     }
-//   }
-// })
-
-// When the horizontal nav bar is open and then closed, this code
-//  makes sure the vertical nav bar is not affected by "display: none"
-//  when the horizontal nav bar is closed
-// Basically a reset for vertical nav bar
-// window.addEventListener("resize", () => {
-//   let nav = document.querySelector("nav");
-//   let contentWrapper = document.querySelector(".content-wrapper");
-
-//   contentWrapper.style.transform = "none";
-//   document.querySelector(".hamburger-input").checked = false;
-//   window.matchMedia("(min-width: 631px)").matches ? nav.style.transform = "none" : nav.style.transform = "translateY(-30px)";
-// })
+/** !SECTION */

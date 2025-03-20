@@ -1,0 +1,101 @@
+<article class="flex-col sixteen-spacing full-width">
+  <header>
+    <h1>Need Help?</h1>
+  </header>
+
+  <div class="article-body">
+    <!-- Bug Report Requirements -->
+    <div class="flex-col twelve-spacing">
+      <div class="flex-col eight-spacing">
+        <h2>Found a Bug?</h2>
+        <p class="medium-text">
+          Please send a message to the email address below describing the bug
+          you've encountered. I appreciate the report very much!
+        </p>
+
+        <p class="medium-text">
+          Please answer all of the relevant questions below:
+        </p>
+        <ul>
+          <li>How did it affect your experience?</li>
+          <li>Did the extension crash?</li>
+          <li>Did it affect the user interface?</li>
+          <li>Did you lose data?</li>
+          <li>Are the statistics inaccurate?</li>
+          <li>Did any of the limitations not work as expected?</li>
+          <li>Any other problems you'd like to mention?</li>
+        </ul>
+      </div>
+
+      <button class="copy-to-clipboard" value="lorenzoramirez122@gmail.com">
+        <p>lorenzoramirez122@gmail.com</p>
+
+        <div class="flex-row eight-spacing">
+          <p id="copy-confirm-msg">Email copied!</p>
+          <span class="material-symbols-rounded">content_copy</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- Export Settings -->
+    <div class="flex-col twelve-spacing">
+      <div class="flex-col eight-spacing">
+        <h2>Export Current Settings</h2>
+        <p class="medium-text">
+          You may download a copy of your settings into a JSON file.
+        </p>
+      </div>
+
+      <div class="flex-col eight-spacing">
+        <button class="align-start button-brand" id="export-settings">
+          Export Settings
+        </button>
+      </div>
+    </div>
+
+    <!-- Import Settings -->
+    <div class="flex-col twelve-spacing">
+      <div class="flex-col eight-spacing">
+        <h2>Import Existing Settings</h2>
+        <p class="medium-text">
+          You may upload a copy of your settings from a previously imported
+          settings file from this extension.
+        </p>
+      </div>
+
+      <form method="post" enctype="multipart/form-data">
+        <div>
+          <label for="imported-settings" class="medium-text">
+            Choose JSON file to upload
+          </label>
+          <input
+            type="file"
+            id="imported-settings"
+            name="imported-settings"
+            accept="application/json"
+          />
+        </div>
+        <!-- <div class="dropbox" id="dropbox"></div> -->
+        <div>
+          <button class="button-brand" id="import-settings">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="group-of-buttons">
+    <button
+      class="text-button red-text-button"
+      popovertargetaction="hide"
+      popovertarget="popover-help"
+    >
+      <p class="red-text">Close</p>
+    </button>
+  </div>
+
+  <!-- Notification Popup - ABSOLUTE POSITIONED -->
+  <span id="help-notif-msg" class="notif-msg popover-notif-msg">
+    <span class="material-symbols-rounded">info</span>
+    <p>Message Text</p>
+  </span>
+</article>

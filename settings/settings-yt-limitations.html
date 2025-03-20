@@ -1,0 +1,818 @@
+<!--
+  File Name: settings-yt-limitations.html
+
+  Author: @LenchetoFC
+
+  Date Created: 2025-02-04
+ 
+  Description: Settings for YouTube Limitations
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Manage the settings of Restrict the Tube browser extension. Those settings include blocking other websites, hiding specific elements on YouTube, manage watch modes and watch times, and more!"
+    />
+    <title>YouTube Limitations | RTT</title>
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0"
+    />
+  </head>
+
+  <body>
+    <!-- Notification Container - ABSOLUTE POSITIONED-->
+    <span id="page-notif-msg" class="notif-msg">
+      <span class="material-symbols-rounded">info</span>
+      <p>Message Text</p>
+    </span>
+
+    <!-- Help Popover - ABSOLUTE POSITIONED -->
+    <div popover id="popover-help" class="popover"></div>
+
+    <!-- Side Nav Bar -->
+    <aside id="aside-nav">
+      <button
+        class="collapse-nav"
+        aria-controls="aside-nav"
+        aria-expanded="true"
+      >
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+
+      <div class="nav-logo">
+        <img
+          src="/images/icon-logo-ext-128.png"
+          alt="YouTube Extension logo"
+          class="small-img"
+        />
+        <p>Restrict the Tube</p>
+      </div>
+
+      <!-- NOTE: commented out until features are completed -->
+      <!-- YouTube Account -->
+      <!-- <div class="flex-col eight-spacing dead-center max-width">
+        <span class="material-symbols-rounded large-icon">account_circle</span>
+
+        <div class="flex-col dead-center">
+          <p>Account Name</p>
+          <p class="subtext">@accountName</p>
+        </div>
+      </div>
+
+      <button id="connect-account" class="button-brand">
+        <span class="material-symbols-rounded">person</span>
+        <p>Connect Account</p>
+      </button> -->
+
+      <!-- Nav List - Fetched from /modules/nav-bar.html -->
+      <nav class="fetch-nav" id="nav-yt-limitations">
+        <ul>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+          <li class="loading-skeleton-item"></li>
+        </ul>
+
+        <div class="loading-skeleton-item"></div>
+      </nav>
+    </aside>
+
+    <main class="white-bg">
+      <!-- Search Bar -->
+      <form>
+        <div class="search-bar">
+          <span class="material-symbols-rounded">search</span>
+
+          <input
+            type="text"
+            id="search-input"
+            class="input-full-border"
+            placeholder="Search..."
+          />
+        </div>
+      </form>
+
+      <header class="page-header">
+        <div class="flex-col">
+          <h1>YouTube Limitations</h1>
+          <h2>
+            Control which pages and buttons are hidden, and how your
+            recommendation feed appears.
+          </h2>
+        </div>
+      </header>
+
+      <section>
+        <!-- Demonstrations of element removals -->
+        <!-- NOTE: disabled until layout is figured out -->
+        <!-- <div id="limitation-demos">
+          <figure class="yt-limit-examples" id="yt-demo-homepage">
+            <figcaption>YouTube Homepage</figcaption>
+          </figure>
+
+          <figure class="yt-limit-examples" id="yt-demo-playback">
+            <figcaption>YouTube Playback Page</figcaption>
+          </figure>
+        </div> -->
+
+        <!-- Settings Form -->
+        <form class="settings-form" id="youtube-limitations">
+          <!-- Block Pages Table -->
+          <table class="basic search-container">
+            <thead>
+              <tr>
+                <th>
+                  <h3>Block Pages</h3>
+                </th>
+
+                <th>
+                  <h3>Always Active</h3>
+                </th>
+                <th>
+                  <h3>Follow Schedules</h3>
+                </th>
+                <th>
+                  <h3>Add to Popup</h3>
+                </th>
+              </tr>
+              <tr class="horizontal-line"></tr>
+            </thead>
+
+            <!-- Where the watch times are inserted -->
+            <tbody class="full-height">
+              <!-- Block All Pages -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>All Pages</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="all-pages-active"
+                      data-name="all-pages"
+                      data-property="active"
+                      type="checkbox"
+                      value="11"
+                    />
+
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="all-pages-followSchedule"
+                      data-name="all-pages"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="11"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="all-pages-popup"
+                      data-name="all-pages"
+                      data-property="popup"
+                      type="checkbox"
+                      value="11"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Block Home Page -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Home Page</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-page-active"
+                      data-property="active"
+                      data-name="home-page"
+                      type="checkbox"
+                      value="1"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-page-followSchedule"
+                      data-property="followSchedule"
+                      data-name="home-page"
+                      type="checkbox"
+                      value="1"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-page-popup"
+                      data-name="home-page"
+                      data-property="popup"
+                      type="checkbox"
+                      value="1"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Block Shorts Page -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Shorts Page</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-page-active"
+                      data-name="shorts-page"
+                      data-property="active"
+                      type="checkbox"
+                      value="2"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-page-followSchedule"
+                      data-name="shorts-page"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="2"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-page-popup"
+                      data-name="shorts-page"
+                      data-property="popup"
+                      type="checkbox"
+                      value="2"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Hide Limitation Table -->
+          <table class="basic search-container">
+            <thead>
+              <tr>
+                <th>
+                  <h3>Hide Limitation</h3>
+                </th>
+
+                <th>
+                  <h3>Always Active</h3>
+                </th>
+                <th>
+                  <h3>Follow Schedules</h3>
+                </th>
+                <th>
+                  <h3>Add to Popup</h3>
+                </th>
+              </tr>
+              <tr class="horizontal-line"></tr>
+            </thead>
+
+            <!-- Where the watch times are inserted -->
+            <tbody class="full-height">
+              <!-- Hide Home Button -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Home Button</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-button-active"
+                      data-name="home-button"
+                      data-property="active"
+                      type="checkbox"
+                      value="3"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-button-followSchedule"
+                      data-name="home-button"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="3"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="home-button-popup"
+                      data-name="home-button"
+                      data-property="popup"
+                      type="checkbox"
+                      value="3"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Shorts Button -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Shorts Button</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-button-active"
+                      data-name="shorts-button"
+                      data-property="active"
+                      type="checkbox"
+                      value="4"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-button-followSchedule"
+                      data-name="shorts-button"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="4"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-button-popup"
+                      data-name="shorts-button"
+                      data-property="popup"
+                      type="checkbox"
+                      value="4"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Video Recommendations -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Video Recommendations</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="video-recom-active"
+                      data-name="video-recom"
+                      data-property="active"
+                      type="checkbox"
+                      value="7"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="video-recom-followSchedule"
+                      data-name="video-recom"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="7"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="video-recom-popup"
+                      data-name="video-recom"
+                      data-property="popup"
+                      type="checkbox"
+                      value="7"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Shorts Recommendations -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Shorts Recommendations</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-recom-active"
+                      data-name="shorts-recom"
+                      data-property="active"
+                      type="checkbox"
+                      value="5"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-recom-followSchedule"
+                      data-name="shorts-recom"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="5"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="shorts-recom-popup"
+                      data-name="shorts-recom"
+                      data-property="popup"
+                      type="checkbox"
+                      value="5"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Search Bar -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Search Bar</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="search-bar-active"
+                      data-name="search-bar"
+                      data-property="active"
+                      type="checkbox"
+                      value="6"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="search-bar-followSchedule"
+                      data-name="search-bar"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="6"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="search-bar-popup"
+                      data-name="search-bar"
+                      data-property="popup"
+                      type="checkbox"
+                      value="6"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Comments Section -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Comments Section</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="comments-section-active"
+                      data-name="comments-section"
+                      data-property="active"
+                      type="checkbox"
+                      value="10"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Follow restriction schedules -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="comments-section-followSchedule"
+                      data-name="comments-section"
+                      data-property="followSchedule"
+                      type="checkbox"
+                      value="10"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+
+                <!-- Add to popup -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="comments-section-popup"
+                      data-name="comments-section"
+                      data-property="popup"
+                      type="checkbox"
+                      value="10"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                    <span class="material-symbols-rounded lock-icon">lock</span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Additional Settings -->
+          <table class="basic search-container">
+            <thead>
+              <tr>
+                <th>
+                  <h3>Additional Settings</h3>
+                </th>
+
+                <th>
+                  <h3>Active</h3>
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr class="horizontal-line"></tr>
+            </thead>
+
+            <!-- Where the watch times are inserted -->
+            <tbody class="full-height">
+              <!-- Pause video on inactive pages -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Pause Video on Inactive Pages</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="pause-video-on-blur-active"
+                      data-name="pause-video-on-blur"
+                      data-property="active"
+                      type="checkbox"
+                      value="12"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                  </label>
+                </td>
+
+                <td></td>
+
+                <td></td>
+              </tr>
+
+              <!-- <tr class="horizontal-line"></tr>-->
+
+              <!-- Hide Infinite Recommendations -->
+              <tr class="search-item">
+                <!-- Limitation Option -->
+                <td>Disable Infinite Recommendations</td>
+
+                <!-- Always active option -->
+                <td>
+                  <label class="side-checkbox-container">
+                    <input
+                      name="infinite-recom-active"
+                      data-name="infinite-recom"
+                      data-property="active"
+                      type="checkbox"
+                      value="8"
+                    />
+                    <span class="checkmark">
+                      <span class="material-symbols-rounded">check</span>
+                    </span>
+                  </label>
+                </td>
+
+                <td></td>
+
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Submission Button -->
+          <div class="group-of-buttons padding-bottom-sixteen">
+            <span>
+              <button type="submit" id="save-limitations" class="save-settings">
+                Save Settings
+              </button>
+            </span>
+            <button
+              class="text-button red-text-button clear-settings"
+              id="youtube-limitations"
+            >
+              <p class="red-text">Reset All Settings</p>
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/global-functions.js"></script>
+    <script type="module" src="/scripts/settings-general.js"></script>
+    <script type="module" src="/scripts/settings-yt-limitations.js"></script>
+    <script src="/scripts/settings-form-control.js"></script>
+    <script src="/scripts/database-control-buffer.js"></script>
+    <!-- <script src="/scripts/settings-popover-form-controls.js"></script> -->
+  </body>
+</html>
