@@ -568,8 +568,6 @@ window.displayNotifications = (
   delayTime,
   isPersistent = false
 ) => {
-  // debugger;
-  console.log(notifId, msg, hexColor, iconName, delayTime, isPersistent);
   // Prepare notification's message, color, and icon
   $(`#${notifId} .material-symbols-rounded`)
     .html(iconName)

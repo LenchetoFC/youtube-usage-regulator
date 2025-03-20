@@ -258,6 +258,8 @@ const database = {
     },
   ],
 
+  ["schedule-event-groups"]: [],
+
   ["youtube-limitations"]: [
     {
       id: 1,
@@ -371,11 +373,11 @@ chrome.storage.sync.get(
         "youtube-limitations": database["youtube-limitations"],
       });
     }
-    if (!result["watch-modes"]) {
-      chrome.storage.sync.set({
-        "watch-modes": database["watch-modes"],
-      });
-    }
+    // if (!result["watch-modes"]) {
+    //   chrome.storage.sync.set({
+    //     "watch-modes": database["watch-modes"],
+    //   });
+    // }
     if (!result["spoiler-detection"]) {
       chrome.storage.sync.set({
         "spoiler-detection": database["spoiler-detection"],
@@ -399,16 +401,21 @@ chrome.storage.sync.get(
     if (!result["schedule-days"]) {
       chrome.storage.sync.set({ "schedule-days": database["schedule-days"] });
     }
-    if (!result["preferred-creators"]) {
-      chrome.storage.sync.set({
-        "preferred-creators": database["preferred-creators"],
-      });
-    }
+    // if (!result["preferred-creators"]) {
+    //   chrome.storage.sync.set({
+    //     "preferred-creators": database["preferred-creators"],
+    //   });
+    // }
     if (!result["additional-websites"]) {
       chrome.storage.sync.set({
         "additional-websites": database["additional-websites"],
       });
     }
+    // if (!result["schedule-event-groups"]) {
+    //   chrome.storage.sync.set({
+    //     "schedule-event-groups": database["schedule-event-groups"],
+    //   });
+    // }
   }
 );
 
@@ -989,8 +996,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       filename: request.filename,
       saveAs: true,
     });
+
+    sendResponse({ error: false });
   } else if (request.operation === "importSettings") {
     importRecords(request.records).then(sendResponse);
+    sendResponse({ error: false });
   }
 
   if (request.redirect) {

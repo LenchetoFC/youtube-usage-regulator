@@ -20,14 +20,10 @@
  */
 
 /**
- * TODO: add editability via dragging (eventDrop) and resizing events (eventResize)
- * TODO: group schedules to change all at the same time
+ * TODO: add editable events via dragging (eventDrop) and resizing events (eventResize)
+ * TODO: add support for grouped events
  * TODO: make active all day event darken the whole day
- * TODO: put schedule form anchored right to the time selected on calendar
- */
-
-/** FIXME:
- * - weird behavior when updating events from all-day to times within the same day, and vice versa
+ * TODO: delete multiple all-day events at once
  */
 
 /**
@@ -709,6 +705,12 @@ function populateEventOverlay(eventInfo) {
 
   // Checks all selected days
   for (let dayId = startDay; dayId <= endDay; dayId++) {
+    // If dayId is 7 (meaning sunday), reset dayId to 0
+    if (dayId === 7) {
+      $(`#${dayNames[0]}`).attr("checked", true);
+      continue;
+    }
+
     $(`#${dayNames[dayId]}`).attr("checked", true);
   }
 
@@ -716,6 +718,7 @@ function populateEventOverlay(eventInfo) {
   insertScheduleFormHeader(eventObj.isAdditionalSitesChecked);
   // $("#additionalSites").attr("checked", eventObj.isAdditionalSitesChecked);
   $("#all-day").attr("checked", eventObj.isAllDay);
+  $("#all-day").attr("disabled", eventObj.isAllDay);
 
   hideTimeContainer(eventObj.isAllDay);
   determineFormFooterButtons(eventObj);
@@ -783,18 +786,16 @@ function createEventObject(eventInfo) {
  * @returns {void} Hides or shows the time container based on the all-day status.
  */
 function hideTimeContainer(isAllDay) {
-  $("#new-time-container").slideToggle(function () {
-    $("#startTime").prop("required", !$("#startTime").prop("required"));
-    $("#endTime").prop("required", !$("#endTime").prop("required"));
+  $("#startTime").prop("required", !isAllDay);
+  $("#endTime").prop("required", !isAllDay);
 
-    if (isAllDay) {
-      $("#new-time-container").css("display", "none");
-      $("#new-time-container").find("input").attr("data-type", "hidden");
-    } else {
-      $("#new-time-container").css("display", "flex");
-      $("#new-time-container").find("input").attr("data-type", "time");
-    }
-  });
+  if (isAllDay) {
+    $("#new-time-container").css("display", "none");
+    $("#new-time-container").find("input").attr("data-type", "hidden");
+  } else {
+    $("#new-time-container").css("display", "flex");
+    $("#new-time-container").find("input").attr("data-type", "time");
+  }
 }
 
 /**
@@ -914,9 +915,12 @@ function openEventOverlay(eventInfo = {}) {
  * @returns {void} Clears the event form.
  */
 function clearEventForm() {
-  $(`#popover-schedule-event input[type='checkbox']`).attr("checked", false);
+  $("#schedule-form")[0].reset();
+
+  $(`form input[type='checkbox']`).attr("checked", false);
   $("#startTime").val("");
   $("#endTime").val("");
+  $("#all-day").attr("disabled", false);
 }
 
 /** !SECTION */
@@ -1091,6 +1095,7 @@ $(document).ready(async function () {
   $("#update-schedule").on("click", async function (event) {
     // Disable default form submission event; prevents automatic page reload
     event.preventDefault();
+    resetScheduleDay();
 
     await updateScheduleEvent();
   });

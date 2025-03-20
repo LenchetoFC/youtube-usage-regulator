@@ -867,7 +867,7 @@ input[type="time" i] {
   color: var(--text-text);
   font-size: 1.6rem;
   transition: border 0.25s;
-  width: 12rem;
+  width: 14rem;
 }
 input[type="time" i]:hover {
   cursor: pointer;
@@ -1049,7 +1049,7 @@ input[type="color"] {
 .side-checkbox-container:has(input:disabled) {
   cursor: not-allowed;
 }
-.side-checkbox-container input:disabled ~ .checkmark {
+td > .side-checkbox-container input:disabled ~ .checkmark {
   /* border-color: #808080b3;
   background-color: var(--surface-light);
 
@@ -1058,6 +1058,17 @@ input[type="color"] {
 }
 .side-checkbox-container input:disabled ~ p {
   color: #d3d3d3;
+}
+
+form .side-checkbox-container:hover input:disabled:checked ~ .checkmark {
+  background-color: grey;
+}
+
+form .side-checkbox-container input:disabled:checked ~ .checkmark {
+  border-color: #808080b3;
+  /* background-color: var(--surface-light); */
+
+  box-shadow: none;
 }
 
 .side-checkbox-container input:disabled ~ .lock-icon {
