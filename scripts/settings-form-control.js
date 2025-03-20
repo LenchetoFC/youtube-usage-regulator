@@ -65,7 +65,7 @@ async function updateSettingsCheckboxes(activeSettings, formId) {
     // Auto-check corresponding checkbox input
     $(`#${formId}`)
       .find(`input[name=${activeSettings[index].name}-active]`)
-      .attr("checked", activeVal)
+      .prop("checked", activeVal)
       .trigger("change"); // Trigger change event to handle disabling
 
     // Special cases for youtube limitation settings form
@@ -73,14 +73,19 @@ async function updateSettingsCheckboxes(activeSettings, formId) {
       const followScheduleVal = activeSettings[index].followSchedule;
       const popupVal = activeSettings[index].popup;
 
-      $(`#${formId}`)
-        .find(`input[name=${activeSettings[index].name}-followSchedule]`)
-        .attr("checked", followScheduleVal)
-        .trigger("change"); // Trigger change event to handle disabling
+      if (followScheduleVal) {
+        $(`#${formId}`)
+          .find(`input[name=${activeSettings[index].name}-followSchedule]`)
+          .prop("checked", followScheduleVal)
+          .trigger("change"); // Trigger change event to handle disabling
+      }
 
-      $(`#${formId}`)
-        .find(`input[name=${activeSettings[index].name}-popup]`)
-        .attr("checked", popupVal);
+      if (popupVal) {
+        $(`#${formId}`)
+          .find(`input[name=${activeSettings[index].name}-popup]`)
+          .prop("checked", popupVal)
+          .trigger("change");
+      }
     }
   }
 }
@@ -126,7 +131,7 @@ $(document).ready(function () {
     .on("click", function () {
       const formId = $(this).closest(`.${formClassName}`).attr("id");
       const isChanged = checkForChangedCheckboxes(this, formId);
-      console.log("isChanged", isChanged);
+      // console.log("Form has changes", isChanged);
 
       // Fade in or fade out the unsaved message based on the presence of the "changed" class
       if (isChanged) {

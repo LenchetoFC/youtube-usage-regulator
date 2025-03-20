@@ -19,15 +19,39 @@
  *              'input[data-property="followSchedule"], input[data-property="active"]'
  *            ).on("change", disableOtherLimitationOption);
  */
-function disableOtherLimitationOption() {
+async function disableOtherLimitationOption() {
   const $this = $(this);
-  const isFollowSchedule = $this.attr("data-property") === "followSchedule";
-  const relatedCheckbox = $this
-    .closest(".search-item")
-    .find(
-      `input[data-property='${isFollowSchedule ? "active" : "followSchedule"}']`
+  const $parent = $this.closest(".search-item");
+  const property = $this.attr("data-property");
+
+  const propertiesToDisable = {
+    followSchedule:
+      "input[data-property='active'], input[data-property='popup']",
+    activeOrPopup: "input[data-property='followSchedule']",
+  };
+
+  const checkedCount = $parent.find(
+    'input[data-property="popup"]:checked, input[data-property="active"]:checked'
+  ).length;
+
+  const getCheckboxesToDisable = (propertyKey) =>
+    $parent.find(propertiesToDisable[propertyKey]);
+
+  // Case: "active" or "popup" is checked
+  if ((property === "active" || property === "popup") && checkedCount > 0) {
+    getCheckboxesToDisable("activeOrPopup").prop("disabled", true);
+  }
+  // Case: "followSchedule" input is manually checked or unchecked
+  else if (property === "followSchedule") {
+    getCheckboxesToDisable("followSchedule").prop(
+      "disabled",
+      $this.prop("checked")
     );
-  relatedCheckbox.prop("disabled", this.checked);
+  }
+  // Case: No checkboxes are checked
+  else if (checkedCount === 0) {
+    getCheckboxesToDisable("activeOrPopup").prop("disabled", false);
+  }
 }
 
 /**
@@ -46,7 +70,7 @@ $(document).ready(async function () {
   // Attach the change handler to both checkboxes - MUST be before updateSettingsCheckboxes()
   $(".search-item")
     .find(
-      'input[data-property="followSchedule"], input[data-property="active"]'
+      'input[data-property="followSchedule"], input[data-property="active"], input[data-property="popup"]'
     )
     .on("change", disableOtherLimitationOption);
 
