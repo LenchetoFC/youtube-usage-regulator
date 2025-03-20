@@ -90,7 +90,7 @@ async function selectRecordById(table, id) {
 async function deleteItemFromDatabase(table, itemId) {
   try {
     // Asks user to confirm deletion
-    console.log(itemId);
+    // console.log(itemId);
 
     if (window.confirm("Permanently delete this item?")) {
       let results = await deleteRecordByIdGlobal(table, itemId);
@@ -132,7 +132,7 @@ async function updateDatabase(tableName, newRecord) {
 
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { error: true, message: error.message };
   }
 }

@@ -449,7 +449,7 @@ async function insertQuickLimitations() {
           );
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
 
         displayNotifications(
           "page-notif-msg",

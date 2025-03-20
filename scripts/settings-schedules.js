@@ -65,7 +65,7 @@ async function fetchEventsInDay(dayId) {
  */
 async function checkActiveDayStatus() {
   let results;
-  console.log("Checking status of active days...");
+  // console.log("Checking status of active days...");
   for (let dayId = 0; dayId < 7; dayId++) {
     // Gets all events in the current day
     let eventsWithDayId = await fetchEventsInDay(dayId);
@@ -89,9 +89,9 @@ async function checkActiveDayStatus() {
       );
     }
 
-    console.log(results.message);
+    // console.log(results.message);
   }
-  console.log("Completed checking status of active days!");
+  // console.log("Completed checking status of active days!");
 }
 
 /**
@@ -127,7 +127,7 @@ async function resetScheduleDay() {
     defaultScheduleObj
   );
 
-  console.log(updateResult.message);
+  // console.log(updateResult.message);
 }
 
 /**
@@ -144,7 +144,7 @@ async function deleteScheduleEvent() {
     "schedule-events",
     parseInt(eventId)
   );
-  console.log(results.message);
+  // console.log(results.message);
 
   // Gets all events in that day
   const dayId = $("#delete-schedule").attr("data-day-id");
@@ -346,7 +346,7 @@ async function insertNewEvent() {
 
         throw new Error(newEventResult.message);
       } else {
-        console.log(updateEventResult.message);
+        // console.log(updateEventResult.message);
 
         // Displays success notification
         displayNotifications(
@@ -513,7 +513,7 @@ async function updateScheduleEvent() {
 
         throw new Error(saveEventResult.message);
       } else {
-        console.log(saveEventResult.message);
+        // console.log(saveEventResult.message);
 
         displayNotifications(
           "popover-notif-msg",

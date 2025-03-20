@@ -85,7 +85,7 @@ function hideDOMContent(parent, element) {
       }
     }, 1000);
   } catch (error) {
-    console.log(`Error hiding ${element} within ${parent}: ${error.message}`);
+    console.error(`Error hiding ${element} within ${parent}: ${error.message}`);
   }
 }
 

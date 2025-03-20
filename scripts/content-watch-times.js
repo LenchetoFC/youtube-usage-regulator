@@ -272,7 +272,7 @@ $(document).ready(async function () {
     window.location.href.includes("/watch?") &&
     !(await checkExistingWatchRecord(getCurrentDate()))
   ) {
-    console.log("Creating new record for today...");
+    // console.log("Creating new record for today...");
     addNewWatchTimeRecord();
   }
 

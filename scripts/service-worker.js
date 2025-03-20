@@ -474,7 +474,7 @@ function selectAllStorage() {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {
-        console.log(result);
+        // console.log(result);
         resolve(result || []);
       }
     });
@@ -755,7 +755,7 @@ async function deleteRecordById(table, id) {
   try {
     // Retrieve all records from the table
     const records = await selectAllRecords(table);
-    console.log(records);
+    // console.log(records);
 
     // Ensure record exists
     const record = await selectRecordById(table, id);
@@ -770,7 +770,7 @@ async function deleteRecordById(table, id) {
     const updatedRecords = records.filter(
       (record) => record.id !== parseInt(id)
     );
-    console.log(updatedRecords);
+    // console.log(updatedRecords);
 
     // Save the updated records back to the table
     updateRecords(table, updatedRecords);
