@@ -311,13 +311,15 @@ function insertRecommendationsMessage() {
 /**
  * Retrieves and applies all active limitations to current web page
  *
- * @name applyActiveLimitations
+ * @name applyLimitations
+ *
+ * @param {object} - contains all active limitations with all database properties
  *
  * @returns {void}
  *
- * @example applyActiveLimitations();
+ * @example applyLimitations(allActiveLimitations);
  */
-async function applyActiveLimitations() {
+async function applyLimitations(allActiveLimitations) {
   try {
     // Ensures this container is covering the entire screen
     $(".blank-screen").css("display", "block");
@@ -328,13 +330,6 @@ async function applyActiveLimitations() {
     const isHomePage = currentWebAddress === "https://www.youtube.com/";
     const isShortsPage = currentWebAddress?.includes("youtube.com/shorts");
     const isPlaybackPage = currentWebAddress?.includes("/watch?");
-
-    // Get only active limitations from storage
-    let allActiveLimitations = await filterRecordsGlobal(
-      "youtube-limitations",
-      "active",
-      true
-    );
 
     // console.log(allActiveLimitations);
 
@@ -443,16 +438,9 @@ function checkPropertyValueExists(arr, property, value) {
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
 // Prepends container covering entire screen to hide site until the limitations have been applied
-const blankScreen = `<div class='blank-screen'></div`;
-$("body").prepend(blankScreen);
-
 $(document).ready(function () {
-  // Applies all active limitations to applicable sub-pages of YouTube
-  applyActiveLimitations();
+  const blankScreen = `<div class='blank-screen'></div`;
+  $("body").prepend(blankScreen);
 });
 
-// Reapplies limitations when navigating between pages
-window.addEventListener("yt-navigate-finish", function (event) {
-  applyActiveLimitations();
-});
 /** !SECTION */

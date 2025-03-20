@@ -92,42 +92,58 @@ async function checkSchedules() {
   return isActive;
 }
 
+/** !SECTION */
+
+/** SECTION - YOUTUBE LIMITATION APPLICATIONS */
+
 /**
- * Function that holds function calls to check for active schedules and redirect user
+ * Gets all active and scheduled limitations and applies relevant limitations to YouTube page
  *
- * @name scheduleRedirection
+ * @name youtubeLimitations
  *
  * @returns {void}
  *
- * @example scheduleRedirection();
+ * @example youtubeLimitations();
  *
  */
-async function scheduleRedirection() {
+async function youtubeLimitations() {
+  // Gets always active limitations from storage
+  const allActiveLimitations = await filterRecordsGlobal(
+    "youtube-limitations",
+    "active",
+    true
+  );
+
+  // Gets all scheduled limitations from storage
+  const allScheduledLimitations = await filterRecordsGlobal(
+    "youtube-limitations",
+    "followSchedule",
+    true
+  );
+
+  // If any always active limitations exist, apply them
   // Checks if any schedules are currently active
   const isActive = await checkSchedules();
+  if (isActive && allScheduledLimitations)
+    applyLimitations(allScheduledLimitations);
 
-  // Redirect user (from globalFunctions.js) if schedule is currently active
-  const currentSite = window.location.href;
-  const isYouTubeSite = currentSite?.includes("youtube.com");
-
-  // Redirects user if they are on a youtube site and if schedule is active
-  if (isActive && isYouTubeSite) {
-    redirectUser();
-  }
+  // If any schedule limitations exist, apply them
+  if (allActiveLimitations) applyLimitations(allActiveLimitations);
 }
+
 /** !SECTION */
 
 /**
  * SECTION - ONLOAD FUNCTIONS CALLS
  */
-$(document).ready(function () {
-  // Check schedule on load
-  scheduleRedirection();
 
-  // Check schedule every 30 seconds
-  setInterval(async () => {
-    scheduleRedirection();
-  }, 30000);
+$(document).ready(async function () {
+  youtubeLimitations();
+});
+
+// Reapplies limitations when navigating between pages
+window.addEventListener("yt-navigate-finish", async function () {
+  youtubeLimitations();
 });
 
 /** !SECTION */
