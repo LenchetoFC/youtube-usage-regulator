@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Restrict The Tube: Fight back against YouTube addiction",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "'Restrict The Tube' helps you take back control of your YouTube watch habits.",
   "icons": {
     "16": "/images/icon-logo-ext.png",
@@ -20,7 +20,7 @@
   "background": {
     "service_worker": "/scripts/service-worker.js"
   },
-  "permissions": ["storage", "unlimitedStorage", "activeTab", "downloads"],
+  "permissions": ["storage", "unlimitedStorage", "downloads"],
   "content_scripts": [
     {
       "js": [
